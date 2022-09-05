@@ -47,7 +47,12 @@ const Home: NextPage = () => {
         type="Person"
         name={t('fullName')}
         url={BASE_URL}
-        sameAs={[ESocialLinks.facebook, ESocialLinks.instagram, ESocialLinks.linkedin]}
+        sameAs={[
+          ESocialLinks.facebook,
+          ESocialLinks.github,
+          ESocialLinks.instagram,
+          ESocialLinks.linkedin,
+        ]}
       />
 
       <Navbar isBordered variant="sticky">
