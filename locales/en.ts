@@ -1,6 +1,7 @@
 import { USERNAME } from 'src/constants'
 
 export const en = {
+  fullName: 'Dmytro Klymenko',
   name: 'Dmytro',
   meta: {
     description: `My name is Dmytro (${USERNAME}) and I love tech, web development, music, traveling, space and many more.`,

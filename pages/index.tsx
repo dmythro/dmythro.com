@@ -3,11 +3,11 @@ import Head from 'next/head'
 import Image from 'next/image'
 
 import { Container, Grid, Link, Navbar, Spacer, Text, User } from '@nextui-org/react'
-import { NextSeo } from 'next-seo'
+import { NextSeo, SocialProfileJsonLd } from 'next-seo'
 
 import type { LocaleCode, Translation } from 'locales'
 import * as locales from 'locales'
-import { BASE_URL, USERNAME } from 'src/constants'
+import { BASE_URL, ESocialLinks, USERNAME } from 'src/constants'
 import { NavCollapseLocaleLinks, NavLocaleLinks } from 'src/components/nav/LocaleLinks'
 
 import { useTranslations } from 'next-intl'
@@ -22,6 +22,7 @@ const Home: NextPage = () => {
       <Head>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <NextSeo
         title={USERNAME}
         description={t('meta.description')}
@@ -37,8 +38,16 @@ const Home: NextPage = () => {
           ],
         }}
         twitter={{
+          cardType: 'summary',
           site: USERNAME,
         }}
+      />
+
+      <SocialProfileJsonLd
+        type="Person"
+        name={t('fullName')}
+        url={BASE_URL}
+        sameAs={[ESocialLinks.facebook, ESocialLinks.instagram, ESocialLinks.linkedin]}
       />
 
       <Navbar isBordered variant="sticky">
