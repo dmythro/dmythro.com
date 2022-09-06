@@ -20,43 +20,7 @@ const Home: NextPage = () => {
   const t = useTranslations()
 
   return (
-    <Container sm>
-      <Head>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <NextSeo
-        title={USERNAME}
-        description={t('meta.description')}
-        openGraph={{
-          images: [
-            {
-              url: BASE_URL + avatarImage.src,
-              width: avatarImage.width,
-              height: avatarImage.height,
-              alt: USERNAME,
-              type: 'image/jpeg',
-            },
-          ],
-        }}
-        twitter={{
-          cardType: 'summary',
-          site: USERNAME,
-        }}
-      />
-
-      <SocialProfileJsonLd
-        type="Person"
-        name={t('fullName')}
-        url={BASE_URL}
-        sameAs={[
-          ESocialLinks.facebook,
-          ESocialLinks.github,
-          ESocialLinks.instagram,
-          ESocialLinks.linkedin,
-        ]}
-      />
-
+    <>
       <Navbar isBordered variant="sticky">
         <Navbar.Content>
           <User
@@ -76,47 +40,85 @@ const Home: NextPage = () => {
         <NavCollapseLocaleLinks />
       </Navbar>
 
-      <Spacer />
+      <Container sm>
+        <Head>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
 
-      <Grid.Container as="main">
-        <Grid xs={12} sm={7}>
-          <Interests />
-        </Grid>
-        <Grid xs={12} sm={5}>
-          <div style={{ width: '100%' }}>
-            <Image src={avatarImage} layout="responsive" alt={USERNAME} />
-          </div>
-        </Grid>
-      </Grid.Container>
+        <NextSeo
+          title={USERNAME}
+          description={t('meta.description')}
+          openGraph={{
+            images: [
+              {
+                url: BASE_URL + avatarImage.src,
+                width: avatarImage.width,
+                height: avatarImage.height,
+                alt: USERNAME,
+                type: 'image/jpeg',
+              },
+            ],
+          }}
+          twitter={{
+            cardType: 'summary',
+            site: USERNAME,
+          }}
+        />
 
-      <Spacer />
+        <SocialProfileJsonLd
+          type="Person"
+          name={t('fullName')}
+          url={BASE_URL}
+          sameAs={[
+            ESocialLinks.facebook,
+            ESocialLinks.github,
+            ESocialLinks.instagram,
+            ESocialLinks.linkedin,
+          ]}
+        />
 
-      <Text
-        as="footer"
-        size="$xs"
-        css={{ display: 'flex', justifyContent: 'flex-end', textAlign: 'right' }}
-      >
-        <span>Powered by</span>
-        <span>&nbsp;</span>
-        <Link
-          block={false}
-          color="text"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        <Spacer />
+
+        <Grid.Container as="main">
+          <Grid xs={12} sm={7}>
+            <Interests />
+          </Grid>
+          <Grid xs={12} sm={5}>
+            <div style={{ width: '100%' }}>
+              <Image src={avatarImage} layout="responsive" alt={USERNAME} />
+            </div>
+          </Grid>
+        </Grid.Container>
+
+        <Spacer />
+
+        <Text
+          as="footer"
+          size="$xs"
+          css={{ display: 'flex', justifyContent: 'flex-end', textAlign: 'right' }}
         >
-          <Image
-            src={`/vercel-logotype-${theme.resolvedTheme === 'dark' ? 'light' : 'dark'}.svg`}
-            alt="Vercel"
-            width={67}
-            height={15}
-            color="white"
-          />
-        </Link>
-      </Text>
+          <span>Powered by</span>
+          <span>&nbsp;</span>
+          <Link
+            block={false}
+            color="text"
+            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              src={`/vercel-logotype-${theme.resolvedTheme === 'dark' ? 'light' : 'dark'}.svg`}
+              alt="Vercel"
+              width={67}
+              height={15}
+              color="white"
+            />
+          </Link>
+        </Text>
 
-      <Spacer />
-    </Container>
+        <Spacer />
+      </Container>
+    </>
   )
 }
 
