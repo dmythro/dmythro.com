@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Container, Grid, Link, Navbar, Spacer, Text, User } from '@nextui-org/react'
 import { useTranslations } from 'next-intl'
 import { NextSeo, SocialProfileJsonLd } from 'next-seo'
+import { useTheme } from 'next-themes'
 
 import type { LocaleCode, Translation } from 'locales'
 import * as locales from 'locales'
@@ -15,6 +16,7 @@ import { Interests } from 'src/components/Interests'
 import avatarImage from 'public/avatar.jpg'
 
 const Home: NextPage = () => {
+  const theme = useTheme()
   const t = useTranslations()
 
   return (
@@ -63,7 +65,7 @@ const Home: NextPage = () => {
             name={USERNAME}
             description={t('meta.keywords')}
             size="lg"
-            src={avatarImage.src}
+            src="/avatar.jpg"
             css={{ padding: 0 }}
           />
         </Navbar.Content>
@@ -104,7 +106,7 @@ const Home: NextPage = () => {
           rel="noopener noreferrer"
         >
           <Image
-            src="/vercel-logotype-light.svg"
+            src={`/vercel-logotype-${theme.resolvedTheme === 'dark' ? 'light' : 'dark'}.svg`}
             alt="Vercel"
             width={67}
             height={15}
@@ -112,6 +114,8 @@ const Home: NextPage = () => {
           />
         </Link>
       </Text>
+
+      <Spacer />
     </Container>
   )
 }
