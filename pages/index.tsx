@@ -86,6 +86,9 @@ const Home: NextPage = () => {
           <Grid xs={12} sm={5}>
             <div style={{ width: '100%' }}>
               <Image src={avatarImage} layout="responsive" alt={USERNAME} />
+              <Text size="$sm" css={{ textAlign: 'right' }}>
+                <Text em>📷 Alina Delyne</Text>
+              </Text>
             </div>
           </Grid>
         </Grid.Container>
