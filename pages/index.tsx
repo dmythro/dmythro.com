@@ -3,14 +3,14 @@ import Head from 'next/head'
 import Image from 'next/image'
 
 import { Container, Grid, Link, Navbar, Spacer, Text, User } from '@nextui-org/react'
+import { useTranslations } from 'next-intl'
 import { NextSeo, SocialProfileJsonLd } from 'next-seo'
 
 import type { LocaleCode, Translation } from 'locales'
 import * as locales from 'locales'
 import { BASE_URL, ESocialLinks, USERNAME } from 'src/constants'
 import { NavCollapseLocaleLinks, NavLocaleLinks } from 'src/components/nav/LocaleLinks'
-
-import { useTranslations } from 'next-intl'
+import { Interests } from 'src/components/Interests'
 
 import avatarImage from 'public/avatar.jpg'
 
@@ -77,24 +77,10 @@ const Home: NextPage = () => {
       <Spacer />
 
       <Grid.Container as="main">
-        <Grid xs={12} sm={6}>
-          <Text
-            h1
-            css={{
-              textGradient: '45deg, $blue600 -20%, $pink600 50%',
-            }}
-          >
-            {t('meta.keywords')
-              .split(/,\s+/)
-              .map((keyword) => (
-                <Text h1 as="span" key={keyword}>
-                  {keyword}
-                  <br />
-                </Text>
-              ))}
-          </Text>
+        <Grid xs={12} sm={7}>
+          <Interests />
         </Grid>
-        <Grid xs={12} sm={6}>
+        <Grid xs={12} sm={5}>
           <div style={{ width: '100%' }}>
             <Image src={avatarImage} layout="responsive" alt={USERNAME} />
           </div>

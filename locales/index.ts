@@ -1,4 +1,4 @@
-export type { Translation } from './en'
+export type { InterestLocale, Translation } from './en'
 
 export type LocaleCode = 'en' | 'uk'
 
