@@ -4,7 +4,8 @@ import type { InterestLocale, Translation } from '.'
 const interests: InterestLocale[] = [
   {
     title: 'Веб розробка',
-    description: 'TypeScript, Node.js, Nest, Next.js, Postgres, Prisma/TypeOrm, Google Cloud, Vercel.',
+    description:
+      'TypeScript, Node.js, Nest, Next.js, Postgres, Prisma/TypeOrm, Google Cloud, Vercel.',
     tldr: 'Сьогодні в основному працюю з full-stack проектами на базі TypeScript (Node.js, React, React Native), хмарними платформами (Google Cloud, DigitalOcean, AWS тощо).',
     text: [
       'Технології були моєю пристрастю з дитинства і мультфільмів типу Трансформери. І сьогодні це теж моя пристрасть, одна з головних.',
@@ -53,4 +54,8 @@ export const uk: Translation = {
     keywords: 'Веб-розробка, музика, подорожі',
   },
   interests,
+  socialMedia: {
+    title: 'Посилання на соціальні мережі',
+    description: 'Мій GitHub, LinkedIn та інші профілі у соціальних мережах.',
+  },
 } as const

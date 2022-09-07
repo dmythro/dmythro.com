@@ -10,7 +10,8 @@ export interface InterestLocale {
 const interests: InterestLocale[] = [
   {
     title: 'Web Development',
-    description: 'TypeScript, Node.js, Nest, Next.js, Postgres, Prisma/TypeOrm, Google Cloud, Vercel.',
+    description:
+      'TypeScript, Node.js, Nest, Next.js, Postgres, Prisma/TypeOrm, Google Cloud, Vercel.',
     tldr: 'Today I mainly work with a TypeScript based full-stack projects (Node.js, React, React Native), cloud platforms (Google Cloud).',
     text: [
       'Technology was my passion since childhood and cartoons like "Transformers". And it still is my passion today, one of the main points of interest.',
@@ -57,6 +58,10 @@ export const en = {
     keywords: 'Web Dev, Music, Travel',
   },
   interests,
+  socialMedia: {
+    title: 'Links & Social Media',
+    description: 'Check out my GitHub, LinkedIn or other social media profiles.',
+  },
 } as const
 
 export type TranslationKeys = keyof typeof en

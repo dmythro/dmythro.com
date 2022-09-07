@@ -15,12 +15,13 @@ import { Interests } from 'src/components/Interests'
 import { PhotoCard } from 'src/components/PhotoCard'
 
 import avatarImg from 'public/avatar.jpg'
-import vercelDarkImg from 'src/assets/vercel-logotype-dark.svg'
-import vercelLightImg from 'src/assets/vercel-logotype-light.svg'
+import VercelDarkImg from 'src/assets/vercel-logotype-dark.svg'
+import VercelLightImg from 'src/assets/vercel-logotype-light.svg'
 
 const Home: NextPage = () => {
   const theme = useTheme()
   const t = useTranslations()
+  const VercelImg = theme.resolvedTheme === 'dark' ? VercelLightImg : VercelDarkImg
 
   return (
     <>
@@ -107,13 +108,7 @@ const Home: NextPage = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Image
-              src={theme.resolvedTheme === 'dark' ? vercelLightImg : vercelDarkImg}
-              alt="Vercel"
-              width={67}
-              height={15}
-              color="white"
-            />
+            <VercelImg height={16} width={67} />
           </Link>
         </Text>
 

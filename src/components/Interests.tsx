@@ -1,14 +1,22 @@
 import { FC } from 'react'
 
-import { Collapse, Spacer, Text } from '@nextui-org/react'
-import { useLocale } from 'next-intl'
+import { Button, Collapse, Link, Spacer, Text } from '@nextui-org/react'
+import { useLocale, useTranslations } from 'next-intl'
 
 import type { LocaleCode, InterestLocale } from 'locales'
 import * as locales from 'locales'
 
+import FacebookIcon from 'src/assets/facebook-f.svg'
+import GitHubIcon from 'src/assets/github.svg'
+import InstagramIcon from 'src/assets/instagram.svg'
+import LinkedInIcon from 'src/assets/linkedin.svg'
+
+import { ESocialLinks } from 'src/constants'
+
 export const Interests: FC = () => {
   const locale = useLocale()
   const interests = locales[locale as LocaleCode].interests as InterestLocale[]
+  const t = useTranslations('socialMedia')
 
   return (
     <Collapse.Group>
@@ -33,6 +41,50 @@ export const Interests: FC = () => {
             : interest.text}
         </Collapse>
       ))}
+      <Collapse key="links" title={t('title')} subtitle={t('description')}>
+        <div style={{ display: 'flex' }}>
+          <Button
+            as={Link}
+            auto
+            color="primary"
+            href={ESocialLinks.github}
+            icon={<GitHubIcon height={18} />}
+          >
+            GitHub
+          </Button>
+          &nbsp;
+          <Button
+            as={Link}
+            auto
+            color="primary"
+            href={ESocialLinks.linkedin}
+            icon={<LinkedInIcon height={18} style={{ fill: 'white' }} />}
+          >
+            LinkedIn
+          </Button>
+        </div>
+        <div style={{ display: 'flex', marginTop: '.5em' }}>
+          <Button
+            as={Link}
+            auto
+            color="primary"
+            href={ESocialLinks.facebook}
+            icon={<FacebookIcon height={18} style={{ fill: 'white' }} />}
+          >
+            Facebook
+          </Button>
+          &nbsp;
+          <Button
+            as={Link}
+            auto
+            color="primary"
+            href={ESocialLinks.instagram}
+            icon={<InstagramIcon height={18} style={{ fill: 'white' }} />}
+          >
+            Instagram
+          </Button>
+        </div>
+      </Collapse>
     </Collapse.Group>
   )
 }
