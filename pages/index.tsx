@@ -49,7 +49,7 @@ const Home: NextPage = () => {
           openGraph={{
             images: [
               {
-                url: BASE_URL + avatarImg.src,
+                url: BASE_URL + '/avatar.jpg',
                 width: avatarImg.width,
                 height: avatarImg.height,
                 alt: USERNAME,
