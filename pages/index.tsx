@@ -31,7 +31,7 @@ const Home: NextPage = () => {
             name={USERNAME}
             description={t('meta.keywords')}
             size="lg"
-            src="/avatar.jpg"
+            src={avatarImg.src}
             css={{ padding: 0 }}
           />
         </Navbar.Content>
