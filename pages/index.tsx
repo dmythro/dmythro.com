@@ -91,8 +91,9 @@ const Home: NextPage = () => {
         <Text
           as="footer"
           size="$xs"
-          css={{ display: 'flex', justifyContent: 'flex-end', textAlign: 'right' }}
+          css={{ display: 'flex', justifyContent: 'center', textAlign: 'right' }}
         >
+          <span>&copy; 2022 &bull;&nbsp;</span>
           <Link color="text" href="https://github.com/dmythro/dmythro.com">
             Source
           </Link>
