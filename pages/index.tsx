@@ -78,12 +78,12 @@ const Home: NextPage = () => {
 
         <Spacer />
 
-        <Grid.Container as="main">
-          <Grid xs={12} sm={7}>
-            <Interests />
-          </Grid>
+        <Grid.Container as="main" css={{ flexDirection: 'row-reverse' }}>
           <Grid xs={12} sm={5}>
             <PhotoCard />
+          </Grid>
+          <Grid xs={12} sm={7}>
+            <Interests />
           </Grid>
         </Grid.Container>
 
