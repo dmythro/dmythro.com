@@ -19,8 +19,11 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html lang="en">
-        <Head>{CssBaseline.flush()}</Head>
+      <Html>
+        <Head>
+          <link rel="icon" href="/favicon.ico" />
+          {CssBaseline.flush()}
+        </Head>
         <body>
           <Script
             id="google-analytics"

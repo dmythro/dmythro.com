@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { Button, Card, Col, Row, Text } from '@nextui-org/react'
+import { Card, Text } from '@nextui-org/react'
 import { useTranslations } from 'next-intl'
 
 import avatarImg from 'public/avatar.jpg'
@@ -26,14 +26,14 @@ export const PhotoCard: FC = () => {
           position: 'absolute',
           bgBlur: '#0f111466',
           bottom: 0,
+          alignItems: 'end',
+          flexDirection: 'column',
           textAlign: 'right',
           zIndex: 1,
         }}
       >
-        <Text css={{ width: '100%' }}>
-          <Text size="$sm">{t('fullName')}</Text>
-          <Text size="$sm">📷 Alina Delyne</Text>
-        </Text>
+        <Text size="$sm">{t('fullName')}</Text>
+        <Text size="$sm">📷 Alina Delyne</Text>
       </Card.Footer>
     </Card>
   )

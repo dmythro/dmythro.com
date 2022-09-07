@@ -44,10 +44,6 @@ const Home: NextPage = () => {
       </Navbar>
 
       <Container sm>
-        <Head>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-
         <NextSeo
           title={USERNAME}
           description={t('meta.description')}
