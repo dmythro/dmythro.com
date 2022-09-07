@@ -12,6 +12,7 @@ import * as locales from 'locales'
 import { BASE_URL, ESocialLinks, USERNAME } from 'src/constants'
 import { NavCollapseLocaleLinks, NavLocaleLinks } from 'src/components/nav/LocaleLinks'
 import { Interests } from 'src/components/Interests'
+import { PhotoCard } from 'src/components/PhotoCard'
 
 import avatarImg from 'public/avatar.jpg'
 import vercelDarkImg from 'src/assets/vercel-logotype-dark.svg'
@@ -86,13 +87,7 @@ const Home: NextPage = () => {
             <Interests />
           </Grid>
           <Grid xs={12} sm={5}>
-            <figure style={{ width: '100%' }}>
-              <Image src={avatarImg} layout="responsive" alt={USERNAME} />
-              <figcaption style={{ textAlign: 'right' }}>
-                <Text size="$sm">{t('fullName')}</Text>
-                <Text size="$sm">📷 Alina Delyne</Text>
-              </figcaption>
-            </figure>
+            <PhotoCard />
           </Grid>
         </Grid.Container>
 
