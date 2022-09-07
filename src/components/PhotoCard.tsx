@@ -4,6 +4,8 @@ import { Card, Text } from '@nextui-org/react'
 import { useTranslations } from 'next-intl'
 
 import avatarImg from 'public/avatar.jpg'
+import avatarImg400 from 'public/avatar@400px.jpg'
+import avatarImg800 from 'public/avatar@800px.jpg'
 
 export const PhotoCard: FC = () => {
   const t = useTranslations()
@@ -12,6 +14,8 @@ export const PhotoCard: FC = () => {
     <Card as="figure" css={{ w: '100%', h: '400px' }}>
       <Card.Body css={{ p: 0, zIndex: 0 }}>
         <Card.Image
+          sizes="400px, 800px, 1200px"
+          srcSet={`${avatarImg400.src} 400w, ${avatarImg800.src} 800w, ${avatarImg.src} ${avatarImg.width}w`}
           src={avatarImg.src}
           objectFit="cover"
           width="100%"

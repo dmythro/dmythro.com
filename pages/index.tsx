@@ -13,6 +13,7 @@ import { Interests } from 'src/components/Interests'
 import { PhotoCard } from 'src/components/PhotoCard'
 
 import avatarImg from 'public/avatar.jpg'
+import avatarUserImg from 'public/avatar@44px.jpg'
 import VercelDarkImg from 'src/assets/vercel-logotype-dark.svg'
 import VercelLightImg from 'src/assets/vercel-logotype-light.svg'
 
@@ -31,7 +32,8 @@ const Home: NextPage = () => {
             name={USERNAME}
             description={t('meta.keywords')}
             size="lg"
-            src={avatarImg.src}
+            src={avatarUserImg.src}
+            altText={USERNAME}
             css={{ padding: 0 }}
           />
         </Navbar.Content>
@@ -101,13 +103,14 @@ const Home: NextPage = () => {
           <span>Powered by</span>
           <span>&nbsp;</span>
           <Link
+            aria-label="Vercel link"
             block={false}
             color="text"
             href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <VercelImg height={12} />
+            <VercelImg aria-label="Vercel logo" height={12} />
           </Link>
         </Text>
 
