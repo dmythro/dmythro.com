@@ -10,7 +10,7 @@ export const PhotoCard: FC = () => {
 
   return (
     <Card as="figure" css={{ w: '100%', h: '400px' }}>
-      <Card.Body css={{ p: 0 }}>
+      <Card.Body css={{ p: 0, zIndex: 0 }}>
         <Card.Image
           src={avatarImg.src}
           objectFit="cover"
@@ -21,11 +21,11 @@ export const PhotoCard: FC = () => {
       </Card.Body>
       <Card.Footer
         as="figcaption"
-        isBlurred
+        // isBlurred
         css={{
           position: 'absolute',
           alignItems: 'end',
-          bgBlur: '#0f111466',
+          // bgBlur: '#0f111466',
           bottom: 0,
           flexDirection: 'column',
           textAlign: 'right',
