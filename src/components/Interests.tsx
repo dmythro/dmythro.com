@@ -17,6 +17,7 @@ export const Interests: FC = () => {
   const locale = useLocale()
   const interests = locales[locale as LocaleCode].interests as InterestLocale[]
   const t = useTranslations('socialMedia')
+  const iconSize = 30
 
   return (
     <Collapse.Group>
@@ -48,7 +49,7 @@ export const Interests: FC = () => {
             auto
             color="primary"
             href={ESocialLinks.github}
-            icon={<GitHubIcon height={18} />}
+            icon={<GitHubIcon height={iconSize} />}
           >
             GitHub
           </Button>
@@ -58,7 +59,7 @@ export const Interests: FC = () => {
             auto
             color="primary"
             href={ESocialLinks.linkedin}
-            icon={<LinkedInIcon height={18} style={{ fill: 'white' }} />}
+            icon={<LinkedInIcon height={iconSize} style={{ fill: 'white' }} />}
           >
             LinkedIn
           </Button>
@@ -69,7 +70,7 @@ export const Interests: FC = () => {
             auto
             color="primary"
             href={ESocialLinks.facebook}
-            icon={<FacebookIcon height={18} style={{ fill: 'white' }} />}
+            icon={<FacebookIcon height={iconSize} style={{ fill: 'white' }} />}
           >
             Facebook
           </Button>
@@ -79,7 +80,7 @@ export const Interests: FC = () => {
             auto
             color="primary"
             href={ESocialLinks.instagram}
-            icon={<InstagramIcon height={18} style={{ fill: 'white' }} />}
+            icon={<InstagramIcon height={iconSize} style={{ fill: 'white' }} />}
           >
             Instagram
           </Button>
