@@ -13,9 +13,9 @@ export const NavCollapseLocaleLinks: FC = () => {
   return (
     <Navbar.Collapse disableAnimation>
       {locales.map((l) => (
-        <Navbar.CollapseItem key={l} isActive={l === locale}>
+        <Navbar.CollapseItem id={`nav-collapse-locale-li-${l}`} key={l} isActive={l === locale}>
           <NextLink href={`/${l === 'en' ? '' : l}`} hrefLang={l} locale={false} passHref>
-            <Link block color={l === locale ? 'primary' : 'text'}>
+            <Link id={`nav-collapse-locale-a-${l}`} block color={l === locale ? 'primary' : 'text'}>
               {ELocaleNames[l]}
             </Link>
           </NextLink>
@@ -31,8 +31,19 @@ export const NavLocaleLinks: FC = () => {
   return (
     <Navbar.Content enableCursorHighlight hideIn="xs" variant="underline">
       {locales.map((l) => (
-        <NextLink key={l} href={`/${l === 'en' ? '' : l}`} hrefLang={l} locale={false} passHref>
-          <Navbar.Link isActive={l === locale} color={l === locale ? 'primary' : 'text'}>
+        <NextLink
+          id={`nav-locale-li-${l}`}
+          key={l}
+          href={`/${l === 'en' ? '' : l}`}
+          hrefLang={l}
+          locale={false}
+          passHref
+        >
+          <Navbar.Link
+            id={`nav-locale-a-${l}`}
+            isActive={l === locale}
+            color={l === locale ? 'primary' : 'text'}
+          >
             {ELocaleNames[l]}
           </Navbar.Link>
         </NextLink>

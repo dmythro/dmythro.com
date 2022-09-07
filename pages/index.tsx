@@ -13,7 +13,9 @@ import { BASE_URL, ESocialLinks, USERNAME } from 'src/constants'
 import { NavCollapseLocaleLinks, NavLocaleLinks } from 'src/components/nav/LocaleLinks'
 import { Interests } from 'src/components/Interests'
 
-import avatarImage from 'public/avatar.jpg'
+import avatarImg from 'public/avatar.jpg'
+import vercelDarkImg from 'src/assets/vercel-logotype-dark.svg'
+import vercelLightImg from 'src/assets/vercel-logotype-light.svg'
 
 const Home: NextPage = () => {
   const theme = useTheme()
@@ -51,9 +53,9 @@ const Home: NextPage = () => {
           openGraph={{
             images: [
               {
-                url: BASE_URL + avatarImage.src,
-                width: avatarImage.width,
-                height: avatarImage.height,
+                url: BASE_URL + avatarImg.src,
+                width: avatarImg.width,
+                height: avatarImg.height,
                 alt: USERNAME,
                 type: 'image/jpeg',
               },
@@ -84,12 +86,13 @@ const Home: NextPage = () => {
             <Interests />
           </Grid>
           <Grid xs={12} sm={5}>
-            <div style={{ width: '100%' }}>
-              <Image src={avatarImage} layout="responsive" alt={USERNAME} />
-              <Text size="$sm" css={{ textAlign: 'right' }}>
-                <Text em>📷 Alina Delyne</Text>
-              </Text>
-            </div>
+            <figure style={{ width: '100%' }}>
+              <Image src={avatarImg} layout="responsive" alt={USERNAME} />
+              <figcaption style={{ textAlign: 'right' }}>
+                <Text size="$sm">{t('fullName')}</Text>
+                <Text size="$sm">📷 Alina Delyne</Text>
+              </figcaption>
+            </figure>
           </Grid>
         </Grid.Container>
 
@@ -100,6 +103,10 @@ const Home: NextPage = () => {
           size="$xs"
           css={{ display: 'flex', justifyContent: 'flex-end', textAlign: 'right' }}
         >
+          <Link color="text" href="https://github.com/dmythro/dmythro.com">
+            Source
+          </Link>
+          <span>&nbsp;&bull;&nbsp;</span>
           <span>Powered by</span>
           <span>&nbsp;</span>
           <Link
@@ -110,7 +117,7 @@ const Home: NextPage = () => {
             rel="noopener noreferrer"
           >
             <Image
-              src={`/vercel-logotype-${theme.resolvedTheme === 'dark' ? 'light' : 'dark'}.svg`}
+              src={theme.resolvedTheme === 'dark' ? vercelLightImg : vercelDarkImg}
               alt="Vercel"
               width={67}
               height={15}
