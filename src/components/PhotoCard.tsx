@@ -29,6 +29,7 @@ export const PhotoCard: FC = () => {
           bottom: 0,
           flexDirection: 'column',
           textAlign: 'right',
+          textShadow: '1px 1px 2px black',
           zIndex: 1,
         }}
       >
