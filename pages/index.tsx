@@ -1,6 +1,4 @@
 import type { GetStaticProps, NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
 
 import { Container, Grid, Link, Navbar, Spacer, Text, User } from '@nextui-org/react'
 import { useTranslations } from 'next-intl'
@@ -108,7 +106,7 @@ const Home: NextPage = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <VercelImg height={16} width={67} />
+            <VercelImg height={12} />
           </Link>
         </Text>
 

@@ -24,16 +24,20 @@ export const PhotoCard: FC = () => {
         isBlurred
         css={{
           position: 'absolute',
+          alignItems: 'end',
           bgBlur: '#0f111466',
           bottom: 0,
-          alignItems: 'end',
           flexDirection: 'column',
           textAlign: 'right',
           zIndex: 1,
         }}
       >
-        <Text size="$sm">{t('fullName')}</Text>
-        <Text size="$sm">📷 Alina Delyne</Text>
+        <Text size="$sm" css={{ color: '$white' }}>
+          {t('fullName')}
+        </Text>
+        <Text size="$sm" css={{ color: '$white' }}>
+          📷 Alina Delyne
+        </Text>
       </Card.Footer>
     </Card>
   )
