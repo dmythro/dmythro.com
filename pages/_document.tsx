@@ -26,8 +26,12 @@ class MyDocument extends Document {
         </Head>
         <body>
           <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+            strategy="afterInteractive"
+          />
+          <Script
             id="google-analytics"
-            strategy="beforeInteractive"
+            strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: `
   window.dataLayer = window.dataLayer || [];
@@ -36,12 +40,6 @@ class MyDocument extends Document {
   gtag('config', '${GA_TRACKING_ID}', { debug_mode: ${GA_DEBUG} });
 `,
             }}
-          />
-          <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
-            strategy="beforeInteractive"
-            async={true}
-            defer={false}
           />
           <Main />
           <NextScript />
