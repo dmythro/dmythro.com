@@ -5,8 +5,6 @@ import { useTranslations } from 'next-intl'
 import { NextSeo, SocialProfileJsonLd } from 'next-seo'
 import { useTheme } from 'next-themes'
 
-import type { LocaleCode, Translation } from 'locales'
-import * as locales from 'locales'
 import { BASE_URL, ESocialLinks, USERNAME } from 'src/constants'
 import { NavCollapseLocaleLinks, NavLocaleLinks } from 'src/components/nav/LocaleLinks'
 import { Interests } from 'src/components/Interests'
@@ -121,9 +119,3 @@ const Home: NextPage = () => {
 }
 
 export default Home
-
-export const getStaticProps: GetStaticProps = async ({ locale = 'en' }) => ({
-  props: {
-    messages: locales[locale as LocaleCode] as Translation,
-  },
-})

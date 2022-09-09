@@ -1,11 +1,36 @@
+import { createContext, useEffect, useState } from 'react'
 import type { AppProps } from 'next/app'
-import { NextIntlProvider } from 'next-intl'
+import { AbstractIntlMessages, NextIntlProvider } from 'next-intl'
 import { ThemeProvider } from 'next-themes'
 import { NextUIProvider } from '@nextui-org/react'
 
+import type { IntlMessages } from 'src/global'
+import type { LocaleCode } from 'locales'
+import * as locales from 'locales'
 import { darkTheme, lightTheme } from 'src/themes'
 
-function MyApp({ Component, pageProps }: AppProps) {
+interface ILocaleContext {
+  messages: IntlMessages
+  setLocale: (locale: 'en' | 'uk') => void
+}
+
+export const LocaleContext = createContext<ILocaleContext>({
+  messages: locales.en,
+  setLocale: () => {},
+})
+
+function MyApp({ Component, pageProps, router }: AppProps) {
+  const { locale } = router
+  const [messages, setMessages] = useState<IntlMessages>(locales[locale as LocaleCode])
+  const setLocale = (l: LocaleCode) => {
+    setMessages(locales[l])
+  }
+
+  // Update locale
+  useEffect(() => {
+    setLocale(locale as LocaleCode)
+  }, [locale])
+
   return (
     <ThemeProvider
       defaultTheme="system"
@@ -16,9 +41,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       }}
     >
       <NextUIProvider>
-        {/* @ts-ignore */}
-        <NextIntlProvider messages={pageProps.messages}>
-          <Component {...pageProps} />
+        <NextIntlProvider messages={messages as AbstractIntlMessages}>
+          <LocaleContext.Provider value={{ messages, setLocale }}>
+            <Component {...pageProps} />
+          </LocaleContext.Provider>
         </NextIntlProvider>
       </NextUIProvider>
     </ThemeProvider>
