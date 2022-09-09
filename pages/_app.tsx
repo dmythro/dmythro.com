@@ -16,6 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       }}
     >
       <NextUIProvider>
+        {/* @ts-ignore */}
         <NextIntlProvider messages={pageProps.messages}>
           <Component {...pageProps} />
         </NextIntlProvider>
