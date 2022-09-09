@@ -38,7 +38,7 @@ const interests: InterestLocale[] = [
     title: 'Music',
     description:
       'I love both listening and playing music, have a small record label and record collection.',
-    text: [],
+    text: ['TBD'],
   },
   {
     title: 'Travel',
@@ -46,7 +46,7 @@ const interests: InterestLocale[] = [
       'Car trips, sunsets, night skies, camping.' +
       ' Also sightseeing, museums, a bit of a history and culture exchange.' +
       ' Snowboarding, surfing, cycling, scooters, longboards etc.',
-    text: [],
+    text: ['TBD'],
   },
 ]
 
