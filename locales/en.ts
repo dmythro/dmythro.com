@@ -62,6 +62,12 @@ export const en = {
     title: 'Links & Social Media',
     description: 'Check out my GitHub, LinkedIn or other social media profiles.',
   },
+  supportUkraine: {
+    message:
+      'I was born and live in Ukraine 🇺🇦. And now my country is under a full-scale invasion by Russia.' +
+      ' We fight for our existense, freedom and democracy.',
+    linkTitle: 'Find out how you can help',
+  },
 } as const
 
 export type TranslationKeys = keyof typeof en

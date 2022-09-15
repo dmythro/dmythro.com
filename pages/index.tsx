@@ -1,4 +1,4 @@
-import type { GetStaticProps, NextPage } from 'next'
+import type { NextPage } from 'next'
 
 import { Container, Grid, Link, Navbar, Spacer, Text, User } from '@nextui-org/react'
 import { useTranslations } from 'next-intl'
@@ -9,6 +9,7 @@ import { BASE_URL, ESocialLinks, USERNAME } from 'src/constants'
 import { NavCollapseLocaleLinks, NavLocaleLinks } from 'src/components/nav/LocaleLinks'
 import { Interests } from 'src/components/Interests'
 import { PhotoCard } from 'src/components/PhotoCard'
+import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
 
 import avatarImg from 'public/avatar.jpg'
 import avatarUserImg from 'public/avatar@44px.jpg'
@@ -22,6 +23,38 @@ const Home: NextPage = () => {
 
   return (
     <>
+      <NextSeo
+        title={USERNAME}
+        description={t('meta.description')}
+        openGraph={{
+          images: [
+            {
+              url: BASE_URL + '/avatar.jpg',
+              width: avatarImg.width,
+              height: avatarImg.height,
+              alt: USERNAME,
+              type: 'image/jpeg',
+            },
+          ],
+        }}
+        twitter={{
+          cardType: 'summary',
+          site: USERNAME,
+        }}
+      />
+
+      <SocialProfileJsonLd
+        type="Person"
+        name={t('fullName')}
+        url={BASE_URL}
+        sameAs={[
+          ESocialLinks.facebook,
+          ESocialLinks.github,
+          ESocialLinks.instagram,
+          ESocialLinks.linkedin,
+        ]}
+      />
+
       <Navbar isBordered variant="sticky">
         <Navbar.Content>
           <User
@@ -43,37 +76,9 @@ const Home: NextPage = () => {
       </Navbar>
 
       <Container sm>
-        <NextSeo
-          title={USERNAME}
-          description={t('meta.description')}
-          openGraph={{
-            images: [
-              {
-                url: BASE_URL + '/avatar.jpg',
-                width: avatarImg.width,
-                height: avatarImg.height,
-                alt: USERNAME,
-                type: 'image/jpeg',
-              },
-            ],
-          }}
-          twitter={{
-            cardType: 'summary',
-            site: USERNAME,
-          }}
-        />
+        <Spacer />
 
-        <SocialProfileJsonLd
-          type="Person"
-          name={t('fullName')}
-          url={BASE_URL}
-          sameAs={[
-            ESocialLinks.facebook,
-            ESocialLinks.github,
-            ESocialLinks.instagram,
-            ESocialLinks.linkedin,
-          ]}
-        />
+        <SupportUkraineCard />
 
         <Spacer />
 
