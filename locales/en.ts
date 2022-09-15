@@ -65,13 +65,13 @@ export const en = {
   saveLev: {
     message:
       'Unfortunately, my nephew Lev was diagnosed with SMA when he was 8.5 months old.' +
-      ' We started a fundraiser and treatment immediately to save his life.',
+      ' We started a treatment and fundraiser immediately to save his life.',
     linkTitle: 'More details, support Lev here',
   },
   supportUkraine: {
     message: (day: number) =>
       'I was born and live in Ukraine 🇺🇦.' +
-      ' And now my country is under a full-scale invasion by russia.' +
+      ' Now, my country is under a full-scale invasion by russia.' +
       ` Today is Day ${day} of fight for democracy, our existense and freedom.`,
     linkTitle: 'Find out how you can help',
   },
