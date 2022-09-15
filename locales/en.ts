@@ -70,9 +70,9 @@ export const en = {
   },
   supportUkraine: {
     message: (day: number) =>
-      'I was born and live in Ukraine 🇺🇦.' +
+      'I was born and live in Ukraine.' +
       ' Now, my country is under a full-scale invasion by russia.' +
-      ` Today is Day ${day} of fight for democracy, our existense and freedom.`,
+      ` Today is Day ${day} of fight for democracy, our existense and freedom 🇺🇦`,
     linkTitle: 'Find out how you can help',
   },
 }
