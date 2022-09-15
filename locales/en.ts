@@ -62,6 +62,12 @@ export const en = {
     title: 'Links & Social Media',
     description: 'Check out my GitHub, LinkedIn or other social media profiles.',
   },
+  saveLev: {
+    message:
+      'Unfortunately, my nephew Lev was diagnosed with SMA when he was 8.5 months old.' +
+      ' We started a fundraiser and treatment immediately to save his life.',
+    linkTitle: 'More details, support Lev here',
+  },
   supportUkraine: {
     message: (day: number) =>
       'I was born and live in Ukraine 🇺🇦.' +

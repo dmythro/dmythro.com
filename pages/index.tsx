@@ -8,6 +8,7 @@ import { BASE_URL, ESocialLinks, USERNAME } from 'src/constants'
 import { NavCollapseLocaleLinks, NavLocaleLinks } from 'src/components/nav/LocaleLinks'
 import { Interests } from 'src/components/Interests'
 import { PhotoCard } from 'src/components/PhotoCard'
+import { SaveLevCard } from 'src/components/SaveLevCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
 import { useT } from 'src/hooks/useT'
 
@@ -78,18 +79,22 @@ const Home: NextPage = () => {
       <Container sm>
         <Spacer />
 
-        <SupportUkraineCard />
-
-        <Spacer />
-
-        <Grid.Container as="main" css={{ flexDirection: 'row-reverse' }}>
-          <Grid xs={12} sm={5}>
-            <PhotoCard />
-          </Grid>
-          <Grid xs={12} sm={7}>
-            <Interests />
-          </Grid>
-        </Grid.Container>
+        <main>
+          <Grid.Container css={{ flexDirection: 'row-reverse' }} gap={1}>
+            <Grid xs={12} sm={5}>
+              <div>
+                <PhotoCard />
+                <Spacer />
+                <SupportUkraineCard />
+                <Spacer />
+                <SaveLevCard />
+              </div>
+            </Grid>
+            <Grid xs={12} sm={7}>
+              <Interests />
+            </Grid>
+          </Grid.Container>
+        </main>
 
         <Spacer />
 
