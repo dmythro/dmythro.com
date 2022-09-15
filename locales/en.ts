@@ -44,7 +44,14 @@ const interests: InterestLocale[] = [
     title: 'Travel',
     description:
       'Car trips, sunsets, night skies, camping.' +
-      ' Also sightseeing, museums, a bit of a history and culture exchange.' +
+      ' Also sightseeing, museums, a bit of history and culture.',
+    text: ['TBD'],
+  },
+  {
+    title: 'Hobbies',
+    description:
+      'Tech, gear, design.' +
+      ' Smart home (HomeKit, Zigbee), automations.' +
       ' Snowboarding, surfing, cycling, scooters, longboards etc.',
     text: ['TBD'],
   },
