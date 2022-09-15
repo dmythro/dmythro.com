@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import NextLink from 'next/link'
 
 import { Container, Grid, Link, Navbar, Spacer, Text, User } from '@nextui-org/react'
 import { NextSeo, SocialProfileJsonLd } from 'next-seo'
@@ -7,6 +8,7 @@ import { useTheme } from 'next-themes'
 import { BASE_URL, ESocialLinks, USERNAME } from 'src/constants'
 import { NavCollapseLocaleLinks, NavLocaleLinks } from 'src/components/nav/LocaleLinks'
 import { Interests } from 'src/components/Interests'
+import { Links } from 'src/components/Links'
 import { PhotoCard } from 'src/components/PhotoCard'
 import { SaveLevCard } from 'src/components/SaveLevCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
@@ -76,11 +78,11 @@ const Home: NextPage = () => {
         <NavCollapseLocaleLinks />
       </Navbar>
 
-      <Container sm>
+      <Container gap={1} sm>
         <Spacer />
 
         <main>
-          <Grid.Container css={{ flexDirection: 'row-reverse' }} gap={1}>
+          <Grid.Container css={{ flexDirection: 'row-reverse' }}>
             <Grid xs={12} sm={5}>
               <div>
                 <PhotoCard />
@@ -91,7 +93,11 @@ const Home: NextPage = () => {
               </div>
             </Grid>
             <Grid xs={12} sm={7}>
-              <Interests />
+              <div>
+                <Interests />
+                <Spacer />
+                <Links />
+              </div>
             </Grid>
           </Grid.Container>
         </main>
@@ -101,25 +107,28 @@ const Home: NextPage = () => {
         <Text
           as="footer"
           size="$xs"
-          css={{ display: 'flex', justifyContent: 'center', textAlign: 'right' }}
+          css={{ display: 'block', textAlign: 'center', a: { display: 'inline' } }}
         >
-          <span>&copy; 2022 &bull;&nbsp;</span>
-          <Link color="text" href="https://github.com/dmythro/dmythro.com">
-            Source
-          </Link>
-          <span>&nbsp;&bull;&nbsp;</span>
-          <span>Powered by</span>
-          <span>&nbsp;</span>
-          <Link
-            aria-label="Vercel link"
-            block={false}
-            color="text"
+          &copy; 2022 &bull;{' '}
+          <NextLink href="https://github.com/dmythro/dmythro.com">
+            <Link color="text">Source</Link>
+          </NextLink>{' '}
+          &bull; <span>Powered by</span>{' '}
+          <NextLink
             href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <VercelImg aria-label="Vercel logo" height={12} />
-          </Link>
+            <Link color="text">Vercel</Link>
+          </NextLink>
+          ,{' '}
+          <NextLink href="https://nextjs.org" target="_blank" rel="noopener noreferrer">
+            <Link color="text">Next.js</Link>
+          </NextLink>
+          ,{' '}
+          <NextLink href="https://nextui.org" target="_blank" rel="noopener noreferrer">
+            <Link color="text">NextUI</Link>
+          </NextLink>
         </Text>
 
         <Spacer />
