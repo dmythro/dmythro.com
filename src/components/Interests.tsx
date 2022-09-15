@@ -1,11 +1,9 @@
-import { FC, useContext } from 'react'
+import { FC } from 'react'
 
 import { Button, Collapse, Link, Spacer, Text } from '@nextui-org/react'
-import { useTranslations } from 'next-intl'
 
-import type{ InterestLocale } from 'locales'
-import { LocaleContext } from 'pages/_app'
 import { ESocialLinks } from 'src/constants'
+import { useT } from 'src/hooks/useT'
 
 import FacebookIcon from 'src/assets/facebook-f.svg'
 import GitHubIcon from 'src/assets/github.svg'
@@ -13,9 +11,7 @@ import InstagramIcon from 'src/assets/instagram.svg'
 import LinkedInIcon from 'src/assets/linkedin.svg'
 
 export const Interests: FC = () => {
-  const { messages } = useContext(LocaleContext)
-  const interests = messages.interests as InterestLocale[]
-  const t = useTranslations('socialMedia')
+  const { interests, socialMedia } = useT()
   const iconSize = 30
 
   return (
@@ -41,7 +37,7 @@ export const Interests: FC = () => {
             : interest.text}
         </Collapse>
       ))}
-      <Collapse key="links" title={t('title')} subtitle={t('description')}>
+      <Collapse key="links" title={socialMedia.title} subtitle={socialMedia.description}>
         <div style={{ display: 'flex' }}>
           <Button
             as={Link}

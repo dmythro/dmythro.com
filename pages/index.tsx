@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 
 import { Container, Grid, Link, Navbar, Spacer, Text, User } from '@nextui-org/react'
-import { useTranslations } from 'next-intl'
 import { NextSeo, SocialProfileJsonLd } from 'next-seo'
 import { useTheme } from 'next-themes'
 
@@ -10,6 +9,7 @@ import { NavCollapseLocaleLinks, NavLocaleLinks } from 'src/components/nav/Local
 import { Interests } from 'src/components/Interests'
 import { PhotoCard } from 'src/components/PhotoCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
+import { useT } from 'src/hooks/useT'
 
 import avatarImg from 'public/avatar.jpg'
 import avatarUserImg from 'public/avatar@44px.jpg'
@@ -18,14 +18,14 @@ import VercelLightImg from 'src/assets/vercel-logotype-light.svg'
 
 const Home: NextPage = () => {
   const theme = useTheme()
-  const t = useTranslations()
+  const t = useT()
   const VercelImg = theme.resolvedTheme === 'dark' ? VercelLightImg : VercelDarkImg
 
   return (
     <>
       <NextSeo
         title={USERNAME}
-        description={t('meta.description')}
+        description={t.meta.description}
         openGraph={{
           images: [
             {
@@ -45,7 +45,7 @@ const Home: NextPage = () => {
 
       <SocialProfileJsonLd
         type="Person"
-        name={t('fullName')}
+        name={t.fullName}
         url={BASE_URL}
         sameAs={[
           ESocialLinks.facebook,
@@ -61,7 +61,7 @@ const Home: NextPage = () => {
             bordered
             color="gradient"
             name={USERNAME}
-            description={t('meta.keywords')}
+            description={t.meta.keywords}
             size="lg"
             src={avatarUserImg.src}
             altText={USERNAME}

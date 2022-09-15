@@ -1,14 +1,15 @@
 import { FC } from 'react'
 
 import { Card, Text } from '@nextui-org/react'
-import { useTranslations } from 'next-intl'
+
+import { useT } from 'src/hooks/useT'
 
 import avatarImg from 'public/avatar.jpg'
 import avatarImg400 from 'public/avatar@400px.jpg'
 import avatarImg800 from 'public/avatar@800px.jpg'
 
 export const PhotoCard: FC = () => {
-  const t = useTranslations()
+  const t = useT()
 
   return (
     <Card as="figure" css={{ w: '100%', h: '400px' }}>
@@ -20,7 +21,7 @@ export const PhotoCard: FC = () => {
           objectFit="cover"
           width="100%"
           height="100%"
-          alt={t('fullName')}
+          alt={t.fullName}
         />
       </Card.Body>
       <Card.Footer
@@ -38,7 +39,7 @@ export const PhotoCard: FC = () => {
         }}
       >
         <Text size="$sm" css={{ color: '$white' }}>
-          {t('fullName')}
+          {t.fullName}
         </Text>
         <Text size="$sm" css={{ color: '$white' }}>
           📷 Alina Delyne

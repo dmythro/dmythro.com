@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from 'react'
 import type { AppProps } from 'next/app'
-import { AbstractIntlMessages, NextIntlProvider } from 'next-intl'
 import { ThemeProvider } from 'next-themes'
 import { NextUIProvider } from '@nextui-org/react'
 
@@ -41,11 +40,9 @@ function MyApp({ Component, pageProps, router }: AppProps) {
       }}
     >
       <NextUIProvider>
-        <NextIntlProvider messages={messages as AbstractIntlMessages}>
-          <LocaleContext.Provider value={{ messages, setLocale }}>
-            <Component {...pageProps} />
-          </LocaleContext.Provider>
-        </NextIntlProvider>
+        <LocaleContext.Provider value={{ messages, setLocale }}>
+          <Component {...pageProps} />
+        </LocaleContext.Provider>
       </NextUIProvider>
     </ThemeProvider>
   )

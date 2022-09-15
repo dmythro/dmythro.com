@@ -63,12 +63,13 @@ export const en = {
     description: 'Check out my GitHub, LinkedIn or other social media profiles.',
   },
   supportUkraine: {
-    message:
-      'I was born and live in Ukraine 🇺🇦. And now my country is under a full-scale invasion by Russia.' +
-      ' We fight for our existense, freedom and democracy.',
+    message: (day: number) =>
+      'I was born and live in Ukraine 🇺🇦.' +
+      ' And now my country is under a full-scale invasion by russia.' +
+      ` Today is Day ${day} of fight for democracy, our existense and freedom.`,
     linkTitle: 'Find out how you can help',
   },
-} as const
+}
 
-export type TranslationKeys = keyof typeof en
-export type Translation = Record<TranslationKeys, unknown>
+export type Translation = typeof en
+export type TranslationKeys = keyof Translation
