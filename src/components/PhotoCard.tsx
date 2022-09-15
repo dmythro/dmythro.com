@@ -4,23 +4,28 @@ import { Card, Text } from '@nextui-org/react'
 
 import { useT } from 'src/hooks/useT'
 
-import avatarImg from 'public/avatar.jpg'
+import avatarImg1200 from 'public/avatar.jpg'
 import avatarImg400 from 'public/avatar@400px.jpg'
 import avatarImg800 from 'public/avatar@800px.jpg'
+
+const images = [avatarImg400, avatarImg800, avatarImg1200]
+const sizes = images
+  .map((img) => (img.width > 800 ? `${img.width}px` : `(max-width: ${img.width}px) ${img.width}px`))
+  .join(', ')
+const srcSet = images.map((img) => `${img.src} ${img.width}w`).join(', ')
 
 export const PhotoCard: FC = () => {
   const t = useT()
 
   return (
-    <Card as="figure" css={{ w: '100%', h: '400px' }}>
+    <Card as="figure">
       <Card.Body css={{ p: 0, zIndex: 0 }}>
         <Card.Image
-          sizes="400px, 800px, 1200px"
-          srcSet={`${avatarImg400.src} 400w, ${avatarImg800.src} 800w, ${avatarImg.src} ${avatarImg.width}w`}
-          src={avatarImg.src}
-          objectFit="cover"
+          showSkeleton
+          sizes={sizes}
+          srcSet={srcSet}
+          src={avatarImg800.src}
           width="100%"
-          height="100%"
           alt={t.fullName}
         />
       </Card.Body>
