@@ -24,8 +24,7 @@ export const PhotoCard: FC = () => {
           showSkeleton
           sizes={sizes}
           srcSet={srcSet}
-          src={avatarImg800.src}
-          width="100%"
+          src={avatarImg400.src}
           alt={t.fullName}
         />
       </Card.Body>
