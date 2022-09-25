@@ -5,7 +5,7 @@ const interests: InterestLocale[] = [
   {
     title: 'Веб розробка',
     description:
-      'TypeScript, Node.js, Nest, Next.js, Postgres, Prisma/TypeOrm, Google Cloud, Vercel.',
+      'TypeScript, Node.js, NestJS, Next.js, PostgreSQL, Prisma/TypeOrm, Google Cloud, Vercel.',
     tldr: 'Сьогодні в основному працюю з full-stack проектами на базі TypeScript (Node.js, React, React Native), хмарними платформами (Google Cloud, DigitalOcean, AWS тощо).',
     text: [
       'Технології були моєю пристрастю з дитинства і мультфільмів типу Трансформери. І сьогодні це теж моя пристрасть, одна з головних.',
@@ -13,7 +13,7 @@ const interests: InterestLocale[] = [
       'Останні позиції та проекти',
       'Principal Software Engineer @ Peppy Health (May ’20 — Aug ’22).' +
         ' Ефективна підтримка здоров’я. Проект, заснований на безпечному та сучасному стеку технологій — Google Cloud Platform, TypeScript/JavaScript, Node.js, React, React Native.' +
-        ' Також Prisma (Postgres), Sentry, SendBird, Segment, Customer.io, Mixpanel тощо.',
+        ' Також NestJS, Prisma (PostgreSQL), Sentry, SendBird, Segment, Customer.io, Mixpanel тощо.',
       'Lead Front-end Developer @ Star (Sep ’17 — May ’20).' +
         ' (1) Програма для управління роботизованим складом.' +
         ' TypeScript, React (Hooks, Context, Redux), PixiJS v4-5 / WebGL, Paper.js, SVG, Node, Jest/Cypress, REST.' +

@@ -11,7 +11,7 @@ const interests: InterestLocale[] = [
   {
     title: 'Web Development',
     description:
-      'TypeScript, Node.js, Nest, Next.js, Postgres, Prisma/TypeOrm, Google Cloud, Vercel.',
+      'TypeScript, Node.js, NestJS, Next.js, PostgreSQL, Prisma/TypeOrm, Google Cloud, Vercel.',
     tldr: 'Today I mainly work with a TypeScript based full-stack projects (Node.js, React, React Native), cloud platforms (Google Cloud).',
     text: [
       'Technology was my passion since childhood and cartoons like "Transformers". And it still is my passion today, one of the main points of interest.',
@@ -19,7 +19,7 @@ const interests: InterestLocale[] = [
       'Recent positions & projects',
       'Principal Software Engineer @ Peppy Health (May ’20 — Aug ’22).' +
         ' High-impact health support. Project based on a secure & modern tech stack — Google Cloud Platform, TypeScript/JavaScript, Node.js, React, React Native.' +
-        ' Also Prisma (Postgres), Sentry, SendBird, Segment, Customer.io, Mixpanel and more.',
+        ' Also NestJS, Prisma (PostgreSQL), Sentry, SendBird, Segment, Customer.io, Mixpanel and more.',
       'Lead Front-end Developer @ Star (Sep ’17 — May ’20).' +
         ' (1) Robotized warehouse management application — TypeScript, React (Hooks, Context, Redux), PixiJS v4-5 / WebGL, Paper.js (not much), SVG, Node, Jest/Cypress, REST.' +
         ' (2) Customer area, responsive accessible application for state’s transportation system (public transport tickets, parking management, institutions) — TypeScript, React, Redux, Material-UI, SVG, Node, unit tests via Jest, CRA v2+, REST. ADA accessibility & security specialist.',
