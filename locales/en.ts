@@ -11,7 +11,7 @@ const interests: InterestLocale[] = [
   {
     title: 'Web Development',
     description:
-      'TypeScript, Node.js, NestJS, Next.js, PostgreSQL, Prisma/TypeOrm, Google Cloud, Vercel.',
+      'TypeScript, Node.js, Nest, Next.js, PostgreSQL, Prisma/TypeOrm, Google Cloud, Vercel.',
     tldr: 'Today I mainly work with a TypeScript based full-stack projects (Node.js, React, React Native), cloud platforms (Google Cloud).',
     text: [
       'Technology was my passion since childhood and cartoons like "Transformers". And it still is my passion today, one of the main points of interest.',
