@@ -7,8 +7,10 @@ _TL;DR_\
 
 ##### Principal Software Engineer @ Peppy Health (May ’20 — Aug ’22).
 
-Ефективна підтримка здоров’я. Проект, заснований на безпечному та сучасному стеку технологій — Google Cloud Platform, TypeScript/JavaScript, Node.js, React, React Native.
+Ефективна підтримка здоров’я. Проект, заснований на безпечному та сучасному стеку технологій — Google Cloud Platform, TypeScript/JavaScript. Додатки на базі Node.js, React та React Native.
 Також NestJS, Prisma (PostgreSQL), Sentry, MUI, SendBird, Segment, Customer.io, Mixpanel тощо.
+
+Я працював над архітектурою, документацією, імплементацією, покриттям E2E/юніт тестами. Менторство, перевірка коду.
 
 ##### Lead Front-end Developer @ Star (Sep ’17 — May ’20).
 
@@ -21,10 +23,10 @@ _TL;DR_\
 
 Програмована рекламна платформа. Веб-додаток для клієнтської зони (React, Redux, ES2017, LESS).
 App architecture rework. Custom builds (Gulp, Rollup).
-Огляд коду. Співбесіди з кандидатами.
+Перевірка коду. Співбесіди з кандидатами.
 
 ##### Tech Lead @ Luxoft (Dec ’12 — Sep ’16).
 
 Гібридний кросплатформний додаток (macOS, Windows) з нуля.
 Electron, ES6 (React, Node.js), app prototyping, complex UI development, app localisation, OS notifications, performance & memory/CPU efficiency, IPC, CI builds & Gulp tasks, Jest tests, etc.
-Огляд коду. Співбесіди з кандидатами.
+Перевірка коду. Співбесіди з кандидатами.

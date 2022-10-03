@@ -9,8 +9,10 @@ I started learning programming in school with Pascal and Basic. Mainly to solve 
 
 ##### **Principal Software Engineer** @ **Peppy Health**, UK (May ’20 — Aug ’22)
 
-High-impact health support. Project based on a secure & modern tech stack — Google Cloud Platform, TypeScript/JavaScript, Node.js, React, React Native.
+High-impact health support. Project based on a secure & modern tech stack — Google Cloud Platform, TypeScript/JavaScript. Node.js, React and React Native apps.
 Also NestJS, Prisma (PostgreSQL), Sentry, MUI, SendBird, Segment, Customer.io, Mixpanel and more.
+
+I was working on architecture, documentation, implementation, E2E/unit test coverage. Mentorship, code reviews.
 
 ##### **Lead Front-end Developer** @ **Star** UA, (Sep ’17 — May ’20)
 
