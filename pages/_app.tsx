@@ -8,6 +8,8 @@ import type { LocaleCode } from 'locales'
 import * as locales from 'locales'
 import { darkTheme, lightTheme } from 'src/themes'
 
+import '../public/styles.css'
+
 interface ILocaleContext {
   messages: IntlMessages
   setLocale: (locale: 'en' | 'uk') => void
