@@ -15,7 +15,7 @@ const nextConfig = {
     locales: ['en', 'uk'],
   },
   reactStrictMode: true,
-  swcMinify: true,
+  swcMinify: false,
 
   webpack(config) {
     config.module.rules.push({
