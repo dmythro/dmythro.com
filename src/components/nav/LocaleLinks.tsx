@@ -12,15 +12,24 @@ export const NavCollapseLocaleLinks: FC = () => {
 
   return (
     <Navbar.Collapse disableAnimation>
-      {locales.map((l) => (
-        <Navbar.CollapseItem id={`nav-collapse-locale-li-${l}`} key={l} isActive={l === locale}>
-          <NextLink href={`/${l === 'en' ? '' : l}`} hrefLang={l} locale={false} passHref>
-            <Link id={`nav-collapse-locale-a-${l}`} block color={l === locale ? 'primary' : 'text'}>
+      {locales.map((l) => {
+        const isActive = l === locale
+        const isRoot = l === 'en'
+
+        return (
+          <Navbar.CollapseItem id={`nav-collapse-locale-li-${l}`} key={l} isActive={isActive}>
+            <Link
+              id={`nav-collapse-locale-a-${l}`}
+              block
+              color={isActive ? 'primary' : 'text'}
+              href={`/${isRoot ? '' : l}`}
+              hrefLang={l}
+            >
               {ELocaleNames[l]}
             </Link>
-          </NextLink>
-        </Navbar.CollapseItem>
-      ))}
+          </Navbar.CollapseItem>
+        )
+      })}
     </Navbar.Collapse>
   )
 }
@@ -30,24 +39,23 @@ export const NavLocaleLinks: FC = () => {
 
   return (
     <Navbar.Content enableCursorHighlight hideIn="xs" variant="underline">
-      {locales.map((l) => (
-        <NextLink
-          id={`nav-locale-li-${l}`}
-          key={l}
-          href={`/${l === 'en' ? '' : l}`}
-          hrefLang={l}
-          locale={false}
-          passHref
-        >
+      {locales.map((l) => {
+        const isActive = l === locale
+        const isRoot = l === 'en'
+
+        return (
           <Navbar.Link
+            key={l}
             id={`nav-locale-a-${l}`}
-            isActive={l === locale}
-            color={l === locale ? 'primary' : 'text'}
+            color={isActive ? 'primary' : 'text'}
+            href={`/${isRoot ? '' : l}`}
+            hrefLang={l}
+            isActive={isActive}
           >
             {ELocaleNames[l]}
           </Navbar.Link>
-        </NextLink>
-      ))}
+        )
+      })}
     </Navbar.Content>
   )
 }
