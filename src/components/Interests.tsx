@@ -6,6 +6,9 @@ import { Collapse, Text } from '@nextui-org/react'
 import WebDevEn from 'locales/mdx/web-dev.en.md'
 import WebDevUk from 'locales/mdx/web-dev.uk.md'
 
+import MusicEn from 'locales/mdx/music.en.md'
+import MusicUk from 'locales/mdx/music.uk.md'
+
 import { useT } from 'src/hooks/useT'
 import { InterestLocale } from 'locales'
 
@@ -14,6 +17,10 @@ const interestLocale: Record<string, Record<string, any>> = {
     en: WebDevEn,
     uk: WebDevUk,
   },
+  music: {
+    en: MusicEn,
+    uk: MusicUk,
+  }
 }
 
 export const Interests: FC = () => {
