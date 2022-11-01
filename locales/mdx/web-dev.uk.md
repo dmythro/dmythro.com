@@ -10,7 +10,7 @@ _TL;DR_\
 Ефективна підтримка здоров’я. Проект, заснований на безпечному та сучасному стеку технологій — Google Cloud Platform, TypeScript/JavaScript. Додатки на базі Node.js, React та React Native.
 Також NestJS, Prisma (PostgreSQL), Sentry, MUI, SendBird, Segment, Customer.io, Mixpanel тощо.
 
-Я працював над архітектурою, документацією, імплементацією, покриттям E2E/юніт тестами. Менторство, перевірка коду.
+Я працював над архітектурою, імплементацією, документацією (full-stack, в основному BE), покриттям E2E/юніт тестами. Менторство, перевірка коду.
 
 ##### Lead Front-end Developer @ Star (Sep ’17 — May ’20).
 
