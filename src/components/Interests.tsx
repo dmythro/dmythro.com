@@ -12,6 +12,9 @@ import MusicUk from 'locales/mdx/music.uk.md'
 import TravelEn from 'locales/mdx/travel.en.md'
 import TravelUk from 'locales/mdx/travel.uk.md'
 
+import HobbiesEn from 'locales/mdx/hobbies.en.md'
+import HobbiesUk from 'locales/mdx/hobbies.uk.md'
+
 import { useT } from 'src/hooks/useT'
 import { InterestLocale } from 'locales'
 
@@ -27,7 +30,11 @@ const interestLocale: Record<string, Record<string, any>> = {
   travel: {
     en: TravelEn,
     uk: TravelUk,
-  }
+  },
+  hobbies: {
+    en: HobbiesEn,
+    uk: HobbiesUk,
+  },
 }
 
 export const Interests: FC = () => {
@@ -40,7 +47,10 @@ export const Interests: FC = () => {
     <Collapse.Group>
       {interestList.map((interestKey) => {
         const interest = interests[interestKey] as InterestLocale
-        const LocaleMd = interestLocale[interestKey] ? interestLocale[interestKey][locale] : null
+        const LocaleMd =
+          interestLocale[interestKey] && interestLocale[interestKey][locale]
+            ? interestLocale[interestKey][locale]
+            : null
 
         return (
           <Collapse key={interestKey} title={interest.title} subtitle={interest.description}>
