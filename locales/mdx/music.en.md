@@ -10,4 +10,4 @@ Since 2011 running indie record label and a music zine &mdash; [Noizr](https://n
 
 Also, I collect some music on physical media (vinyl and cassette tape). Sometimes I enjoy the time specially set aside for listening to my favorite music.
 
-P.S. You can watch me playing live with Nabaath [here](https://youtu.be/ThlDSKGNc-k) or [here](https://youtu.be/osGApVlgYk8) (warning: it may be a bit "too heavy" for some).
+P.S. You can watch me playing live with Nabaath [here](https://youtu.be/ThlDSKGNc-k) or [here](https://youtu.be/osGApVlgYk8) (warning: it may be a bit "too heavy" for some). The rest of the musical projects &amp; records are still in progress.
