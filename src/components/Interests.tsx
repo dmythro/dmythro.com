@@ -9,6 +9,9 @@ import WebDevUk from 'locales/mdx/web-dev.uk.md'
 import MusicEn from 'locales/mdx/music.en.md'
 import MusicUk from 'locales/mdx/music.uk.md'
 
+import TravelEn from 'locales/mdx/travel.en.md'
+import TravelUk from 'locales/mdx/travel.uk.md'
+
 import { useT } from 'src/hooks/useT'
 import { InterestLocale } from 'locales'
 
@@ -20,6 +23,10 @@ const interestLocale: Record<string, Record<string, any>> = {
   music: {
     en: MusicEn,
     uk: MusicUk,
+  },
+  travel: {
+    en: TravelEn,
+    uk: TravelUk,
   }
 }
 
