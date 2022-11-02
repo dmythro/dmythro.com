@@ -27,7 +27,7 @@ const interests: Record<string, InterestLocale> = {
   hobbies: {
     title: 'Hobbies',
     description:
-      'Tech, gear, design.' +
+      'Tech, gear, design, games.' +
       ' Smart home (HomeKit, Zigbee), automations.' +
       ' Snowboarding, surfing, cycling, scooters, longboards etc.',
   },
