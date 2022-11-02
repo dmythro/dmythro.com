@@ -44,7 +44,7 @@ export const Interests: FC = () => {
   const interestList = Object.keys(interests)
 
   return (
-    <Collapse.Group>
+    <Collapse.Group accordion={false}>
       {interestList.map((interestKey) => {
         const interest = interests[interestKey] as InterestLocale
         const LocaleMd =
