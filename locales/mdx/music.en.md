@@ -6,4 +6,4 @@ As a teenager started listening to different metal and electronic music subgenre
 
 Since 2011 running indie record label and a music zine &mdash; [Noizr](https://noizr.com). It still is a non-profit project, all income is re-invested into our artist development (since russian invasion all accumulated income for last couple years is donated to Ukrainian army and Come Back Alive fund).
 
-P.S. You can see me playing live with Nabaath [here](https://youtu.be/ThlDSKGNc-k) or [here](https://youtu.be/osGApVlgYk8) (warning: it may be a bit "too heavy" for some).
+P.S. You can watch me playing live with Nabaath [here](https://youtu.be/ThlDSKGNc-k) or [here](https://youtu.be/osGApVlgYk8) (warning: it may be a bit "too heavy" for some).

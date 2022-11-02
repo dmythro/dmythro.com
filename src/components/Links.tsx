@@ -9,6 +9,8 @@ import FacebookIcon from 'src/assets/facebook-f.svg'
 import GitHubIcon from 'src/assets/github.svg'
 import InstagramIcon from 'src/assets/instagram.svg'
 import LinkedInIcon from 'src/assets/linkedin.svg'
+import TelegramIcon from 'src/assets/telegram.svg'
+import TwitterIcon from 'src/assets/twitter.svg'
 
 export const Links: FC = () => {
   const { socialMedia } = useT()
@@ -20,7 +22,7 @@ export const Links: FC = () => {
       {/* <Text color="secondary">{socialMedia.description}</Text> */}
       <Spacer />
 
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', maxWidth: '100%', flexWrap: 'wrap', gap: '.5em' }}>
         <Button
           as={Link}
           auto
@@ -30,7 +32,6 @@ export const Links: FC = () => {
         >
           GitHub
         </Button>
-        &nbsp;
         <Button
           as={Link}
           auto
@@ -40,8 +41,15 @@ export const Links: FC = () => {
         >
           LinkedIn
         </Button>
-      </div>
-      <div style={{ display: 'flex', marginTop: '.5em' }}>
+        <Button
+          as={Link}
+          auto
+          color="gradient"
+          href={ESocialLinks.telegram}
+          icon={<TelegramIcon height={iconSize} style={{ fill: 'white' }} />}
+        >
+          Telegram
+        </Button>
         <Button
           as={Link}
           auto
@@ -51,7 +59,6 @@ export const Links: FC = () => {
         >
           Facebook
         </Button>
-        &nbsp;
         <Button
           as={Link}
           auto
@@ -60,6 +67,15 @@ export const Links: FC = () => {
           icon={<InstagramIcon height={iconSize} style={{ fill: 'white' }} />}
         >
           Instagram
+        </Button>
+        <Button
+          as={Link}
+          auto
+          color="gradient"
+          href={ESocialLinks.twitter}
+          icon={<TwitterIcon height={iconSize} style={{ fill: 'white' }} />}
+        >
+          Twitter
         </Button>
       </div>
     </Container>
