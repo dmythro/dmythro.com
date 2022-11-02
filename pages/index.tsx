@@ -9,7 +9,7 @@ import { NavCollapseLocaleLinks, NavLocaleLinks } from 'src/components/nav/Local
 import { Interests } from 'src/components/Interests'
 import { Links } from 'src/components/Links'
 import { PhotoCard } from 'src/components/PhotoCard'
-import { SaveLevCard } from 'src/components/SaveLevCard'
+// import { SaveLevCard } from 'src/components/SaveLevCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
 import { useT } from 'src/hooks/useT'
 
@@ -87,8 +87,8 @@ const Home: NextPage = () => {
                 <PhotoCard />
                 <Spacer />
                 <SupportUkraineCard />
-                <Spacer />
-                <SaveLevCard />
+                {/* <Spacer />
+                <SaveLevCard /> */}
               </div>
             </Grid>
             <Grid xs={12} sm={7}>
