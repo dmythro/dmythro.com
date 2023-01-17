@@ -23,6 +23,8 @@ const Home: NextPage = () => {
     rel: 'nofollow',
   }
 
+  const [firstName, lastName] = t.fullName.split(' ')
+
   return (
     <>
       <NextSeo
@@ -38,6 +40,14 @@ const Home: NextPage = () => {
               type: 'image/jpeg',
             },
           ],
+          profile: {
+            firstName,
+            lastName,
+            username: USERNAME.replace('@', ''),
+            gender: 'male',
+          },
+          type: 'profile',
+          url: ESocialLinks.facebook,
         }}
         twitter={{
           cardType: 'summary',
@@ -54,6 +64,7 @@ const Home: NextPage = () => {
           ESocialLinks.github,
           ESocialLinks.instagram,
           ESocialLinks.linkedin,
+          ESocialLinks.twitter,
         ]}
       />
 

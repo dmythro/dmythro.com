@@ -29,6 +29,7 @@ export const Links: FC = () => {
           color="gradient"
           href={ESocialLinks.github}
           icon={<GitHubIcon height={iconSize} />}
+          rel="me"
         >
           GitHub
         </Button>
@@ -38,6 +39,7 @@ export const Links: FC = () => {
           color="gradient"
           href={ESocialLinks.linkedin}
           icon={<LinkedInIcon height={iconSize} style={{ fill: 'white' }} />}
+          rel="me"
         >
           LinkedIn
         </Button>
@@ -47,6 +49,7 @@ export const Links: FC = () => {
           color="gradient"
           href={ESocialLinks.telegram}
           icon={<TelegramIcon height={iconSize} style={{ fill: 'white' }} />}
+          rel="me"
         >
           Telegram
         </Button>
@@ -56,6 +59,7 @@ export const Links: FC = () => {
           color="gradient"
           href={ESocialLinks.facebook}
           icon={<FacebookIcon height={iconSize} style={{ fill: 'white' }} />}
+          rel="me"
         >
           Facebook
         </Button>
@@ -65,6 +69,7 @@ export const Links: FC = () => {
           color="gradient"
           href={ESocialLinks.instagram}
           icon={<InstagramIcon height={iconSize} style={{ fill: 'white' }} />}
+          rel="me"
         >
           Instagram
         </Button>
@@ -74,6 +79,7 @@ export const Links: FC = () => {
           color="gradient"
           href={ESocialLinks.twitter}
           icon={<TwitterIcon height={iconSize} style={{ fill: 'white' }} />}
+          rel="me"
         >
           Twitter
         </Button>
