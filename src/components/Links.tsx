@@ -1,6 +1,7 @@
 import { FC } from 'react'
 
 import { Button, Container, Link, Spacer, Text } from '@nextui-org/react'
+import type { ButtonProps } from '@nextui-org/react'
 
 import { ESocialLinks } from 'src/constants'
 import { useT } from 'src/hooks/useT'
@@ -16,6 +17,39 @@ export const Links: FC = () => {
   const { socialMedia } = useT()
   const iconSize = 30
 
+  const linkProps: ButtonProps[] = [
+    {
+      children: 'GitHub',
+      icon: <GitHubIcon height={iconSize} />,
+      href: ESocialLinks.github,
+    },
+    {
+      children: 'LinkedIn',
+      icon: <LinkedInIcon height={iconSize} style={{ fill: 'white' }} />,
+      href: ESocialLinks.linkedin,
+    },
+    {
+      children: 'Telegram',
+      icon: <TelegramIcon height={iconSize} style={{ fill: 'white' }} />,
+      href: ESocialLinks.telegram,
+    },
+    {
+      children: 'Facebook',
+      icon: <FacebookIcon height={iconSize} style={{ fill: 'white' }} />,
+      href: ESocialLinks.facebook,
+    },
+    {
+      children: 'Instagram',
+      icon: <InstagramIcon height={iconSize} style={{ fill: 'white' }} />,
+      href: ESocialLinks.instagram,
+    },
+    {
+      children: 'Twitter',
+      icon: <TwitterIcon height={iconSize} style={{ fill: 'white' }} />,
+      href: ESocialLinks.twitter,
+    },
+  ]
+
   return (
     <Container gap={1}>
       <Text h3>{socialMedia.title}</Text>
@@ -23,66 +57,17 @@ export const Links: FC = () => {
       <Spacer />
 
       <div style={{ display: 'flex', maxWidth: '100%', flexWrap: 'wrap', gap: '.5em' }}>
-        <Button
-          as={Link}
-          auto
-          color="gradient"
-          href={ESocialLinks.github}
-          icon={<GitHubIcon height={iconSize} />}
-          rel="me"
-        >
-          GitHub
-        </Button>
-        <Button
-          as={Link}
-          auto
-          color="gradient"
-          href={ESocialLinks.linkedin}
-          icon={<LinkedInIcon height={iconSize} style={{ fill: 'white' }} />}
-          rel="me"
-        >
-          LinkedIn
-        </Button>
-        <Button
-          as={Link}
-          auto
-          color="gradient"
-          href={ESocialLinks.telegram}
-          icon={<TelegramIcon height={iconSize} style={{ fill: 'white' }} />}
-          rel="me"
-        >
-          Telegram
-        </Button>
-        <Button
-          as={Link}
-          auto
-          color="gradient"
-          href={ESocialLinks.facebook}
-          icon={<FacebookIcon height={iconSize} style={{ fill: 'white' }} />}
-          rel="me"
-        >
-          Facebook
-        </Button>
-        <Button
-          as={Link}
-          auto
-          color="gradient"
-          href={ESocialLinks.instagram}
-          icon={<InstagramIcon height={iconSize} style={{ fill: 'white' }} />}
-          rel="me"
-        >
-          Instagram
-        </Button>
-        <Button
-          as={Link}
-          auto
-          color="gradient"
-          href={ESocialLinks.twitter}
-          icon={<TwitterIcon height={iconSize} style={{ fill: 'white' }} />}
-          rel="me"
-        >
-          Twitter
-        </Button>
+        {linkProps.map((props) => (
+          <Button
+            key={props.href}
+            as={Link}
+            auto
+            color="gradient"
+            rel="me"
+            role="link"
+            {...props}
+          />
+        ))}
       </div>
     </Container>
   )
