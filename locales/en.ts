@@ -11,7 +11,7 @@ const interests: Record<string, InterestLocale> = {
   webDev: {
     title: 'Web Development',
     description:
-      'TypeScript, Node.js, Nest, Next.js, PostgreSQL, Prisma/TypeOrm, Google Cloud, Vercel.',
+      'TypeScript, Node.js, Nest, Next.js, PostgreSQL, Prisma/TypeOrm, Google Cloud/Vercel.',
   },
   music: {
     title: 'Music',
