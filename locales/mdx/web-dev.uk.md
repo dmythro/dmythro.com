@@ -5,6 +5,10 @@ _TL;DR_\
 
 #### Останні позиції та проекти
 
+##### **Senior Frontend Engineer** @ **Windscribe / Control D**, CA (Nov ’22 — Apr ’23)
+
+В основному працював над веб-сайтом та контрольною панеллю Control D. Gatsby, React/Redux/TypeScript, багато Cypress тестів. Апгрейди до останніх версій.
+
 ##### Principal Software Engineer @ Peppy Health (May ’20 — Aug ’22).
 
 Ефективна підтримка здоров’я. Проект, заснований на безпечному та сучасному стеку технологій — Google Cloud Platform, TypeScript/JavaScript. Додатки на базі Node.js, React та React Native.

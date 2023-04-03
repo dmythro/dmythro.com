@@ -7,6 +7,10 @@ I started learning programming in school with Pascal and Basic. Mainly to solve 
 
 #### Recent positions & projects
 
+##### **Senior Frontend Engineer** @ **Windscribe / Control D**, CA (Nov ’22 — Apr ’23)
+
+Mainly working on Control D website, control panel &amp; dashboard. Gatsby, React/Redux/TypeScript. A lot of Cypress tests. Upgrades to most recent versions.
+
 ##### **Principal Software Engineer** @ **Peppy Health**, UK (May ’20 — Aug ’22)
 
 High-impact health support. Project based on a secure & modern tech stack — Google Cloud Platform, TypeScript/JavaScript. Node.js, React and React Native apps.
