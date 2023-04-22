@@ -3,7 +3,7 @@ import type { InterestLocale, Translation } from '.'
 
 const interests: Record<string, InterestLocale> = {
   webDev: {
-    title: 'Web Development',
+    title: 'Веб розробка',
     description:
       'TypeScript, Node.js, Nest, Next.js, PostgreSQL, Prisma/TypeOrm, Google Cloud/Vercel.',
   },
@@ -35,6 +35,7 @@ export const uk: Translation = {
     keywords: 'Веб-розробка, музика, подорожі',
   },
   interests,
+  openForWork: 'Відкритий для пропозицій',
   socialMedia: {
     title: 'Посилання на соціальні мережі',
     description: 'Мій GitHub, LinkedIn та інші профілі у соціальних мережах.',

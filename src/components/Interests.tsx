@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { useRouter } from 'next/router'
 
-import { Collapse, Text } from '@nextui-org/react'
+import { Badge, Collapse, Text } from '@nextui-org/react'
 
 import WebDevEn from 'locales/mdx/web-dev.en.md'
 import WebDevUk from 'locales/mdx/web-dev.uk.md'
@@ -37,6 +37,26 @@ const interestLocale: Record<string, Record<string, any>> = {
   },
 }
 
+const isLooking = true
+
+const SectionTitle: FC<{ interestKey: string; text: string }> = ({ interestKey, text }) => {
+  const { openForWork } = useT()
+
+  if (!isLooking || interestKey !== 'webDev') {
+    return <>{text}</>
+  }
+
+  return (
+    <>
+      <Badge color="success" variant="bordered">
+        {openForWork}
+      </Badge>
+      <br />
+      {text}
+    </>
+  )
+}
+
 export const Interests: FC = () => {
   const { locale = 'en' } = useRouter()
   const { interests } = useT()
@@ -53,7 +73,12 @@ export const Interests: FC = () => {
             : null
 
         return (
-          <Collapse key={interestKey} title={interest.title} subtitle={interest.description}>
+          <Collapse
+            key={interestKey}
+            title={interest.title}
+            subtitle={<SectionTitle interestKey={interestKey} text={interest.description} />}
+            // subtitle={interest.description}
+          >
             {LocaleMd ? <LocaleMd /> : <Text em>TBD</Text>}
           </Collapse>
         )
