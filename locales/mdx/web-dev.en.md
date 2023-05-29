@@ -3,20 +3,20 @@ Today I mainly work with **TypeScript based full-stack projects** (Node.js, Reac
 
 Technology was my passion since childhood and cartoons like "Transformers". And it still is my passion today, one of the main points of interest.
 
-I started learning programming in school with Pascal and Basic. Mainly to solve some puzzles like route a horse on a chess board to hit each point but only once.
+I started learning programming in school with Pascal and Basic. Mainly to solve some puzzles like route a horse on a chess board to hit each point but only once (was one of the first, still remember).
 
 #### Recent positions & projects
 
 ##### **Senior Frontend Engineer** @ **Windscribe / Control D**, CA (Nov ’22 — Apr ’23)
 
-Mainly working on Control D website, control panel &amp; dashboard. Gatsby, React/Redux/TypeScript. A lot of Cypress tests. Upgrades to most recent versions.
+Mainly working on Control D website, control panel &amp; dashboard. Gatsby, React/Redux/TypeScript. A lot of Cypress tests. Major upgrades to most recent versions.
 
 ##### **Principal Software Engineer** @ **Peppy Health**, UK (May ’20 — Aug ’22)
 
 High-impact health support. Project based on a secure & modern tech stack — Google Cloud Platform, TypeScript/JavaScript. Node.js, React and React Native apps.
 Also NestJS, Prisma (PostgreSQL), Sentry, MUI, SendBird, Segment, Customer.io, Mixpanel and more.
 
-I was working on architecture, implementation (full-stack, mainly BE), documentation, E2E/unit test coverage. Mentorship, code reviews.
+I was working on architecture, implementation (full-stack, mainly BE), documentation, E2E/unit test coverage. Mentorship, code reviews. Security officer. Participate in various audits.
 
 ##### **Lead Front-end Developer** @ **Star** UA, (Sep ’17 — May ’20)
 
