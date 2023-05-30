@@ -68,6 +68,6 @@ Architecture, internal services, web UI services, websites, applications and dat
 
 #### Education
 
-Graduate of NTUU "KPI" — FAM, SCS (National Technical University of Ukraine "Kyiv Polytechnical Institute", Faculty of Applied Math, Specialized Computer Systems), 2003–2009.
+Graduate of **NTUU "KPI"** — **FAM, SCS** (National Technical University of Ukraine "Kyiv Polytechnical Institute", **Faculty of Applied Math**, **Department of Specialized Computer Systems**), 2003–2009.
 
 I would say quite a good choice in the context of my career: programming (Pascal, C#, .NET, C++, Assembler), algorithms and data structures, graphs, probability theory, databases (MSSQL) and much more.
