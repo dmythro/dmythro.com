@@ -48,6 +48,16 @@ Hybrid desktop cross-platform application (macOS, Windows) from scratch.
 Electron, ES6 (React, Node.js), app prototyping, complex UI development, app localisation, OS notifications, performance & memory/CPU efficiency, IPC, CI builds & Gulp tasks, Jest tests, etc.
 Code reviews. Candidate interviews.
 
+##### Working on **own** projects
+
+###### **Annexare**, UA
+
+Web development & design studio. We've created a lot of art designs and websites for artists, musicians, record label & zine etc. I've build own CMS for this purpose (PHP, AJAX, jQuery, JSON, MySQL) to support everything we needed: multi-lingual content, SEO, speed, custom content types, social media integration. Some of those are still online, but the stack is pretty outdated.
+
+###### **Soccer City**, UA
+
+A real-time game for social networks (Facebook, VK and others) with Flash GUI, PHP/MySQL backend and integrated with different social network APIs and payments. The game combined isometric city-builder and online match-making based on the team stats and some amount of a random factor. With quests, achievements, in-game purchases and more. It was a pretty complex project. But since Flash became deprecated we didn't put effort to rework it for the modern web and it was closed.
+
 ##### **Facebook Applications Developer**
 
 ###### **Stuzo**, US (Jun ’10 — Jan ’11)
