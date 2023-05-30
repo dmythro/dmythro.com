@@ -9,7 +9,7 @@ export interface InterestLocale {
 
 const interests: Record<string, InterestLocale> = {
   webDev: {
-    title: 'Web Development',
+    title: 'Web Development, Career, Education',
     description:
       'TypeScript, Node.js, Nest, Next.js, PostgreSQL, Prisma/TypeOrm, Google Cloud/Vercel.',
   },

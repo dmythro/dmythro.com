@@ -3,7 +3,7 @@ import type { InterestLocale, Translation } from '.'
 
 const interests: Record<string, InterestLocale> = {
   webDev: {
-    title: 'Веб розробка',
+    title: "Веб розробка, кар'єра, освіта",
     description:
       'TypeScript, Node.js, Nest, Next.js, PostgreSQL, Prisma/TypeOrm, Google Cloud/Vercel.',
   },
