@@ -11,7 +11,7 @@ I started learning programming in school with Pascal and Basic. Mainly to solve 
 
 ###### **Windscribe / Control D**, CA (Nov ’22 — Apr ’23)
 
-Mainly working on Control D website, control panel &amp; dashboard. Gatsby, React/Redux/TypeScript. A lot of Cypress tests. Major upgrades to most recent versions.
+Mainly working on Control D website, control panel &amp; dashboard. Gatsby, React/Redux/TypeScript. A lot of Cypress tests. Major Gatsby & Cypress upgrades, to most recent versions.
 
 ##### **Principal Software Engineer**
 
@@ -20,11 +20,11 @@ Mainly working on Control D website, control panel &amp; dashboard. Gatsby, Reac
 High-impact health support. Project based on a secure & modern tech stack — Google Cloud Platform, TypeScript/JavaScript. Node.js, React and React Native apps.
 Also NestJS, Prisma (PostgreSQL), Sentry, MUI, SendBird, Segment, Customer.io, Mixpanel and more.
 
-I was working on architecture, implementation (full-stack, mainly BE), documentation, E2E/unit test coverage. Mentorship, code reviews. Security officer. Participate in various audits.
+I was working on architecture, major features research/implementation (full-stack, mainly BE/CI), documentation, E2E/unit test coverage. Mentorship, code reviews. Security officer. Participate in various audits.
 
 ##### **Lead Front-end Developer**
 
-###### **Star** (Cogniance), UA (Sep ’17 — May ’20)
+###### **Star** (formely Cogniance), UA (Sep ’17 — May ’20)
 
 1. Robotized warehouse management application.
    TypeScript, React (Hooks, Context, Redux), PixiJS v4-5 / WebGL, Paper.js (not much), SVG, Node, Jest/Cypress, REST.
