@@ -16,6 +16,8 @@ import { useT } from 'src/hooks/useT'
 import avatarImg from 'public/avatar.jpg'
 import avatarUserImg from 'public/avatar@44px.jpg'
 
+const lastPublishDate = new Date()
+
 const Home: NextPage = () => {
   const t = useT()
   const footerLinkProps: LinkProps = {
@@ -119,8 +121,8 @@ const Home: NextPage = () => {
           size="$xs"
           css={{ display: 'block', textAlign: 'center', a: { color: '$text', display: 'inline' } }}
         >
-          &copy; 2022 &bull; <Link href="https://github.com/dmythro/dmythro.com">Source</Link>{' '}
-          &bull; Powered by{' '}
+          &copy; {lastPublishDate.getFullYear()} &bull;{' '}
+          <Link href="https://github.com/dmythro/dmythro.com">Source</Link> &bull; Powered by{' '}
           <Link
             href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
             {...footerLinkProps}
