@@ -11,6 +11,7 @@ import GitHubIcon from 'src/assets/github.svg'
 import InstagramIcon from 'src/assets/instagram.svg'
 import LinkedInIcon from 'src/assets/linkedin.svg'
 import TelegramIcon from 'src/assets/telegram.svg'
+import ThreadsIcon from 'src/assets/threads.svg'
 import TwitterIcon from 'src/assets/twitter.svg'
 
 export const Links: FC = () => {
@@ -42,6 +43,11 @@ export const Links: FC = () => {
       children: 'Instagram',
       icon: <InstagramIcon height={iconSize} style={{ fill: 'white' }} />,
       href: ESocialLinks.instagram,
+    },
+    {
+      children: 'Threads',
+      icon: <ThreadsIcon height={iconSize} style={{ fill: 'white' }} />,
+      href: ESocialLinks.threads,
     },
     {
       children: 'Twitter',
