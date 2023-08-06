@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { Button, Container, Link, Spacer, Text } from '@nextui-org/react'
+import { Button, Link, Spacer } from '@nextui-org/react'
 import type { ButtonProps } from '@nextui-org/react'
 
 import { ESocialLinks } from 'src/constants'
@@ -21,44 +21,44 @@ export const Links: FC = () => {
   const linkProps: ButtonProps[] = [
     {
       children: 'GitHub',
-      icon: <GitHubIcon height={iconSize} />,
+      startContent: <GitHubIcon height={iconSize} />,
       href: ESocialLinks.github,
     },
     {
       children: 'LinkedIn',
-      icon: <LinkedInIcon height={iconSize} style={{ fill: 'white' }} />,
+      startContent: <LinkedInIcon height={iconSize} style={{ fill: 'white' }} />,
       href: ESocialLinks.linkedin,
     },
     {
       children: 'Telegram',
-      icon: <TelegramIcon height={iconSize} style={{ fill: 'white' }} />,
+      startContent: <TelegramIcon height={iconSize} style={{ fill: 'white' }} />,
       href: ESocialLinks.telegram,
     },
     {
       children: 'Facebook',
-      icon: <FacebookIcon height={iconSize} style={{ fill: 'white' }} />,
+      startContent: <FacebookIcon height={iconSize} style={{ fill: 'white' }} />,
       href: ESocialLinks.facebook,
     },
     {
       children: 'Instagram',
-      icon: <InstagramIcon height={iconSize} style={{ fill: 'white' }} />,
+      startContent: <InstagramIcon height={iconSize} style={{ fill: 'white' }} />,
       href: ESocialLinks.instagram,
     },
     {
       children: 'Threads',
-      icon: <ThreadsIcon height={iconSize} style={{ fill: 'white' }} />,
+      startContent: <ThreadsIcon height={iconSize} style={{ fill: 'white' }} />,
       href: ESocialLinks.threads,
     },
     {
       children: 'Twitter',
-      icon: <TwitterIcon height={iconSize} style={{ fill: 'white' }} />,
+      startContent: <TwitterIcon height={iconSize} style={{ fill: 'white' }} />,
       href: ESocialLinks.twitter,
     },
   ]
 
   return (
-    <Container gap={1}>
-      <Text h3>{socialMedia.title}</Text>
+    <div className="flex flex-col">
+      <h3>{socialMedia.title}</h3>
       {/* <Text color="secondary">{socialMedia.description}</Text> */}
       <Spacer />
 
@@ -68,13 +68,13 @@ export const Links: FC = () => {
             key={props.href}
             as={Link}
             auto
-            color="gradient"
+            className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
             rel="me"
             role="link"
             {...props}
           />
         ))}
       </div>
-    </Container>
+    </div>
   )
 }

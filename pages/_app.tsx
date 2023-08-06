@@ -1,15 +1,13 @@
 import { createContext, useEffect, useState } from 'react'
 import type { AppProps } from 'next/app'
-import { ThemeProvider } from 'next-themes'
 import { NextUIProvider } from '@nextui-org/react'
 import { Analytics } from '@vercel/analytics/react'
 
 import type { IntlMessages } from 'src/global'
 import type { LocaleCode } from 'locales'
 import * as locales from 'locales'
-import { darkTheme, lightTheme } from 'src/themes'
 
-import '../public/styles.css'
+import 'src/styles/global.css'
 
 interface ILocaleContext {
   messages: IntlMessages
@@ -35,20 +33,12 @@ function MyApp({ Component, pageProps, router }: AppProps) {
 
   return (
     <>
-      <ThemeProvider
-        defaultTheme="system"
-        attribute="class"
-        value={{
-          light: lightTheme.className,
-          dark: darkTheme.className,
-        }}
-      >
-        <NextUIProvider>
-          <LocaleContext.Provider value={{ messages, setLocale }}>
-            <Component {...pageProps} />
-          </LocaleContext.Provider>
-        </NextUIProvider>
-      </ThemeProvider>
+      <NextUIProvider>
+        <LocaleContext.Provider value={{ messages, setLocale }}>
+          <Component {...pageProps} />
+        </LocaleContext.Provider>
+      </NextUIProvider>
+
       <Analytics />
     </>
   )

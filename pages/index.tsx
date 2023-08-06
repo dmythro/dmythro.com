@@ -1,7 +1,16 @@
 import type { NextPage } from 'next'
 
 import type { LinkProps } from '@nextui-org/react'
-import { Container, Grid, Link, Navbar, Spacer, Text, User } from '@nextui-org/react'
+import {
+  Link,
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarMenuToggle,
+  Spacer,
+  User,
+} from '@nextui-org/react'
 import { NextSeo, SocialProfileJsonLd } from 'next-seo'
 
 import { BASE_URL, ESocialLinks, USERNAME } from 'src/constants'
@@ -70,56 +79,59 @@ const Home: NextPage = () => {
         ]}
       />
 
-      <Navbar isBordered variant="sticky">
-        <Navbar.Content>
+      <Navbar isBordered>
+        <NavbarContent>
           <User
-            bordered
-            color="gradient"
+            avatarProps={{
+              alt: USERNAME,
+              color: 'secondary',
+              isBordered: true,
+              size: 'lg',
+              src: avatarUserImg.src,
+            }}
             name={USERNAME}
             description={t.meta.keywords}
-            size="lg"
-            src={avatarUserImg.src}
-            altText={USERNAME}
-            css={{ padding: 0 }}
           />
-        </Navbar.Content>
+        </NavbarContent>
 
         <NavLocaleLinks />
 
-        <Navbar.Toggle showIn="xs" />
+        <NavbarContent className="sm:hidden" justify="start">
+          <NavbarMenuToggle />
+        </NavbarContent>
+
         <NavCollapseLocaleLinks />
       </Navbar>
 
-      <Container gap={1} sm>
+      <div className="flex flex-col max-w-5xl mx-auto">
         <Spacer />
 
-        <main>
-          <Grid.Container css={{ flexDirection: 'row-reverse' }}>
-            <Grid xs={12} sm={5}>
-              <div>
-                <PhotoCard />
-                <Spacer />
-                <SupportUkraineCard />
-                {/* <Spacer />
+        <main className="flex flex-row-reverse">
+          <div className="basis-full md:basis-5/12">
+            <div>
+              <PhotoCard />
+              <Spacer />
+              <SupportUkraineCard />
+              {/* <Spacer />
                 <SaveLevCard /> */}
-              </div>
-            </Grid>
-            <Grid xs={12} sm={7}>
-              <div>
-                <Interests />
-                <Spacer />
-                <Links />
-              </div>
-            </Grid>
-          </Grid.Container>
+            </div>
+          </div>
+          <div className="basis-full md:basis-7/12">
+            <div>
+              <Interests />
+              <Spacer />
+              <Links />
+            </div>
+          </div>
         </main>
 
         <Spacer />
 
-        <Text
-          as="footer"
-          size="$xs"
-          css={{ display: 'block', textAlign: 'center', a: { color: '$text', display: 'inline' } }}
+        <footer
+          style={{
+            display: 'block',
+            textAlign: 'center',
+          }}
         >
           &copy; {lastPublishDate.getFullYear()} &bull;{' '}
           <Link href="https://github.com/dmythro/dmythro.com">Source</Link> &bull; Powered by{' '}
@@ -137,10 +149,10 @@ const Home: NextPage = () => {
           <Link href="https://nextui.org" {...footerLinkProps}>
             NextUI
           </Link>
-        </Text>
+        </footer>
 
         <Spacer />
-      </Container>
+      </div>
     </>
   )
 }

@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import dayjs from 'dayjs'
 
-import { Card, Link, Text } from '@nextui-org/react'
+import { Card, CardBody, Link } from '@nextui-org/react'
 
 import { useT } from 'src/hooks/useT'
 
@@ -13,20 +13,18 @@ export const SupportUkraineCard: FC = () => {
   const { supportUkraine } = useT()
 
   return (
-    <Card variant="bordered">
-      <Card.Body>
-        <Text>
-          {supportUkraine.message(daysSinceInvasion)}
-          <Link
-            block={false}
-            href="https://war.ukraine.ua/support-ukraine/"
-            isExternal
-            target="_blank"
-          >
-            {supportUkraine.linkTitle}
-          </Link>
-        </Text>
-      </Card.Body>
+    <Card>
+      <CardBody>
+        {supportUkraine.message(daysSinceInvasion)}
+        <Link
+          block={false}
+          href="https://war.ukraine.ua/support-ukraine/"
+          isExternal
+          target="_blank"
+        >
+          {supportUkraine.linkTitle}
+        </Link>
+      </CardBody>
     </Card>
   )
 }

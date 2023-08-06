@@ -2,8 +2,6 @@ import React from 'react'
 import Document, { DocumentContext, Html, Head, Main, NextScript } from 'next/document'
 import Script from 'next/script'
 
-import { CssBaseline } from '@nextui-org/react'
-
 import { GA_TRACKING_ID } from 'src/analytics'
 
 const GA_DEBUG = process.env.NODE_ENV === 'development' ? 'true' : 'false'
@@ -22,7 +20,6 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="icon" href="/favicon.ico" />
-          {CssBaseline.flush()}
         </Head>
         <body>
           <Script

@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { Card, Text } from '@nextui-org/react'
+import { Card, CardFooter, CardBody, Image } from '@nextui-org/react'
 
 import { useT } from 'src/hooks/useT'
 
@@ -19,19 +19,13 @@ export const PhotoCard: FC = () => {
 
   return (
     <Card as="figure">
-      <Card.Body css={{ p: 0, zIndex: 0 }}>
-        <Card.Image
-          showSkeleton
-          sizes={sizes}
-          srcSet={srcSet}
-          src={avatarImg400.src}
-          alt={t.fullName}
-        />
-      </Card.Body>
-      <Card.Footer
+      <CardBody style={{ padding: 0, zIndex: 0 }}>
+        <Image sizes={sizes} srcSet={srcSet} src={avatarImg400.src} alt={t.fullName} />
+      </CardBody>
+      <CardFooter
         as="figcaption"
         // isBlurred
-        css={{
+        style={{
           position: 'absolute',
           alignItems: 'end',
           // bgBlur: '#0f111466',
@@ -42,13 +36,9 @@ export const PhotoCard: FC = () => {
           zIndex: 1,
         }}
       >
-        <Text size="$sm" css={{ color: '$white' }}>
-          {t.fullName}
-        </Text>
-        <Text size="$sm" css={{ color: '$white' }}>
-          📷 Alina Delyne
-        </Text>
-      </Card.Footer>
+        <p>{t.fullName}</p>
+        <p>📷 Alina Delyne</p>
+      </CardFooter>
     </Card>
   )
 }

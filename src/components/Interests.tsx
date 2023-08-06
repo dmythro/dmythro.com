@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { useRouter } from 'next/router'
 
-import { Badge, Collapse, Text } from '@nextui-org/react'
+import { Accordion, AccordionItem, Badge } from '@nextui-org/react'
 
 import WebDevEn from 'locales/mdx/web-dev.en.md'
 import WebDevUk from 'locales/mdx/web-dev.uk.md'
@@ -48,7 +48,7 @@ const SectionTitle: FC<{ interestKey: string; text: string }> = ({ interestKey, 
 
   return (
     <>
-      <Badge color="success" variant="bordered">
+      <Badge color="success" variant="flat">
         {openForWork}
       </Badge>
       <br />
@@ -64,7 +64,7 @@ export const Interests: FC = () => {
   const interestList = Object.keys(interests)
 
   return (
-    <Collapse.Group accordion={false}>
+    <Accordion>
       {interestList.map((interestKey) => {
         const interest = interests[interestKey] as InterestLocale
         const LocaleMd =
@@ -73,16 +73,16 @@ export const Interests: FC = () => {
             : null
 
         return (
-          <Collapse
+          <AccordionItem
             key={interestKey}
             title={interest.title}
             subtitle={<SectionTitle interestKey={interestKey} text={interest.description} />}
             // subtitle={interest.description}
           >
-            {LocaleMd ? <LocaleMd /> : <Text em>TBD</Text>}
-          </Collapse>
+            {LocaleMd ? <LocaleMd /> : <em>TBD</em>}
+          </AccordionItem>
         )
       })}
-    </Collapse.Group>
+    </Accordion>
   )
 }

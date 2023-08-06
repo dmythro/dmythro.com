@@ -1,8 +1,7 @@
 import { FC } from 'react'
-import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 
-import { Link, Navbar } from '@nextui-org/react'
+import { Link, NavbarContent, NavbarItem } from '@nextui-org/react'
 
 import type { LocaleCode } from 'locales'
 import { ELocaleNames } from 'src/constants'
@@ -11,13 +10,13 @@ export const NavCollapseLocaleLinks: FC = () => {
   const { locale, locales = [] } = useRouter() as { locale: LocaleCode; locales: LocaleCode[] }
 
   return (
-    <Navbar.Collapse disableAnimation>
+    <NavbarContent>
       {locales.map((l) => {
         const isActive = l === locale
         const isRoot = l === 'en'
 
         return (
-          <Navbar.CollapseItem id={`nav-collapse-locale-li-${l}`} key={l} isActive={isActive}>
+          <NavbarItem id={`nav-collapse-locale-li-${l}`} key={l} isActive={isActive}>
             <Link
               id={`nav-collapse-locale-a-${l}`}
               block
@@ -27,10 +26,10 @@ export const NavCollapseLocaleLinks: FC = () => {
             >
               {ELocaleNames[l]}
             </Link>
-          </Navbar.CollapseItem>
+          </NavbarItem>
         )
       })}
-    </Navbar.Collapse>
+    </NavbarContent>
   )
 }
 
@@ -38,13 +37,13 @@ export const NavLocaleLinks: FC = () => {
   const { locale, locales = [] } = useRouter() as { locale: LocaleCode; locales: LocaleCode[] }
 
   return (
-    <Navbar.Content enableCursorHighlight hideIn="xs" variant="underline">
+    <NavbarContent className="hidden sm:flex gap-4" justify="center">
       {locales.map((l) => {
         const isActive = l === locale
         const isRoot = l === 'en'
 
         return (
-          <Navbar.Link
+          <Link
             key={l}
             id={`nav-locale-a-${l}`}
             color={isActive ? 'primary' : 'text'}
@@ -53,9 +52,9 @@ export const NavLocaleLinks: FC = () => {
             isActive={isActive}
           >
             {ELocaleNames[l]}
-          </Navbar.Link>
+          </Link>
         )
       })}
-    </Navbar.Content>
+    </NavbarContent>
   )
 }
