@@ -82,15 +82,33 @@ const Home: NextPage = () => {
         ]}
       />
 
-      <Navbar className="py-2" onMenuOpenChange={setIsMenuOpen}>
-        <NavbarContent>
-          <NavbarBrand>
+      <Navbar
+        classNames={{
+          item: [
+            'flex',
+            'relative',
+            'h-full',
+            'items-center',
+            "data-[active=true]:after:content-['']",
+            'data-[active=true]:after:absolute',
+            'data-[active=true]:after:bottom-0',
+            'data-[active=true]:after:left-0',
+            'data-[active=true]:after:right-0',
+            'data-[active=true]:after:h-[2px]',
+            'data-[active=true]:after:rounded-[2px]',
+            'data-[active=true]:after:bg-primary',
+          ],
+        }}
+        onMenuOpenChange={setIsMenuOpen}
+      >
+        <NavbarContent className="py-2">
+          <NavbarBrand className="py-2">
             <User
               avatarProps={{
                 alt: USERNAME,
-                color: 'secondary',
+                color: 'primary',
                 isBordered: true,
-                size: 'lg',
+                // size: 'lg',
                 src: avatarUserImg.src,
               }}
               name={USERNAME}
@@ -110,7 +128,7 @@ const Home: NextPage = () => {
         <NavMenuLocaleLinks />
       </Navbar>
 
-      <div className="flex flex-col max-w-5xl mx-auto gap-4 p-6">
+      <div className="flex flex-col max-w-5xl mx-auto gap-4 p-4">
         <main className="flex flex-col sm:flex-row-reverse gap-4">
           <div className="basis-full sm:basis-5/12 sm:sticky sm:self-start sm:top-0">
             <div className="flex flex-col gap-1">

@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@svgr/webpack": "7.0.0",
+    "@tailwindcss/typography": "0.5.9",
     "@types/node": "^18.15.13",
     "@types/react": "~18.2.14",
     "@types/react-dom": "~18.2.6",

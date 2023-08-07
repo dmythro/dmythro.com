@@ -79,7 +79,13 @@ export const Interests: FC = () => {
             subtitle={<SectionSubtitle interestKey={interestKey} text={interest.description} />}
             // subtitle={interest.description}
           >
-            {LocaleMd ? <LocaleMd /> : <em>TBD</em>}
+            {LocaleMd ? (
+              <article className="prose">
+                <LocaleMd />
+              </article>
+            ) : (
+              <em>TBD</em>
+            )}
           </AccordionItem>
         )
       })}

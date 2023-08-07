@@ -68,7 +68,7 @@ export const Links: FC = () => {
             key={props.href}
             as={Link}
             auto="auto"
-            className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
+            className="bg-gradient-to-tr from-purple-600 to-primary-500 text-white shadow-lg"
             rel="me"
             role="link"
             {...props}
