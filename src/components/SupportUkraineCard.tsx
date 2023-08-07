@@ -16,12 +16,7 @@ export const SupportUkraineCard: FC = () => {
     <Card>
       <CardBody>
         {supportUkraine.message(daysSinceInvasion)}
-        <Link
-          block={false}
-          href="https://war.ukraine.ua/support-ukraine/"
-          isExternal
-          target="_blank"
-        >
+        <Link isBlock href="https://war.ukraine.ua/support-ukraine/" isExternal target="_blank">
           {supportUkraine.linkTitle}
         </Link>
       </CardBody>

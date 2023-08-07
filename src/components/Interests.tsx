@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { useRouter } from 'next/router'
 
-import { Accordion, AccordionItem, Badge } from '@nextui-org/react'
+import { Accordion, AccordionItem, Chip } from '@nextui-org/react'
 
 import WebDevEn from 'locales/mdx/web-dev.en.md'
 import WebDevUk from 'locales/mdx/web-dev.uk.md'
@@ -39,7 +39,7 @@ const interestLocale: Record<string, Record<string, any>> = {
 
 const isLooking = true
 
-const SectionTitle: FC<{ interestKey: string; text: string }> = ({ interestKey, text }) => {
+const SectionSubtitle: FC<{ interestKey: string; text: string }> = ({ interestKey, text }) => {
   const { openForWork } = useT()
 
   if (!isLooking || interestKey !== 'webDev') {
@@ -48,9 +48,9 @@ const SectionTitle: FC<{ interestKey: string; text: string }> = ({ interestKey, 
 
   return (
     <>
-      <Badge color="success" variant="flat">
+      <Chip color="success" size="sm" variant="bordered">
         {openForWork}
-      </Badge>
+      </Chip>
       <br />
       {text}
     </>
@@ -64,7 +64,7 @@ export const Interests: FC = () => {
   const interestList = Object.keys(interests)
 
   return (
-    <Accordion>
+    <Accordion selectionMode="multiple">
       {interestList.map((interestKey) => {
         const interest = interests[interestKey] as InterestLocale
         const LocaleMd =
@@ -75,8 +75,8 @@ export const Interests: FC = () => {
         return (
           <AccordionItem
             key={interestKey}
-            title={interest.title}
-            subtitle={<SectionTitle interestKey={interestKey} text={interest.description} />}
+            title={<h2>{interest.title}</h2>}
+            subtitle={<SectionSubtitle interestKey={interestKey} text={interest.description} />}
             // subtitle={interest.description}
           >
             {LocaleMd ? <LocaleMd /> : <em>TBD</em>}

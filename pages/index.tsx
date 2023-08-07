@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import { useState } from 'react'
 
 import type { LinkProps } from '@nextui-org/react'
 import {
@@ -14,7 +15,7 @@ import {
 import { NextSeo, SocialProfileJsonLd } from 'next-seo'
 
 import { BASE_URL, ESocialLinks, USERNAME } from 'src/constants'
-import { NavCollapseLocaleLinks, NavLocaleLinks } from 'src/components/nav/LocaleLinks'
+import { NavMenuLocaleLinks, NavLocaleLinks } from 'src/components/nav/LocaleLinks'
 import { Interests } from 'src/components/Interests'
 import { Links } from 'src/components/Links'
 import { PhotoCard } from 'src/components/PhotoCard'
@@ -28,6 +29,8 @@ import avatarUserImg from 'public/avatar@44px.jpg'
 const lastPublishDate = new Date()
 
 const Home: NextPage = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean | undefined>()
+
   const t = useT()
   const footerLinkProps: LinkProps = {
     target: '_blank',
@@ -79,36 +82,38 @@ const Home: NextPage = () => {
         ]}
       />
 
-      <Navbar isBordered>
+      <Navbar className="py-2" onMenuOpenChange={setIsMenuOpen}>
         <NavbarContent>
-          <User
-            avatarProps={{
-              alt: USERNAME,
-              color: 'secondary',
-              isBordered: true,
-              size: 'lg',
-              src: avatarUserImg.src,
-            }}
-            name={USERNAME}
-            description={t.meta.keywords}
-          />
+          <NavbarBrand>
+            <User
+              avatarProps={{
+                alt: USERNAME,
+                color: 'secondary',
+                isBordered: true,
+                size: 'lg',
+                src: avatarUserImg.src,
+              }}
+              name={USERNAME}
+              description={t.meta.keywords}
+            />
+          </NavbarBrand>
         </NavbarContent>
 
-        <NavLocaleLinks />
-
-        <NavbarContent className="sm:hidden" justify="start">
-          <NavbarMenuToggle />
+        <NavbarContent justify="end">
+          <NavLocaleLinks />
         </NavbarContent>
 
-        <NavCollapseLocaleLinks />
+        <NavbarContent className="sm:hidden" justify="end">
+          <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} />
+        </NavbarContent>
+
+        <NavMenuLocaleLinks />
       </Navbar>
 
-      <div className="flex flex-col max-w-5xl mx-auto">
-        <Spacer />
-
-        <main className="flex flex-row-reverse">
-          <div className="basis-full md:basis-5/12">
-            <div>
+      <div className="flex flex-col max-w-5xl mx-auto gap-4 p-6">
+        <main className="flex flex-col sm:flex-row-reverse gap-4">
+          <div className="basis-full sm:basis-5/12 sm:sticky sm:self-start sm:top-0">
+            <div className="">
               <PhotoCard />
               <Spacer />
               <SupportUkraineCard />
@@ -116,7 +121,7 @@ const Home: NextPage = () => {
                 <SaveLevCard /> */}
             </div>
           </div>
-          <div className="basis-full md:basis-7/12">
+          <div className="basis-full sm:basis-7/12">
             <div>
               <Interests />
               <Spacer />
