@@ -7,7 +7,6 @@ import {
   Navbar,
   NavbarBrand,
   NavbarContent,
-  NavbarItem,
   NavbarMenuToggle,
   Spacer,
   User,
@@ -22,6 +21,7 @@ import { PhotoCard } from 'src/components/PhotoCard'
 // import { SaveLevCard } from 'src/components/SaveLevCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
 import { useT } from 'src/hooks/useT'
+import { useTheme } from 'src/hooks/useTheme'
 
 import avatarImg from 'public/avatar.jpg'
 import avatarUserImg from 'public/avatar@44px.jpg'
@@ -31,6 +31,7 @@ const lastPublishDate = new Date()
 const Home: NextPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean | undefined>()
 
+  const theme = useTheme()
   const t = useT()
   const footerLinkProps: LinkProps = {
     target: '_blank',
@@ -40,7 +41,7 @@ const Home: NextPage = () => {
   const [firstName, lastName] = t.fullName.split(' ')
 
   return (
-    <>
+    <main className={`${theme} text-foreground bg-background`}>
       <NextSeo
         title={USERNAME}
         description={t.meta.description}
@@ -117,9 +118,7 @@ const Home: NextPage = () => {
           </NavbarBrand>
         </NavbarContent>
 
-        <NavbarContent justify="end">
-          <NavLocaleLinks />
-        </NavbarContent>
+        <NavLocaleLinks />
 
         <NavbarContent className="sm:hidden" justify="end">
           <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} />
@@ -129,7 +128,7 @@ const Home: NextPage = () => {
       </Navbar>
 
       <div className="flex flex-col max-w-5xl mx-auto gap-4 p-4">
-        <main className="flex flex-col sm:flex-row-reverse gap-4">
+        <div className="flex flex-col sm:flex-row-reverse gap-4">
           <div className="basis-full sm:basis-5/12 sm:sticky sm:self-start sm:top-0">
             <div className="flex flex-col gap-1">
               <PhotoCard />
@@ -146,7 +145,7 @@ const Home: NextPage = () => {
               <Links />
             </div>
           </div>
-        </main>
+        </div>
 
         <Spacer />
 
@@ -176,7 +175,7 @@ const Home: NextPage = () => {
 
         <Spacer />
       </div>
-    </>
+    </main>
   )
 }
 

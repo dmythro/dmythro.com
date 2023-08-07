@@ -15,8 +15,9 @@ import TravelUk from 'locales/mdx/travel.uk.md'
 import HobbiesEn from 'locales/mdx/hobbies.en.md'
 import HobbiesUk from 'locales/mdx/hobbies.uk.md'
 
-import { useT } from 'src/hooks/useT'
 import { InterestLocale } from 'locales'
+import { useT } from 'src/hooks/useT'
+import { useTheme } from 'src/hooks/useTheme'
 
 const interestLocale: Record<string, Record<string, any>> = {
   webDev: {
@@ -60,6 +61,7 @@ const SectionSubtitle: FC<{ interestKey: string; text: string }> = ({ interestKe
 export const Interests: FC = () => {
   const { locale = 'en' } = useRouter()
   const { interests } = useT()
+  const theme = useTheme()
 
   const interestList = Object.keys(interests)
 
@@ -80,7 +82,11 @@ export const Interests: FC = () => {
             // subtitle={interest.description}
           >
             {LocaleMd ? (
-              <article className="prose">
+              <article
+                className={`prose ${
+                  theme === 'dark' ? 'prose-invert' : ''
+                } text-foreground bg-background`}
+              >
                 <LocaleMd />
               </article>
             ) : (

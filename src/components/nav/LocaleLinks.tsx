@@ -37,7 +37,7 @@ export const NavLocaleLinks: FC = () => {
   const { locale, locales = [] } = useRouter() as { locale: LocaleCode; locales: LocaleCode[] }
 
   return (
-    <NavbarContent className="hidden sm:flex gap-4" justify="center">
+    <NavbarContent className="hidden sm:flex gap-4" justify="end">
       {locales.map((l) => {
         const isActive = l === locale
         const isRoot = l === 'en'
