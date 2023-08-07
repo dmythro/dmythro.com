@@ -57,17 +57,17 @@ export const Links: FC = () => {
   ]
 
   return (
-    <div className="flex flex-col gap-2 px-2">
+    <div className="flex flex-col gap-1 px-2">
       <h2 className="text-foreground text-large">{socialMedia.title}</h2>
       {/* <Text color="secondary">{socialMedia.description}</Text> */}
       <Spacer />
 
-      <div style={{ display: 'flex', maxWidth: '100%', flexWrap: 'wrap', gap: '.5em' }}>
+      <div className="flex flex-wrap w-full gap-2">
         {linkProps.map((props) => (
           <Button
             key={props.href}
             as={Link}
-            auto
+            auto="auto"
             className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
             rel="me"
             role="link"

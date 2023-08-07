@@ -113,7 +113,7 @@ const Home: NextPage = () => {
       <div className="flex flex-col max-w-5xl mx-auto gap-4 p-6">
         <main className="flex flex-col sm:flex-row-reverse gap-4">
           <div className="basis-full sm:basis-5/12 sm:sticky sm:self-start sm:top-0">
-            <div className="">
+            <div className="flex flex-col gap-1">
               <PhotoCard />
               <Spacer />
               <SupportUkraineCard />
