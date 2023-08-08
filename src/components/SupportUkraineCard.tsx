@@ -14,7 +14,7 @@ export const SupportUkraineCard: FC = () => {
 
   return (
     <Card>
-      <CardBody>{supportUkraine.message(daysSinceInvasion)}</CardBody>
+      <CardBody>{supportUkraine.message(daysSinceInvasion + 1)}</CardBody>
       <CardFooter>
         <Link
           isBlock
