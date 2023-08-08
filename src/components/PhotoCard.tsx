@@ -18,19 +18,15 @@ export const PhotoCard: FC = () => {
   const t = useT()
 
   return (
-    <Card as="figure" isFooterBlurred>
-      <CardBody style={{ padding: 0, zIndex: 0 }}>
-        <NextImage sizes={sizes} src={avatarImg1200} alt={t.fullName} />
-      </CardBody>
+    <Card as="figure" className="block relative" isFooterBlurred>
+      <NextImage sizes={sizes} src={avatarImg1200} alt={t.fullName} />
       <CardFooter
         as="figcaption"
-        className=" before:bg-white/10 border-white/20 py-1 absolute before:rounded-xl rounded-large bottom-1 right-1 max-w-fit shadow-small ml-1 z-10"
+        className="before:bg-white/10 py-1 block absolute before:rounded-xl rounded-lg text-tiny text-white/80 bottom-2 right-2 max-w-fit ml-1 z-10"
       >
-        <p className="text-tiny text-white/80">
-          {t.fullName}
-          <br />
-          📷 Alina Delyne
-        </p>
+        {t.fullName}
+        <br />
+        📷 Alina Delyne
       </CardFooter>
     </Card>
   )
