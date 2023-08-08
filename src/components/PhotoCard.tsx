@@ -1,6 +1,6 @@
 import { FC } from 'react'
-
-import { Card, CardFooter, CardBody, Image } from '@nextui-org/react'
+import NextImage from 'next/image'
+import { Card, CardFooter, CardBody } from '@nextui-org/react'
 
 import { useT } from 'src/hooks/useT'
 
@@ -12,7 +12,7 @@ const images = [avatarImg400, avatarImg800, avatarImg1200]
 const sizes = images
   .map((img) => (img.width > 800 ? `${img.width}px` : `(max-width: ${img.width}px) ${img.width}px`))
   .join(', ')
-const srcSet = images.map((img) => `${img.src} ${img.width}w`).join(', ')
+// const srcSet = images.map((img) => `${img.src} ${img.width}w`).join(', ')
 
 export const PhotoCard: FC = () => {
   const t = useT()
@@ -20,7 +20,7 @@ export const PhotoCard: FC = () => {
   return (
     <Card as="figure" isFooterBlurred>
       <CardBody style={{ padding: 0, zIndex: 0 }}>
-        <Image sizes={sizes} srcSet={srcSet} src={avatarImg400.src} alt={t.fullName} />
+        <NextImage sizes={sizes} src={avatarImg1200} alt={t.fullName} />
       </CardBody>
       <CardFooter
         as="figcaption"
