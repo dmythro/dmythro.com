@@ -3,6 +3,7 @@ import { useState } from 'react'
 
 import type { LinkProps } from '@nextui-org/react'
 import {
+  Chip,
   Link,
   Navbar,
   NavbarBrand,
@@ -13,7 +14,7 @@ import {
 } from '@nextui-org/react'
 import { NextSeo, SocialProfileJsonLd } from 'next-seo'
 
-import { BASE_URL, ESocialLinks, USERNAME } from 'src/constants'
+import { BASE_URL, ESocialLinks, USERNAME, isOpenToWork } from 'src/constants'
 import { NavMenuLocaleLinks, NavLocaleLinks } from 'src/components/nav/LocaleLinks'
 import { Interests } from 'src/components/Interests'
 import { Links } from 'src/components/Links'
@@ -21,7 +22,6 @@ import { PhotoCard } from 'src/components/PhotoCard'
 // import { SaveLevCard } from 'src/components/SaveLevCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
 import { useT } from 'src/hooks/useT'
-import { useTheme } from 'src/hooks/useTheme'
 
 import avatarImg from 'public/avatar.jpg'
 import avatarUserImg from 'public/avatar@44px.jpg'
@@ -30,9 +30,8 @@ const lastPublishDate = new Date()
 
 const Home: NextPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean | undefined>()
-
-  const theme = useTheme()
   const t = useT()
+
   const footerLinkProps: LinkProps = {
     target: '_blank',
     rel: 'nofollow',
@@ -41,7 +40,7 @@ const Home: NextPage = () => {
   const [firstName, lastName] = t.fullName.split(' ')
 
   return (
-    <main className={`${theme} text-foreground bg-background`}>
+    <main>
       <NextSeo
         title={USERNAME}
         description={t.meta.description}
@@ -84,6 +83,7 @@ const Home: NextPage = () => {
       />
 
       <Navbar
+        as="div"
         classNames={{
           item: [
             'flex',
@@ -112,7 +112,16 @@ const Home: NextPage = () => {
                 // size: 'lg',
                 src: avatarUserImg.src,
               }}
-              name={USERNAME}
+              name={
+                <>
+                  {USERNAME}{' '}
+                  {isOpenToWork && (
+                    <Chip color="success" size="sm" variant="bordered">
+                      {t.openToWork}
+                    </Chip>
+                  )}
+                </>
+              }
               description={t.meta.keywords}
             />
           </NavbarBrand>
@@ -127,8 +136,8 @@ const Home: NextPage = () => {
         <NavMenuLocaleLinks />
       </Navbar>
 
-      <div className="flex flex-col max-w-5xl mx-auto gap-4 p-4">
-        <div className="flex flex-col sm:flex-row-reverse gap-4">
+      <div className="flex flex-col max-w-5xl mx-auto gap-4 p-4 relative">
+        <div className="flex flex-col sm:flex-row-reverse gap-4 relative">
           <div className="basis-full sm:basis-5/12 sm:sticky sm:self-start sm:top-0">
             <div className="flex flex-col gap-1">
               <PhotoCard />
@@ -149,26 +158,25 @@ const Home: NextPage = () => {
 
         <Spacer />
 
-        <footer
-          style={{
-            display: 'block',
-            textAlign: 'center',
-          }}
-        >
+        <footer className="block text-center text-neutral-500">
           &copy; {lastPublishDate.getFullYear()} &bull;{' '}
-          <Link href="https://github.com/dmythro/dmythro.com">Source</Link> &bull; Powered by{' '}
+          <Link color="foreground" href="https://github.com/dmythro/dmythro.com">
+            Source
+          </Link>{' '}
+          &bull; Powered by{' '}
           <Link
+            color="foreground"
             href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
             {...footerLinkProps}
           >
             Vercel
           </Link>
           ,{' '}
-          <Link href="https://nextjs.org" {...footerLinkProps}>
+          <Link color="foreground" href="https://nextjs.org" {...footerLinkProps}>
             Next.js
           </Link>
           ,{' '}
-          <Link href="https://nextui.org" {...footerLinkProps}>
+          <Link color="foreground" href="https://nextui.org" {...footerLinkProps}>
             NextUI
           </Link>
         </footer>

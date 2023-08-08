@@ -17,7 +17,6 @@ import HobbiesUk from 'locales/mdx/hobbies.uk.md'
 
 import { InterestLocale } from 'locales'
 import { useT } from 'src/hooks/useT'
-import { useTheme } from 'src/hooks/useTheme'
 
 const interestLocale: Record<string, Record<string, any>> = {
   webDev: {
@@ -38,30 +37,9 @@ const interestLocale: Record<string, Record<string, any>> = {
   },
 }
 
-const isLooking = true
-
-const SectionSubtitle: FC<{ interestKey: string; text: string }> = ({ interestKey, text }) => {
-  const { openForWork } = useT()
-
-  if (!isLooking || interestKey !== 'webDev') {
-    return <>{text}</>
-  }
-
-  return (
-    <>
-      <Chip color="success" size="sm" variant="bordered">
-        {openForWork}
-      </Chip>
-      <br />
-      {text}
-    </>
-  )
-}
-
 export const Interests: FC = () => {
   const { locale = 'en' } = useRouter()
   const { interests } = useT()
-  const theme = useTheme()
 
   const interestList = Object.keys(interests)
 
@@ -77,16 +55,13 @@ export const Interests: FC = () => {
         return (
           <AccordionItem
             key={interestKey}
+            aria-label={interest.title}
             title={<h2>{interest.title}</h2>}
-            subtitle={<SectionSubtitle interestKey={interestKey} text={interest.description} />}
-            // subtitle={interest.description}
+            textValue={interest.title}
+            subtitle={interest.description}
           >
             {LocaleMd ? (
-              <article
-                className={`prose ${
-                  theme === 'dark' ? 'prose-invert' : ''
-                } text-foreground bg-background`}
-              >
+              <article className="prose dark:prose-invert">
                 <LocaleMd />
               </article>
             ) : (

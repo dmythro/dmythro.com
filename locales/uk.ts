@@ -35,7 +35,7 @@ export const uk: Translation = {
     keywords: 'Веб-розробка, музика, подорожі',
   },
   interests,
-  openForWork: 'Відкритий для пропозицій',
+  openToWork: 'Відкритий для роботи',
   socialMedia: {
     title: 'Посилання на соціальні мережі',
     description: 'Мій GitHub, LinkedIn та інші профілі у соціальних мережах.',

@@ -20,6 +20,7 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="icon" href="/favicon.ico" />
+          <Script src="/theme.js" strategy="beforeInteractive" />
         </Head>
         <body>
           <Script

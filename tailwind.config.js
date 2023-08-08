@@ -16,6 +16,6 @@ module.exports = {
   theme: {
     extend: {},
   },
-  darkMode: 'class',
+  darkMode: 'media',
   plugins: [require('@tailwindcss/typography'), nextui()],
 }
