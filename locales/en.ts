@@ -41,7 +41,7 @@ export const en = {
     keywords: 'Web Dev, Music, Travel',
   },
   interests,
-  openForWork: 'Open for work',
+  openToWork: 'Open to work',
   socialMedia: {
     title: 'Links & Social Media',
     description: 'Check out my GitHub, LinkedIn or other social media profiles.',

@@ -1,11 +1,21 @@
 import type { NextPage } from 'next'
+import { useState } from 'react'
 
 import type { LinkProps } from '@nextui-org/react'
-import { Container, Grid, Link, Navbar, Spacer, Text, User } from '@nextui-org/react'
+import {
+  Chip,
+  Link,
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarMenuToggle,
+  Spacer,
+  User,
+} from '@nextui-org/react'
 import { NextSeo, SocialProfileJsonLd } from 'next-seo'
 
-import { BASE_URL, ESocialLinks, USERNAME } from 'src/constants'
-import { NavCollapseLocaleLinks, NavLocaleLinks } from 'src/components/nav/LocaleLinks'
+import { BASE_URL, ESocialLinks, USERNAME, isOpenToWork } from 'src/constants'
+import { NavMenuLocaleLinks, NavLocaleLinks } from 'src/components/nav/LocaleLinks'
 import { Interests } from 'src/components/Interests'
 import { Links } from 'src/components/Links'
 import { PhotoCard } from 'src/components/PhotoCard'
@@ -19,7 +29,9 @@ import avatarUserImg from 'public/avatar@44px.jpg'
 const lastPublishDate = new Date()
 
 const Home: NextPage = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean | undefined>()
   const t = useT()
+
   const footerLinkProps: LinkProps = {
     target: '_blank',
     rel: 'nofollow',
@@ -28,7 +40,7 @@ const Home: NextPage = () => {
   const [firstName, lastName] = t.fullName.split(' ')
 
   return (
-    <>
+    <main>
       <NextSeo
         title={USERNAME}
         description={t.meta.description}
@@ -70,78 +82,108 @@ const Home: NextPage = () => {
         ]}
       />
 
-      <Navbar isBordered variant="sticky">
-        <Navbar.Content>
-          <User
-            bordered
-            color="gradient"
-            name={USERNAME}
-            description={t.meta.keywords}
-            size="lg"
-            src={avatarUserImg.src}
-            altText={USERNAME}
-            css={{ padding: 0 }}
-          />
-        </Navbar.Content>
+      <Navbar
+        as="div"
+        classNames={{
+          item: [
+            'flex',
+            'relative',
+            'h-full',
+            'items-center',
+            "data-[active=true]:after:content-['']",
+            'data-[active=true]:after:absolute',
+            'data-[active=true]:after:bottom-0',
+            'data-[active=true]:after:left-0',
+            'data-[active=true]:after:right-0',
+            'data-[active=true]:after:h-[2px]',
+            'data-[active=true]:after:rounded-[2px]',
+            'data-[active=true]:after:bg-primary',
+          ],
+        }}
+        onMenuOpenChange={setIsMenuOpen}
+      >
+        <NavbarContent className="py-2">
+          <NavbarBrand className="py-2">
+            <User
+              avatarProps={{
+                alt: USERNAME,
+                color: 'primary',
+                isBordered: true,
+                // size: 'lg',
+                src: avatarUserImg.src,
+              }}
+              name={
+                <>
+                  {USERNAME}{' '}
+                  {isOpenToWork && (
+                    <Chip color="success" size="sm" variant="bordered">
+                      {t.openToWork}
+                    </Chip>
+                  )}
+                </>
+              }
+              description={t.meta.keywords}
+            />
+          </NavbarBrand>
+        </NavbarContent>
 
         <NavLocaleLinks />
 
-        <Navbar.Toggle showIn="xs" />
-        <NavCollapseLocaleLinks />
+        <NavbarContent className="sm:hidden" justify="end">
+          <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} />
+        </NavbarContent>
+
+        <NavMenuLocaleLinks />
       </Navbar>
 
-      <Container gap={1} sm>
-        <Spacer />
-
-        <main>
-          <Grid.Container css={{ flexDirection: 'row-reverse' }}>
-            <Grid xs={12} sm={5}>
-              <div>
-                <PhotoCard />
-                <Spacer />
-                <SupportUkraineCard />
-                {/* <Spacer />
+      <div className="flex flex-col max-w-5xl mx-auto gap-4 p-4 relative">
+        <div className="flex flex-col sm:flex-row-reverse gap-4 relative">
+          <div className="basis-full sm:basis-5/12 sm:sticky sm:self-start sm:top-0">
+            <div className="flex flex-col gap-1">
+              <PhotoCard />
+              <Spacer />
+              <SupportUkraineCard />
+              {/* <Spacer />
                 <SaveLevCard /> */}
-              </div>
-            </Grid>
-            <Grid xs={12} sm={7}>
-              <div>
-                <Interests />
-                <Spacer />
-                <Links />
-              </div>
-            </Grid>
-          </Grid.Container>
-        </main>
+            </div>
+          </div>
+          <div className="basis-full sm:basis-7/12">
+            <div>
+              <Interests />
+              <Spacer />
+              <Links />
+            </div>
+          </div>
+        </div>
 
         <Spacer />
 
-        <Text
-          as="footer"
-          size="$xs"
-          css={{ display: 'block', textAlign: 'center', a: { color: '$text', display: 'inline' } }}
-        >
+        <footer className="block text-center text-neutral-500">
           &copy; {lastPublishDate.getFullYear()} &bull;{' '}
-          <Link href="https://github.com/dmythro/dmythro.com">Source</Link> &bull; Powered by{' '}
+          <Link color="foreground" href="https://github.com/dmythro/dmythro.com">
+            Source
+          </Link>{' '}
+          &bull; Powered by{' '}
           <Link
+            color="foreground"
             href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
             {...footerLinkProps}
           >
             Vercel
           </Link>
           ,{' '}
-          <Link href="https://nextjs.org" {...footerLinkProps}>
+          <Link color="foreground" href="https://nextjs.org" {...footerLinkProps}>
             Next.js
           </Link>
           ,{' '}
-          <Link href="https://nextui.org" {...footerLinkProps}>
+          <Link color="foreground" href="https://nextui.org" {...footerLinkProps}>
             NextUI
           </Link>
-        </Text>
+        </footer>
 
         <Spacer />
-      </Container>
-    </>
+      </div>
+    </main>
   )
 }
 

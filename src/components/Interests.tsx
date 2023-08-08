@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { useRouter } from 'next/router'
 
-import { Badge, Collapse, Text } from '@nextui-org/react'
+import { Accordion, AccordionItem, Chip } from '@nextui-org/react'
 
 import WebDevEn from 'locales/mdx/web-dev.en.md'
 import WebDevUk from 'locales/mdx/web-dev.uk.md'
@@ -15,8 +15,8 @@ import TravelUk from 'locales/mdx/travel.uk.md'
 import HobbiesEn from 'locales/mdx/hobbies.en.md'
 import HobbiesUk from 'locales/mdx/hobbies.uk.md'
 
-import { useT } from 'src/hooks/useT'
 import { InterestLocale } from 'locales'
+import { useT } from 'src/hooks/useT'
 
 const interestLocale: Record<string, Record<string, any>> = {
   webDev: {
@@ -37,26 +37,6 @@ const interestLocale: Record<string, Record<string, any>> = {
   },
 }
 
-const isLooking = true
-
-const SectionTitle: FC<{ interestKey: string; text: string }> = ({ interestKey, text }) => {
-  const { openForWork } = useT()
-
-  if (!isLooking || interestKey !== 'webDev') {
-    return <>{text}</>
-  }
-
-  return (
-    <>
-      <Badge color="success" variant="bordered">
-        {openForWork}
-      </Badge>
-      <br />
-      {text}
-    </>
-  )
-}
-
 export const Interests: FC = () => {
   const { locale = 'en' } = useRouter()
   const { interests } = useT()
@@ -64,7 +44,7 @@ export const Interests: FC = () => {
   const interestList = Object.keys(interests)
 
   return (
-    <Collapse.Group accordion={false}>
+    <Accordion selectionMode="multiple">
       {interestList.map((interestKey) => {
         const interest = interests[interestKey] as InterestLocale
         const LocaleMd =
@@ -73,16 +53,23 @@ export const Interests: FC = () => {
             : null
 
         return (
-          <Collapse
+          <AccordionItem
             key={interestKey}
-            title={interest.title}
-            subtitle={<SectionTitle interestKey={interestKey} text={interest.description} />}
-            // subtitle={interest.description}
+            aria-label={interest.title}
+            title={<h2>{interest.title}</h2>}
+            textValue={interest.title}
+            subtitle={interest.description}
           >
-            {LocaleMd ? <LocaleMd /> : <Text em>TBD</Text>}
-          </Collapse>
+            {LocaleMd ? (
+              <article className="prose dark:prose-invert">
+                <LocaleMd />
+              </article>
+            ) : (
+              <em>TBD</em>
+            )}
+          </AccordionItem>
         )
       })}
-    </Collapse.Group>
+    </Accordion>
   )
 }

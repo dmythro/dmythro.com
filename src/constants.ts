@@ -15,3 +15,5 @@ export enum ESocialLinks {
   threads = 'https://www.threads.net/@dmythro',
   twitter = 'https://twitter.com/dmythro',
 }
+
+export const isOpenToWork = true
