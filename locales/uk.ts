@@ -1,4 +1,4 @@
-import { USERNAME } from 'src/constants'
+import { ESocialLinks, USERNAME } from 'src/constants'
 import type { InterestLocale, Translation } from '.'
 
 const interests: Record<string, InterestLocale> = {
@@ -34,11 +34,22 @@ export const uk: Translation = {
     description: `Мене звати Дмитро (${USERNAME}) і мене цікавлять технології, веб розробка, музика, подорожі, космос та багато іншого.`,
     keywords: 'Веб-розробка, музика, подорожі',
   },
+  actions: {
+    closeMenu: 'Закрити меню',
+    openMenu: 'Відкрити меню',
+  },
+  builtWith: 'Розроблено з',
   interests,
-  openToWork: 'Відкритий для роботи',
+  openToWork: 'Шукаю проект',
   socialMedia: {
     title: 'Посилання на соціальні мережі',
     description: 'Мій GitHub, LinkedIn та інші профілі у соціальних мережах.',
+    generatedFromLinkedIn: 'PDF, згенеровано з LinkedIn',
+    personal: 'Особисті профілі',
+    work: 'Моя робота',
+    [ESocialLinks.github]: 'Мої опен-сорс проекти та активність',
+    [ESocialLinks.linkedin]: 'Єдиний актуальний профіль',
+    [ESocialLinks.telegram]: 'Прямий контакт',
   },
   saveLev: {
     message:

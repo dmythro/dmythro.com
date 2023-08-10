@@ -1,40 +1,34 @@
 import type { NextPage } from 'next'
-import { useState } from 'react'
 
-import type { LinkProps } from '@nextui-org/react'
-import {
-  Chip,
-  Link,
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarMenuToggle,
-  Spacer,
-  User,
-} from '@nextui-org/react'
+import type { ButtonProps, LinkProps } from '@nextui-org/react'
+import { Button, Link, Popover, PopoverContent, PopoverTrigger, Spacer } from '@nextui-org/react'
 import { NextSeo, SocialProfileJsonLd } from 'next-seo'
 
 import { BASE_URL, ESocialLinks, USERNAME, isOpenToWork } from 'src/constants'
-import { NavMenuLocaleLinks, NavLocaleLinks } from 'src/components/nav/LocaleLinks'
+
 import { Interests } from 'src/components/Interests'
 import { Links } from 'src/components/Links'
 import { PhotoCard } from 'src/components/PhotoCard'
 // import { SaveLevCard } from 'src/components/SaveLevCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
+import { TopNavbar } from 'src/components/nav/TopNavbar'
 import { useT } from 'src/hooks/useT'
 
 import avatarImg from 'public/avatar.jpg'
-import avatarUserImg from 'public/avatar@44px.jpg'
+import GitHubIcon from 'src/assets/github.svg'
+import CodeIcon from 'src/assets/code-solid.svg'
 
 const lastPublishDate = new Date()
 
 const Home: NextPage = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean | undefined>()
   const t = useT()
 
-  const footerLinkProps: LinkProps = {
-    target: '_blank',
-    rel: 'nofollow',
+  const footerLinkProps: ButtonProps & LinkProps = {
+    className: 'flex grow',
+    isExternal: true,
+    showAnchorIcon: true,
+    underline: 'hover',
+    variant: 'ghost',
   }
 
   const [firstName, lastName] = t.fullName.split(' ')
@@ -82,59 +76,7 @@ const Home: NextPage = () => {
         ]}
       />
 
-      <Navbar
-        as="div"
-        classNames={{
-          item: [
-            'flex',
-            'relative',
-            'h-full',
-            'items-center',
-            "data-[active=true]:after:content-['']",
-            'data-[active=true]:after:absolute',
-            'data-[active=true]:after:bottom-0',
-            'data-[active=true]:after:left-0',
-            'data-[active=true]:after:right-0',
-            'data-[active=true]:after:h-[2px]',
-            'data-[active=true]:after:rounded-[2px]',
-            'data-[active=true]:after:bg-primary',
-          ],
-        }}
-        onMenuOpenChange={setIsMenuOpen}
-      >
-        <NavbarContent className="py-2">
-          <NavbarBrand className="py-2">
-            <User
-              avatarProps={{
-                alt: USERNAME,
-                color: 'primary',
-                isBordered: true,
-                // size: 'lg',
-                src: avatarUserImg.src,
-              }}
-              name={
-                <>
-                  {USERNAME}{' '}
-                  {isOpenToWork && (
-                    <Chip color="success" size="sm" variant="bordered">
-                      {t.openToWork}
-                    </Chip>
-                  )}
-                </>
-              }
-              description={t.meta.keywords}
-            />
-          </NavbarBrand>
-        </NavbarContent>
-
-        <NavLocaleLinks />
-
-        <NavbarContent className="sm:hidden" justify="end">
-          <NavbarMenuToggle aria-label={isMenuOpen ? 'Close menu' : 'Open menu'} />
-        </NavbarContent>
-
-        <NavMenuLocaleLinks />
-      </Navbar>
+      <TopNavbar />
 
       <div className="flex flex-col max-w-5xl mx-auto gap-4 p-4 relative">
         <div className="flex flex-col sm:flex-row-reverse gap-4 relative">
@@ -160,25 +102,55 @@ const Home: NextPage = () => {
 
         <footer className="block text-center text-neutral-500">
           &copy; {lastPublishDate.getFullYear()} &bull;{' '}
-          <Link color="foreground" href="https://github.com/dmythro/dmythro.com">
-            Source
-          </Link>{' '}
-          &bull; Powered by{' '}
           <Link
             color="foreground"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            {...footerLinkProps}
+            href="https://github.com/dmythro/dmythro.com"
+            anchorIcon={<GitHubIcon className="fill-foreground ml-1.5" width={16} height={16} />}
+            showAnchorIcon
+            underline="hover"
           >
-            Vercel
-          </Link>
-          ,{' '}
-          <Link color="foreground" href="https://nextjs.org" {...footerLinkProps}>
-            Next.js
-          </Link>
-          ,{' '}
-          <Link color="foreground" href="https://nextui.org" {...footerLinkProps}>
-            NextUI
-          </Link>
+            Source
+          </Link>{' '}
+          &bull;{' '}
+          <Popover showArrow offset={10} placement="top" backdrop="blur">
+            <PopoverTrigger>
+              <Link
+                anchorIcon={<CodeIcon className="fill-foreground ml-1.5" width={16} height={16} />}
+                className="cursor-pointer"
+                color="foreground"
+                showAnchorIcon
+                underline="hover"
+              >
+                {t.builtWith}
+              </Link>
+            </PopoverTrigger>
+
+            <PopoverContent className="w-[240px] p-4">
+              <h3 className="text-large">{t.builtWith}</h3>
+
+              <div className="flex flex-wrap w-fit gap-2 py-1">
+                <Button
+                  as={Link}
+                  href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+                  {...footerLinkProps}
+                >
+                  Vercel
+                </Button>
+                <Button as={Link} href="https://nextjs.org" {...footerLinkProps}>
+                  Next.js
+                </Button>
+                <Button as={Link} href="https://nextui.org" {...footerLinkProps}>
+                  NextUI
+                </Button>
+                <Button as={Link} href="https://tailwindcss.com" {...footerLinkProps}>
+                  Tailwind CSS
+                </Button>
+                <Button as={Link} href="https://fontawesome.com" {...footerLinkProps}>
+                  Font Awesome
+                </Button>
+              </div>
+            </PopoverContent>
+          </Popover>
         </footer>
 
         <Spacer />
