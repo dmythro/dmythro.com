@@ -1,9 +1,18 @@
 import { FC } from 'react'
 import { useRouter } from 'next/router'
 
-import { Link, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem } from '@nextui-org/react'
+import {
+  DropdownMenu,
+  DropdownItem,
+  Link,
+  NavbarContent,
+  NavbarItem,
+  NavbarMenu,
+  NavbarMenuItem,
+} from '@nextui-org/react'
 
 import type { LocaleCode } from 'locales'
+import CheckIcon from 'src/assets/check-solid.svg'
 import { ELocaleNames } from 'src/constants'
 
 export const NavMenuLocaleLinks: FC = () => {
@@ -30,6 +39,39 @@ export const NavMenuLocaleLinks: FC = () => {
         )
       })}
     </NavbarMenu>
+  )
+}
+
+export const MenuLocaleLinks: FC = () => {
+  const { locale, locales = [] } = useRouter() as { locale: LocaleCode; locales: LocaleCode[] }
+
+  return (
+    <DropdownMenu aria-label="Locale list">
+      {locales.map((l) => {
+        const isActive = l === locale
+        const isRoot = l === 'en'
+
+        return (
+          <DropdownItem
+            as={Link}
+            id={`menu-locale-a-${l}`}
+            key={l}
+            className="text-foreground"
+            color={isActive ? 'default' : 'primary'}
+            // @ts-ignore
+            href={`/${isRoot ? '' : l}`}
+            hrefLang={l}
+            rel="me"
+            role="link"
+            endContent={
+              isActive ? <CheckIcon className="fill-foreground" width={16} height={16} /> : null
+            }
+          >
+            {ELocaleNames[l]}
+          </DropdownItem>
+        )
+      })}
+    </DropdownMenu>
   )
 }
 

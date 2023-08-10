@@ -1,4 +1,4 @@
-import { USERNAME } from 'src/constants'
+import { ESocialLinks, USERNAME } from 'src/constants'
 
 export interface InterestLocale {
   title: string
@@ -40,11 +40,22 @@ export const en = {
     description: `My name is Dmytro (${USERNAME}) and I love tech, web development, music, traveling, space and many more.`,
     keywords: 'Web Dev, Music, Travel',
   },
+  actions: {
+    closeMenu: 'Close menu',
+    openMenu: 'Open menu',
+  },
+  builtWith: 'Built with',
   interests,
   openToWork: 'Open to work',
   socialMedia: {
     title: 'Links & Social Media',
     description: 'Check out my GitHub, LinkedIn or other social media profiles.',
+    generatedFromLinkedIn: 'PDF, generated via LinkedIn',
+    personal: 'Personal Links',
+    work: 'My Work',
+    [ESocialLinks.github]: 'My open-source projects & activity',
+    [ESocialLinks.linkedin]: 'The only up-to-date profile',
+    [ESocialLinks.telegram]: 'Direct contact',
   },
   saveLev: {
     message:
