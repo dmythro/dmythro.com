@@ -64,7 +64,7 @@ export const TopNavbar: FC = () => {
         <Dropdown backdrop="blur" placement="bottom-start">
           <DropdownTrigger className="user">
             <User
-              className="transition-transform hover:shadow"
+              className="transition-transform hover:shadow dark:hover:outline-white/10 dark:hover:outline-1"
               as="button"
               avatarProps={{
                 alt: USERNAME,
@@ -174,7 +174,7 @@ export const TopNavbar: FC = () => {
         <Dropdown backdrop="blur" className="self-center" placement="bottom-end">
           <DropdownTrigger>
             <Button
-              className="-mr-2 px-2 hover:shadow !bg-transparent"
+              className="-mr-2 px-2 hover:shadow !bg-transparent dark:hover:outline-white/10 dark:hover:outline-1"
               endContent={<EarthEuropeIcon className="fill-foreground" width={32} height={32} />}
               variant="light"
             >
