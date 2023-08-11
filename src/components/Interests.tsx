@@ -44,7 +44,7 @@ export const Interests: FC = () => {
   const interestList = Object.keys(interests)
 
   return (
-    <Accordion selectionMode="multiple">
+    <Accordion keepContentMounted selectionMode="multiple">
       {interestList.map((interestKey) => {
         const interest = interests[interestKey] as InterestLocale
         const LocaleMd =
