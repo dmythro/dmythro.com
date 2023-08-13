@@ -60,13 +60,13 @@ export const TopNavbar: FC = () => {
     >
       <NavbarContent as="div" className="py-2">
         <Dropdown placement="bottom-start">
-          <DropdownTrigger className="user">
+          <DropdownTrigger className="group">
             <User
               className="transition-transform hover:shadow relative dark:hover:outline-white/10 dark:hover:outline-1"
               as="button"
               avatarProps={{
                 alt: USERNAME,
-                className: 'user:outline-focus:ring-0',
+                className: 'group-data-[focus-visible=true]:ring-0',
                 color: 'primary',
                 isBordered: true,
                 src: avatarUserImg.src,

@@ -129,9 +129,9 @@ const Home: NextPage = () => {
             </PopoverTrigger>
 
             <PopoverContent className="w-[240px] p-4">
-              <h3 className="text-large">{t.builtWith}</h3>
+              <h3 className="text-large mb-4">{t.builtWith}</h3>
 
-              <div className="flex flex-wrap w-fit gap-2 py-1">
+              <div className="flex flex-wrap w-fit gap-2 mb-2">
                 <Button
                   as={Link}
                   href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
