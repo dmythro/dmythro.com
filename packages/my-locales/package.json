@@ -1,0 +1,27 @@
+{
+  "name": "my-locales",
+  "version": "0.1.0",
+  "private": true,
+  "types": "./dist/index.d.mjs",
+  "exports": {
+    ".": "./dist",
+    "./mdx/*": "./mdx/*"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "tsup src/index.ts",
+    "dev": "tsup src/index.ts --watch",
+    "check-types": "tsc --noEmit"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "my-constants": "*"
+  },
+  "devDependencies": {
+    "tsconfig": "*",
+    "tsup": "7.2.0",
+    "typescript": "5.1.6"
+  }
+}
