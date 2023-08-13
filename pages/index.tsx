@@ -112,7 +112,7 @@ const Home: NextPage = () => {
             Source
           </Link>{' '}
           &bull;{' '}
-          <Popover showArrow offset={10} placement="top" backdrop="blur">
+          <Popover showArrow offset={10} placement="top">
             <PopoverTrigger>
               <Link
                 anchorIcon={<CodeIcon className="fill-foreground ml-1.5" width={16} height={16} />}

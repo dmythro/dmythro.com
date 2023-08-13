@@ -61,10 +61,10 @@ export const TopNavbar: FC = () => {
       onMenuOpenChange={setIsMenuOpen}
     >
       <NavbarContent as="div" className="py-2">
-        <Dropdown backdrop="blur" placement="bottom-start">
+        <Dropdown placement="bottom-start">
           <DropdownTrigger className="user">
             <User
-              className="transition-transform hover:shadow dark:hover:outline-white/10 dark:hover:outline-1"
+              className="transition-transform hover:shadow relative dark:hover:outline-white/10 dark:hover:outline-1"
               as="button"
               avatarProps={{
                 alt: USERNAME,
@@ -171,7 +171,7 @@ export const TopNavbar: FC = () => {
         justify="end"
         className="hidden sm:flex sm: flex-grow-0 justify-end justify-items-end"
       >
-        <Dropdown backdrop="blur" className="self-center" placement="bottom-end">
+        <Dropdown className="self-center" placement="bottom-end">
           <DropdownTrigger>
             <Button
               className="-mr-2 px-2 hover:shadow !bg-transparent dark:hover:outline-white/10 dark:hover:outline-1"
