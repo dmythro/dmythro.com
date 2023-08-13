@@ -72,7 +72,7 @@ Embedded devices software development: web applications, services and database s
 
 #### **Middle** → **Senior .NET Developer**
 
-##### **Tikle** / **lifecell**, UA (Jan ’09 — Feb ’10)
+##### **Tikle** / **lifecell**, UA (Jun ’07 — Jan ’09)
 
 Architecture, internal services, web UI services, websites, applications and database schema for **mobile operator** using ASP.NET, C#, MSSQL, SOAP/XML. Partner services integration (bulk SMS services etc).
 
