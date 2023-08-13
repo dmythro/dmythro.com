@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import NextImage from 'next/image'
-import { Card, CardFooter, CardBody } from '@nextui-org/react'
+import { Card, CardFooter } from '@nextui-org/card'
 
 import { useT } from 'src/hooks/useT'
 

@@ -1,7 +1,8 @@
 import { FC } from 'react'
 import dayjs from 'dayjs'
 
-import { Card, CardBody, CardFooter, Link } from '@nextui-org/react'
+import { Card, CardBody, CardFooter } from '@nextui-org/card'
+import { Link } from '@nextui-org/link'
 
 import { useT } from 'src/hooks/useT'
 

@@ -1,15 +1,9 @@
 import { FC } from 'react'
 import { useRouter } from 'next/router'
 
-import {
-  DropdownMenu,
-  DropdownItem,
-  Link,
-  NavbarContent,
-  NavbarItem,
-  NavbarMenu,
-  NavbarMenuItem,
-} from '@nextui-org/react'
+import { DropdownMenu, DropdownItem } from '@nextui-org/dropdown'
+import { NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem } from '@nextui-org/navbar'
+import { Link } from '@nextui-org/link'
 
 import type { LocaleCode } from 'locales'
 import CheckIcon from 'src/assets/check-solid.svg'

@@ -1,7 +1,10 @@
 import type { NextPage } from 'next'
 
-import type { ButtonProps, LinkProps } from '@nextui-org/react'
-import { Button, Link, Popover, PopoverContent, PopoverTrigger, Spacer } from '@nextui-org/react'
+import { Button, ButtonProps } from '@nextui-org/button'
+import { Link, LinkProps } from '@nextui-org/link'
+import { Spacer } from '@nextui-org/spacer'
+import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/popover'
+
 import { NextSeo, SocialProfileJsonLd } from 'next-seo'
 
 import { BASE_URL, ESocialLinks, USERNAME, isOpenToWork } from 'src/constants'

@@ -1,20 +1,18 @@
 import { FC, useState } from 'react'
 import { useRouter } from 'next/router'
 
+import { Button } from '@nextui-org/button'
+import { Chip } from '@nextui-org/chip'
 import {
-  Button,
-  Chip,
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
   DropdownSection,
-  Link,
-  Navbar,
-  NavbarContent,
-  NavbarMenuToggle,
-  User,
-} from '@nextui-org/react'
+} from '@nextui-org/dropdown'
+import { Link } from '@nextui-org/link'
+import { Navbar, NavbarContent, NavbarMenuToggle } from '@nextui-org/navbar'
+import { User } from '@nextui-org/user'
 
 import EarthEuropeIcon from 'src/assets/earth-europe-solid.svg'
 import { MenuLocaleLinks, NavMenuLocaleLinks } from 'src/components/nav/LocaleLinks'

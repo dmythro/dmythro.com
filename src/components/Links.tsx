@@ -1,7 +1,8 @@
 import { FC } from 'react'
 
-import { Button, Link, Spacer } from '@nextui-org/react'
-import type { ButtonProps } from '@nextui-org/react'
+import { Button, ButtonProps } from '@nextui-org/button'
+import { Link } from '@nextui-org/link'
+import { Spacer } from '@nextui-org/spacer'
 
 import { ESocialLinks } from 'src/constants'
 import { useT } from 'src/hooks/useT'

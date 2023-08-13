@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react'
 import type { AppProps } from 'next/app'
-import { NextUIProvider } from '@nextui-org/react'
+import { NextUIProvider } from '@nextui-org/system'
 import { Analytics } from '@vercel/analytics/react'
 
 import type { IntlMessages } from 'src/global'

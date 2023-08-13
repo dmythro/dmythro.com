@@ -1,17 +1,24 @@
-const { nextui } = require('@nextui-org/react')
+const { nextui } = require('@nextui-org/theme')
+
+import pkg from './package.json'
+
+const nextuiPrefix = '@nextui-org/'
+const componentsInUse = Object.keys(pkg.dependencies)
+  .filter((c) => c.startsWith(nextuiPrefix) && c.search(/(theme|system)/) === -1)
+  .map((c) => c.replace(nextuiPrefix, ''))
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/{,**/}*.{ts,jsx,tsx,mdx}',
+    './pages/{,**/}*.{ts,jsx,tsx,mdx}',
+    './components/{,**/}*.{ts,jsx,tsx,mdx}',
 
     // If using `src` directory:
-    './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/**/*.{ts,jsx,tsx,mdx}',
 
-    // NextUI:
-    './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
+    // NextUI individual installation:
+    `./node_modules/@nextui-org/theme/dist/components/(${componentsInUse.join('|')}).js`,
   ],
   theme: {
     extend: {},

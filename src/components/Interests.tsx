@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { useRouter } from 'next/router'
 
-import { Accordion, AccordionItem, Chip } from '@nextui-org/react'
+import { Accordion, AccordionItem } from '@nextui-org/accordion'
 
 import WebDevEn from 'locales/mdx/web-dev.en.md'
 import WebDevUk from 'locales/mdx/web-dev.uk.md'
