@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: WithParams) {
     openGraph: {
       images: [
         {
-          url: BASE_URL + '/avatar.jpg',
+          url: BASE_URL + '/avatar@og.jpg',
           width: avatarImg.width,
           height: avatarImg.height,
           alt: USERNAME,
