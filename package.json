@@ -15,7 +15,7 @@
     "prettier-plugin-tailwindcss": "0.5.2",
     "turbo": "latest"
   },
-  "packageManager": "npm@9.5.1",
+  "packageManager": "npm@9.6.7",
   "workspaces": [
     "apps/*",
     "packages/*"

@@ -1,5 +1,6 @@
+'use client'
+
 import { FC, useState } from 'react'
-import { useRouter } from 'next/router'
 
 import { Button } from '@nextui-org/button'
 import { Chip } from '@nextui-org/chip'
@@ -18,17 +19,17 @@ import EarthEuropeIcon from 'src/assets/earth-europe-solid.svg'
 import { MenuLocaleLinks, NavMenuLocaleLinks } from 'src/components/nav/LocaleLinks'
 import { ELocaleNames, USERNAME, isOpenToWork } from 'my-constants'
 import { SOCIAL_LINKS_WORK, SOCIAL_LINKS } from 'src/constants'
-import { useT } from 'src/hooks/useT'
+import { useLang, useT } from 'src/hooks/useT'
 
 import avatarUserImg from 'public/avatar@44px.jpg'
 import PdfFileIcon from 'src/assets/file-pdf-solid.svg'
 
 export const TopNavbar: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean | undefined>()
-  const router = useRouter()
+  const locale = useLang()
   const t = useT()
   // @ts-ignore
-  const localeName = ELocaleNames[router.locale]
+  const localeName = ELocaleNames[locale]
 
   return (
     <Navbar

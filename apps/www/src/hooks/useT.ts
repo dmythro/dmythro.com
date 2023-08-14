@@ -1,8 +1,16 @@
-import { useContext } from 'react'
-import type { Translation } from 'my-locales'
-import { LocaleContext } from 'pages/_app'
+'use client'
 
-export const useT = (): Translation => {
-  const { messages } = useContext(LocaleContext)
-  return messages
+import { useParams } from 'next/navigation'
+
+import type { LocaleCode } from 'my-locales'
+import * as locales from 'my-locales'
+
+export const useLang = () => {
+  const { lang } = useParams() as { lang: LocaleCode }
+  return lang || 'en'
+}
+
+export const useT = () => {
+  const lang = useLang()
+  return locales[lang]
 }

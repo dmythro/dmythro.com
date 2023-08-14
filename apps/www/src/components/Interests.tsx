@@ -1,5 +1,6 @@
+'use client'
+
 import { FC } from 'react'
-import { useRouter } from 'next/router'
 
 import { Accordion, AccordionItem } from '@nextui-org/accordion'
 
@@ -15,8 +16,8 @@ import TravelUk from 'my-locales/mdx/travel.uk.md'
 import HobbiesEn from 'my-locales/mdx/hobbies.en.md'
 import HobbiesUk from 'my-locales/mdx/hobbies.uk.md'
 
-import { InterestLocale } from 'my-locales'
-import { useT } from 'src/hooks/useT'
+import type { InterestLocale, LocaleCode } from 'my-locales'
+import { useLang, useT } from 'src/hooks/useT'
 
 const interestLocale: Record<string, Record<string, any>> = {
   webDev: {
@@ -38,7 +39,7 @@ const interestLocale: Record<string, Record<string, any>> = {
 }
 
 export const Interests: FC = () => {
-  const { locale = 'en' } = useRouter()
+  const locale = useLang()
   const { interests } = useT()
 
   const interestList = Object.keys(interests)

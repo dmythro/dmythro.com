@@ -1,3 +1,5 @@
+'use client'
+
 import { FC } from 'react'
 import NextImage from 'next/image'
 import { Card, CardFooter } from '@nextui-org/card'

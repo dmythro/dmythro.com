@@ -1,3 +1,5 @@
+'use client'
+
 import { FC } from 'react'
 
 import { Button, ButtonProps } from '@nextui-org/button'
@@ -5,6 +7,7 @@ import { Link } from '@nextui-org/link'
 import { Spacer } from '@nextui-org/spacer'
 
 import { ESocialLinks } from 'my-constants'
+
 import { useT } from 'src/hooks/useT'
 
 import FacebookIcon from 'src/assets/facebook-f.svg'

@@ -2,12 +2,10 @@ import { FC } from 'react'
 
 import { Card, CardBody } from '@nextui-org/card'
 import { Link } from '@nextui-org/link'
-import { useRouter } from 'next/router'
-
-import { useT } from 'src/hooks/useT'
+import { useLang, useT } from 'src/hooks/useT'
 
 export const SaveLevCard: FC = () => {
-  const { locale } = useRouter()
+  const locale = useLang()
   const { saveLev } = useT()
 
   return (
