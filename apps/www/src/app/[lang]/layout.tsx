@@ -1,14 +1,12 @@
-/* eslint-disable @next/next/no-before-interactive-script-outside-document */
-
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import Script from 'next/script'
 
 import type { LocaleCode } from 'my-locales'
 
 import { Providers } from './providers'
 
 import 'src/styles/global.css'
+import { initTheme } from 'src/theme'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -32,7 +30,9 @@ export default function RootLayout({
     <html lang={params.lang}>
       <head>
         <link rel="icon" href="/favicon.ico" />
-        <Script src="/theme.js" strategy="beforeInteractive" />
+        <script
+          dangerouslySetInnerHTML={{ __html: `(${initTheme.toString().replace(/\s+/g, ' ')})()` }}
+        />
       </head>
       <body className={inter.className}>
         <Providers>{children}</Providers>
