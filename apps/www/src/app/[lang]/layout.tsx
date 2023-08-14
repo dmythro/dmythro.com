@@ -26,11 +26,12 @@ export async function generateMetadata({ params }: WithParams) {
   const t = locales[params.lang]
 
   const [firstName, lastName] = t.fullName.split(' ')
+  const { description, keywords } = t.meta
 
   const meta: Metadata = {
     title: USERNAME,
-    description: t.meta.description,
-    keywords: t.meta.keywords,
+    description,
+    keywords,
     manifest: '/manifest.webmanifest',
     icons: [
       { url: '/favicon.ico' },
@@ -44,6 +45,8 @@ export async function generateMetadata({ params }: WithParams) {
       },
     ],
     openGraph: {
+      title: USERNAME,
+      description,
       images: [
         {
           url: BASE_URL + '/avatar@og.jpg',

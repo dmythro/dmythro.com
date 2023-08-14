@@ -1,5 +1,5 @@
-import { ESocialLinks, USERNAME } from 'my-constants'
-import type { InterestLocale, Translation } from '.'
+import { ESocialLinks } from 'my-constants'
+import type { InterestLocale, Translation } from './index'
 
 const interests: Record<string, InterestLocale> = {
   webDev: {
@@ -31,7 +31,7 @@ export const uk: Translation = {
   fullName: 'Дмитро Клименко',
   name: 'Дмитро',
   meta: {
-    description: `Мене звати Дмитро (${USERNAME}) і мене цікавлять технології, веб розробка, музика, подорожі, космос та багато іншого.`,
+    description: `Мене звати Дмитро. Цікавлюсь технологіями, веб розробкою, музикою, подорожами, космосом та іншим.`,
     keywords: 'Веб-розробка, музика, подорожі',
   },
   actions: {
