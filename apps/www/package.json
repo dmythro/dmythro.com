@@ -34,13 +34,14 @@
     "next": "13.4.13",
     "next-seo": "6.1.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "schema-dts": "1.1.2"
   },
   "devDependencies": {
     "@svgr/webpack": "8.0.1",
     "@tailwindcss/typography": "0.5.9",
-    "@types/negotiator": "0.6.1",
     "@types/mdx": "2.0.6",
+    "@types/negotiator": "0.6.1",
     "@types/node": "~20.4.10",
     "@types/react": "~18.2.20",
     "@types/react-dom": "~18.2.7",
