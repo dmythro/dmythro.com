@@ -1,5 +1,60 @@
 import { useEffect, useState } from 'react'
-import { Theme, detectTheme, detectAndWatchTheme } from 'src/theme'
+import { Theme, defaultTheme, themeAttrName } from 'src/theme'
+
+const getSelectedTheme = (): Theme | false =>
+  (window.localStorage.getItem(themeAttrName) as Theme) || false
+
+const getCurrentTheme = (): Theme => getSelectedTheme() || detectTheme()
+
+const applyTheme = (theme: Theme, isStorage = false) => {
+  window.document.firstElementChild?.setAttribute(themeAttrName, theme)
+
+  const classList = window.document.querySelector('main')?.classList
+  if (!classList?.contains(theme)) {
+    classList?.add(theme)
+    classList?.remove(theme === 'dark' ? 'light' : 'dark')
+  }
+
+  if (isStorage) {
+    window.localStorage.setItem(themeAttrName, theme)
+  }
+}
+
+const detectTheme = (): Theme => {
+  'use client'
+
+  if (typeof window === 'undefined') {
+    return defaultTheme
+  }
+
+  const matchDarkTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)')
+
+  if (matchDarkTheme) {
+    return matchDarkTheme.matches ? 'dark' : 'light'
+  }
+
+  return defaultTheme
+}
+
+const detectAndWatchTheme = (onChange?: (theme: Theme) => void, isStorage = false): void => {
+  'use client'
+
+  const selectedTheme = getSelectedTheme()
+
+  // Watch for changes if there's no manually selected theme
+  if (!selectedTheme) {
+    window.matchMedia &&
+      window
+        .matchMedia('(prefers-color-scheme: dark)')
+        .addEventListener('change', ({ matches }) => {
+          const nextTheme: Theme = matches ? 'dark' : 'light'
+          applyTheme(nextTheme, isStorage)
+          onChange && onChange(nextTheme)
+        })
+  }
+
+  applyTheme(getCurrentTheme(), isStorage)
+}
 
 export const useTheme = (): Theme => {
   'use client'

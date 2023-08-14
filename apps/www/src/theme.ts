@@ -1,3 +1,8 @@
+export type Theme = 'dark' | 'light'
+
+export const defaultTheme: Theme = 'light'
+export const themeAttrName = 'data-theme'
+
 export function initTheme() {
   if (!window.matchMedia) {
     return
