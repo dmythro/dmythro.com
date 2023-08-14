@@ -25,6 +25,18 @@ export async function generateMetadata({ params }: WithParams) {
     title: USERNAME,
     description: t.meta.description,
     keywords: t.meta.keywords,
+    manifest: '/manifest.webmanifest',
+    icons: [
+      { url: '/favicon.ico' },
+      { type: 'image/png', sizes: '32x32', url: '/favicon-32x32.png' },
+      { type: 'image/png', sizes: '16x16', url: '/favicon-16x16.png' },
+      {
+        type: 'image/png',
+        sizes: '180x180',
+        url: '/apple-touch-icon.png',
+        rel: 'apple-touch-icon',
+      },
+    ],
   }
 
   return meta
@@ -56,11 +68,6 @@ export default function RootLayout({
   return (
     <html lang={params.lang}>
       <head>
-        <link rel="manifest" href="/manifest.webmanifest" />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <script
           dangerouslySetInnerHTML={{ __html: `(${initTheme.toString().replace(/\s+/g, ' ')})()` }}
         />
