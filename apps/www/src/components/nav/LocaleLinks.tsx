@@ -19,14 +19,13 @@ export const NavMenuLocaleLinks: FC = () => {
     <NavbarMenu className="py-8">
       {availableLocales.map((l) => {
         const isActive = l === locale
-        const isRoot = l === 'en'
 
         return (
           <NavbarMenuItem id={`nav-collapse-locale-li-${l}`} key={l}>
             <Link
               color={isActive ? 'primary' : 'foreground'}
               id={`nav-collapse-locale-a-${l}`}
-              href={`/${isRoot ? '' : l}`}
+              href={`/${l}`}
               hrefLang={l}
               isBlock
             >
@@ -46,7 +45,6 @@ export const MenuLocaleLinks: FC = () => {
     <DropdownMenu aria-label="Locale list">
       {availableLocales.map((l) => {
         const isActive = l === locale
-        const isRoot = l === 'en'
 
         return (
           <DropdownItem
@@ -56,7 +54,7 @@ export const MenuLocaleLinks: FC = () => {
             className="text-foreground"
             color={isActive ? 'default' : 'primary'}
             // @ts-ignore
-            href={`/${isRoot ? '' : l}`}
+            href={`/${l}`}
             hrefLang={l}
             rel="me"
             role="link"
@@ -79,11 +77,10 @@ export const NavLocaleLinks: FC = () => {
     <NavbarContent className="hidden sm:flex gap-4" justify="end">
       {availableLocales.map((l) => {
         const isActive = l === locale
-        const isRoot = l === 'en'
 
         return (
           <NavbarItem key={l} isActive={isActive}>
-            <Link id={`nav-locale-a-${l}`} href={`/${isRoot ? '' : l}`} hrefLang={l} isBlock>
+            <Link id={`nav-locale-a-${l}`} href={`/${l}`} hrefLang={l} isBlock>
               {ELocaleNames[l]}
             </Link>
           </NavbarItem>
