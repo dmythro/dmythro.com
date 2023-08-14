@@ -11,7 +11,7 @@ import { initTheme } from 'src/theme'
 import { Providers } from './providers'
 import type { WithParams } from './types'
 
-import avatarImg from 'public/avatar.jpg'
+import avatarImg from 'public/avatar@og.jpg'
 
 import 'src/styles/global.css'
 
