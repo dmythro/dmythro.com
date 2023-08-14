@@ -1,24 +1,18 @@
-const withMDX = require('@next/mdx')({
-  extension: /\.mdx?$/,
-  options: {
-    remarkPlugins: [],
-    rehypePlugins: [],
-    // If you use `MDXProvider`, uncomment the following line.
-    // providerImportSource: "@mdx-js/react",
-  },
-})
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  i18n: {
-    defaultLocale: 'en',
-    locales: ['en', 'uk'],
+  experimental: {
+    mdxRs: true,
   },
+  pageExtensions: ['ts', 'tsx', 'mdx'],
   reactStrictMode: true,
   swcMinify: true,
 
-  webpack(config) {
+  webpack(config, { isServer }) {
+    // Configures webpack to handle SVG files with SVGR. SVGR optimizes and transforms SVG files
+    // into React components. See https://react-svgr.com/docs/next/
+
     // Grab the existing rule that handles SVG imports
+    // @ts-ignore - rules is a private property that is not typed
     const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.('.svg'))
 
     config.module.rules.push(
@@ -31,8 +25,8 @@ const nextConfig = {
       // Convert all other *.svg imports to React components
       {
         test: /\.svg$/i,
-        issuer: /\.[jt]sx?$/,
-        resourceQuery: { not: /url/ }, // exclude if *.svg?url
+        issuer: fileLoaderRule.issuer,
+        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] }, // exclude if *.svg?url
         use: ['@svgr/webpack'],
       },
     )
@@ -43,5 +37,15 @@ const nextConfig = {
     return config
   },
 }
+
+const withMDX = require('@next/mdx')({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [],
+    rehypePlugins: [],
+    // If you use `MDXProvider`, uncomment the following line.
+    // providerImportSource: "@mdx-js/react",
+  },
+})
 
 module.exports = withMDX(nextConfig)

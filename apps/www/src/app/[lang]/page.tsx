@@ -1,13 +1,7 @@
-import type { NextPage } from 'next'
-
 import { Button, ButtonProps } from '@nextui-org/button'
 import { Link, LinkProps } from '@nextui-org/link'
 import { Spacer } from '@nextui-org/spacer'
 import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/popover'
-
-import { NextSeo, SocialProfileJsonLd } from 'next-seo'
-
-import { BASE_URL, ESocialLinks, USERNAME, isOpenToWork } from 'my-constants'
 
 import { Interests } from 'src/components/Interests'
 import { Links } from 'src/components/Links'
@@ -15,16 +9,17 @@ import { PhotoCard } from 'src/components/PhotoCard'
 // import { SaveLevCard } from 'src/components/SaveLevCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
 import { TopNavbar } from 'src/components/nav/TopNavbar'
-import { useT } from 'src/hooks/useT'
 
-import avatarImg from 'public/avatar.jpg'
 import GitHubIcon from 'src/assets/github.svg'
 import CodeIcon from 'src/assets/code-solid.svg'
 
 const lastPublishDate = new Date()
 
-const Home: NextPage = () => {
-  const t = useT()
+import type { LocaleCode } from 'my-locales'
+import * as locales from 'my-locales'
+
+export default function Home({ params }: { params: { lang: LocaleCode } }) {
+  const t = locales[params.lang]
 
   const footerLinkProps: ButtonProps & LinkProps = {
     className: 'flex grow',
@@ -34,51 +29,8 @@ const Home: NextPage = () => {
     variant: 'ghost',
   }
 
-  const [firstName, lastName] = t.fullName.split(' ')
-
   return (
     <main>
-      <NextSeo
-        title={USERNAME}
-        description={t.meta.description}
-        openGraph={{
-          images: [
-            {
-              url: BASE_URL + '/avatar.jpg',
-              width: avatarImg.width,
-              height: avatarImg.height,
-              alt: USERNAME,
-              type: 'image/jpeg',
-            },
-          ],
-          profile: {
-            firstName,
-            lastName,
-            username: USERNAME.replace('@', ''),
-            gender: 'male',
-          },
-          type: 'profile',
-          url: ESocialLinks.facebook,
-        }}
-        twitter={{
-          cardType: 'summary',
-          site: USERNAME,
-        }}
-      />
-
-      <SocialProfileJsonLd
-        type="Person"
-        name={t.fullName}
-        url={BASE_URL}
-        sameAs={[
-          ESocialLinks.facebook,
-          ESocialLinks.github,
-          ESocialLinks.instagram,
-          ESocialLinks.linkedin,
-          ESocialLinks.twitter,
-        ]}
-      />
-
       <TopNavbar />
 
       <div className="flex flex-col max-w-5xl mx-auto gap-4 p-4 relative">
@@ -161,5 +113,3 @@ const Home: NextPage = () => {
     </main>
   )
 }
-
-export default Home
