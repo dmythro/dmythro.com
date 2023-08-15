@@ -40,7 +40,6 @@ export async function generateMetadata({ params }: WithParams) {
     keywords,
     manifest: '/manifest.webmanifest',
     alternates: {
-      canonical: '/',
       languages: Object.fromEntries(availableLocales.map((lang) => [lang, '/' + lang])),
     },
     icons: [
