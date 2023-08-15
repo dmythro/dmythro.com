@@ -62,7 +62,7 @@ export const Links: FC = () => {
   const { socialMedia } = useT()
 
   return (
-    <div className="flex flex-col gap-1 px-2">
+    <div className="flex flex-col gap-1 px-2 mt-4">
       <h2 className="text-foreground text-large">{socialMedia.title}</h2>
       {/* <Text color="secondary">{socialMedia.description}</Text> */}
       <Spacer />
