@@ -59,6 +59,9 @@ export const TopNavbar: FC = () => {
           <DropdownTrigger className="group">
             <User
               className="transition-transform hover:shadow relative dark:hover:outline-white/10 dark:hover:outline-1"
+              classNames={{
+                description: 'text-foreground-500',
+              }}
               as="button"
               avatarProps={{
                 alt: USERNAME,

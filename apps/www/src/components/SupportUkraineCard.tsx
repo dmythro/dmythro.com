@@ -21,6 +21,7 @@ export const SupportUkraineCard: FC = () => {
       <CardFooter>
         <Link
           isBlock
+          color="foreground"
           href="https://war.ukraine.ua/support-ukraine/"
           isExternal
           showAnchorIcon

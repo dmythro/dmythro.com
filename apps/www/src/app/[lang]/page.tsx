@@ -55,7 +55,7 @@ export default function Home({ params }: { params: { lang: LocaleCode } }) {
 
         <Spacer />
 
-        <footer className="block text-center text-neutral-500">
+        <footer className="block text-center text-foreground-500">
           &copy; {lastPublishDate.getFullYear()} &bull;{' '}
           <Link
             color="foreground"
