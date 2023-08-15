@@ -1,6 +1,6 @@
 ### What kind of a role are you looking for?
 
-In general, I'm looking for something like a tech lead role, where about 50-70% of the working time is actual development and rest is for meetings/planning/mentoring/code reviews etc. I really enjoy doing something myself, and I prefer working on some complex tasks without much of a distraction.
+In general, I'm looking for something like a tech lead role, where about 50-70% of the working time is actual development and the rest is for meetings/planning/mentoring/code reviews etc. I really enjoy doing something myself, and I prefer working on some complex tasks without much of a distraction.
 
 ### Are you in Ukraine now? Is it safe?
 
