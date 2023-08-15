@@ -13,7 +13,12 @@ import type { WithParams } from './types'
 
 import avatarImg from 'public/avatar@og.jpg'
 
-import 'src/styles/global.css'
+/**
+ * @see https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
+ */
+
+export const dynamic = 'error'
+export const dynamicParams = false
 
 const availableLocales = Object.keys(locales) as LocaleCode[]
 // const inter = Inter({ subsets: ['latin'] })
@@ -72,7 +77,7 @@ export async function generateMetadata({ params }: WithParams) {
   return meta
 }
 
-export default function RootLayout({
+export default function LangLayout({
   children,
   params,
 }: {
