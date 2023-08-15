@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "0.4.0",
-    "@next/mdx": "13.4.15",
+    "@next/mdx": "13.4.16",
     "@nextui-org/accordion": "2.0.11",
     "@nextui-org/avatar": "2.0.11",
     "@nextui-org/button": "2.0.11",
@@ -31,14 +31,14 @@
     "my-constants": "*",
     "my-locales": "*",
     "negotiator": "0.6.3",
-    "next": "13.4.13",
+    "next": "13.4.16",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "schema-dts": "1.1.2",
     "sharp": "0.32.4"
   },
   "devDependencies": {
-    "@svgr/webpack": "8.0.1",
+    "@svgr/webpack": "8.1.0",
     "@tailwindcss/typography": "0.5.9",
     "@types/mdx": "2.0.6",
     "@types/negotiator": "0.6.1",

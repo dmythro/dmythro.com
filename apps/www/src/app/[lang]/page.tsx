@@ -103,6 +103,9 @@ export default function Home({ params }: { params: { lang: LocaleCode } }) {
                 <Button as={Link} href="https://fontawesome.com" {...footerLinkProps}>
                   Font Awesome
                 </Button>
+                <Button as={Link} href="https://turbo.build/repo" {...footerLinkProps}>
+                  Turborepo
+                </Button>
               </div>
             </PopoverContent>
           </Popover>
