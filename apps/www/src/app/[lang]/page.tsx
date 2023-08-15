@@ -33,7 +33,6 @@ export default function Home({ params }: { params: { lang: LocaleCode } }) {
           <div className="basis-full sm:basis-7/12">
             <div>
               <Sections />
-              <Divider />
               <Links />
             </div>
           </div>

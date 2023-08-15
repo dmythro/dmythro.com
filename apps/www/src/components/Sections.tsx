@@ -24,6 +24,11 @@ import FaqUk from 'my-locales/mdx/faq.uk.md'
 import type { InterestLocale } from 'my-locales'
 
 import myStudioImg from 'public/my-studio.webp'
+import WorkIcon from 'src/assets/briefcase-solid.svg'
+import MusicIcon from 'src/assets/headphones-simple-solid.svg'
+import TravelIcon from 'src/assets/map-location-dot-solid.svg'
+import HobbiesIcon from 'src/assets/gamepad-solid.svg'
+import FaqIcon from 'src/assets/clipboard-question-solid.svg'
 import { useLang, useT } from 'src/hooks/useT'
 
 import { Timeline } from 'src/components/Timeline'
@@ -51,6 +56,14 @@ const sectionLocale: Record<string, Record<string, any>> = {
   },
 }
 
+const sectionIcons: Record<string, any> = {
+  webDev: WorkIcon,
+  music: MusicIcon,
+  travel: TravelIcon,
+  hobbies: HobbiesIcon,
+  faq: FaqIcon,
+}
+
 export const Sections: FC = () => {
   const locale = useLang()
   const t = useT()
@@ -60,11 +73,12 @@ export const Sections: FC = () => {
   return (
     <Accordion keepContentMounted selectionMode="multiple">
       {interestList.map((interestKey) => {
-        const interest = t.interests[interestKey] as InterestLocale
+        const Icon = sectionIcons[interestKey]
         const LocaleMd =
           sectionLocale[interestKey] && sectionLocale[interestKey][locale]
             ? sectionLocale[interestKey][locale]
             : null
+        const interest = t.interests[interestKey] as InterestLocale
 
         return (
           <AccordionItem
@@ -72,6 +86,7 @@ export const Sections: FC = () => {
             aria-label={interest.title}
             title={<h2>{interest.title}</h2>}
             textValue={interest.title}
+            startContent={<Icon className="fill-current" width={32} height={32} />}
             subtitle={interest.description}
           >
             {LocaleMd ? (

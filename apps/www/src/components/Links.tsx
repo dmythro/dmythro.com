@@ -23,7 +23,7 @@ export const iconSize = 30
 export const linkProps: Pick<ButtonProps, 'children' | 'startContent' | 'href'>[] = [
   {
     children: 'GitHub',
-    startContent: <GitHubIcon height={iconSize} width={iconSize} />,
+    startContent: <GitHubIcon height={iconSize} width={iconSize} style={{ fill: 'white' }} />,
     href: ESocialLinks.github,
   },
   {
@@ -62,7 +62,7 @@ export const Links: FC = () => {
   const { socialMedia } = useT()
 
   return (
-    <div className="flex flex-col gap-1 px-2">
+    <div className="flex flex-col gap-1 px-2 my-4">
       <h2 className="text-foreground text-large py-4">{socialMedia.title}</h2>
 
       <div className="flex flex-wrap w-full gap-2">
@@ -70,7 +70,7 @@ export const Links: FC = () => {
           <Button
             key={props.href}
             as={Link}
-            className="bg-gradient-to-tr from-purple-600 to-primary-500 text-white shadow-lg"
+            className="bg-gradient-to-tr from-purple-600 to-primary-500 text-white shadow-lg px-2"
             rel="me"
             role="link"
             {...props}
