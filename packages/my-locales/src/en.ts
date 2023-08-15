@@ -21,7 +21,7 @@ const interests: Record<string, InterestLocale> = {
   webDev: {
     title: 'Web Development, Career, Education',
     description:
-    'TypeScript, Node.js, Nest, React, Next.js/Astro, PostgreSQL, Drizzle/Prisma, Google Cloud/Vercel.',
+      'TypeScript, Node.js, Nest, React, Next.js/Astro, PostgreSQL, Drizzle/Prisma, Google Cloud/Vercel.',
   },
   music: {
     title: 'Music',
@@ -44,6 +44,10 @@ const interests: Record<string, InterestLocale> = {
   faq: {
     title: 'FAQ',
     description: 'Answers to your frequently asked questions.',
+  },
+  links: {
+    title: 'Links & Social Media',
+    description: 'Check out my GitHub, LinkedIn or other profiles.',
   },
 }
 

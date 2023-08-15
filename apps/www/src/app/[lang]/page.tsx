@@ -1,8 +1,6 @@
-import { Divider } from '@nextui-org/divider'
 import { Spacer } from '@nextui-org/spacer'
 
 import { Sections } from 'src/components/Sections'
-import { Links } from 'src/components/Links'
 import { PhotoCard } from 'src/components/PhotoCard'
 // import { SaveLevCard } from 'src/components/SaveLevCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
@@ -33,7 +31,6 @@ export default function Home({ params }: { params: { lang: LocaleCode } }) {
           <div className="basis-full sm:basis-7/12">
             <div>
               <Sections />
-              <Links />
             </div>
           </div>
         </div>

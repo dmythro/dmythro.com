@@ -29,9 +29,11 @@ import MusicIcon from 'src/assets/headphones-simple-solid.svg'
 import TravelIcon from 'src/assets/map-location-dot-solid.svg'
 import HobbiesIcon from 'src/assets/gamepad-solid.svg'
 import FaqIcon from 'src/assets/clipboard-question-solid.svg'
-import { useLang, useT } from 'src/hooks/useT'
+import LinksIcon from 'src/assets/link-solid.svg'
 
+import { Links } from 'src/components/Links'
 import { Timeline } from 'src/components/Timeline'
+import { useLang, useT } from 'src/hooks/useT'
 
 const sectionLocale: Record<string, Record<string, any>> = {
   webDev: {
@@ -54,6 +56,10 @@ const sectionLocale: Record<string, Record<string, any>> = {
     en: FaqEn,
     uk: FaqUk,
   },
+  links: {
+    en: Links,
+    uk: Links,
+  },
 }
 
 const sectionIcons: Record<string, any> = {
@@ -62,6 +68,7 @@ const sectionIcons: Record<string, any> = {
   travel: TravelIcon,
   hobbies: HobbiesIcon,
   faq: FaqIcon,
+  links: LinksIcon,
 }
 
 export const Sections: FC = () => {

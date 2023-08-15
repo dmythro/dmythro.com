@@ -29,6 +29,10 @@ const interests: Record<string, InterestLocale> = {
     title: 'FAQ',
     description: 'Відповіді на ваші часті питання.',
   },
+  links: {
+    title: 'Посилання на соціальні мережі',
+    description: 'Мій GitHub, LinkedIn та інші профілі.',
+  },
 }
 
 const generalTimeline: TimelineItem[] = [
