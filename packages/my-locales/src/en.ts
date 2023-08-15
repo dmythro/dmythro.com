@@ -80,7 +80,7 @@ const generalTimeline: TimelineItem[] = [
     description: [
       'Graduate of National Technical University of Ukraine "Kyiv Polytechnical Institute", Faculty of Applied Math, Department of Specialized Computer Systems.',
       'I would say quite a good choice in the context of my career: programming (Pascal, C#, .NET, C++, Assembler), algorithms and data structures, graphs, probability theory, databases (MSSQL) and much more.',
-      'In 2006 registered as PE and got my first official job as a Software Engineer. At the time I was working as a ASP/.NET developer.',
+      'In 2006, while being a student, registered as PE and got my first official job as a Software Engineer. At the time I was working as a ASP/.NET developer.',
     ],
   },
   {
