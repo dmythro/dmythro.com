@@ -1,4 +1,4 @@
-export type { InterestLocale, Translation } from './en'
+export type { InterestLocale, TimelineItem, Translation } from './en'
 
 export type LocaleCode = 'en' | 'uk'
 

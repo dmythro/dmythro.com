@@ -19,6 +19,8 @@ import HobbiesUk from 'my-locales/mdx/hobbies.uk.md'
 import type { InterestLocale, LocaleCode } from 'my-locales'
 import { useLang, useT } from 'src/hooks/useT'
 
+import { Timeline } from 'src/components/Timeline'
+
 const interestLocale: Record<string, Record<string, any>> = {
   webDev: {
     en: WebDevEn,
@@ -40,14 +42,14 @@ const interestLocale: Record<string, Record<string, any>> = {
 
 export const Interests: FC = () => {
   const locale = useLang()
-  const { interests } = useT()
+  const t = useT()
 
-  const interestList = Object.keys(interests)
+  const interestList = Object.keys(t.interests)
 
   return (
     <Accordion keepContentMounted selectionMode="multiple">
       {interestList.map((interestKey) => {
-        const interest = interests[interestKey] as InterestLocale
+        const interest = t.interests[interestKey] as InterestLocale
         const LocaleMd =
           interestLocale[interestKey] && interestLocale[interestKey][locale]
             ? interestLocale[interestKey][locale]
@@ -62,9 +64,17 @@ export const Interests: FC = () => {
             subtitle={interest.description}
           >
             {LocaleMd ? (
-              <article className="prose dark:prose-invert">
-                <LocaleMd />
-              </article>
+              <>
+                <article className="prose dark:prose-invert">
+                  <LocaleMd />
+                </article>
+                {interestKey === 'webDev' && (
+                  <>
+                    <Timeline title={t.generalTitle} items={t.generalTimeline} />
+                    <Timeline title={t.careerTitle} items={t.careerTimeline} />
+                  </>
+                )}
+              </>
             ) : (
               <em>TBD</em>
             )}

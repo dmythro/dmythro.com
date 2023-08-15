@@ -9,8 +9,11 @@ import { Footer } from 'src/components/layout/Footer'
 import { TopNavbar } from 'src/components/layout/TopNavbar'
 
 import type { LocaleCode } from 'my-locales'
+import * as locales from 'my-locales'
 
 export default function Home({ params }: { params: { lang: LocaleCode } }) {
+  const t = locales[params.lang]
+
   return (
     <main>
       <TopNavbar />
