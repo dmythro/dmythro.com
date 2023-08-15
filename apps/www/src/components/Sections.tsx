@@ -35,6 +35,8 @@ import { Links } from 'src/components/Links'
 import { Timeline } from 'src/components/Timeline'
 import { useLang, useT } from 'src/hooks/useT'
 
+const iconSize = 24
+
 const sectionLocale: Record<string, Record<string, any>> = {
   webDev: {
     en: WebDevEn,
@@ -93,7 +95,7 @@ export const Sections: FC = () => {
             aria-label={interest.title}
             title={<h2>{interest.title}</h2>}
             textValue={interest.title}
-            startContent={<Icon className="fill-current" width={32} height={32} />}
+            startContent={<Icon className="fill-current" width={iconSize} height={iconSize} />}
             subtitle={interest.description}
           >
             {LocaleMd ? (
