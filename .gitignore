@@ -30,8 +30,9 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-# turbo
+# tools & CLI
 .turbo
+.vercel
 
 # ui
 dist/

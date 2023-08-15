@@ -183,6 +183,7 @@ export const uk: Translation = {
   careerTitle: "Моя кар'єра",
   careerTimeline,
   interests,
+  myStudio: 'Моя студія, місце де працюю',
   openToWork: 'Шукаю проект',
   socialMedia: {
     title: 'Посилання на соціальні мережі',

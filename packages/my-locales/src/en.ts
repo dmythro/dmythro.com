@@ -200,6 +200,7 @@ export const en = {
   careerTitle: 'My Career',
   careerTimeline,
   interests,
+  myStudio: 'My studio, where I do all my work',
   openToWork: 'Open to work',
   socialMedia: {
     title: 'Links & Social Media',

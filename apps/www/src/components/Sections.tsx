@@ -1,8 +1,10 @@
 'use client'
 
 import { FC } from 'react'
+import Image from 'next/image'
 
 import { Accordion, AccordionItem } from '@nextui-org/accordion'
+import { Card, CardFooter } from '@nextui-org/card'
 
 import WebDevEn from 'my-locales/mdx/web-dev.en.md'
 import WebDevUk from 'my-locales/mdx/web-dev.uk.md'
@@ -20,6 +22,8 @@ import FaqEn from 'my-locales/mdx/faq.en.md'
 import FaqUk from 'my-locales/mdx/faq.uk.md'
 
 import type { InterestLocale } from 'my-locales'
+
+import myStudioImg from 'public/my-studio.webp'
 import { useLang, useT } from 'src/hooks/useT'
 
 import { Timeline } from 'src/components/Timeline'
@@ -44,7 +48,7 @@ const sectionLocale: Record<string, Record<string, any>> = {
   faq: {
     en: FaqEn,
     uk: FaqUk,
-  }
+  },
 }
 
 export const Sections: FC = () => {
@@ -77,6 +81,16 @@ export const Sections: FC = () => {
                 </article>
                 {interestKey === 'webDev' && (
                   <>
+                    <Card as="figure" className="block relative mt-4" isFooterBlurred>
+                      <Image placeholder="blur" src={myStudioImg} alt={t.myStudio} />
+                      <CardFooter
+                        as="figcaption"
+                        className="before:bg-white/10 py-1 block absolute before:rounded-xl rounded-lg text-tiny text-white/80 bottom-2 right-2 max-w-fit ml-1 z-10"
+                      >
+                        {t.myStudio}
+                      </CardFooter>
+                    </Card>
+
                     <Timeline title={t.generalTitle} items={t.generalTimeline} />
                     <Timeline title={t.careerTitle} items={t.careerTimeline} />
                   </>
