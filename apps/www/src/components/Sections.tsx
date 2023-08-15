@@ -16,12 +16,15 @@ import TravelUk from 'my-locales/mdx/travel.uk.md'
 import HobbiesEn from 'my-locales/mdx/hobbies.en.md'
 import HobbiesUk from 'my-locales/mdx/hobbies.uk.md'
 
-import type { InterestLocale, LocaleCode } from 'my-locales'
+import FaqEn from 'my-locales/mdx/faq.en.md'
+import FaqUk from 'my-locales/mdx/faq.uk.md'
+
+import type { InterestLocale } from 'my-locales'
 import { useLang, useT } from 'src/hooks/useT'
 
 import { Timeline } from 'src/components/Timeline'
 
-const interestLocale: Record<string, Record<string, any>> = {
+const sectionLocale: Record<string, Record<string, any>> = {
   webDev: {
     en: WebDevEn,
     uk: WebDevUk,
@@ -38,9 +41,13 @@ const interestLocale: Record<string, Record<string, any>> = {
     en: HobbiesEn,
     uk: HobbiesUk,
   },
+  faq: {
+    en: FaqEn,
+    uk: FaqUk,
+  }
 }
 
-export const Interests: FC = () => {
+export const Sections: FC = () => {
   const locale = useLang()
   const t = useT()
 
@@ -51,8 +58,8 @@ export const Interests: FC = () => {
       {interestList.map((interestKey) => {
         const interest = t.interests[interestKey] as InterestLocale
         const LocaleMd =
-          interestLocale[interestKey] && interestLocale[interestKey][locale]
-            ? interestLocale[interestKey][locale]
+          sectionLocale[interestKey] && sectionLocale[interestKey][locale]
+            ? sectionLocale[interestKey][locale]
             : null
 
         return (

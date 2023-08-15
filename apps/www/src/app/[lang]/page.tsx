@@ -1,7 +1,7 @@
 import { Divider } from '@nextui-org/divider'
 import { Spacer } from '@nextui-org/spacer'
 
-import { Interests } from 'src/components/Interests'
+import { Sections } from 'src/components/Sections'
 import { Links } from 'src/components/Links'
 import { PhotoCard } from 'src/components/PhotoCard'
 // import { SaveLevCard } from 'src/components/SaveLevCard'
@@ -32,7 +32,7 @@ export default function Home({ params }: { params: { lang: LocaleCode } }) {
           </div>
           <div className="basis-full sm:basis-7/12">
             <div>
-              <Interests />
+              <Sections />
               <Divider />
               <Links />
             </div>

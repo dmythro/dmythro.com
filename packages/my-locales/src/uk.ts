@@ -25,6 +25,10 @@ const interests: Record<string, InterestLocale> = {
       ' Розумний будинок (HomeKit, Zigbee), автоматизації.' +
       ' Сноуборд, серфінг, велосипеди, самокати, лонгборд тощо.',
   },
+  faq: {
+    title: 'FAQ',
+    description: 'Відповіді на ваші часті питання.',
+  },
 }
 
 const generalTimeline: TimelineItem[] = [

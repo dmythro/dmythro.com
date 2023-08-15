@@ -41,6 +41,10 @@ const interests: Record<string, InterestLocale> = {
       ' Smart home (HomeKit, Zigbee), automations.' +
       ' Snowboarding, surfing, cycling, scooters, longboards etc.',
   },
+  faq: {
+    title: 'FAQ',
+    description: 'Answers to your frequently asked questions.',
+  },
 }
 
 const generalTimeline: TimelineItem[] = [
