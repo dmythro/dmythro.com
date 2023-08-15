@@ -34,10 +34,15 @@ export async function generateMetadata({ params }: WithParams) {
   const { description, keywords } = t.meta
 
   const meta: Metadata = {
+    metadataBase: new URL(BASE_URL),
     title: USERNAME,
     description,
     keywords,
     manifest: '/manifest.webmanifest',
+    alternates: {
+      canonical: '/',
+      languages: Object.fromEntries(availableLocales.map((lang) => [lang, '/' + lang])),
+    },
     icons: [
       { url: '/favicon.ico' },
       { type: 'image/png', sizes: '32x32', url: '/favicon-32x32.png' },
@@ -54,7 +59,7 @@ export async function generateMetadata({ params }: WithParams) {
       description,
       images: [
         {
-          url: BASE_URL + '/avatar@og.jpg',
+          url: '/avatar@og.jpg',
           width: avatarImg.width,
           height: avatarImg.height,
           alt: USERNAME,
