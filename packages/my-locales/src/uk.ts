@@ -30,7 +30,7 @@ const interests: Record<string, InterestLocale> = {
     description: 'Відповіді на ваші часті питання.',
   },
   links: {
-    title: 'Посилання на соціальні мережі',
+    title: 'Посилання та соцмережі',
     description: 'Мій GitHub, LinkedIn та інші профілі.',
   },
 }
