@@ -13,7 +13,7 @@ import InstagramIcon from 'src/assets/instagram.svg'
 import LinkedInIcon from 'src/assets/linkedin.svg'
 import TelegramIcon from 'src/assets/telegram.svg'
 import ThreadsIcon from 'src/assets/threads.svg'
-import TwitterIcon from 'src/assets/twitter.svg'
+import TwitterIcon from 'src/assets/x-twitter.svg'
 
 export const iconSize = 30
 
@@ -49,7 +49,7 @@ export const linkProps: Pick<ButtonProps, 'children' | 'startContent' | 'href'>[
     href: ESocialLinks.threads,
   },
   {
-    children: 'Twitter',
+    children: 'X / Twitter',
     startContent: <TwitterIcon height={iconSize} width={iconSize} style={{ fill: 'white' }} />,
     href: ESocialLinks.twitter,
   },
