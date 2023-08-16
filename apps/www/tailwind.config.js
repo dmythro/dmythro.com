@@ -23,6 +23,6 @@ module.exports = {
   theme: {
     extend: {},
   },
-  darkMode: 'media',
-  plugins: [require('@tailwindcss/typography'), nextui()],
+  darkMode: 'class',
+  plugins: [nextui()],
 }

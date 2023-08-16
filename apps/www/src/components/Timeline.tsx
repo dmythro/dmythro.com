@@ -83,7 +83,7 @@ export const TimelineBlock: FC<TimelineBlockProps> = ({ item }) => {
 
 export const Timeline: FC<TimelineProps> = ({ title, items = [] }) => {
   return (
-    <article className="prose dark:prose-invert">
+    <article>
       {title && <h1 className="font-semibold my-6 text-2xl">{title}</h1>}
 
       <div className="-my-4">
