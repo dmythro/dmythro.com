@@ -3,8 +3,8 @@ import { Link } from '@nextui-org/link'
 
 import { BASE_URL } from 'my-constants'
 
-const ResponsiveImage = (props) => (
-  <Image alt={props.alt} sizes="100vw" style={{ width: '100%', height: 'auto' }} {...props} />
+const ResponsiveImage = ({ src, alt }) => (
+  <Image src={src} alt={alt} width={1440} height={960} className="w-fit h-auto rounded-large" />
 )
 
 export const mdxComponents = {
