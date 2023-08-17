@@ -183,7 +183,7 @@ const careerTimeline: TimelineItem[] = [
     title: 'Middle → Senior .NET Developer',
     subtitle: 'Tikle / lifecell',
     description:
-      'Architecture, internal services, web UI services, websites, applications and database schema for **mobile operator** using ASP.NET, C#, MSSQL, SOAP/XML. Partner services integration (bulk SMS services etc).',
+      'Architecture, internal services, web UI services, websites, applications and database schema for mobile operator using ASP.NET, C#, MSSQL, SOAP/XML. Partner services integration (bulk SMS services etc).',
   },
 ]
 
