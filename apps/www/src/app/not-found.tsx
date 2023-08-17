@@ -1,4 +1,4 @@
-import { initTheme } from 'src/theme'
+import { initTheme } from 'src/utils/theme'
 import { Card, CardBody, CardFooter } from '@nextui-org/card'
 import { Link } from '@nextui-org/link'
 

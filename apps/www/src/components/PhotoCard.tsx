@@ -4,11 +4,12 @@ import { FC } from 'react'
 import NextImage from 'next/image'
 import { Card, CardFooter } from '@nextui-org/card'
 
-import { useT } from 'src/hooks/useT'
+import { getT } from 'src/utils/getT'
 
 import avatarImg1200 from 'public/avatar.jpg'
 import avatarImg400 from 'public/avatar@400px.jpg'
 import avatarImg800 from 'public/avatar@800px.jpg'
+import { WithLangProp } from 'src/types'
 
 const images = [avatarImg400, avatarImg800, avatarImg1200]
 const sizes = images
@@ -16,8 +17,8 @@ const sizes = images
   .join(', ')
 // const srcSet = images.map((img) => `${img.src} ${img.width}w`).join(', ')
 
-export const PhotoCard: FC = () => {
-  const t = useT()
+export const PhotoCard: FC<WithLangProp> = ({ lang }) => {
+  const t = getT(lang)
 
   return (
     <Card as="figure" className="block relative" isFooterBlurred>

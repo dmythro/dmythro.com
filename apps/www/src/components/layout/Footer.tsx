@@ -4,11 +4,11 @@ import { Button, ButtonProps } from '@nextui-org/button'
 import { Link, LinkProps } from '@nextui-org/link'
 import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/popover'
 
-import type { LocaleCode } from 'my-locales'
 import * as locales from 'my-locales'
 
 import GitHubIcon from 'src/assets/github.svg'
 import CodeIcon from 'src/assets/code-solid.svg'
+import { WithLangProp } from 'src/types'
 
 const lastPublishDate = new Date()
 
@@ -20,11 +20,7 @@ const footerLinkProps: ButtonProps & LinkProps = {
   variant: 'ghost',
 }
 
-type Props = {
-  lang: LocaleCode
-}
-
-export const Footer: FC<Props> = ({ lang }) => {
+export const Footer: FC<WithLangProp> = ({ lang }) => {
   const t = locales[lang]
 
   return (

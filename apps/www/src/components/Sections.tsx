@@ -33,8 +33,9 @@ import LinksIcon from 'src/assets/link-solid.svg'
 
 import { Links } from 'src/components/Links'
 import { Timeline } from 'src/components/Timeline'
-import { useLang, useT } from 'src/hooks/useT'
+import { getT } from 'src/utils/getT'
 import { mdxComponents } from 'src/mdx'
+import { WithLangProp } from 'src/types'
 
 const iconSize = 24
 
@@ -74,9 +75,8 @@ const sectionIcons: Record<string, any> = {
   links: LinksIcon,
 }
 
-export const Sections: FC = () => {
-  const locale = useLang()
-  const t = useT()
+export const Sections: FC<WithLangProp> = ({ lang }) => {
+  const t = getT(lang)
 
   const interestList = Object.keys(t.interests)
 
@@ -86,8 +86,8 @@ export const Sections: FC = () => {
         {interestList.map((interestKey) => {
           const Icon = sectionIcons[interestKey]
           const LocaleMd =
-            sectionLocale[interestKey] && sectionLocale[interestKey][locale]
-              ? sectionLocale[interestKey][locale]
+            sectionLocale[interestKey] && sectionLocale[interestKey][lang]
+              ? sectionLocale[interestKey][lang]
               : null
           const interest = t.interests[interestKey] as InterestLocale
 
