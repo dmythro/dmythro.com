@@ -38,7 +38,8 @@ const interests: Record<string, InterestLocale> = {
 const generalTimeline: TimelineItem[] = [
   {
     isHighlighted: true,
-    when: 'Зараз',
+    when: '2016',
+    till: 'Зараз',
     title: 'Principal Engineer / Tech Lead',
     description:
       "Найцікавіша для мене роль зараз це щось між Principal Engineer / Tech Lead, де я все ще можу зосередитись на більших задачах, не дуже відволікаючись на менеджерські обов'язки.",
