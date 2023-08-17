@@ -76,7 +76,7 @@ const generalTimeline: TimelineItem[] = [
     isHighlighted: true,
     when: '2009',
     where: 'UA',
-    title: "Education: Master's Degree",
+    title: "Education: Master's Degree Graduate",
     subtitle: 'NTUU "KPI", FAM, SCS',
     description: [
       'Graduate of National Technical University of Ukraine "Kyiv Polytechnical Institute", Faculty of Applied Math, Department of Specialized Computer Systems.',
@@ -87,7 +87,7 @@ const generalTimeline: TimelineItem[] = [
   {
     when: '2003',
     where: 'UA',
-    title: 'Education: Secondary School',
+    title: 'Education: Graduate of Secondary School',
     description:
       'During secondary school time I also graduated from Music school (accordion and folk instruments) and attended Sports swimming school all the time (candidate for master of sports).',
   },
