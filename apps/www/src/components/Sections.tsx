@@ -37,6 +37,7 @@ import { getT } from 'src/utils/getT'
 import { ResponsiveImage } from 'src/components/ResponsiveImage'
 import { mdxComponents } from 'src/components/mdx'
 import { WithLangProp } from 'src/types'
+import { trackCustomEvent } from 'src/utils/analytics'
 
 const iconSize = 24
 
@@ -100,6 +101,11 @@ export const Sections: FC<WithLangProp> = ({ lang }) => {
               textValue={interest.title}
               startContent={<Icon className="fill-current" width={iconSize} height={iconSize} />}
               subtitle={interest.description}
+              onFocusChange={(isFocused) => {
+                if (isFocused) {
+                  trackCustomEvent('section_view', { category: 'focus', label: interestKey })
+                }
+              }}
             >
               {LocaleMd ? (
                 <>

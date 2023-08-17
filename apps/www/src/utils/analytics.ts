@@ -13,7 +13,7 @@ export const trackPageView = (url: string) => {
 export interface IGACustomEvent {
   category: string
   label: string
-  value: any
+  value?: number
 }
 
 export const trackCustomEvent = (action: string, { category, label, value }: IGACustomEvent) => {
