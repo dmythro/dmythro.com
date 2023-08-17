@@ -54,7 +54,8 @@ const interests: Record<string, InterestLocale> = {
 const generalTimeline: TimelineItem[] = [
   {
     isHighlighted: true,
-    when: 'Now',
+    when: '2016',
+    till: 'Now',
     title: 'Principal Engineer / Tech Lead',
     description:
       'My preferred role for now is something around Principal Engineer / Tech Lead, where I still can concentrate on bigger tasks without much of a management work distraction.',
@@ -75,7 +76,7 @@ const generalTimeline: TimelineItem[] = [
     isHighlighted: true,
     when: '2009',
     where: 'UA',
-    title: "Education: Master's Degree",
+    title: "Education: Master's Degree Graduate",
     subtitle: 'NTUU "KPI", FAM, SCS',
     description: [
       'Graduate of National Technical University of Ukraine "Kyiv Polytechnical Institute", Faculty of Applied Math, Department of Specialized Computer Systems.',
@@ -86,7 +87,7 @@ const generalTimeline: TimelineItem[] = [
   {
     when: '2003',
     where: 'UA',
-    title: 'Education: Secondary School',
+    title: 'Education: Graduate of Secondary School',
     description:
       'During secondary school time I also graduated from Music school (accordion and folk instruments) and attended Sports swimming school all the time (candidate for master of sports).',
   },
@@ -183,7 +184,7 @@ const careerTimeline: TimelineItem[] = [
     title: 'Middle → Senior .NET Developer',
     subtitle: 'Tikle / lifecell',
     description:
-      'Architecture, internal services, web UI services, websites, applications and database schema for **mobile operator** using ASP.NET, C#, MSSQL, SOAP/XML. Partner services integration (bulk SMS services etc).',
+      'Architecture, internal services, web UI services, websites, applications and database schema for mobile operator using ASP.NET, C#, MSSQL, SOAP/XML. Partner services integration (bulk SMS services etc).',
   },
 ]
 

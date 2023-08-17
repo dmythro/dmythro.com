@@ -2,7 +2,7 @@ import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/react'
 
 import 'src/styles/global.css'
-import { GA_TRACKING_ID } from 'src/analytics'
+import { GA_TRACKING_ID } from 'src/utils/analytics'
 
 const GA_DEBUG = process.env.NODE_ENV === 'development' ? 'true' : 'false'
 

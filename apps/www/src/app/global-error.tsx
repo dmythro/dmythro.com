@@ -1,6 +1,6 @@
 'use client'
 
-import { initTheme } from 'src/theme'
+import { initTheme } from 'src/utils/theme'
 
 export default function GlobalError({ error, reset }: { error: Error; reset: () => void }) {
   return (

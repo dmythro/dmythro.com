@@ -7,37 +7,35 @@ import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
 import { Footer } from 'src/components/layout/Footer'
 import { TopNavbar } from 'src/components/layout/TopNavbar'
 
-import type { LocaleCode } from 'my-locales'
-import * as locales from 'my-locales'
+import { WithLangProp } from 'src/types'
 
-export default function Home({ params }: { params: { lang: LocaleCode } }) {
-  const t = locales[params.lang]
-
+export default function Home({ params }: { params: WithLangProp }) {
+  const { lang } = params
   return (
     <main>
-      <TopNavbar />
+      <TopNavbar lang={lang} />
 
       <div className="flex flex-col max-w-5xl mx-auto gap-4 p-4 relative">
         <div className="flex flex-col sm:flex-row-reverse gap-4 relative">
           <div className="basis-full sm:basis-5/12 sm:sticky sm:self-start sm:top-0">
             <div className="flex flex-col gap-1">
-              <PhotoCard />
+              <PhotoCard lang={lang} />
               <Spacer />
-              <SupportUkraineCard />
+              <SupportUkraineCard lang={lang} />
               {/* <Spacer />
                 <SaveLevCard /> */}
             </div>
           </div>
           <div className="basis-full sm:basis-7/12">
             <div>
-              <Sections />
+              <Sections lang={lang} />
             </div>
           </div>
         </div>
 
         <Spacer />
 
-        <Footer lang={params.lang} />
+        <Footer lang={lang} />
 
         <Spacer />
       </div>

@@ -6,10 +6,10 @@ import { BASE_URL, ESocialLinks, USERNAME } from 'my-constants'
 import type { LocaleCode } from 'my-locales'
 import * as locales from 'my-locales'
 
-import { initTheme } from 'src/theme'
+import { initTheme } from 'src/utils/theme'
 
 import { Providers } from './providers'
-import type { WithParams } from './types'
+import type { ParamsWithLang } from 'src/types'
 
 import avatarImg from 'public/avatar@og.jpg'
 
@@ -27,7 +27,7 @@ export async function generateStaticParams() {
   return availableLocales.map((lang) => ({ lang }))
 }
 
-export async function generateMetadata({ params }: WithParams) {
+export async function generateMetadata({ params }: ParamsWithLang) {
   const t = locales[params.lang]
 
   const [firstName, lastName] = t.fullName.split(' ')
@@ -81,13 +81,7 @@ export async function generateMetadata({ params }: WithParams) {
   return meta
 }
 
-export default function LangLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode
-  params: { lang: LocaleCode }
-}) {
+export default function LangLayout({ children, params }: ParamsWithLang) {
   const t = locales[params.lang]
   const personJsonLd: WithContext<Person> = {
     '@context': 'https://schema.org',

@@ -33,8 +33,10 @@ import LinksIcon from 'src/assets/link-solid.svg'
 
 import { Links } from 'src/components/Links'
 import { Timeline } from 'src/components/Timeline'
-import { useLang, useT } from 'src/hooks/useT'
-import { mdxComponents } from 'src/mdx'
+import { getT } from 'src/utils/getT'
+import { ResponsiveImage } from 'src/components/ResponsiveImage'
+import { mdxComponents } from 'src/components/mdx'
+import { WithLangProp } from 'src/types'
 
 const iconSize = 24
 
@@ -74,9 +76,8 @@ const sectionIcons: Record<string, any> = {
   links: LinksIcon,
 }
 
-export const Sections: FC = () => {
-  const locale = useLang()
-  const t = useT()
+export const Sections: FC<WithLangProp> = ({ lang }) => {
+  const t = getT(lang)
 
   const interestList = Object.keys(t.interests)
 
@@ -86,8 +87,8 @@ export const Sections: FC = () => {
         {interestList.map((interestKey) => {
           const Icon = sectionIcons[interestKey]
           const LocaleMd =
-            sectionLocale[interestKey] && sectionLocale[interestKey][locale]
-              ? sectionLocale[interestKey][locale]
+            sectionLocale[interestKey] && sectionLocale[interestKey][lang]
+              ? sectionLocale[interestKey][lang]
               : null
           const interest = t.interests[interestKey] as InterestLocale
 
@@ -107,15 +108,7 @@ export const Sections: FC = () => {
                   </article>
                   {interestKey === 'webDev' && (
                     <>
-                      <Card as="figure" className="block relative mt-4" isFooterBlurred>
-                        <Image placeholder="blur" src={myStudioImg} alt={t.myStudio} />
-                        <CardFooter
-                          as="figcaption"
-                          className="before:bg-white/10 py-1 block absolute before:rounded-xl rounded-lg text-tiny text-white/80 bottom-2 right-2 max-w-fit ml-1 z-10"
-                        >
-                          {t.myStudio}
-                        </CardFooter>
-                      </Card>
+                      <ResponsiveImage src={myStudioImg} alt={t.myStudio} />
 
                       <Timeline title={t.generalTitle} items={t.generalTimeline} />
                       <Timeline title={t.careerTitle} items={t.careerTimeline} />

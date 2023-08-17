@@ -19,17 +19,16 @@ import EarthEuropeIcon from 'src/assets/earth-europe-solid.svg'
 import { MenuLocaleLinks, NavMenuLocaleLinks } from 'src/components/layout/LocaleLinks'
 import { ELocaleNames, USERNAME, isOpenToWork } from 'my-constants'
 import { SOCIAL_LINKS_WORK, SOCIAL_LINKS } from 'src/constants'
-import { useLang, useT } from 'src/hooks/useT'
+import { getT } from 'src/utils/getT'
 
 import avatarUserImg from 'public/avatar@44px.jpg'
 import PdfFileIcon from 'src/assets/file-pdf-solid.svg'
+import { WithLangProp } from 'src/types'
 
-export const TopNavbar: FC = () => {
+export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean | undefined>()
-  const locale = useLang()
-  const t = useT()
-  // @ts-ignore
-  const localeName = ELocaleNames[locale]
+  const t = getT(lang)
+  const localeName = ELocaleNames[lang]
 
   return (
     <Navbar
@@ -178,7 +177,7 @@ export const TopNavbar: FC = () => {
               {localeName}
             </Button>
           </DropdownTrigger>
-          <MenuLocaleLinks />
+          <MenuLocaleLinks lang={lang} />
         </Dropdown>
       </NavbarContent>
 
@@ -190,7 +189,7 @@ export const TopNavbar: FC = () => {
         <NavbarMenuToggle aria-label={isMenuOpen ? t.actions.closeMenu : t.actions.openMenu} />
       </NavbarContent>
 
-      <NavMenuLocaleLinks />
+      <NavMenuLocaleLinks lang={lang} />
     </Navbar>
   )
 }

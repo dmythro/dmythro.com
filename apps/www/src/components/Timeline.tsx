@@ -48,14 +48,31 @@ export const TimelineBlock: FC<TimelineBlockProps> = ({ item }) => {
 
   const timeClasses = [
     'font-semibold text-center',
-    'inline-flex sm:absolute left-0 translate-y-0.5 min-w-unit-20 h-6 mb-3 sm:mb-0',
+    'inline-flex sm:absolute left-0 translate-y-0.5 sm:min-w-unit-20 h-6 mb-3 sm:mb-0',
   ].join(' ')
 
   return (
     <div className="relative pl-8 sm:pl-32 py-4 group">
       <div className={contentClasses}>
-        <Chip as="time" color="success" variant="bordered" className={timeClasses}>
-          {when || till}
+        <Chip
+          as="time"
+          color="success"
+          variant="bordered"
+          className={timeClasses}
+          classNames={{
+            content: 'p-0.5 flex sm:flex-col-reverse gap-1',
+            base: 'sm:h-auto sm:rounded-lg',
+          }}
+        >
+          {when && till ? (
+            <>
+              <span>{when}</span>
+              <span className="rotate-90 sm:transform-none">&uarr;</span>
+              <span>{till}</span>
+            </>
+          ) : (
+            when || till
+          )}
         </Chip>
 
         <div>

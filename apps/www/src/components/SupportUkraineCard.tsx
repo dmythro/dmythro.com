@@ -6,14 +6,15 @@ import dayjs from 'dayjs'
 import { Card, CardBody, CardFooter } from '@nextui-org/card'
 import { Link } from '@nextui-org/link'
 
-import { useT } from 'src/hooks/useT'
+import { getT } from 'src/utils/getT'
+import { WithLangProp } from 'src/types'
 
 export const invasionStartDate = '2022-02-24'
 const todayDate = new Date().toISOString().split('T')[0]
 const daysSinceInvasion = dayjs(todayDate).diff(invasionStartDate, 'days')
 
-export const SupportUkraineCard: FC = () => {
-  const { supportUkraine } = useT()
+export const SupportUkraineCard: FC<WithLangProp> = ({ lang }) => {
+  const { supportUkraine } = getT(lang)
 
   return (
     <Card>

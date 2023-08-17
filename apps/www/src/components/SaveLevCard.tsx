@@ -2,11 +2,11 @@ import { FC } from 'react'
 
 import { Card, CardBody } from '@nextui-org/card'
 import { Link } from '@nextui-org/link'
-import { useLang, useT } from 'src/hooks/useT'
+import { getT } from 'src/utils/getT'
+import { WithLangProp } from 'src/types'
 
-export const SaveLevCard: FC = () => {
-  const locale = useLang()
-  const { saveLev } = useT()
+export const SaveLevCard: FC<WithLangProp> = ({ lang }) => {
+  const { saveLev } = getT(lang)
 
   return (
     <Card>
@@ -14,7 +14,7 @@ export const SaveLevCard: FC = () => {
         {saveLev.message}
         <Link
           isBlock
-          href={`https://save-lev.com/${locale === 'uk' ? 'uk' : ''}`}
+          href={`https://save-lev.com/${lang === 'uk' ? 'uk' : ''}`}
           isExternal
           target="_blank"
         >
