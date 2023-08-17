@@ -4,7 +4,7 @@ import { ResponsiveImage } from 'src/components/ResponsiveImage'
 import { BASE_URL } from 'my-constants'
 
 export const mdxComponents = {
-  img: (props) => <ResponsiveImage {...props} />,
+  img: (props) => <ResponsiveImage {...props} shadow="none" />,
   a: (props) => {
     const isExternal = !(props.href || '').startsWith(BASE_URL)
     return (

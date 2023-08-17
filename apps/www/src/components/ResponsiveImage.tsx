@@ -1,17 +1,31 @@
 import type { ImageProps } from 'next/image'
 import type { FC, ReactElement } from 'react'
+import type { CardProps } from '@nextui-org/card'
 
 import Image from 'next/image'
 import { Card, CardFooter } from '@nextui-org/card'
 
-type ResponsiveImageProps = Pick<ImageProps, 'src' | 'sizes' | 'alt'> & {
-  caption?: string | ReactElement
-}
+type ResponsiveImageProps = Pick<ImageProps, 'src' | 'sizes' | 'alt'> &
+  Pick<CardProps, 'shadow'> & {
+    caption?: string | ReactElement
+  }
 
-export const ResponsiveImage: FC<ResponsiveImageProps> = ({ alt, caption, sizes, src }) => {
+export const ResponsiveImage: FC<ResponsiveImageProps> = ({
+  alt,
+  caption,
+  shadow = 'md',
+  sizes,
+  src,
+}) => {
   const isSrcImport = typeof src !== 'string'
   return (
-    <Card as="figure" className="block relative bg-foreground-200" isFooterBlurred>
+    <Card
+      as="figure"
+      className="block relative bg-foreground-200"
+      fullWidth
+      isFooterBlurred
+      shadow={shadow}
+    >
       <Image
         sizes={sizes}
         src={src}
