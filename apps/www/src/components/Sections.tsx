@@ -34,7 +34,8 @@ import LinksIcon from 'src/assets/link-solid.svg'
 import { Links } from 'src/components/Links'
 import { Timeline } from 'src/components/Timeline'
 import { getT } from 'src/utils/getT'
-import { mdxComponents } from 'src/mdx'
+import { ResponsiveImage } from 'src/components/ResponsiveImage'
+import { mdxComponents } from 'src/components/mdx'
 import { WithLangProp } from 'src/types'
 
 const iconSize = 24
@@ -107,15 +108,7 @@ export const Sections: FC<WithLangProp> = ({ lang }) => {
                   </article>
                   {interestKey === 'webDev' && (
                     <>
-                      <Card as="figure" className="block relative mt-4" isFooterBlurred>
-                        <Image placeholder="blur" src={myStudioImg} alt={t.myStudio} />
-                        <CardFooter
-                          as="figcaption"
-                          className="before:bg-white/10 py-1 block absolute before:rounded-xl rounded-lg text-tiny text-white/80 bottom-2 right-2 max-w-fit ml-1 z-10"
-                        >
-                          {t.myStudio}
-                        </CardFooter>
-                      </Card>
+                      <ResponsiveImage src={myStudioImg} alt={t.myStudio} />
 
                       <Timeline title={t.generalTitle} items={t.generalTimeline} />
                       <Timeline title={t.careerTitle} items={t.careerTimeline} />
