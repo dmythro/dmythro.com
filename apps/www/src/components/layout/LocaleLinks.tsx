@@ -35,7 +35,7 @@ export const NavMenuLocaleLinks: FC<WithLangProp> = ({ lang }) => (
   </NavbarMenu>
 )
 
-export const MenuLocaleLinks: FC<LandProp> = ({ lang }) => (
+export const MenuLocaleLinks: FC<WithLangProp> = ({ lang }) => (
   <DropdownMenu aria-label="Locale list">
     {availableLocales.map((l) => {
       const isActive = l === lang

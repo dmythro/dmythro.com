@@ -7,9 +7,9 @@ import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
 import { Footer } from 'src/components/layout/Footer'
 import { TopNavbar } from 'src/components/layout/TopNavbar'
 
-import { ParamsWithLang } from 'src/types'
+import { WithLangProp } from 'src/types'
 
-export default function Home({ params }: ParamsWithLang) {
+export default function Home({ params }: { params: WithLangProp }) {
   const { lang } = params
   return (
     <main>
