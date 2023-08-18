@@ -4,7 +4,6 @@ import { FC } from 'react'
 import Image from 'next/image'
 import { MDXProvider } from '@mdx-js/react'
 import { Accordion, AccordionItem } from '@nextui-org/accordion'
-import { Card, CardFooter } from '@nextui-org/card'
 
 import WebDevEn from 'my-locales/mdx/web-dev.en.md'
 import WebDevUk from 'my-locales/mdx/web-dev.uk.md'
@@ -84,7 +83,11 @@ export const Sections: FC<WithLangProp> = ({ lang }) => {
 
   return (
     <MDXProvider components={mdxComponents}>
-      <Accordion keepContentMounted selectionMode="multiple">
+      <Accordion
+        // itemClasses={{ base: ' }}
+        keepContentMounted
+        selectionMode="multiple"
+      >
         {interestList.map((interestKey) => {
           const Icon = sectionIcons[interestKey]
           const LocaleMd =
@@ -97,6 +100,7 @@ export const Sections: FC<WithLangProp> = ({ lang }) => {
             <AccordionItem
               key={interestKey}
               aria-label={interest.title}
+              className="[&>section]:print:!opacity-100 [&>section]:print:!h-auto [&>section]:print:!overflow-y-auto"
               title={<h2>{interest.title}</h2>}
               textValue={interest.title}
               startContent={<Icon className="fill-current" width={iconSize} height={iconSize} />}

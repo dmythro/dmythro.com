@@ -77,7 +77,7 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
                   </span>
                   {isOpenToWork && (
                     <Chip
-                      className="flex flex-nowrap text-xs whitespace-nowrap h-6 leading-3 self-center"
+                      className="flex flex-nowrap text-xs whitespace-nowrap h-6 leading-3 self-center print:hidden"
                       classNames={{
                         content: 'pl-1 pr-0.5',
                       }}
