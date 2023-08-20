@@ -24,7 +24,7 @@ export const Footer: FC<WithLangProp> = ({ lang }) => {
   const t = locales[lang]
 
   return (
-    <footer className="block text-center text-foreground-500">
+    <footer className="block relative clear-both text-center text-foreground-500 my-4">
       &copy; {lastPublishDate.getFullYear()} &bull;{' '}
       <Link
         color="foreground"

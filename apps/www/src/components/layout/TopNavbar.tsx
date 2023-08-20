@@ -34,6 +34,7 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
     <Navbar
       as="div"
       classNames={{
+        base: 'print:relative',
         item: [
           'flex',
           'relative',

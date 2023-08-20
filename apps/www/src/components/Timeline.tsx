@@ -41,7 +41,7 @@ export const TimelineBlock: FC<TimelineBlockProps> = ({ item }) => {
   const contentClasses = [
     'flex flex-col sm:flex-row items-start mb-1',
     // before: line
-    'group-last:before:hidden before:absolute before:left-2 sm:before:left-0 before:h-full before:px-px before:bg-foreground-300 sm:before:ml-[6.5rem] before:self-start before:-translate-x-1/2 before:translate-y-3',
+    'group-last:before:hidden before:absolute before:left-2 sm:before:left-0 before:h-full before:px-px before:bg-foreground-300 print:before:bg-foreground sm:before:ml-[6.5rem] before:self-start before:-translate-x-1/2 before:translate-y-3',
     // after: dot
     'after:absolute after:left-2 sm:after:left-0 after:w-2 after:h-2 after:bg-primary-600 after:border-4 after:box-content after:border-foreground-200 after:rounded-full sm:after:ml-[6.5rem] after:-translate-x-1/2 after:translate-y-1.5',
   ].join(' ')
@@ -52,7 +52,7 @@ export const TimelineBlock: FC<TimelineBlockProps> = ({ item }) => {
   ].join(' ')
 
   return (
-    <div className="relative pl-8 sm:pl-32 py-4 group">
+    <div className="relative pl-8 sm:pl-32 py-4 group print:break-inside-avoid">
       <div className={contentClasses}>
         <Chip
           as="time"
@@ -101,7 +101,7 @@ export const TimelineBlock: FC<TimelineBlockProps> = ({ item }) => {
 export const Timeline: FC<TimelineProps> = ({ title, items = [] }) => {
   return (
     <article>
-      {title && <h1 className="font-semibold my-6 text-2xl">{title}</h1>}
+      {title && <h1 className="font-semibold my-6 text-2xl print:break-after-avoid">{title}</h1>}
 
       <div className="-my-4">
         {items.map((item, i) => (

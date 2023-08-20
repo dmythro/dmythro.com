@@ -17,51 +17,57 @@ import TwitterIcon from 'src/assets/x-twitter.svg'
 
 export const iconSize = 30
 
+const linkIconProps: { className: string; width: number; height: number } = {
+  className: 'fill-white print:fill-black',
+  width: iconSize,
+  height: iconSize,
+}
+
 export const linkProps: Pick<ButtonProps, 'children' | 'startContent' | 'href'>[] = [
   {
     children: 'GitHub',
-    startContent: <GitHubIcon height={iconSize} width={iconSize} style={{ fill: 'white' }} />,
+    startContent: <GitHubIcon {...linkIconProps} />,
     href: ESocialLinks.github,
   },
   {
     children: 'LinkedIn',
-    startContent: <LinkedInIcon height={iconSize} width={iconSize} style={{ fill: 'white' }} />,
+    startContent: <LinkedInIcon {...linkIconProps} />,
     href: ESocialLinks.linkedin,
   },
   {
     children: 'Telegram',
-    startContent: <TelegramIcon height={iconSize} width={iconSize} style={{ fill: 'white' }} />,
+    startContent: <TelegramIcon {...linkIconProps} />,
     href: ESocialLinks.telegram,
   },
   {
     children: 'Facebook',
-    startContent: <FacebookIcon height={iconSize} width={iconSize} style={{ fill: 'white' }} />,
+    startContent: <FacebookIcon {...linkIconProps} />,
     href: ESocialLinks.facebook,
   },
   {
     children: 'Instagram',
-    startContent: <InstagramIcon height={iconSize} width={iconSize} style={{ fill: 'white' }} />,
+    startContent: <InstagramIcon {...linkIconProps} />,
     href: ESocialLinks.instagram,
   },
   {
     children: 'Threads',
-    startContent: <ThreadsIcon height={iconSize} width={iconSize} style={{ fill: 'white' }} />,
+    startContent: <ThreadsIcon {...linkIconProps} />,
     href: ESocialLinks.threads,
   },
   {
     children: 'X / Twitter',
-    startContent: <TwitterIcon height={iconSize} width={iconSize} style={{ fill: 'white' }} />,
+    startContent: <TwitterIcon {...linkIconProps} />,
     href: ESocialLinks.twitter,
   },
 ]
 
 export const Links: FC = () => (
-  <div className="flex flex-wrap w-full gap-2">
+  <div className="flex flex-wrap w-full gap-2 overflow-auto">
     {linkProps.map((props) => (
       <Button
         key={props.href}
         as={Link}
-        className="bg-gradient-to-tr from-purple-600 to-primary-500 text-white shadow-lg px-2"
+        className="bg-gradient-to-tr from-purple-600 to-primary-500 text-white shadow-lg px-2 print:bg-none print:text-black print:shadow-none"
         rel="me"
         role="link"
         {...props}

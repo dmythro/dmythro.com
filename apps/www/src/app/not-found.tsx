@@ -11,7 +11,7 @@ export default function NotFound() {
         />
       </head>
       <body>
-        <Card className="max-w-sm m-auto my-2">
+        <Card className="max-w-sm m-auto my-2 print:border-small print:rounded-md print:shadow-none">
           <CardBody className="flex gap-2">
             <h2 className="text-lg">Not Found</h2>
             <p>Could not find requested resource.</p>

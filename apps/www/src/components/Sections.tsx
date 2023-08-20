@@ -83,11 +83,7 @@ export const Sections: FC<WithLangProp> = ({ lang }) => {
 
   return (
     <MDXProvider components={mdxComponents}>
-      <Accordion
-        // itemClasses={{ base: ' }}
-        keepContentMounted
-        selectionMode="multiple"
-      >
+      <Accordion className="print:overflow-auto" keepContentMounted selectionMode="multiple">
         {interestList.map((interestKey) => {
           const Icon = sectionIcons[interestKey]
           const LocaleMd =
@@ -100,7 +96,7 @@ export const Sections: FC<WithLangProp> = ({ lang }) => {
             <AccordionItem
               key={interestKey}
               aria-label={interest.title}
-              className="[&>section]:print:!opacity-100 [&>section]:print:!h-auto [&>section]:print:!overflow-y-auto"
+              className="[&>section]:print:!opacity-100 [&>section]:print:!h-auto [&>section]:print:!overflow-y-auto print:break-before-page"
               title={<h2>{interest.title}</h2>}
               textValue={interest.title}
               startContent={<Icon className="fill-current" width={iconSize} height={iconSize} />}

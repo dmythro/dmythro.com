@@ -6,10 +6,12 @@ import { BASE_URL, ESocialLinks, USERNAME } from 'my-constants'
 import type { LocaleCode } from 'my-locales'
 import * as locales from 'my-locales'
 
+import type { ParamsWithLang } from 'src/types'
+import { Footer } from 'src/components/layout/Footer'
+import { TopNavbar } from 'src/components/layout/TopNavbar'
 import { initTheme } from 'src/utils/theme'
 
 import { Providers } from './providers'
-import type { ParamsWithLang } from 'src/types'
 
 import avatarImg from 'public/avatar@og.jpg'
 
@@ -82,7 +84,8 @@ export async function generateMetadata({ params }: ParamsWithLang) {
 }
 
 export default function LangLayout({ children, params }: ParamsWithLang) {
-  const t = locales[params.lang]
+  const { lang } = params
+  const t = locales[lang]
   const personJsonLd: WithContext<Person> = {
     '@context': 'https://schema.org',
     '@type': 'Person',
@@ -99,7 +102,7 @@ export default function LangLayout({ children, params }: ParamsWithLang) {
   }
 
   return (
-    <html lang={params.lang}>
+    <html lang={lang}>
       <head>
         <script
           dangerouslySetInnerHTML={{ __html: `(${initTheme.toString().replace(/\s+/g, ' ')})()` }}
@@ -107,7 +110,13 @@ export default function LangLayout({ children, params }: ParamsWithLang) {
       </head>
       {/* <body className={inter.className}> */}
       <body>
-        <Providers>{children}</Providers>
+        <main>
+          <Providers>
+            <TopNavbar lang={lang} />
+            {children}
+            <Footer lang={lang} />
+          </Providers>
+        </main>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
