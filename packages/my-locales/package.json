@@ -17,10 +17,10 @@
     "access": "public"
   },
   "dependencies": {
-    "my-constants": "*"
+    "my-constants": "file:*"
   },
   "devDependencies": {
-    "tsconfig": "*",
+    "tsconfig": "file:*",
     "tsup": "7.2.0",
     "typescript": "5.1.6"
   }
