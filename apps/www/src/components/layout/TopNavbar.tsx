@@ -34,7 +34,7 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
     <Navbar
       as="div"
       classNames={{
-        base: 'print:relative',
+        base: 'print:relative print:!border-small print:rounded-md',
         item: [
           'flex',
           'relative',
@@ -130,7 +130,7 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
                   className="bg-gradient-to-tr from-purple-600 to-primary-500 !text-white mb-2"
                   key="CV"
                   // @ts-ignore
-                  href="/cv.pdf"
+                  href={`/cv.${lang}.pdf`}
                   startContent={
                     <PdfFileIcon className="self-start" width={32} height={32} fill="white" />
                   }
@@ -166,7 +166,7 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
       <NavbarContent
         as="div"
         justify="end"
-        className="hidden sm:flex sm: flex-grow-0 justify-end justify-items-end"
+        className="hidden sm:flex sm: flex-grow-0 justify-end justify-items-end print:flex"
       >
         <Dropdown className="self-center" placement="bottom-end">
           <DropdownTrigger>
@@ -185,7 +185,7 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
       <NavbarContent
         as="div"
         justify="end"
-        className="sm:hidden !grow-0 justify-end justify-items-end"
+        className="sm:hidden !grow-0 justify-end justify-items-end print:hidden"
       >
         <NavbarMenuToggle aria-label={isMenuOpen ? t.actions.closeMenu : t.actions.openMenu} />
       </NavbarContent>

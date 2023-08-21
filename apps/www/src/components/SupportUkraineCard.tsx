@@ -22,6 +22,7 @@ export const SupportUkraineCard: FC<WithLangProp> = ({ lang }) => {
       <CardFooter>
         <Link
           isBlock
+          className="print:bg-transparent print:text-foreground"
           color="foreground"
           href="https://war.ukraine.ua/support-ukraine/"
           isExternal

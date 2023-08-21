@@ -1,7 +1,7 @@
 'use client'
 
-import { FC } from 'react'
-import Image from 'next/image'
+import type { FC } from 'react'
+
 import { MDXProvider } from '@mdx-js/react'
 import { Accordion, AccordionItem } from '@nextui-org/accordion'
 
@@ -32,11 +32,12 @@ import LinksIcon from 'src/assets/link-solid.svg'
 
 import { Links } from 'src/components/Links'
 import { Timeline } from 'src/components/Timeline'
-import { getT } from 'src/utils/getT'
 import { ResponsiveImage } from 'src/components/ResponsiveImage'
 import { mdxComponents } from 'src/components/mdx'
+import { usePrint } from 'src/hooks/useMediaQuery'
 import { WithLangProp } from 'src/types'
 import { trackCustomEvent } from 'src/utils/analytics'
+import { getT } from 'src/utils/getT'
 
 const iconSize = 24
 
@@ -76,58 +77,67 @@ const sectionIcons: Record<string, any> = {
   links: LinksIcon,
 }
 
-export const Sections: FC<WithLangProp> = ({ lang }) => {
+export const Sections: FC<WithLangProp & { isExpanded?: boolean }> = ({ isExpanded, lang }) => {
+  const isPrint = usePrint() // useMediaQuery('print')
   const t = getT(lang)
 
   const interestList = Object.keys(t.interests)
 
   return (
-    <MDXProvider components={mdxComponents}>
-      <Accordion className="print:overflow-auto" keepContentMounted selectionMode="multiple">
-        {interestList.map((interestKey) => {
-          const Icon = sectionIcons[interestKey]
-          const LocaleMd =
-            sectionLocale[interestKey] && sectionLocale[interestKey][lang]
-              ? sectionLocale[interestKey][lang]
-              : null
-          const interest = t.interests[interestKey] as InterestLocale
+    <article>
+      <MDXProvider components={mdxComponents}>
+        <Accordion
+          className="print:overflow-auto"
+          defaultExpandedKeys={isExpanded ? interestList : undefined}
+          keepContentMounted
+          selectedKeys={isPrint ? interestList : undefined}
+          selectionMode="multiple"
+        >
+          {interestList.map((interestKey) => {
+            const Icon = sectionIcons[interestKey]
+            const LocaleMd =
+              sectionLocale[interestKey] && sectionLocale[interestKey][lang]
+                ? sectionLocale[interestKey][lang]
+                : null
+            const interest = t.interests[interestKey] as InterestLocale
 
-          return (
-            <AccordionItem
-              key={interestKey}
-              aria-label={interest.title}
-              className="[&>section]:print:!opacity-100 [&>section]:print:!h-auto [&>section]:print:!overflow-y-auto print:break-before-page"
-              title={<h2>{interest.title}</h2>}
-              textValue={interest.title}
-              startContent={<Icon className="fill-current" width={iconSize} height={iconSize} />}
-              subtitle={interest.description}
-              onFocusChange={(isFocused) => {
-                if (isFocused) {
-                  trackCustomEvent('section_view', { category: 'focus', label: interestKey })
-                }
-              }}
-            >
-              {LocaleMd ? (
-                <>
-                  <article>
+            return (
+              <AccordionItem
+                key={interestKey}
+                aria-label={interest.title}
+                className="[&>section]:print:!opacity-100 [&>section]:print:!h-auto [&>section]:print:!overflow-y-auto print:break-before-page"
+                id={interestKey}
+                title={<h2>{interest.title}</h2>}
+                textValue={interest.title}
+                startContent={<Icon className="fill-current" width={iconSize} height={iconSize} />}
+                subtitle={interest.description}
+                onFocusChange={(isFocused) => {
+                  if (isFocused) {
+                    trackCustomEvent('section_view', { category: 'focus', label: interestKey })
+                  }
+                }}
+              >
+                {LocaleMd ? (
+                  <>
                     <LocaleMd />
-                  </article>
-                  {interestKey === 'webDev' && (
-                    <>
-                      <ResponsiveImage src={myStudioImg} alt={t.myStudio} />
 
-                      <Timeline title={t.generalTitle} items={t.generalTimeline} />
-                      <Timeline title={t.careerTitle} items={t.careerTimeline} />
-                    </>
-                  )}
-                </>
-              ) : (
-                <em>TBD</em>
-              )}
-            </AccordionItem>
-          )
-        })}
-      </Accordion>
-    </MDXProvider>
+                    {interestKey === 'webDev' && (
+                      <>
+                        <ResponsiveImage src={myStudioImg} alt={t.myStudio} />
+
+                        <Timeline title={t.generalTitle} items={t.generalTimeline} />
+                        <Timeline title={t.careerTitle} items={t.careerTimeline} />
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <>&nbsp;</>
+                )}
+              </AccordionItem>
+            )
+          })}
+        </Accordion>
+      </MDXProvider>
+    </article>
   )
 }

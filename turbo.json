@@ -9,6 +9,18 @@
     "NEXT_GA_ID"
   ],
   "pipeline": {
+    "www#build": {
+      "dependsOn": [
+        "my-constants#build",
+        "my-locales#build"
+      ],
+      "outputs": [
+        "dist/**",
+        ".next/**",
+        "!.next/cache/**",
+        "!public/cv*.pdf"
+      ]
+    },
     "build": {
       "dependsOn": [
         "^build"
@@ -16,12 +28,25 @@
       "outputs": [
         "dist/**",
         ".next/**",
-        "!.next/cache/**"
+        "!.next/cache/**",
+        "!public/cv.*.pdf"
+      ]
+    },
+    "cv": {
+      "dependsOn": [
+        "www#build"
+      ],
+      "outputs": [
+        "public/cv.*.pdf"
       ]
     },
     "lint": {},
     "check-types": {},
     "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "start": {
       "cache": false,
       "persistent": true
     },

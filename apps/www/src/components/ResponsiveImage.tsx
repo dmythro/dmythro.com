@@ -20,11 +20,10 @@ export const ResponsiveImage: FC<ResponsiveImageProps> = ({
   const isSrcImport = typeof src === 'object'
   const data: StaticImageData = isSrcImport ? (src as StaticImageData) : undefined
 
-  console.log(' -- ResponsiveImage', src)
   return (
     <Card
       as="figure"
-      className="block relative bg-foreground-200 print:border-small print:rounded-md print:shadow-none"
+      className="block relative bg-foreground-200 print:border-small print:rounded-md print:shadow-none print:transition-none"
       fullWidth
       isFooterBlurred
       shadow={shadow}
@@ -32,7 +31,7 @@ export const ResponsiveImage: FC<ResponsiveImageProps> = ({
       <Image
         placeholder={data?.blurDataURL ? 'blur' : undefined}
         blurDataURL={data?.blurDataURL}
-        className="print:shadow-none"
+        className="print:shadow-none print:block print:opacity-100 print:object-contain"
         sizes={sizes}
         src={src}
         alt={alt}
@@ -42,7 +41,7 @@ export const ResponsiveImage: FC<ResponsiveImageProps> = ({
       />
       <CardFooter
         as="figcaption"
-        className="before:bg-white/10 py-1 block absolute before:rounded-xl rounded-lg text-tiny text-white/80 bottom-2 right-2 max-w-fit ml-1 z-10 print:text-foreground print:bg-current"
+        className="before:bg-white/10 py-1 block absolute before:rounded-xl rounded-lg text-tiny text-white/80 bottom-2 right-2 max-w-fit ml-1 z-10"
       >
         {caption || alt}
       </CardFooter>

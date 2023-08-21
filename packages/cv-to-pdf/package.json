@@ -1,0 +1,21 @@
+{
+  "name": "cv-to-pdf",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "cv": "tsx index.ts"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "my-constants": "file:*"
+  },
+  "devDependencies": {
+    "puppeteer": "21.1.0",
+    "tsconfig": "file:*",
+    "tsx": "3.12.7",
+    "typescript": "5.1.6"
+  }
+}
