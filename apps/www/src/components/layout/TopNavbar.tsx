@@ -137,7 +137,7 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
                   title={<b>CV</b>}
                   description={
                     <span className="text-gray-100 text-xs">
-                      {t.socialMedia.generatedFromLinkedIn}
+                      {t.socialMedia.generatedFromWebsiteData}
                     </span>
                   }
                 />,

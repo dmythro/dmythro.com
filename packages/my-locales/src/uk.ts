@@ -193,7 +193,7 @@ export const uk: Translation = {
   socialMedia: {
     title: 'Посилання на соціальні мережі',
     description: 'Мій GitHub, LinkedIn та інші профілі у соціальних мережах.',
-    generatedFromLinkedIn: 'PDF, згенеровано з LinkedIn',
+    generatedFromWebsiteData: 'PDF, згенеровано з опублікованих даних',
     personal: 'Особисті профілі',
     work: 'Моя робота',
     [ESocialLinks.github]: 'Мої опен-сорс проекти та активність',

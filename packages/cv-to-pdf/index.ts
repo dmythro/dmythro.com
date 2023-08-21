@@ -12,11 +12,19 @@ async function runGhostScript(filePath: string) {
     const tempFilePath = filePath.replace(pdfExt, tempPathSuffix + pdfExt)
     fs.renameSync(filePath, tempFilePath)
 
+    const dpi = 150
     const gs = spawn('gs', [
       '-sDEVICE=pdfwrite',
       '-dCompatibilityLevel=1.4',
+      '-dDetectDuplicateImages=true',
+      '-dDownsampleColorImages=true',
+      '-dDownsampleGrayImages=true',
+      '-dDownsampleMonoImages=true',
+      `-dColorImageResolution=${dpi}`,
+      `-dGrayImageResolution=${dpi}`,
+      `-dMonoImageResolution=${dpi}`,
       // '-dPDFSETTINGS=/ebook',
-      '-dPDFSETTINGS=/default',
+      // '-dPDFSETTINGS=/default',
       '-dNOPAUSE',
       '-dQUIET',
       '-dBATCH',
@@ -50,11 +58,9 @@ async function start() {
     const browser = await puppeteer.launch({ headless: 'new' })
 
     staticServer.stdout?.on('data', async (data: any) => {
-      if (!`${data}`.includes('ready started server')) {
-        return
+      if (`${data}`.includes('ready started server')) {
+        return generatePdfs()
       }
-
-      return generatePdfs()
     })
 
     staticServer.stderr?.on('data', done)

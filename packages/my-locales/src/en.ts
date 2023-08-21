@@ -210,7 +210,7 @@ export const en = {
   socialMedia: {
     title: 'Links & Social Media',
     description: 'Check out my GitHub, LinkedIn or other social media profiles.',
-    generatedFromLinkedIn: 'PDF, generated via LinkedIn',
+    generatedFromWebsiteData: 'PDF, generated from published data',
     personal: 'Personal Links',
     work: 'My Work',
     [ESocialLinks.github]: 'My open-source projects & activity',
