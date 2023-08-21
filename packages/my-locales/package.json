@@ -1,16 +1,27 @@
 {
   "name": "my-locales",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "types": "./dist/index.d.mjs",
+  "types": "dist/*.d.mts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.mts"
+      ],
+      "constants": [
+        "dist/constants.d.mts"
+      ]
+    }
+  },
   "exports": {
-    ".": "./dist",
+    ".": "./dist/index.mjs",
+    "./constants": "./dist/constants.mjs",
     "./mdx/*": "./mdx/*"
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsup src/index.ts",
-    "dev": "tsup src/index.ts --watch",
+    "build": "tsup",
+    "dev": "tsup --watch",
     "check-types": "tsc --noEmit"
   },
   "publishConfig": {

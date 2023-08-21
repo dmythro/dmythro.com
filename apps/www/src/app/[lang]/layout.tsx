@@ -3,8 +3,8 @@ import type { Person, WithContext } from 'schema-dts'
 // import { Inter } from 'next/font/google'
 
 import { BASE_URL, ESocialLinks, USERNAME } from 'my-constants'
-import type { LocaleCode } from 'my-locales'
 import * as locales from 'my-locales'
+import { availableLocales } from 'my-locales/constants'
 
 import type { ParamsWithLang } from 'src/types'
 import { Footer } from 'src/components/layout/Footer'
@@ -22,7 +22,6 @@ import avatarImg from 'public/avatar@og.jpg'
 export const dynamic = 'error'
 export const dynamicParams = false
 
-const availableLocales = Object.keys(locales) as LocaleCode[]
 // const inter = Inter({ subsets: ['latin'] })
 
 export async function generateStaticParams() {

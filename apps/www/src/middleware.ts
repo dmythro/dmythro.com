@@ -4,10 +4,9 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
 import type { LocaleCode } from 'my-locales'
-import * as locales from 'my-locales'
+import { availableLocales } from 'my-locales/constants'
 
 const defaultLocale: LocaleCode = 'en'
-const availableLocales = Object.keys(locales) as LocaleCode[]
 const headersLocaleKey = 'accept-language'
 
 function getLocale(request: NextRequest) {

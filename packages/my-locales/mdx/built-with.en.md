@@ -1,10 +1,4 @@
-# @Dmythro's website: [dmythro.com](https://dmythro.com)
-
-Personal website, mainly to showcase things I do.
-
-![@Dmythro's avatar](https://github.com/dmythro/dmythro.com/assets/1391015/ec3bc8d7-3a44-4365-88f1-c882800b9295)
-
-It aims to answer most of the basic questions, and generate more relevant ones.
+# Project details
 
 ## Requirements
 
@@ -18,12 +12,13 @@ It aims to answer most of the basic questions, and generate more relevant ones.
 - Nicely looking
 - Open-source
 - Generate CV in PDF from local data
+- Analytics
 - (some other planned features to add)
 
 ## Tech stack
 
 Built with [Next.js](https://nextjs.org/) (App Router, Middleware for i18n and locale detection, Metadata API, SSG, error handling), [NextUI](https://nextui.org/) (based on [Tailwind CSS](https://tailwindcss.com/) now), [Font Awesome](https://fontawesome.com/) SVG icons.
 TypeScript for type safety.
-A lot of other open-source tools under the hood.
 Monorepo build system [Turborepo](https://turbo.build/repo).
-Powered by [Vercel](https://vercel.com/).
+Powered by [Vercel](https://vercel.com/), auto-deploy from GitHub.
+Other open-source tools are used under the hood.

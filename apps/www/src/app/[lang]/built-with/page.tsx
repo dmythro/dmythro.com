@@ -1,13 +1,14 @@
 import { Spacer } from '@nextui-org/spacer'
 
-import { Sections } from 'src/components/Sections'
+import { BuiltWith } from 'src/components/BuiltWith'
+import { HomeLink } from 'src/components/HomeLink'
 import { PhotoCard } from 'src/components/PhotoCard'
 // import { SaveLevCard } from 'src/components/SaveLevCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
 
 import { WithLangProp } from 'src/types'
 
-export default function CVPage({ params }: { params: WithLangProp }) {
+export default function BuiltWithPage({ params }: { params: WithLangProp }) {
   const { lang } = params
   return (
     <div className="flex flex-col max-w-5xl mx-auto gap-4 p-4 relative print:block">
@@ -23,9 +24,12 @@ export default function CVPage({ params }: { params: WithLangProp }) {
         </div>
         <div className="basis-full sm:basis-7/12 print:block">
           <div>
-            <Sections isExpanded lang={lang} />
+            <BuiltWith lang={lang} />
           </div>
         </div>
+      </div>
+      <div>
+        <HomeLink lang={lang} />
       </div>
     </div>
   )

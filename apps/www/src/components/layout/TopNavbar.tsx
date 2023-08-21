@@ -16,7 +16,7 @@ import { Navbar, NavbarContent, NavbarMenuToggle } from '@nextui-org/navbar'
 import { User } from '@nextui-org/user'
 
 import EarthEuropeIcon from 'src/assets/earth-europe-solid.svg'
-import { MenuLocaleLinks, NavMenuLocaleLinks } from 'src/components/layout/LocaleLinks'
+import { DropdownMenuLocaleLinks, NavMenuLocaleLinks } from 'src/components/layout/LocaleLinks'
 import { ELocaleNames, USERNAME, isOpenToWork } from 'my-constants'
 import { SOCIAL_LINKS_WORK, SOCIAL_LINKS } from 'src/constants'
 import { getT } from 'src/utils/getT'
@@ -35,6 +35,7 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
       as="div"
       classNames={{
         base: 'print:relative print:!border-small print:rounded-md',
+        wrapper: 'pl-3 pr-4',
         item: [
           'flex',
           'relative',
@@ -54,47 +55,49 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
       isBordered
       onMenuOpenChange={setIsMenuOpen}
     >
-      <NavbarContent as="div" className="py-2">
-        <Dropdown placement="bottom-start">
+      <NavbarContent as="div">
+        <Dropdown>
           <DropdownTrigger className="group">
-            <User
-              className="transition-transform hover:shadow relative dark:hover:outline-white/10 dark:hover:outline-1"
-              classNames={{
-                description: 'text-foreground-500',
-              }}
-              as="button"
-              avatarProps={{
-                alt: USERNAME,
-                className: 'group-data-[focus-visible=true]:ring-0',
-                color: 'primary',
-                isBordered: true,
-                src: avatarUserImg.src,
-              }}
-              name={
-                <span className="flex flex-nowrap gap-1">
-                  <span className="flex text-lg lowercase">
-                    <span className="text-gray-500 font-thin mr-0.5">@</span>
-                    {USERNAME.replace('@', '')}
+            <Button className="min-h-unit-12 py-0 px-1" variant="light">
+              <User
+                className="transition-transform"
+                classNames={{
+                  base: 'p-1 min-h-full',
+                  description: 'text-foreground-500',
+                }}
+                avatarProps={{
+                  alt: USERNAME,
+                  className: 'group-data-[focus-visible=true]:ring-0',
+                  color: 'primary',
+                  isBordered: true,
+                  src: avatarUserImg.src,
+                }}
+                name={
+                  <span className="flex flex-nowrap gap-1">
+                    <span className="flex text-lg lowercase">
+                      <span className="text-gray-500 font-thin mr-0.5">@</span>
+                      {USERNAME.replace('@', '')}
+                    </span>
+                    {isOpenToWork && (
+                      <Chip
+                        className="flex flex-nowrap text-xs whitespace-nowrap h-6 leading-3 self-center print:hidden"
+                        classNames={{
+                          content: 'pl-1 pr-0.5',
+                        }}
+                        color="success"
+                        variant="bordered"
+                        startContent={
+                          <span className="animate-pulse w-2 h-2 ml-0.5 bg-green-500 leading-3 rounded-full"></span>
+                        }
+                      >
+                        {t.openToWork}
+                      </Chip>
+                    )}
                   </span>
-                  {isOpenToWork && (
-                    <Chip
-                      className="flex flex-nowrap text-xs whitespace-nowrap h-6 leading-3 self-center print:hidden"
-                      classNames={{
-                        content: 'pl-1 pr-0.5',
-                      }}
-                      color="success"
-                      variant="bordered"
-                      startContent={
-                        <span className="animate-pulse w-2 h-2 ml-0.5 bg-green-500 leading-3 rounded-full"></span>
-                      }
-                    >
-                      {t.openToWork}
-                    </Chip>
-                  )}
-                </span>
-              }
-              description={t.meta.keywords}
-            />
+                }
+                description={t.meta.keywords}
+              />
+            </Button>
           </DropdownTrigger>
           <DropdownMenu
             aria-label="Social media links"
@@ -106,6 +109,9 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
                   <DropdownItem
                     as={Link}
                     className="bg-gradient-to-tr from-purple-600 to-primary-500 !text-white mb-2"
+                    classNames={{
+                      title: 'font-bold',
+                    }}
                     key={i}
                     rel="me"
                     role="link"
@@ -116,7 +122,7 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
                     startContent={
                       <Icon className="self-start" width={32} height={32} fill="white" />
                     }
-                    title={<b>{title}</b>}
+                    title={title}
                     description={
                       <span className="text-gray-100 text-xs">
                         {/* @ts-ignore */}
@@ -128,13 +134,16 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
                 <DropdownItem
                   as={Link}
                   className="bg-gradient-to-tr from-purple-600 to-primary-500 !text-white mb-2"
+                  classNames={{
+                    title: 'font-bold',
+                  }}
                   key="CV"
                   // @ts-ignore
                   href={`/cv.${lang}.pdf`}
                   startContent={
                     <PdfFileIcon className="self-start" width={32} height={32} fill="white" />
                   }
-                  title={<b>CV</b>}
+                  title="CV"
                   description={
                     <span className="text-gray-100 text-xs">
                       {t.socialMedia.generatedFromWebsiteData}
@@ -154,6 +163,7 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
                   // @ts-ignore
                   isExternal
                   startContent={<Icon width={32} height={32} fill="white" />}
+                  textvalue={props.title}
                   {...props}
                 />
               ))}
@@ -178,7 +188,7 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
               {localeName}
             </Button>
           </DropdownTrigger>
-          <MenuLocaleLinks lang={lang} />
+          <DropdownMenuLocaleLinks lang={lang} />
         </Dropdown>
       </NavbarContent>
 

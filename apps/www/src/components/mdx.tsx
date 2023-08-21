@@ -31,4 +31,6 @@ export const mdxComponents = {
 
     return <p className="text-md my-3 first-of-type:mt-0" {...props} />
   },
+  ul: (props) => <ul className="list-disc list-inside" {...props} />,
+  li: (props) => <li className="list-item ml-4" {...props} />,
 }
