@@ -1,8 +1,5 @@
-export type { InterestLocale, TimelineItem, Translation } from './en'
+export type { Translation, Translation as IntlMessages } from 'src/en'
+export type { InterestLocale, LocaleCode, TimelineItem } from 'src/types'
 
-export type LocaleCode = 'en' | 'uk'
-
-export { en } from './en'
-export { uk } from './uk'
-
-export type { Translation as IntlMessages } from './en'
+export { en } from 'src/en'
+export { uk } from 'src/uk'

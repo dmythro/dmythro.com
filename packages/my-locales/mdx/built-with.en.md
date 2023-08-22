@@ -1,5 +1,7 @@
 # Project details
 
+Personal website. An unnecessarily complex project to showcase some of the things I do.
+
 ## Requirements
 
 - Fast and lightweight: high score in Lighthouse benchmark

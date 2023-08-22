@@ -1,6 +1,6 @@
 # @Dmythro's website: [dmythro.com](https://dmythro.com)
 
-Personal website, mainly to showcase things I do.
+Personal website. An unnecessarily complex project to showcase some of the things I do.
 
 ![@Dmythro's avatar](https://github.com/dmythro/dmythro.com/assets/1391015/ec3bc8d7-3a44-4365-88f1-c882800b9295)
 
