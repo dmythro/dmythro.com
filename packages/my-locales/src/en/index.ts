@@ -1,5 +1,6 @@
 import { ESocialLinks } from 'my-constants'
 
+import { skillLevel } from './constants'
 import { interests } from './interests'
 import { skills } from './skills'
 import { careerTimeline } from './timeline-career'
@@ -17,6 +18,8 @@ export const en = {
     openMenu: 'Open menu',
   },
   builtWith: 'Built with',
+  skillLevel,
+  skillsTitle: 'My Skills',
   skills,
   generalTitle: 'General Timeline',
   generalTimeline,

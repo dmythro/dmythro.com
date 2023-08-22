@@ -38,6 +38,7 @@ import { usePrint } from 'src/hooks/useMediaQuery'
 import { WithLangProp } from 'src/types'
 import { trackCustomEvent } from 'src/utils/analytics'
 import { getT } from 'src/utils/getT'
+import { Stats } from './Stats'
 
 const iconSize = 24
 
@@ -127,6 +128,8 @@ export const Sections: FC<WithLangProp & { isExpanded?: boolean }> = ({ isExpand
                     {interestKey === 'webDev' && (
                       <>
                         <ResponsiveImage src={myStudioImg} alt={t.myStudio} />
+
+                        <Stats title={t.skillsTitle} items={t.skills} isExpanded={isExpanded} />
 
                         <Timeline title={t.generalTitle} items={t.generalTimeline} />
                         <Timeline title={t.careerTitle} items={t.careerTimeline} />
