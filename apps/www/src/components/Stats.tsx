@@ -31,7 +31,7 @@ export const Stat: FC<StatProps> = ({ item, isExpanded, onClick }) => (
       </div>
     </CardHeader>
     {isExpanded && (
-      <CardBody>
+      <CardBody className="print:text-sm">
         {Array.isArray(item.description) ? item.description.join(' ') : item.description}
       </CardBody>
     )}
@@ -52,7 +52,7 @@ export const Stats: FC<StatsProps> = ({ items, isExpanded, title }) => {
       <div
         className={`clear-both grid ${
           expanded ? 'grid-cols-2' : 'grid-cols-3'
-        } gap-4 rounded`}
+        } gap-4 rounded print:grid-cols-3`}
       >
         {items.map((item) => (
           <Stat

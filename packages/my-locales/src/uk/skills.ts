@@ -43,7 +43,7 @@ export const skills: SkillTime[] = [
     times: ['2007-now'],
     subtitle: 'Postgres/Mongo, Prisma/Drizzle та інші',
     description: [
-      'Працював з різними базами даних та ORM. І зараз працюю.',
+      'Мав професійний досвід і продовжую працювати з різними базами даних, ORM та DBaaS.',
       'Від основних SQL/NoSQL БД до RDS та специфічних хмарних.',
     ],
   },
@@ -64,6 +64,14 @@ export const skills: SkillTime[] = [
       'Працював із різноманітними фреймворками.',
       'Від UI (NextUI, MUI, Tailwind CSS тощо) до бекенду (Nest.js/Express тощо) та повного стеку (Next.js, Astro тощо).',
     ],
+  },
+  {
+    title: 'Хмарні провайдери',
+    level: 'advanced',
+    times: ['2017-now'],
+    subtitle: 'Google Cloud, AWS, DigitalOcean, Vercel',
+    description:
+      'Мав професійний досвід з різними хмарними провайдерами, приймав участь в аудитах тощо.',
   },
   {
     title: 'React Native, Electron, Flutter',

@@ -43,7 +43,7 @@ export const skills: SkillTime[] = [
     times: ['2007-now'],
     subtitle: 'Postgres/Mongo, Prisma/Drizzle and others',
     description: [
-      'But been working with a lot of different databases and ORMs. And still do.',
+      'Had production experience and still work with many different databases, ORMs and DBaaS.',
       'From common SQL/NoSQL to RDS and specific cloud ones.',
     ],
   },
@@ -60,9 +60,17 @@ export const skills: SkillTime[] = [
     times: ['2016-now'],
     subtitle: 'For full-stack, BE or UI',
     description: [
-      'Been working with a variety of frameworks.',
+      'Had production experience with a variety of frameworks.',
       'From UI (NextUI, MUI, Tailwind CSS and others) to backend (Nest.js/Express) to full-stack (Next.js, Astro).',
     ],
+  },
+  {
+    title: 'Cloud Providers',
+    level: 'advanced',
+    times: ['2017-now'],
+    subtitle: 'Google Cloud, AWS, DigitalOcean, Vercel',
+    description:
+      'Have production experience with different cloud providers, participaded in audits and more.',
   },
   {
     title: 'React Native, Electron, Flutter',
