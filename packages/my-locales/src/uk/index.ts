@@ -24,7 +24,7 @@ export const uk: Translation = {
   careerTitle: "Моя кар'єра",
   careerTimeline,
   interests,
-  myStudio: 'Моя студія, місце де працюю',
+  myStudio: 'Моя студія, місце де працюю та займаюсь музикою',
   openToWork: 'Шукаю проект',
   socialMedia: {
     title: 'Посилання на соціальні мережі',

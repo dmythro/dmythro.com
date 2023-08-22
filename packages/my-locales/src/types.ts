@@ -11,9 +11,9 @@ export type SkillLevel = 'basic' | 'advanced' | 'proficient' | 'expert'
 
 export interface SkillTime {
   title: string
-  level?: SkillLevel
-  subtitle?: string
-  description?: string
+  level: SkillLevel
+  subtitle: string
+  description: string | string[]
   times: string[]
 }
 

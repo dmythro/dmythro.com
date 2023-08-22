@@ -19,7 +19,7 @@
 
 ## Технічний стек
 
-Створено на базі фреймворку [Next.js](https://nextjs.org/) (App Router, Middleware для визначення локалі i18n, Metadata API, SSG, error handling), [NextUI](https://nextui.org/) (зараз на основі [CSS Tailwind](https://tailwindcss.com/)), SVG піктограми [Font Awesome](https://fontawesome.com/).
+Створено на базі фреймворку [Next.js](https://nextjs.org/) (App Router, Middleware для визначення локалі i18n, Metadata API, SSG, error handling), [NextUI](https://nextui.org/) (зараз на основі [Tailwind CSS](https://tailwindcss.com/)), SVG піктограми [Font Awesome](https://fontawesome.com/).
 
 TypeScript для безпеки типів.
 [Turborepo](https://turbo.build/repo) як система збірки Monorepo.

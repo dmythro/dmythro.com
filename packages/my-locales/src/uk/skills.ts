@@ -5,62 +5,72 @@ export const skills: SkillTime[] = [
     title: 'JavaScript',
     level: 'expert',
     times: ['2006-now'],
-    subtitle: 'A must-have for years',
-    description:
-      'Been working on corporate projects since IE5-IE6 support was required, jQuery and AJAX was a thing. Will never miss those times!',
+    subtitle: 'База мого основного стеку',
+    description: [
+      'Працював на корпоративних проектах ще коли підтримка IE5-IE6 була необхідністю, а jQuery та AJAX були чимось таким, а async/await ще не існувало.',
+      'Ніколи не сумуватиму за тими часами :)',
+    ],
   },
   {
     title: 'React',
     level: 'expert',
     times: ['2012-now'],
-    subtitle:
-      'Work non-stop since v0.5 (2012), from class to functional and server components, hooks.',
+    subtitle: 'Комерційні проекти з React v0.5',
+    description:
+      'Працюю з React нон-стоп з версії 0.5 (2012), від React.Component класу до функціональних, серверних компонент та хуків.',
   },
   {
     title: 'Node.js',
     level: 'proficient',
     times: ['2012-now'],
-    subtitle: 'Work non-stop since early versions',
-    description:
-      "Can't say I'n an expert. Always learn/revisit APIs required for my task. Promises & async/await, fs, path, process, env etc.",
+    subtitle: 'Працюю постійно з ранніх версій',
+    description: [
+      'Не скажу що експерт бо завжди вчу/перечитую API документацію під свої задачі.',
+      'Але проблем без рішень ще не мав.',
+    ],
   },
   {
     title: 'TypeScript',
     level: 'proficient',
     times: ['2017-now'],
-    subtitle: 'A must-have for years',
+    subtitle: "З JS вважаю обов'язковим",
     description:
-      "Can't say I'n an expert. But check docs for types I need to describe more more rarily. Monitor new features as well.",
+      'Не скажу що експерт, але перечитую документацію щодо опису типів все рідше і рідше. Також слідкую за новими можливостями.',
   },
   {
-    title: 'React Native, Electron',
+    title: 'React Native, Electron, Flutter',
     level: 'advanced',
     times: ['2014-2016', '2019-2022'],
-    subtitle: 'Still good for cross-platform projects',
+    subtitle: 'Досі добре для кросплатформного коду',
     description:
-      "Didn't work a lot. But know enough to quickly bootstrap a project/CI, with or without Expo etc.",
+      'Не працював дуже багато, але достатньо щоб швидко запустити у роботу проект/CI, Expo тощо.',
   },
   {
     title: 'CI/CD',
     level: 'proficient',
     times: ['2017-now'],
-    subtitle: 'Automated pipeline is a must-have',
-    description: 'Did pipelines to build and deploy different kinds of projects over past years.',
+    subtitle: "Автоматизований пайплайн вважаю обов'язковим",
+    description:
+      'За останні роки працював над пайплайнами для збірки та деплою різних видів проектів.',
   },
   {
-    title: 'DB: RDS, ORM',
+    title: 'DB, RDS, ORM',
     level: 'proficient',
     times: ['2007-now'],
-    subtitle: 'Postgres/Mongo, Prisma/Drizzle and others',
-    description:
-      'But been working with a lot of different databases and ORMs. And still do. From basic SQL/NoSQL to RDS and specific cloud ones.',
+    subtitle: 'Postgres/Mongo, Prisma/Drizzle та інші',
+    description: [
+      'Працював з різними базами даних та ORM. І зараз працюю.',
+      'Від основних SQL/NoSQL БД до RDS та специфічних хмарних.',
+    ],
   },
   {
     title: 'Frameworks',
     level: 'proficient',
     times: ['2016-now'],
-    subtitle: 'Full-stack or backend/UI frameworks',
-    description:
-      'Been working with a variety of frameworks. From UI (NextUI, MUI, Tailwind CSS and others) to backend (Nest.js/Express) to full-stack (Next.js, Astro).',
+    subtitle: 'Фреймворки повного стеку, бекенду чи UI',
+    description: [
+      'Працював із різноманітними фреймворками.',
+      'Від UI (NextUI, MUI, Tailwind CSS тощо) до бекенду (Nest.js/Express тощо) та повного стеку (Next.js, Astro тощо).',
+    ],
   },
 ]
