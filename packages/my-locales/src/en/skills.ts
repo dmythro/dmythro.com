@@ -28,7 +28,7 @@ export const skills: SkillTime[] = [
     ],
   },
   {
-    title: 'JavaScript',
+    title: 'JavaScript, ESM',
     level: 'expert',
     times: ['2006-now'],
     subtitle: "My main stack's core",
