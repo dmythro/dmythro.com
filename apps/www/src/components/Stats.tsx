@@ -17,14 +17,14 @@ interface StatsProps {
 
 export const Stat: FC<StatProps> = ({ item, isExpanded, onClick }) => (
   <Card
-    className="print:break-inside-avoid-page"
-    shadow="sm"
+    className="print:break-inside-avoid-page print:shadow-none border-1"
+    shadow="none"
     isHoverable
     isPressable
     radius="md"
     onClick={onClick}
   >
-    <CardHeader className="flex flex-row print:break-inside-avoid-page">
+    <CardHeader className="flex flex-row">
       <div className="flex flex-col flex-grow gap-1">
         <h3 className="text-md">{item.title}</h3>
         <div className="text-small text-default-500">{item.subtitle}</div>
@@ -44,15 +44,15 @@ export const Stats: FC<StatsProps> = ({ items, isExpanded, title }) => {
   return (
     <>
       {title && (
-        <h1 className="print:break-before-page font-semibold my-6 text-2xl print:break-after-avoid">
+        <h1 className="print:break-before-page print:break-after-avoid font-semibold my-6 text-2xl">
           {title}
         </h1>
       )}
 
       <div
-        className={`clear-both grid grid-cols-${
-          expanded ? 2 : 3
-        } gap-4 px-4 rounded border-x-2 print:break-inside-avoid-column`}
+        className={`clear-both grid ${
+          expanded ? 'grid-cols-2' : 'grid-cols-3'
+        } gap-4 rounded`}
       >
         {items.map((item) => (
           <Stat
