@@ -7,7 +7,7 @@ export const skills: SkillTime[] = [
     times: ['2017-now'],
     subtitle: 'Must-have for JS projects',
     description:
-      "Wouldn't say I'm an expert, but I check docs for types I need to describe more more rarily. Monitor new features as well.",
+      "Wouldn't say I'm an expert, but work with TypeScript on a daily basis for many years, follow new features.",
   },
   {
     title: 'React',
@@ -33,7 +33,7 @@ export const skills: SkillTime[] = [
     times: ['2006-now'],
     subtitle: "My main stack's core",
     description: [
-      "Been working on corporate projects when IE5-IE6 support was still required, and jQuery with AJAX was a thing and async/await wasn't.",
+      "Been working on corporate projects when IE5-IE6 support was still required, jQuery or AJAX were a thing and async/await wasn't.",
       'Will never miss those times :)',
     ],
   },
@@ -58,17 +58,17 @@ export const skills: SkillTime[] = [
     title: 'Frameworks',
     level: 'proficient',
     times: ['2016-now'],
-    subtitle: 'Full-stack, or specialized BE/UI frameworks',
+    subtitle: 'For full-stack, BE or UI',
     description: [
       'Been working with a variety of frameworks.',
       'From UI (NextUI, MUI, Tailwind CSS and others) to backend (Nest.js/Express) to full-stack (Next.js, Astro).',
     ],
   },
   {
-    title: 'React Native, Electron',
+    title: 'React Native, Electron, Flutter',
     level: 'advanced',
     times: ['2014-2016', '2019-2022'],
-    subtitle: 'Still good for cross-platform code',
+    subtitle: 'Significant experience in cross-platform development',
     description: "Didn't work a lot, but know enough to quickly bootstrap a project/CI, Expo etc.",
   },
 ]

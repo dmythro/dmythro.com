@@ -7,7 +7,7 @@ export const skills: SkillTime[] = [
     times: ['2017-now'],
     subtitle: "Для JS проектів вважаю обов'язковим",
     description:
-      'Не скажу що експерт, але перечитую документацію щодо опису типів все рідше і рідше. Також слідкую за новими можливостями.',
+      'Не скажу що експерт, але працюю з TypeScript щодня вже багато років, слідкую за новими можливостями.',
   },
   {
     title: 'React',
@@ -59,7 +59,7 @@ export const skills: SkillTime[] = [
     title: 'Frameworks',
     level: 'proficient',
     times: ['2016-now'],
-    subtitle: 'Фреймворки повного стеку, бекенду чи UI',
+    subtitle: 'Фреймворки для повного стеку, бекенду чи UI',
     description: [
       'Працював із різноманітними фреймворками.',
       'Від UI (NextUI, MUI, Tailwind CSS тощо) до бекенду (Nest.js/Express тощо) та повного стеку (Next.js, Astro тощо).',
@@ -69,7 +69,7 @@ export const skills: SkillTime[] = [
     title: 'React Native, Electron, Flutter',
     level: 'advanced',
     times: ['2014-2016', '2019-2022'],
-    subtitle: 'Досі добре для кросплатформного коду',
+    subtitle: 'Маю суттєвий досвід кросплатформної розробки',
     description:
       'Не працював дуже багато, але достатньо щоб швидко запустити у роботу проект/CI, Expo тощо.',
   },
