@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
+    "bump": "npx npm-check-updates --root --workspaces -u",
     "start": "turbo start",
     "dev": "turbo dev",
     "lint": "turbo lint",
