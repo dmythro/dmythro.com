@@ -51,9 +51,7 @@ export const Stats: FC<StatsProps> = ({ items, isExpanded, title }) => {
 
       <div
         className={`clear-both grid ${
-          expanded ? 'grid-cols-1' : 'grid-cols-2'
-        } sm:${
-          expanded ? 'grid-cols-2' : 'grid-cols-3'
+          expanded ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-2 sm:grid-cols-3'
         } gap-4 rounded print:grid-cols-3`}
       >
         {items.map((item) => (
