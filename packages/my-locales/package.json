@@ -22,7 +22,8 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "test": "SWC_NODE_PROJECT=./tsconfig.json node --no-warnings --loader @swc-node/register/esm --test-reporter spec --test tests/*.test.ts"
   },
   "publishConfig": {
     "access": "public"
@@ -31,6 +32,7 @@
     "my-constants": "file:*"
   },
   "devDependencies": {
+    "@swc-node/register": "1.6.7",
     "tsconfig": "file:*",
     "tsup": "7.2.0",
     "typescript": "5.1.6"

@@ -52,6 +52,7 @@
     },
     "clean": {
       "cache": false
-    }
+    },
+    "test": {}
   }
 }

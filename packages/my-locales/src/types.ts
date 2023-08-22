@@ -7,6 +7,16 @@ export interface InterestLocale {
   text?: string[]
 }
 
+export type SkillLevel = 'basic' | 'advanced' | 'proficient' | 'expert'
+
+export interface SkillTime {
+  title: string
+  level?: SkillLevel
+  subtitle?: string
+  description?: string
+  times: string[]
+}
+
 export interface TimelineItem {
   title?: string
   subtitle?: string

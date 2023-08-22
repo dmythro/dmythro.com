@@ -7,7 +7,9 @@ export default function GlobalError({ error, reset }: { error: Error; reset: () 
     <html lang="en">
       <head>
         <script
-          dangerouslySetInnerHTML={{ __html: `(${initTheme.toString().replace(/\s+/g, ' ')})()` }}
+          dangerouslySetInnerHTML={{
+            __html: `(${initTheme.toString().replace(/\s+/g, ' ')})()`,
+          }}
         />
       </head>
       <body>

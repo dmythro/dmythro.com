@@ -17,7 +17,11 @@ import TwitterIcon from 'src/assets/x-twitter.svg'
 
 export const iconSize = 30
 
-const linkIconProps: { className: string; width: number; height: number } = {
+const linkIconProps: {
+  className: string
+  width: number
+  height: number
+} = {
   className: 'fill-white print:fill-black',
   width: iconSize,
   height: iconSize,

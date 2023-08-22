@@ -2,6 +2,7 @@ import { ESocialLinks } from 'my-constants'
 import type { Translation } from 'src'
 
 import { interests } from './interests'
+import { skills } from './skills'
 import { careerTimeline } from './timeline-career'
 import { generalTimeline } from './timeline-general'
 
@@ -17,6 +18,7 @@ export const uk: Translation = {
     openMenu: 'Відкрити меню',
   },
   builtWith: 'Розроблено з',
+  skills,
   generalTitle: 'Загальна хронологія',
   generalTimeline,
   careerTitle: "Моя кар'єра",

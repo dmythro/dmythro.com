@@ -104,7 +104,9 @@ export default function LangLayout({ children, params }: ParamsWithLang) {
     <html lang={lang}>
       <head>
         <script
-          dangerouslySetInnerHTML={{ __html: `(${initTheme.toString().replace(/\s+/g, ' ')})()` }}
+          dangerouslySetInnerHTML={{
+            __html: `(${initTheme.toString().replace(/\s+/g, ' ')})()`,
+          }}
         />
       </head>
       {/* <body className={inter.className}> */}
@@ -118,7 +120,9 @@ export default function LangLayout({ children, params }: ParamsWithLang) {
         </main>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(personJsonLd),
+          }}
         />
       </body>
     </html>

@@ -113,7 +113,10 @@ export const Sections: FC<WithLangProp & { isExpanded?: boolean }> = ({ isExpand
                 subtitle={interest.description}
                 onFocusChange={(isFocused) => {
                   if (isFocused) {
-                    trackCustomEvent('section_view', { category: 'focus', label: interestKey })
+                    trackCustomEvent('section_view', {
+                      category: 'focus',
+                      label: interestKey,
+                    })
                   }
                 }}
               >

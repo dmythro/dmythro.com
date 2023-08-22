@@ -70,7 +70,9 @@ async function start() {
       for (const lang of locales) {
         console.info(` - open "${lang}" CV page`)
         const page = await browser.newPage()
-        await page.goto(`http://localhost:3000/${lang}/cv`, { waitUntil: 'networkidle0' })
+        await page.goto(`http://localhost:3000/${lang}/cv`, {
+          waitUntil: 'networkidle0',
+        })
 
         const pdf = await page.pdf({
           format: 'A4',

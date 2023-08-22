@@ -45,7 +45,13 @@ export const Footer: FC<WithLangProp> = ({ lang }) => {
         >
           {t.builtWith}
         </Link>
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange} classNames={{ closeButton: 'z-10' }} scrollBehavior="inside" size="lg">
+        <Modal
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          classNames={{ closeButton: 'z-10' }}
+          scrollBehavior="inside"
+          size="lg"
+        >
           <ModalContent>
             <ScrollShadow>
               <ModalBody>
