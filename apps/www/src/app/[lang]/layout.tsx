@@ -14,6 +14,7 @@ import { initTheme } from 'src/utils/theme'
 import { Providers } from './providers'
 
 import avatarImg from 'public/avatar@og.jpg'
+import { getT } from 'src/utils/getT'
 
 /**
  * @see https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
@@ -29,7 +30,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: ParamsWithLang) {
-  const t = locales[params.lang]
+  const t = getT(params.lang)
 
   const [firstName, lastName] = t.fullName.split(' ')
   const { description, keywords } = t.meta
@@ -103,6 +104,7 @@ export default function LangLayout({ children, params }: ParamsWithLang) {
   return (
     <html lang={lang}>
       <head>
+        <link rel="sitemap" href="/sitemap.xml" />
         <script
           dangerouslySetInnerHTML={{
             __html: `(${initTheme.toString().replace(/\s+/g, ' ')})()`,
