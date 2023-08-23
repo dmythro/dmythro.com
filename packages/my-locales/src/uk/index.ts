@@ -19,6 +19,7 @@ export const uk: Translation = {
     closeMenu: 'Закрити меню',
     openMenu: 'Відкрити меню',
   },
+  builtWithTitle: 'Технічні деталі проекту',
   builtWith: 'Розроблено з',
   skillLevel,
   skillsTitle: 'Мої навички',

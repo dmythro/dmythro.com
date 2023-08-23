@@ -1,12 +1,30 @@
+import type { Metadata, ResolvingMetadata } from 'next'
 import { Spacer } from '@nextui-org/spacer'
 
+import { USERNAME } from 'my-constants'
+import { availableLocales } from 'my-locales/constants'
+
+import type { ParamsWithLang, WithLangProp } from 'src/types'
 import { BuiltWith } from 'src/components/BuiltWith'
 import { HomeLink } from 'src/components/HomeLink'
 import { PhotoCard } from 'src/components/PhotoCard'
 // import { SaveLevCard } from 'src/components/SaveLevCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
+import { getT } from 'src/utils/getT'
 
-import { WithLangProp } from 'src/types'
+export async function generateMetadata({ params }: ParamsWithLang, parent: ResolvingMetadata) {
+  const t = getT(params.lang)
+  const title = `${t.builtWithTitle} – ${USERNAME}`
+  const meta: Metadata = { ...(await parent) }
+
+  meta.title = title
+  meta.alternates = {
+    languages: Object.fromEntries(availableLocales.map((lang) => [lang, '/' + lang])),
+  }
+  meta.openGraph.title = title
+
+  return meta
+}
 
 export default function BuiltWithPage({ params }: { params: WithLangProp }) {
   const { lang } = params

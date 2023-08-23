@@ -18,6 +18,7 @@ export const en = {
     closeMenu: 'Close menu',
     openMenu: 'Open menu',
   },
+  builtWithTitle: 'Details of This Project',
   builtWith: 'Built with',
   skillLevel,
   skillsTitle: 'My Skills',
