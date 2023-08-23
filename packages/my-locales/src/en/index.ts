@@ -14,6 +14,7 @@ export const en = {
     keywords: 'Web Dev, Music, Travel',
   },
   actions: {
+    backHome: 'Back to main page',
     closeMenu: 'Close menu',
     openMenu: 'Open menu',
   },

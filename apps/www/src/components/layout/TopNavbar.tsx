@@ -15,15 +15,16 @@ import { Link } from '@nextui-org/link'
 import { Navbar, NavbarContent, NavbarMenuToggle } from '@nextui-org/navbar'
 import { User } from '@nextui-org/user'
 
-import EarthEuropeIcon from 'src/assets/earth-europe-solid.svg'
-import { DropdownMenuLocaleLinks, NavMenuLocaleLinks } from 'src/components/layout/LocaleLinks'
 import { ELocaleNames, USERNAME, isOpenToWork } from 'my-constants'
+import type { WithLangProp } from 'src/types'
+import { DropdownMenuLocaleLinks, NavMenuLocaleLinks } from 'src/components/layout/LocaleLinks'
 import { SOCIAL_LINKS_WORK, SOCIAL_LINKS } from 'src/constants'
 import { getT } from 'src/utils/getT'
 
 import avatarUserImg from 'public/avatar@44px.jpg'
+
+import EarthEuropeIcon from 'src/assets/earth-europe-solid.svg'
 import PdfFileIcon from 'src/assets/file-pdf-solid.svg'
-import { WithLangProp } from 'src/types'
 
 export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean | undefined>()

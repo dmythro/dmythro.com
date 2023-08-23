@@ -15,6 +15,7 @@ export const uk: Translation = {
     keywords: 'Веб-розробка, музика, подорожі',
   },
   actions: {
+    backHome: 'Повернутись на головну',
     closeMenu: 'Закрити меню',
     openMenu: 'Відкрити меню',
   },

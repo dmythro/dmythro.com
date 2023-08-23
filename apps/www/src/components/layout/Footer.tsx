@@ -1,24 +1,23 @@
 'use client'
 
 import { FC } from 'react'
+import NextLink from 'next/link'
+import { usePathname } from 'next/navigation'
 
 import { Link } from '@nextui-org/link'
-import { Modal, ModalContent, ModalBody, useDisclosure } from '@nextui-org/modal'
-import { ScrollShadow } from '@nextui-org/scroll-shadow'
-
-import * as locales from 'my-locales'
 
 import GitHubIcon from 'src/assets/github.svg'
 import CodeIcon from 'src/assets/code-solid.svg'
+import { getT } from 'src/utils/getT'
 import { WithLangProp } from 'src/types'
-import { BuiltWith } from '../BuiltWith'
 
+const builtWithUrl = '/built-with'
 const lastPublishDate = new Date()
 
 export const Footer: FC<WithLangProp> = ({ lang }) => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
-
-  const t = locales[lang]
+  const t = getT(lang)
+  const pathname = usePathname()
+  const isBuiltWith = pathname.includes(builtWithUrl)
 
   return (
     <footer className="block relative clear-both text-center text-foreground-500 my-4">
@@ -37,29 +36,18 @@ export const Footer: FC<WithLangProp> = ({ lang }) => {
         &bull;{' '}
         <Link
           anchorIcon={<CodeIcon className="fill-foreground ml-1.5 z-" width={16} height={16} />}
+          as={NextLink}
           className="cursor-pointer"
           color="foreground"
+          href={`/${lang}${builtWithUrl}`}
+          hrefLang={lang}
+          isDisabled={isBuiltWith}
+          prefetch
           showAnchorIcon
-          underline="hover"
-          onClick={onOpen}
+          underline={isBuiltWith ? 'always' : 'hover'}
         >
           {t.builtWith}
         </Link>
-        <Modal
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          classNames={{ closeButton: 'z-10' }}
-          scrollBehavior="inside"
-          size="lg"
-        >
-          <ModalContent>
-            <ScrollShadow>
-              <ModalBody>
-                <BuiltWith lang={lang} />
-              </ModalBody>
-            </ScrollShadow>
-          </ModalContent>
-        </Modal>
       </span>
     </footer>
   )

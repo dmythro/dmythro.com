@@ -7,7 +7,7 @@ export const skills: SkillTime[] = [
     times: ['2017-now'],
     subtitle: 'Must-have for JS projects',
     description:
-      "Wouldn't say I'm an expert, but work with TypeScript on a daily basis for many years, follow new features.",
+      'I work with TypeScript on a daily basis for many years for required level of type safety on a project, follow new features.',
   },
   {
     title: 'React',
