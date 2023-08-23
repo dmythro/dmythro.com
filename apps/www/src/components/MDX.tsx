@@ -1,15 +1,27 @@
+import { Code } from '@nextui-org/code'
 import { Link } from '@nextui-org/link'
 import { ResponsiveImage } from 'src/components/ResponsiveImage'
 
 import { BASE_URL } from 'my-constants'
 
+import GitHubIcon from 'src/assets/github.svg'
+import NpmIcon from 'src/assets/npm.svg'
+
+const urlIcons = {
+  'github.com': <GitHubIcon className="fill-foreground ml-1 mr-0.5" width={16} height={16} />,
+  'www.npmjs.com': <NpmIcon className="fill-foreground ml-1 mr-0.5" width={32} height={24} />,
+}
+
 export const mdxComponents = {
   img: (props) => <ResponsiveImage {...props} shadow="none" />,
   a: (props) => {
-    const isExternal = !(props.href || '').startsWith(BASE_URL)
+    const url = new URL(props.href || '')
+    const isExternal = !url.href.startsWith(BASE_URL)
+    const anchorIcon = urlIcons[url.hostname]
+
     return (
       <Link
-        color="foreground"
+        anchorIcon={anchorIcon}
         underline="always"
         isExternal={isExternal}
         showAnchorIcon={isExternal}
@@ -33,4 +45,5 @@ export const mdxComponents = {
   },
   ul: (props) => <ul className="list-disc list-inside" {...props} />,
   li: (props) => <li className="list-item ml-4" {...props} />,
+  code: (props) => <Code size="sm" {...props} />,
 }

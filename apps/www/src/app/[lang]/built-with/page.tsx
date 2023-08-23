@@ -4,7 +4,7 @@ import { Spacer } from '@nextui-org/spacer'
 import { USERNAME } from 'my-constants'
 import { availableLocales } from 'my-locales/constants'
 
-import type { ParamsWithLang, WithLangProp } from 'src/types'
+import type { WithLangProp } from 'src/types'
 import { BuiltWith } from 'src/components/BuiltWith'
 import { HomeLink } from 'src/components/HomeLink'
 import { PhotoCard } from 'src/components/PhotoCard'
@@ -12,8 +12,9 @@ import { PhotoCard } from 'src/components/PhotoCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
 import { getT } from 'src/utils/getT'
 
-export async function generateMetadata({ params }: ParamsWithLang, parent: ResolvingMetadata) {
-  const t = getT(params.lang)
+export async function generateMetadata({ params }, parent: ResolvingMetadata) {
+  const { lang } = params as WithLangProp
+  const t = getT(lang)
   const title = `${t.builtWithTitle} – ${USERNAME}`
   const meta: Metadata = { ...(await parent) }
 

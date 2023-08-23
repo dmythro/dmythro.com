@@ -7,7 +7,7 @@ Personal website. An unnecessarily complex project to showcase some of the thing
 - **Fast and lightweight**: high score in Lighthouse benchmark
 - Auto dark / light theme
 - **Responsive design**, should look good on all desktop / tablet / mobile screens
-- **SEO**: Static / SSG for all the content and text, all required meta tags, JSON-LD data, OpenGraph data, robots.txt etc
+- **SEO**: **Static / SSG** for all the content and text, all required meta tags, **JSON-LD** data, **OpenGraph** data, robots.txt, sitemap.xml etc
 - **i18n**, English and Ukrainian translation, auto locale detection and redirect from the root route
 - Accessibility is important
 - Informative

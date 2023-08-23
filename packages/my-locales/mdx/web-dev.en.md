@@ -1,6 +1,5 @@
-_TL;DR_\
-Today I mainly work with **TypeScript based full-stack projects** (Node.js, React, React Native), **cloud platforms** (Google Cloud, DigitalOcean, AWS etc).
+_TL;DR_
 
-Technology was my passion since childhood and cartoons like "Transformers". And it still is my passion today, one of the main points of interest.
+Today I mainly work with **TypeScript based full-stack projects** (Node.js, React, React Native), **cloud platforms** (Google Cloud, DigitalOcean, AWS, Vercel, Supabase etc) as **Tech&nbsp;Lead** / **Principal** / **Senior&nbsp;Engineer**.
 
-I started learning programming in school with Pascal and Basic. Mainly to solve some puzzles like route a horse on a chess board to hit each point but only once (was one of the first, still remember).
+Also, work on some **open-source** projects. Like [current website](https://github.com/dmythro/dmythro.com) or my `countries-list` module with [~1k stars on GitHub](https://github.com/annexare/Countries) and [600k+/mo downloads on NPM](https://www.npmjs.com/package/countries-list).
