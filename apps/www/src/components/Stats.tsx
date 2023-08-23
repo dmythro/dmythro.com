@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useCallback, useRef, useState } from 'react'
 import { Card, CardHeader, CardBody } from '@nextui-org/card'
 
 import type { SkillLevel, SkillTime } from 'my-locales'
@@ -40,11 +40,22 @@ export const Stat: FC<StatProps> = ({ item, isExpanded, onClick }) => (
 
 export const Stats: FC<StatsProps> = ({ items, isExpanded, title }) => {
   const [expanded, setExpanded] = useState(isExpanded)
+  const ref = useRef<HTMLHeadingElement>()
+  const handleClick = useCallback(() => {
+    setExpanded(!expanded)
+
+    setTimeout(() => {
+      ref.current && ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 250)
+  }, [expanded])
 
   return (
     <>
       {title && (
-        <h1 className="print:break-before-page print:break-after-avoid font-semibold my-6 text-2xl">
+        <h1
+          ref={ref}
+          className="print:break-before-page print:break-after-avoid font-semibold my-6 text-2xl"
+        >
           {title}
         </h1>
       )}
@@ -55,12 +66,7 @@ export const Stats: FC<StatsProps> = ({ items, isExpanded, title }) => {
         } gap-4 rounded print:grid-cols-3`}
       >
         {items.map((item) => (
-          <Stat
-            key={item.title}
-            item={item}
-            isExpanded={expanded}
-            onClick={() => setExpanded(!expanded)}
-          />
+          <Stat key={item.title} item={item} isExpanded={expanded} onClick={handleClick} />
         ))}
       </div>
     </>
