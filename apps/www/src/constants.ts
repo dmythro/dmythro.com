@@ -6,7 +6,7 @@ import InstagramIcon from 'src/assets/instagram.svg'
 import LinkedInIcon from 'src/assets/linkedin.svg'
 import TelegramIcon from 'src/assets/telegram.svg'
 import ThreadsIcon from 'src/assets/threads.svg'
-import TwitterIcon from 'src/assets/twitter.svg'
+import TwitterIcon from 'src/assets/x-twitter.svg'
 
 export interface SocialLink {
   Icon: any
@@ -45,7 +45,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
   },
   {
     Icon: TwitterIcon,
-    title: 'Twitter',
+    title: 'X / Twitter',
     href: ESocialLinks.twitter,
   },
   {
