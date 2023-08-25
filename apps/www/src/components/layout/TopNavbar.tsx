@@ -1,30 +1,34 @@
 'use client'
 
 import { FC, useState } from 'react'
+import type { ImageProps } from 'next/image'
+import Image from 'next/image'
+import Link from 'next/link'
 
 import { Button } from '@nextui-org/button'
 import { Chip } from '@nextui-org/chip'
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  DropdownSection,
-} from '@nextui-org/dropdown'
-import { Link } from '@nextui-org/link'
+import { Dropdown, DropdownTrigger } from '@nextui-org/dropdown'
 import { Navbar, NavbarContent, NavbarMenuToggle } from '@nextui-org/navbar'
 import { User } from '@nextui-org/user'
 
 import { ELocaleNames, USERNAME, isOpenToWork } from 'my-constants'
 import type { WithLangProp } from 'src/types'
 import { DropdownMenuLocaleLinks, NavMenuLocaleLinks } from 'src/components/layout/LocaleLinks'
-import { SOCIAL_LINKS_WORK, SOCIAL_LINKS } from 'src/constants'
 import { getT } from 'src/utils/getT'
+
+import EarthEuropeIcon from 'src/assets/earth-europe-solid.svg'
 
 import avatarUserImg from 'public/avatar@44px.jpg'
 
-import EarthEuropeIcon from 'src/assets/earth-europe-solid.svg'
-import PdfFileIcon from 'src/assets/file-pdf-solid.svg'
+const { blurDataURL, width, height } = avatarUserImg
+const avatarImageProps: ImageProps = {
+  unoptimized: true,
+  blurDataURL,
+  height,
+  width,
+  src: avatarUserImg,
+  alt: USERNAME,
+}
 
 export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean | undefined>()
@@ -57,120 +61,48 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
       onMenuOpenChange={setIsMenuOpen}
     >
       <NavbarContent as="div">
-        <Dropdown>
-          <DropdownTrigger className="group">
-            <Button className="min-h-unit-12 py-0 px-1" variant="light">
-              <User
-                className="transition-transform"
-                classNames={{
-                  base: 'p-1 min-h-full',
-                  description: 'text-foreground-500',
-                }}
-                avatarProps={{
-                  alt: USERNAME,
-                  className: 'group-data-[focus-visible=true]:ring-0',
-                  color: 'primary',
-                  isBordered: true,
-                  src: avatarUserImg.src,
-                }}
-                name={
-                  <span className="flex flex-nowrap gap-1">
-                    <span className="flex text-lg lowercase">
-                      <span className="text-gray-500 font-thin mr-0.5">@</span>
-                      {USERNAME.replace('@', '')}
-                    </span>
-                    {isOpenToWork && (
-                      <Chip
-                        className="flex flex-nowrap text-xs whitespace-nowrap h-6 leading-3 self-center print:hidden"
-                        classNames={{
-                          content: 'pl-1 pr-0.5',
-                        }}
-                        color="success"
-                        variant="bordered"
-                        startContent={
-                          <span className="animate-pulse w-2 h-2 ml-0.5 bg-green-500 leading-3 rounded-full"></span>
-                        }
-                      >
-                        {t.openToWork}
-                      </Chip>
-                    )}
-                  </span>
-                }
-                description={t.meta.keywords}
-              />
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            aria-label="Social media links"
-            className="sm:flex sm:flex-row gap-2 sm:w-[320px] max-w-xs"
-          >
-            <DropdownSection title={t.socialMedia.work}>
-              {[
-                ...SOCIAL_LINKS_WORK.map(({ Icon, title, href }, i) => (
-                  <DropdownItem
-                    as={Link}
-                    className="bg-gradient-to-tr from-purple-600 to-primary-500 !text-white mb-2"
+        <Button as={Link} className="min-h-unit-12 py-0 px-1" href={`/${lang}`} variant="light">
+          <User
+            className="transition-transform"
+            classNames={{
+              base: 'p-1 min-h-full',
+              description: 'text-foreground-500',
+            }}
+            avatarProps={{
+              className: 'group-data-[focus-visible=true]:ring-0',
+              color: 'primary',
+              isBordered: true,
+              src: avatarUserImg.src,
+              ImgComponent: Image,
+              // @ts-ignore
+              imgProps: avatarImageProps,
+            }}
+            name={
+              <span className="flex flex-nowrap gap-1">
+                <span className="flex text-lg lowercase">
+                  <span className="text-gray-500 font-thin mr-0.5">@</span>
+                  {USERNAME.replace('@', '')}
+                </span>
+                {isOpenToWork && (
+                  <Chip
+                    className="flex flex-nowrap text-xs whitespace-nowrap h-6 leading-3 self-center print:hidden"
                     classNames={{
-                      title: 'font-bold',
+                      content: 'pl-1 pr-0.5',
                     }}
-                    key={i}
-                    rel="me"
-                    role="link"
-                    // @ts-ignore
-                    href={href}
-                    // @ts-ignore
-                    isExternal
+                    color="success"
+                    variant="bordered"
                     startContent={
-                      <Icon className="self-start" width={32} height={32} fill="white" />
+                      <span className="animate-pulse w-2 h-2 ml-0.5 bg-green-500 leading-3 rounded-full"></span>
                     }
-                    title={title}
-                    description={
-                      <span className="text-gray-100 text-xs">
-                        {/* @ts-ignore */}
-                        {t.socialMedia[href]}
-                      </span>
-                    }
-                  />
-                )),
-                <DropdownItem
-                  as={Link}
-                  className="bg-gradient-to-tr from-purple-600 to-primary-500 !text-white mb-2"
-                  classNames={{
-                    title: 'font-bold',
-                  }}
-                  key="CV"
-                  // @ts-ignore
-                  href={`/cv.${lang}.pdf`}
-                  startContent={
-                    <PdfFileIcon className="self-start" width={32} height={32} fill="white" />
-                  }
-                  title="CV"
-                  description={
-                    <span className="text-gray-100 text-xs">
-                      {t.socialMedia.generatedFromWebsiteData}
-                    </span>
-                  }
-                />,
-              ]}
-            </DropdownSection>
-            <DropdownSection title={t.socialMedia.personal}>
-              {SOCIAL_LINKS.map(({ Icon, ...props }, i) => (
-                <DropdownItem
-                  as={Link}
-                  className="bg-gradient-to-tr from-purple-600 to-primary-500 !text-white mb-2"
-                  key={i}
-                  rel="me"
-                  role="link"
-                  // @ts-ignore
-                  isExternal
-                  startContent={<Icon width={32} height={32} fill="white" />}
-                  textvalue={props.title}
-                  {...props}
-                />
-              ))}
-            </DropdownSection>
-          </DropdownMenu>
-        </Dropdown>
+                  >
+                    {t.openToWork}
+                  </Chip>
+                )}
+              </span>
+            }
+            description={t.meta.keywords}
+          />
+        </Button>
       </NavbarContent>
 
       {/* Locale select */}

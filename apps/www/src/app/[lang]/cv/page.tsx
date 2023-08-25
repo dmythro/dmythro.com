@@ -1,15 +1,12 @@
-import NextLink from 'next/link'
-import { Link } from '@nextui-org/link'
 import { Spacer } from '@nextui-org/spacer'
 
 import type { WithLangProp } from 'src/types'
+import { CVPdfLink } from 'src/components/CVPdfLink'
 import { HomeLink } from 'src/components/HomeLink'
 import { Sections } from 'src/components/Sections'
 import { PhotoCard } from 'src/components/PhotoCard'
 // import { SaveLevCard } from 'src/components/SaveLevCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
-
-import PdfFileIcon from 'src/assets/file-pdf-solid.svg'
 
 export default function CVPage({ params }: { params: WithLangProp }) {
   const { lang } = params
@@ -34,17 +31,7 @@ export default function CVPage({ params }: { params: WithLangProp }) {
       <div className="print:hidden flex flex-row items-center text-foreground-400">
         <HomeLink lang={lang} />
         <span>&bull;</span>
-        <Link
-          as={NextLink}
-          color="foreground"
-          href={`/cv.${lang}.pdf`}
-          hrefLang={lang}
-          isBlock
-          // title={t.actions.backHome}
-        >
-          <PdfFileIcon className="fill-foreground" width={16} height={16} />
-          &nbsp;CV.pdf
-        </Link>
+        <CVPdfLink lang={lang} />
       </div>
     </div>
   )

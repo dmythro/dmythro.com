@@ -39,6 +39,7 @@ import { WithLangProp } from 'src/types'
 import { trackCustomEvent } from 'src/utils/analytics'
 import { getT } from 'src/utils/getT'
 import { Stats } from './Stats'
+import { CVPdfLink } from './CVPdfLink'
 
 const iconSize = 24
 
@@ -123,6 +124,12 @@ export const Sections: FC<WithLangProp & { isExpanded?: boolean }> = ({ isExpand
               >
                 {LocaleMd ? (
                   <>
+                    {!isExpanded && interestKey === 'webDev' && (
+                      <div className="float-right -mt-1 print:hidden">
+                        <CVPdfLink lang={lang} />
+                      </div>
+                    )}
+
                     <LocaleMd />
 
                     {interestKey === 'webDev' && (

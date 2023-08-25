@@ -37,6 +37,7 @@
       "persistent": true
     },
     "cv": {
+      "cache": false,
       "dependsOn": [
         "www#build"
       ],

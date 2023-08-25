@@ -19,7 +19,7 @@ export const careerTimeline: TimelineItem[] = [
     subtitle: 'Peppy Health',
     description: [
       'Joined this startup on a fairly early stage. Did architecture, implemented all core infrastructure (cloud, database, CI/CD, E2E/unit test coverage), implemented initial major versions of multi-role API and Admin Panel.',
-      'Integrated all business required 3rd party services and webhooks (Sentry, SendBird, Segment, Customer.io, Mixpanel and others). Security officer. Participated in various infrastructure & security related audits. Did code reviews for all parts of the project (API, admin panel, mobile app), mentorship and technical side of a team management.',
+      'Integrated all business required 3rd party services and webhooks (Sentry, SendBird, Segment, Customer.io, Mixpanel and others). Security officer. Participated in various infrastructure & security related audits. Did code reviews for all projects (API, admin panel, mobile app), mentorship and technical side of a team management.',
       'Tech stack was based on Google Cloud, TypeScript, RDS SQL (TypeOrm/Prisma). Node.js (NestJS), React and React Native apps.',
     ],
   },

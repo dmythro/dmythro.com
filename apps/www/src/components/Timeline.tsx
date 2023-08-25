@@ -52,7 +52,7 @@ export const TimelineBlock: FC<TimelineBlockProps> = ({ item }) => {
   ].join(' ')
 
   return (
-    <div className="relative pl-8 sm:pl-32 py-4 group print:break-inside-avoid">
+    <div className="relative pl-8 sm:pl-32 py-3 group print:break-inside-avoid">
       <div className={contentClasses}>
         <Chip
           as="time"
@@ -100,14 +100,18 @@ export const TimelineBlock: FC<TimelineBlockProps> = ({ item }) => {
 
 export const Timeline: FC<TimelineProps> = ({ title, items = [] }) => {
   return (
-    <article>
-      {title && <h1 className="font-semibold my-6 text-2xl print:break-after-avoid">{title}</h1>}
+    <section className="mb-8">
+      {title && (
+        <h1 className="font-semibold my-6 text-2xl print:break-after-avoid print:break-before-page">
+          {title}
+        </h1>
+      )}
 
       <div className="-my-4">
         {items.map((item, i) => (
           <TimelineBlock key={item.when || item.till || i} item={item} />
         ))}
       </div>
-    </article>
+    </section>
   )
 }

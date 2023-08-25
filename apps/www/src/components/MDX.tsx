@@ -6,10 +6,12 @@ import { BASE_URL } from 'my-constants'
 
 import GitHubIcon from 'src/assets/github.svg'
 import NpmIcon from 'src/assets/npm.svg'
+import YouTubeIcon from 'src/assets/youtube.svg'
 
 const urlIcons = {
   'github.com': <GitHubIcon className="fill-foreground ml-1 mr-0.5" width={16} height={16} />,
   'www.npmjs.com': <NpmIcon className="fill-foreground ml-1 mr-0.5" width={32} height={24} />,
+  'youtu.be': <YouTubeIcon className="fill-red-500 ml-1" width={24} height={16} />,
 }
 
 export const mdxComponents = {
