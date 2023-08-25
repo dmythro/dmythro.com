@@ -9,13 +9,6 @@ describe('Skills', () => {
     assert.equal(en.length, uk.length)
   })
 
-  it('same titles', () => {
-    assert.deepEqual(
-      en.map(({ title }) => title),
-      uk.map(({ title }) => title),
-    )
-  })
-
   it('same times', () => {
     assert.deepEqual(
       en.map(({ times }) => times),

@@ -8,7 +8,7 @@ export const careerTimeline: TimelineItem[] = [
     title: 'Senior Frontend Engineer',
     subtitle: 'Windscribe / Control D',
     description:
-      'Mainly working on Control D website, control panel &amp; dashboard. Gatsby, React/Redux/TypeScript. A lot of Cypress tests. Major Gatsby & Cypress upgrades, to most recent versions.',
+      'While working on Control D website and dashboard (React, Redux, TypeScript), I did three significant codebase changes: major upgrades of Gatsby and Cypress (huge test coverage), fixed hundreds of warnings on type safety. Participated in new dashboard version/design implementation.',
   },
   {
     isHighlighted: true,
@@ -18,8 +18,9 @@ export const careerTimeline: TimelineItem[] = [
     title: 'Principal Software Engineer',
     subtitle: 'Peppy Health',
     description: [
-      'High-impact health support. Project based on a secure & modern tech stack — Google Cloud Platform, TypeScript/JavaScript. Node.js, React and React Native apps. Also NestJS, Prisma (PostgreSQL), Sentry, MUI, SendBird, Segment, Customer.io, Mixpanel and more.',
-      'I was working on architecture, major features research/implementation (full-stack, mainly BE/CI), documentation, E2E/unit test coverage. Mentorship, code reviews. Security officer. Participate in various audits.',
+      'Joined this startup on a fairly early stage. Did architecture, implemented all core infrastructure (cloud, database, CI/CD, E2E/unit test coverage), implemented initial major versions of multi-role API and Admin Panel.',
+      'Integrated all business required 3rd party services and webhooks (Sentry, SendBird, Segment, Customer.io, Mixpanel and others). Security officer. Participated in various infrastructure & security related audits. Did code reviews for all parts of the project (API, admin panel, mobile app), mentorship and technical side of a team management.',
+      'Tech stack was based on Google Cloud, TypeScript, RDS SQL (TypeOrm/Prisma). Node.js (NestJS), React and React Native apps.',
     ],
   },
   {
@@ -30,10 +31,10 @@ export const careerTimeline: TimelineItem[] = [
     title: 'Lead Front-end Developer',
     subtitle: 'Star (formely Cogniance)',
     description: [
-      '1. Robotized warehouse management application.',
-      'TypeScript, React (Hooks, Context, Redux), PixiJS v4-5 / WebGL, Paper.js (not much), SVG, Node, Jest/Cypress, REST.',
-      '2. Customer area, responsive accessible application for state’s transportation system (public transport tickets, parking management, institutions).',
-      'TypeScript, React, Redux, Material-UI (MUI), SVG, Node, unit tests via Jest, CRA v2+, REST. ADA accessibility & security specialist.',
+      '(1) Robotized warehouse management app.',
+      'A game-like UI to see and manage robots and their automated workflows — on a map and in a realtime. TypeScript, React, Redux, PixiJS v4-5 / WebGL, Paper.js (not much), SVG, Node, Jest/Cypress, REST API client.',
+      '(2) Customer area for US State’s transportation system: public transport tickets, parking, services for institutions.',
+      'A responsive and accessible web app from scratch, aims to help users purchase and review everything about their tickets and subscriptions, based on location, season and account type. TypeScript, React, Redux, Material-UI (MUI), SVG, Node, unit tests (Jest), REST API client. ADA accessibility & security specialist.',
     ],
   },
   {
@@ -44,7 +45,7 @@ export const careerTimeline: TimelineItem[] = [
     subtitle: 'Match2One',
     description: [
       'Programmatic advertising platform. Rich web application for customers area (React, Redux, ES2017, LESS).',
-      'App architecture rework. Custom builds (Gulp, Rollup). Custom components & UI/UX implementation. Code reviews. Candidate interviews.',
+      'Was involved in app architecture rework, custom build system, complex components & UI/UX implementation. Code reviews. Candidate interviews.',
     ],
   },
   {
@@ -54,7 +55,8 @@ export const careerTimeline: TimelineItem[] = [
     title: 'Senior Front-end Developer → Tech Lead',
     subtitle: 'Luxoft',
     description: [
-      'Hybrid desktop cross-platform application (macOS, Windows) from scratch. Electron, ES6 (React, Node.js), app prototyping, complex UI development, app localisation, OS notifications, performance & memory/CPU efficiency, IPC, CI builds & Gulp tasks, Jest tests, etc. Code reviews. Candidate interviews.',
+      'Hybrid desktop cross-platform application for a major HDD manufacturer, from scratch (macOS, Windows).',
+      'Electron, ES6 (React, Node.js), app prototyping, complex UI development, app localisation, OS notifications, performance & memory/CPU efficiency, IPC, CI builds & tasks, unit tests (Jest) etc. Code reviews. Candidate interviews.',
     ],
   },
   {

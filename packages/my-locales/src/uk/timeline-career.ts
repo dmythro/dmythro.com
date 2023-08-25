@@ -8,7 +8,7 @@ export const careerTimeline: TimelineItem[] = [
     title: 'Senior Frontend Engineer',
     subtitle: 'Windscribe / Control D',
     description:
-      'В основному працював над веб-сайтом та контрольною панеллю Control D. Gatsby, React/Redux/TypeScript, багато Cypress тестів. Мажорні апгрейди Gatsby та Cypress до свіжих версій.',
+      'Працюючи над веб-сайтом та контрольною панеллю Control D (React, Redux, TypeScript), зробив три суттєві зміни кодової бази: мажорні апгрейди  Gatsby та Cypress, виправив сотні попереджень щодо безпеки типів. Брав участь у впровадженні нової версії/дизайну контрольної панелі.',
   },
   {
     isHighlighted: true,
@@ -18,8 +18,9 @@ export const careerTimeline: TimelineItem[] = [
     title: 'Principal Software Engineer',
     subtitle: 'Peppy Health',
     description: [
-      'Ефективна підтримка здоров’я. Проект, заснований на безпечному та сучасному стеку технологій — Google Cloud Platform, TypeScript/JavaScript. Додатки на базі Node.js, React та React Native. Також NestJS, Prisma (PostgreSQL), Sentry, MUI, SendBird, Segment, Customer.io, Mixpanel тощо.',
-      'Я працював над архітектурою, дослідженням/імплементацією основної функціональності (full-stack, в основному BE/CI), документацією, покриттям E2E/юніт тестами. Менторство, перевірка коду. Офіцер з безпеки. Приймав участь у різноманітних аудитах.',
+      'Приєднався до стартапу на досить ранній стадії. Створив архітектуру, реалізував всю основну інфраструктуру (хмара, база даних, CI/CD, E2E/модульне тестування), реалізував початкові основні версії багаторольового API та панелі адміністратора.',
+      "Інтегрував всі необхідні для бізнесу сторонні сервіси та веб-хуки (Sentry, SendBird, Segment, Customer.io, Mixpanel та інші). Офіцер з безпеки. Брав участь у різноманітних аудитах інфраструктури та безпеки. Займався код рев'ю для всіх частин проекту (API, адмінпанель, мобільний додаток), менторством та технічною стороною управління командою.",
+      'Технічний стек базувався на Google Cloud, TypeScript, RDS SQL (TypeOrm/Prisma). Node.js (NestJS), додатки на React і React Native.',
     ],
   },
   {
@@ -30,10 +31,10 @@ export const careerTimeline: TimelineItem[] = [
     title: 'Lead Front-end Developer',
     subtitle: 'Star (formely Cogniance)',
     description: [
-      '1. Програма для управління роботизованим складом.',
-      'TypeScript, React (Hooks, Context, Redux), PixiJS v4-5 / WebGL, Paper.js, SVG, Node, Jest/Cypress, REST.',
-      '2. Клієнтська зона, адаптивний доступний додаток для транспортної системи штату (квитки на громадський транспорт, управління паркуванням, установи).',
-      'TypeScript, React, Redux, Material-UI (MUI), SVG, Node, Jest, CRA v2+, REST. Спеціаліст із доступності та безпеки по ADA.',
+      '(1) Додаток для керування роботизованим складом.',
+      'Схожий на гру інтерфейс користувача дозволяє спостерігати та керувати роботами та автоматизаціями — на карті та в режимі реального часу. TypeScript, React, Redux, PixiJS v4-5 / WebGL, Paper.js (not much), SVG, Node, Jest/Cypress, клієнт для REST API.',
+      '(2) Клієнтський інтерфейс для транспортної системи штату США: квитки на громадський транспорт, паркування, послуги для установ.',
+      'Адаптивний та доступний веб-додаток з нуля, допомагає користувачам купувати та переглядати все про свої квитки та підписки, в залежності від розташування, сезону та типу облікового запису. TypeScript, React, Redux, Material-UI (MUI), SVG, Node, unit tests (Jest),  клієнт для REST API. Спеціаліст з питань доступності ADA та безпеки.',
     ],
   },
   {
@@ -44,7 +45,7 @@ export const careerTimeline: TimelineItem[] = [
     subtitle: 'Match2One',
     description: [
       'Програмована рекламна платформа. Веб-додаток для клієнтської зони (React, Redux, ES2017, LESS).',
-      'Нова архітектура. Спеціальні білди (Gulp, Rollup). Перевірка коду. Співбесіди з кандидатами.',
+      "Нова архітектура, система спеціальних білдів, складні компоненти та UI/UX імплементація. Код рев'ю. Співбесіди з кандидатами.",
     ],
   },
   {
@@ -54,7 +55,8 @@ export const careerTimeline: TimelineItem[] = [
     title: 'Senior Front-end Developer → Tech Lead',
     subtitle: 'Luxoft',
     description: [
-      'Гібридний кросплатформний додаток (macOS, Windows) з нуля. Electron, ES6 (React, Node.js), прототипування, комплексні UI, локалізація, системні сповіщення, performance & memory/CPU efficiency, IPC, CI builds & Gulp tasks, Jest tests, etc. Перевірка коду. Співбесіди з кандидатами.',
+      'Гібридний кросплатформний додаток для відомого виробника HDD, з нуля (macOS, Windows).',
+      "Electron, ES6 (React, Node.js), прототипування додатку, складна розробка інтерфейсу користувача, локалізація, сповіщення ОС, продуктивність і ефективність пам’яті/ЦП, IPC, збірка та задачі CI, юніт-тести (Jest) тощо. Код рев'ю. Співбесіди з кандидатами.",
     ],
   },
   {
