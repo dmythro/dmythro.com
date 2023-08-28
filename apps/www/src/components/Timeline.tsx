@@ -52,7 +52,7 @@ export const TimelineBlock: FC<TimelineBlockProps> = ({ item }) => {
   ].join(' ')
 
   return (
-    <div className="relative pl-8 sm:pl-32 py-3 group print:break-inside-avoid">
+    <div className="relative pl-8 sm:pl-32 py-3 group">
       <div className={contentClasses}>
         <Chip
           as="time"
@@ -61,7 +61,7 @@ export const TimelineBlock: FC<TimelineBlockProps> = ({ item }) => {
           className={timeClasses}
           classNames={{
             content: 'p-0.5 flex sm:flex-col-reverse gap-1',
-            base: 'sm:h-auto sm:rounded-lg',
+            base: 'sm:h-auto sm:rounded-lg print:break-after-avoid',
           }}
         >
           {when && till ? (
@@ -80,13 +80,13 @@ export const TimelineBlock: FC<TimelineBlockProps> = ({ item }) => {
             <h2
               className={`${
                 isHighlighted ? 'font-bold' : 'font-normal'
-              } text-xl text-primary mb-1 mt-0 sm:mb-0}`}
+              } text-xl text-primary mb-1 mt-0 sm:mb-0 print:break-after-avoid`}
             >
               {title}
             </h2>
           )}
           {subtitle && (
-            <h3 className="text-lg font-medium text-foreground my-1">
+            <h3 className="text-lg font-medium text-foreground my-1 print:break-after-avoid">
               {subtitle}
               {whereBlock}
             </h3>

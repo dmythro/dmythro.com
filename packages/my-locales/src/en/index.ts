@@ -20,6 +20,13 @@ export const en = {
   },
   builtWithTitle: 'Details of This Project',
   builtWith: 'Built with',
+  cv: {
+    title: 'Hi 👋',
+    description: (years: number) => [
+      `My name is Dmytro and I am a software engineer and full-stack developer with more than ${years} years of professional experience.`,
+      'I enjoy complex tasks and good teamwork; always aim to deliver quality solutions in a reasonable time.',
+    ],
+  },
   skillLevel,
   skillsTitle: 'My Skills',
   skills,

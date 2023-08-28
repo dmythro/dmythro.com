@@ -17,7 +17,7 @@ export const SupportUkraineCard: FC<WithLangProp> = ({ lang }) => {
   const { supportUkraine } = getT(lang)
 
   return (
-    <Card className="print:border-small print:rounded-md print:shadow-none">
+    <Card className="print:hidden">
       <CardBody>{supportUkraine.message(daysSinceInvasion + 1)}</CardBody>
       <CardFooter>
         <Link
