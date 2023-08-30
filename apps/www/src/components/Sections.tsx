@@ -2,7 +2,6 @@
 
 import type { FC } from 'react'
 
-import { MDXProvider } from '@mdx-js/react'
 import { Accordion, AccordionItem } from '@nextui-org/accordion'
 
 import WebDevEn from 'my-locales/mdx/web-dev.en.md'
@@ -33,7 +32,6 @@ import LinksIcon from 'src/assets/link-solid.svg'
 import { Links } from 'src/components/Links'
 import { Timeline } from 'src/components/Timeline'
 import { ResponsiveImage } from 'src/components/ResponsiveImage'
-import { mdxComponents } from 'src/components/MDX'
 import { usePrint } from 'src/hooks/useMediaQuery'
 import { WithLangProp } from 'src/types'
 import { trackCustomEvent } from 'src/utils/analytics'
@@ -87,70 +85,68 @@ export const Sections: FC<WithLangProp & { isExpanded?: boolean }> = ({ isExpand
 
   return (
     <article>
-      <MDXProvider components={mdxComponents}>
-        <Accordion
-          className="print:overflow-auto"
-          defaultExpandedKeys={isExpanded ? interestList : undefined}
-          keepContentMounted
-          selectedKeys={isPrint ? interestList : undefined}
-          selectionMode="multiple"
-        >
-          {interestList.map((interestKey) => {
-            const Icon = sectionIcons[interestKey]
-            const LocaleMd =
-              sectionLocale[interestKey] && sectionLocale[interestKey][lang]
-                ? sectionLocale[interestKey][lang]
-                : null
-            const interest = t.interests[interestKey] as InterestLocale
+      <Accordion
+        className="print:overflow-auto"
+        defaultExpandedKeys={isExpanded ? interestList : undefined}
+        keepContentMounted
+        selectedKeys={isPrint ? interestList : undefined}
+        selectionMode="multiple"
+      >
+        {interestList.map((interestKey) => {
+          const Icon = sectionIcons[interestKey]
+          const MdxLocale =
+            sectionLocale[interestKey] && sectionLocale[interestKey][lang]
+              ? sectionLocale[interestKey][lang]
+              : null
+          const interest = t.interests[interestKey] as InterestLocale
 
-            return (
-              <AccordionItem
-                key={interestKey}
-                aria-label={interest.title}
-                className="[&>section]:print:!opacity-100 [&>section]:print:!h-auto [&>section]:print:!overflow-y-auto print:break-before-page"
-                id={interestKey}
-                title={<h2>{interest.title}</h2>}
-                textValue={interest.title}
-                startContent={<Icon className="fill-current" width={iconSize} height={iconSize} />}
-                subtitle={interest.description}
-                onFocusChange={(isFocused) => {
-                  if (isFocused) {
-                    trackCustomEvent('section_view', {
-                      category: 'focus',
-                      label: interestKey,
-                    })
-                  }
-                }}
-              >
-                {LocaleMd ? (
-                  <>
-                    {!isExpanded && interestKey === 'webDev' && (
-                      <div className="float-right -mt-1 print:hidden">
-                        <CVPdfLink lang={lang} />
-                      </div>
-                    )}
+          return (
+            <AccordionItem
+              key={interestKey}
+              aria-label={interest.title}
+              className="[&>section]:print:!opacity-100 [&>section]:print:!h-auto [&>section]:print:!overflow-y-auto print:break-before-page"
+              id={interestKey}
+              title={<h2>{interest.title}</h2>}
+              textValue={interest.title}
+              startContent={<Icon className="fill-current" width={iconSize} height={iconSize} />}
+              subtitle={interest.description}
+              onFocusChange={(isFocused) => {
+                if (isFocused) {
+                  trackCustomEvent('section_view', {
+                    category: 'focus',
+                    label: interestKey,
+                  })
+                }
+              }}
+            >
+              {MdxLocale ? (
+                <>
+                  {!isExpanded && interestKey === 'webDev' && (
+                    <div className="float-right -mt-1 print:hidden">
+                      <CVPdfLink lang={lang} />
+                    </div>
+                  )}
 
-                    <LocaleMd />
+                  <MdxLocale />
 
-                    {interestKey === 'webDev' && (
-                      <>
-                        <ResponsiveImage src={myStudioImg} alt={t.myStudio} />
+                  {interestKey === 'webDev' && (
+                    <>
+                      <ResponsiveImage src={myStudioImg} alt={t.myStudio} />
 
-                        <Stats title={t.skillsTitle} items={t.skills} isExpanded={isExpanded} />
+                      <Stats title={t.skillsTitle} items={t.skills} isExpanded={isExpanded} />
 
-                        <Timeline title={t.generalTitle} items={t.generalTimeline} />
-                        <Timeline title={t.careerTitle} items={t.careerTimeline} />
-                      </>
-                    )}
-                  </>
-                ) : (
-                  <>&nbsp;</>
-                )}
-              </AccordionItem>
-            )
-          })}
-        </Accordion>
-      </MDXProvider>
+                      <Timeline title={t.generalTitle} items={t.generalTimeline} />
+                      <Timeline title={t.careerTitle} items={t.careerTimeline} />
+                    </>
+                  )}
+                </>
+              ) : (
+                <>&nbsp;</>
+              )}
+            </AccordionItem>
+          )
+        })}
+      </Accordion>
     </article>
   )
 }

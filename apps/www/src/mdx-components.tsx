@@ -1,3 +1,5 @@
+import type { MDXComponents } from 'mdx/types'
+
 import { Code } from '@nextui-org/code'
 import { Link } from '@nextui-org/link'
 import { ResponsiveImage } from 'src/components/ResponsiveImage'
@@ -48,4 +50,11 @@ export const mdxComponents = {
   ul: (props) => <ul className="list-disc list-inside" {...props} />,
   li: (props) => <li className="list-item ml-4" {...props} />,
   code: (props) => <Code size="sm" {...props} />,
+}
+
+export function useMDXComponents(components: MDXComponents): MDXComponents {
+  return {
+    ...components,
+    ...(mdxComponents as MDXComponents),
+  }
 }

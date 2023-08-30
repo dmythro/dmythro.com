@@ -1,7 +1,9 @@
+'use client'
+
 import { FC, useCallback, useRef, useState } from 'react'
 import { Card, CardHeader, CardBody } from '@nextui-org/card'
 
-import type { SkillLevel, SkillTime } from 'my-locales'
+import type { SkillTime } from 'my-locales'
 
 interface StatProps {
   item: SkillTime
