@@ -21,10 +21,17 @@ export const ResponsiveImage: FC<ResponsiveImageProps> = ({
   const data: StaticImageData = isSrcImport ? (src as StaticImageData) : undefined
 
   return (
-    <Card as="figure" className="responsive-image" fullWidth isFooterBlurred shadow={shadow}>
+    <Card
+      as="figure"
+      className="responsive-image print:block print:border-small print:rounded-md print:shadow-none print:transition-none"
+      fullWidth
+      isFooterBlurred
+      shadow={shadow}
+    >
       <Image
         placeholder={data?.blurDataURL ? 'blur' : undefined}
         blurDataURL={data?.blurDataURL}
+        className="print:shadow-none"
         sizes={sizes}
         src={src}
         alt={alt}

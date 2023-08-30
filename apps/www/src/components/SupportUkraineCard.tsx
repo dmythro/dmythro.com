@@ -22,7 +22,7 @@ export const SupportUkraineCard: FC<WithLangProp> = ({ lang }) => {
 
   return (
     <Card
-      className="flex w-full print:border-small print:rounded-md print:shadow-none print:mt-4"
+      className="flex w-full print:block print:border-small print:rounded-md print:shadow-none print:transition-none print:mt-4"
       isHoverable
       isPressable
       shadow="md"

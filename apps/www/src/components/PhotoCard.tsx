@@ -27,9 +27,9 @@ export const PhotoCard: FC<WithLangProp> = ({ lang }) => {
   const years = new Date().getFullYear() - 2006
 
   return (
-    <>
+    <div>
       <ResponsiveImage alt={t.fullName} caption={caption} sizes={sizes} src={avatarImg800} />
-      <Card className="hidden print:block print:border-small print:rounded-md print:shadow-none mt-4">
+      <Card className="hidden print:block print:border-small print:rounded-md print:shadow-none print:transition-none mt-4">
         <CardBody>
           <h1 className="text-xl mb-3">{t.cv.title}</h1>
           {t.cv.description(years).map((p, i) => (
@@ -37,6 +37,6 @@ export const PhotoCard: FC<WithLangProp> = ({ lang }) => {
           ))}
         </CardBody>
       </Card>
-    </>
+    </div>
   )
 }
