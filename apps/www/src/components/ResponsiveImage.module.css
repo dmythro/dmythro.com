@@ -1,0 +1,13 @@
+@tailwind components;
+
+@layer components {
+  .responsive-image {
+    @apply block relative bg-foreground-200 print:border-small print:rounded-md print:shadow-none print:transition-none;
+  }
+  .responsive-image > img {
+    @apply print:shadow-none print:block print:opacity-100 print:object-contain;
+  }
+  .responsive-image > figcaption {
+    @apply before:bg-white/10 py-1 block absolute before:rounded-xl rounded-lg text-tiny text-white/80 bottom-2 right-2 max-w-fit ml-1 z-10;
+  }
+}

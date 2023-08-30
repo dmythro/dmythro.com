@@ -4,6 +4,8 @@ import { Chip } from '@nextui-org/chip'
 
 import { TimelineItem } from 'my-locales'
 
+import './Timeline.module.css'
+
 interface TimelineProps {
   title?: string
   items?: TimelineItem[]
@@ -38,32 +40,15 @@ export const TimelineBlock: FC<TimelineBlockProps> = ({ item }) => {
     </div>
   )
 
-  const contentClasses = [
-    'flex flex-col sm:flex-row items-start mb-1',
-    // before: line
-    'group-last:before:hidden before:absolute before:left-2 sm:before:left-0 before:h-full before:px-px before:bg-foreground-300 sm:before:ml-[6.5rem] before:self-start before:-translate-x-1/2 before:translate-y-3',
-    // after: dot
-    'after:absolute after:left-2 sm:after:left-0 after:w-2 after:h-2 after:bg-primary-600 after:border-4 after:box-content after:border-foreground-200 after:rounded-full sm:after:ml-[6.5rem] after:-translate-x-1/2 after:translate-y-1.5',
-  ].join(' ')
-
   const timeClasses = [
-    'font-semibold text-center',
-    'inline-flex sm:absolute left-0 translate-y-0.5 sm:min-w-unit-20 h-6 mb-3 sm:mb-0',
+    'font-semibold text-center left-0 h-6 mb-3',
+    'inline-flex sm:absolute translate-y-0.5 sm:min-w-unit-20 sm:mb-0',
   ].join(' ')
 
   return (
-    <div className="relative pl-8 sm:pl-32 py-3 group">
-      <div className={contentClasses}>
-        <Chip
-          as="time"
-          color="success"
-          variant="bordered"
-          className={timeClasses}
-          classNames={{
-            content: 'p-0.5 flex sm:flex-col-reverse gap-1',
-            base: 'sm:h-auto sm:rounded-lg print:break-after-avoid',
-          }}
-        >
+    <div className="timeline-block group">
+      <div className="timeline-block-content group-last:before:hidden">
+        <Chip as="time" color="success" variant="bordered" className="timeline-block-time">
           {when && till ? (
             <>
               <span>{when}</span>
@@ -76,17 +61,9 @@ export const TimelineBlock: FC<TimelineBlockProps> = ({ item }) => {
         </Chip>
 
         <div>
-          {title && (
-            <h2
-              className={`${
-                isHighlighted ? 'font-bold' : 'font-normal'
-              } text-xl text-primary mb-1 mt-0 sm:mb-0 print:break-after-avoid`}
-            >
-              {title}
-            </h2>
-          )}
+          {title && <h2 className={isHighlighted ? 'font-bold' : 'font-normal'}>{title}</h2>}
           {subtitle && (
-            <h3 className="text-lg font-medium text-foreground my-1 print:break-after-avoid">
+            <h3>
               {subtitle}
               {whereBlock}
             </h3>

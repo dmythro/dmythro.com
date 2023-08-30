@@ -29,7 +29,7 @@ export const Footer: FC<WithLangProp> = ({ lang }) => {
         showAnchorIcon
         underline="hover"
       >
-        Source
+        Source code
       </Link>
       <span className="print:hidden">
         {' '}
