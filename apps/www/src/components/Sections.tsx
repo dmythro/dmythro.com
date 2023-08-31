@@ -73,7 +73,7 @@ export const Sections: FC<WithLangProp & { isExpanded?: boolean }> = ({ isExpand
                 }
               }}
             >
-              {!isExpanded && interestKey === 'webDev' && (
+              {interestKey === 'webDev' && (
                 <div className="float-right -mt-1 print:hidden">
                   <CVPdfLink lang={lang} />
                 </div>
@@ -90,6 +90,12 @@ export const Sections: FC<WithLangProp & { isExpanded?: boolean }> = ({ isExpand
                   <Timeline title={t.generalTitle} items={t.generalTimeline} />
                   <Timeline title={t.careerTitle} items={t.careerTimeline} />
                 </>
+              )}
+
+              {!isExpanded && interestKey === 'webDev' && (
+                <div className="text-right print:hidden mb-4">
+                  <CVPdfLink lang={lang} />
+                </div>
               )}
             </AccordionItem>
           )
