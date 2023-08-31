@@ -4,21 +4,6 @@ import type { FC } from 'react'
 
 import { Accordion, AccordionItem } from '@nextui-org/accordion'
 
-import WebDevEn from 'my-locales/mdx/web-dev.en.md'
-import WebDevUk from 'my-locales/mdx/web-dev.uk.md'
-
-import MusicEn from 'my-locales/mdx/music.en.md'
-import MusicUk from 'my-locales/mdx/music.uk.md'
-
-import TravelEn from 'my-locales/mdx/travel.en.md'
-import TravelUk from 'my-locales/mdx/travel.uk.md'
-
-import HobbiesEn from 'my-locales/mdx/hobbies.en.md'
-import HobbiesUk from 'my-locales/mdx/hobbies.uk.md'
-
-import FaqEn from 'my-locales/mdx/faq.en.md'
-import FaqUk from 'my-locales/mdx/faq.uk.md'
-
 import type { InterestLocale } from 'my-locales'
 
 import myStudioImg from 'public/my-studio.webp'
@@ -29,44 +14,17 @@ import HobbiesIcon from 'src/assets/gamepad-solid.svg'
 import FaqIcon from 'src/assets/clipboard-question-solid.svg'
 import LinksIcon from 'src/assets/link-solid.svg'
 
-import { Links } from 'src/components/Links'
-import { Timeline } from 'src/components/Timeline'
+import { CVPdfLink } from 'src/components/CVPdfLink'
 import { ResponsiveImage } from 'src/components/ResponsiveImage'
+import { SectionLocale } from 'src/components/SectionLocale'
+import { Stats } from 'src/components/Stats'
+import { Timeline } from 'src/components/Timeline'
 import { usePrint } from 'src/hooks/useMediaQuery'
 import { WithLangProp } from 'src/types'
 import { trackCustomEvent } from 'src/utils/analytics'
 import { getT } from 'src/utils/getT'
-import { Stats } from './Stats'
-import { CVPdfLink } from './CVPdfLink'
 
 const iconSize = 24
-
-const sectionLocale: Record<string, Record<string, any>> = {
-  webDev: {
-    en: WebDevEn,
-    uk: WebDevUk,
-  },
-  music: {
-    en: MusicEn,
-    uk: MusicUk,
-  },
-  travel: {
-    en: TravelEn,
-    uk: TravelUk,
-  },
-  hobbies: {
-    en: HobbiesEn,
-    uk: HobbiesUk,
-  },
-  faq: {
-    en: FaqEn,
-    uk: FaqUk,
-  },
-  links: {
-    en: Links,
-    uk: Links,
-  },
-}
 
 const sectionIcons: Record<string, any> = {
   webDev: WorkIcon,
@@ -94,10 +52,6 @@ export const Sections: FC<WithLangProp & { isExpanded?: boolean }> = ({ isExpand
       >
         {interestList.map((interestKey) => {
           const Icon = sectionIcons[interestKey]
-          const MdxLocale =
-            sectionLocale[interestKey] && sectionLocale[interestKey][lang]
-              ? sectionLocale[interestKey][lang]
-              : null
           const interest = t.interests[interestKey] as InterestLocale
 
           return (
@@ -119,29 +73,23 @@ export const Sections: FC<WithLangProp & { isExpanded?: boolean }> = ({ isExpand
                 }
               }}
             >
-              {MdxLocale ? (
+              {!isExpanded && interestKey === 'webDev' && (
+                <div className="float-right -mt-1 print:hidden">
+                  <CVPdfLink lang={lang} />
+                </div>
+              )}
+
+              <SectionLocale interestKey={interestKey} lang={lang} />
+
+              {interestKey === 'webDev' && (
                 <>
-                  {!isExpanded && interestKey === 'webDev' && (
-                    <div className="float-right -mt-1 print:hidden">
-                      <CVPdfLink lang={lang} />
-                    </div>
-                  )}
+                  <ResponsiveImage src={myStudioImg} alt={t.myStudio} />
 
-                  <MdxLocale />
+                  <Stats title={t.skillsTitle} items={t.skills} isExpanded={isExpanded} />
 
-                  {interestKey === 'webDev' && (
-                    <>
-                      <ResponsiveImage src={myStudioImg} alt={t.myStudio} />
-
-                      <Stats title={t.skillsTitle} items={t.skills} isExpanded={isExpanded} />
-
-                      <Timeline title={t.generalTitle} items={t.generalTimeline} />
-                      <Timeline title={t.careerTitle} items={t.careerTimeline} />
-                    </>
-                  )}
+                  <Timeline title={t.generalTitle} items={t.generalTimeline} />
+                  <Timeline title={t.careerTitle} items={t.careerTimeline} />
                 </>
-              ) : (
-                <>&nbsp;</>
               )}
             </AccordionItem>
           )

@@ -6,6 +6,8 @@ import { skills } from './skills'
 import { careerTimeline } from './timeline-career'
 import { generalTimeline } from './timeline-general'
 
+export type { InterestKey } from './interests'
+
 export const en = {
   fullName: 'Dmytro Klymenko',
   name: 'Dmytro',

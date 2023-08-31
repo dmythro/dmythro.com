@@ -1,6 +1,6 @@
 export type LocaleCode = 'en' | 'uk'
 
-export interface InterestLocale {
+export type InterestLocale = {
   title: string
   description: string
   tldr?: string
@@ -9,7 +9,7 @@ export interface InterestLocale {
 
 export type SkillLevel = 'basic' | 'advanced' | 'proficient' | 'expert'
 
-export interface SkillTime {
+export type SkillTime = {
   title: string
   level: SkillLevel
   subtitle: string
@@ -17,7 +17,7 @@ export interface SkillTime {
   times: string[]
 }
 
-export interface TimelineItem {
+export type TimelineItem = {
   title?: string
   subtitle?: string
   description?: string | string[]

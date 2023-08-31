@@ -1,6 +1,6 @@
 import type { InterestLocale } from 'src/types'
 
-export const interests: Record<string, InterestLocale> = {
+export const interests = {
   webDev: {
     title: 'Web Development, Career, Education',
     description:
@@ -32,4 +32,6 @@ export const interests: Record<string, InterestLocale> = {
     title: 'Links & Social Media',
     description: 'Check out my GitHub, LinkedIn or other profiles.',
   },
-}
+} satisfies Record<string, InterestLocale>
+
+export type InterestKey = keyof typeof interests
