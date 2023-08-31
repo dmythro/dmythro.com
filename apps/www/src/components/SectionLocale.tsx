@@ -1,4 +1,4 @@
-import type { FC, JSX, ReactNode } from 'react'
+import type { FC } from 'react'
 import type { InterestKey, LocaleCode } from 'my-locales'
 
 import WebDevEn from 'my-locales/mdx/web-dev.en.md'
@@ -18,9 +18,10 @@ import FaqUk from 'my-locales/mdx/faq.uk.md'
 
 import { Links } from 'src/components/Links'
 
-type Interest = Record<LocaleCode, (props: unknown) => JSX.Element | ReactNode>
-
-const sectionLocales: Record<InterestKey, Interest> = {
+const sectionLocales: Record<
+  InterestKey,
+  unknown // Record<LocaleCode, (props) => JSX.Element | ReactNode>
+> = {
   webDev: {
     en: WebDevEn,
     uk: WebDevUk,

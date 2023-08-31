@@ -1,6 +1,7 @@
+import type { InterestKey } from 'src'
 import type { InterestLocale } from 'src/types'
 
-export const interests: Record<string, InterestLocale> = {
+export const interests: Record<InterestKey, InterestLocale> = {
   webDev: {
     title: "Веб розробка, кар'єра, освіта",
     description:

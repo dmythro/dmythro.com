@@ -4,7 +4,7 @@ import type { FC } from 'react'
 
 import { Accordion, AccordionItem } from '@nextui-org/accordion'
 
-import type { InterestLocale } from 'my-locales'
+import type { InterestKey, InterestLocale } from 'my-locales'
 
 import myStudioImg from 'public/my-studio.webp'
 import WorkIcon from 'src/assets/briefcase-solid.svg'
@@ -39,7 +39,7 @@ export const Sections: FC<WithLangProp & { isExpanded?: boolean }> = ({ isExpand
   const isPrint = usePrint() // useMediaQuery('print')
   const t = getT(lang)
 
-  const interestList = Object.keys(t.interests)
+  const interestList = Object.keys(t.interests) as InterestKey[]
 
   return (
     <article>
