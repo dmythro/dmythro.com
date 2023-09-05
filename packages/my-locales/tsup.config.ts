@@ -7,6 +7,9 @@ export default defineConfig((options: Options) => ({
   entry: ['src/index.ts', 'src/constants.ts'],
   format: ['esm'],
   dts: true,
-  minify: true,
-  clean: true,
+  minify: !options.watch,
+  clean: !options.watch,
+  esbuildOptions(eo) {
+    eo.charset = 'utf8'
+  },
 }))
