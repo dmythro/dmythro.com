@@ -15,7 +15,7 @@
   "devDependencies": {
     "puppeteer": "21.2.1",
     "tsconfig": "file:*",
-    "tsx": "3.12.10",
+    "tsx": "3.14.0",
     "typescript": "5.2.2"
   }
 }

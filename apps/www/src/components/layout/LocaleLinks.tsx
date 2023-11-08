@@ -54,6 +54,7 @@ export const DropdownMenuLocaleLinks: FC<WithLangProp> = ({ lang }) => {
             color={isActive ? 'default' : 'primary'}
             // @ts-ignore
             href={`/${l}${currentPath}`}
+            // @ts-ignore
             hrefLang={l}
             rel="me"
             role="link"

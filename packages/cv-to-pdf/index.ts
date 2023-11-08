@@ -3,6 +3,9 @@ import fs from 'fs'
 import path from 'path'
 import puppeteer from 'puppeteer'
 
+const host = 'localhost'
+const port = 3000
+
 const locales = ['en', 'uk']
 const pdfExt = '.pdf'
 const tempPathSuffix = '.browser'
@@ -58,7 +61,7 @@ async function start() {
     const browser = await puppeteer.launch({ headless: 'new' })
 
     staticServer.stdout?.on('data', async (data: any) => {
-      if (`${data}`.includes('ready started server')) {
+      if (`${data}`.includes(`://${host}:${port}`)) {
         return generatePdfs()
       }
     })
@@ -70,8 +73,8 @@ async function start() {
       for (const lang of locales) {
         console.info(` - open "${lang}" CV page`)
         const page = await browser.newPage()
-        await page.goto(`http://localhost:3000/${lang}/cv`, {
-          waitUntil: 'networkidle0',
+        await page.goto(`http://${host}:${port}/${lang}/cv`, {
+          waitUntil: 'networkidle2',
         })
 
         const pdf = await page.pdf({
