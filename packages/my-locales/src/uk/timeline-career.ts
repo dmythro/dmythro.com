@@ -2,6 +2,18 @@ import type { TimelineItem } from 'src/types'
 
 export const careerTimeline: TimelineItem[] = [
   {
+    when: 'Вер ’23',
+    till: 'Лис ’23',
+    where: 'UA, SE',
+    title: 'Lead Full-stack Engineer',
+    subtitle: 'KITRUM (контракт)',
+    description: [
+      'Я повністю переробив і вдосконалив клієнтську програму, додав авторизацію на основі ролей, CI/CD, створив спеціальну панель адміністратора протягом 2-місячного контракту.',
+      'Технічний стек базувався на Google Cloud, TypeScript і RDS SQL (Drizzle ORM, Postgres, динамічні схеми). Node.js, Next.js/React, NextUI 2/Tailwind CSS, Zod, Next Auth, GraphQL/Yoga.',
+      'Ретельно оцінено продуктивність Mongo DB 7 Atlas Search і Meilisearch для фасетного пошуку.',
+    ],
+  },
+  {
     when: 'Лис ’22',
     till: 'Кві ’23',
     where: 'CA',
