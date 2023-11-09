@@ -6,7 +6,6 @@ import { availableLocales } from 'my-locales/constants'
 import type { WithLangProp } from 'src/types'
 import { BuiltWith } from 'src/components/BuiltWith'
 import { HomeLink } from 'src/components/HomeLink'
-import { PhotoCard } from 'src/components/PhotoCard'
 import { getT } from 'src/utils/getT'
 
 export async function generateMetadata({ params }, parent: ResolvingMetadata) {

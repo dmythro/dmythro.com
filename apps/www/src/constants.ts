@@ -1,3 +1,4 @@
+import { Viewport } from 'next'
 import { ESocialLinks } from 'my-constants'
 
 import FacebookIcon from 'src/assets/facebook-f.svg'
@@ -56,3 +57,13 @@ export const SOCIAL_LINKS: SocialLink[] = [
 ]
 
 export const isOpenToWork = true
+
+/** @see https://nextjs.org/docs/app/api-reference/functions/generate-viewport */
+export const viewport: Viewport = {
+  initialScale: 1,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: 'white' },
+    { media: '(prefers-color-scheme: dark)', color: 'black' },
+  ],
+  width: 'device-width',
+}

@@ -25,6 +25,8 @@ export const dynamicParams = false
 
 // const inter = Inter({ subsets: ['latin'] })
 
+export { viewport } from 'src/constants'
+
 export async function generateStaticParams() {
   return availableLocales.map((lang) => ({ lang }))
 }

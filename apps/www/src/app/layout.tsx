@@ -6,6 +6,8 @@ import { GA_TRACKING_ID } from 'src/utils/analytics'
 
 const GA_DEBUG = process.env.NODE_ENV === 'development' ? 'true' : 'false'
 
+export { viewport } from 'src/constants'
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
