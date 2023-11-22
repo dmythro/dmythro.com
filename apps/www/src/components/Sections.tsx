@@ -44,7 +44,7 @@ export const Sections: FC<WithLangProp & { isExpanded?: boolean }> = ({ isExpand
   return (
     <article>
       <Accordion
-        className="print:overflow-auto"
+        className="print:overflow-auto px-0"
         defaultExpandedKeys={isExpanded ? interestList : undefined}
         keepContentMounted
         selectedKeys={isPrint ? interestList : undefined}
