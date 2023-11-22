@@ -1,5 +1,3 @@
-import { Spacer } from '@nextui-org/spacer'
-
 import type { WithLangProp } from 'src/types'
 import { CVPdfLink } from 'src/components/CVPdfLink'
 import { HomeLink } from 'src/components/HomeLink'
@@ -11,15 +9,13 @@ import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
 export default function CVPage({ params }: { params: WithLangProp }) {
   const { lang } = params
   return (
-    <div className="flex flex-col max-w-5xl mx-auto gap-4 p-4 relative print:block">
+    <div className="flex flex-col max-w-[1024px] mx-auto gap-4 p-4 relative print:block">
       <div className="flex flex-col sm:flex-row-reverse print:!flex-col gap-4 relative print:block">
         <div className="basis-full sm:basis-5/12 sm:sticky print:!relative sm:self-start sm:top-0 print:!top-auto print:max-w-[60%] print:mx-auto print:mt-12">
-          <div className="flex flex-col gap-1 print:block">
+          <div className="flex flex-col gap-6 print:block">
             <PhotoCard lang={lang} />
-            <Spacer />
             <SupportUkraineCard lang={lang} />
-            {/* <Spacer />
-                <SaveLevCard /> */}
+            {/* <SaveLevCard /> Raised enough for now! */}
           </div>
         </div>
         <div className="basis-full sm:basis-7/12 print:block">
