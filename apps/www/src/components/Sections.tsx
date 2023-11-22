@@ -62,7 +62,7 @@ export const Sections: FC<WithLangProp & { isExpanded?: boolean }> = ({ isExpand
               id={interestKey}
               title={<h2>{interest.title}</h2>}
               textValue={interest.title}
-              startContent={<Icon className="fill-current" width={iconSize} height={iconSize} />}
+              startContent={<Icon className="fill-current mx-1" width={iconSize} height={iconSize} />}
               subtitle={interest.description}
               onFocusChange={(isFocused) => {
                 if (isFocused) {
