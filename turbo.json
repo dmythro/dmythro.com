@@ -6,7 +6,8 @@
   ],
   "globalEnv": [
     "NODE_ENV",
-    "NEXT_GA_ID"
+    "NEXT_GA_ID",
+    "NEXT_RESEND_API_KEY"
   ],
   "pipeline": {
     "www#build": {

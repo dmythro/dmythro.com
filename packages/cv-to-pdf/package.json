@@ -13,9 +13,9 @@
     "my-constants": "file:*"
   },
   "devDependencies": {
-    "puppeteer": "21.2.1",
+    "puppeteer": "21.5.2",
     "tsconfig": "file:*",
-    "tsx": "3.14.0",
-    "typescript": "5.2.2"
+    "tsx": "4.6.2",
+    "typescript": "5.3.2"
   }
 }

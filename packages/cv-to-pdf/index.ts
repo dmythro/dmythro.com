@@ -73,9 +73,13 @@ async function start() {
       for (const lang of locales) {
         console.info(` - open "${lang}" CV page`)
         const page = await browser.newPage()
-        await page.goto(`http://${host}:${port}/${lang}/cv`, {
-          waitUntil: 'networkidle2',
+        await page.goto(`http://${host}:${port}/${lang}/cv`, { waitUntil: 'networkidle0' })
+
+        // Load all non-priority <Image />
+        await page.evaluate(() => {
+          window.scrollTo({ left: 0, top: window.document.body.scrollHeight, behavior: 'smooth' })
         })
+        await page.waitForNetworkIdle()
 
         const pdf = await page.pdf({
           format: 'A4',

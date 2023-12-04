@@ -45,7 +45,9 @@ export const Sections: FC<WithLangProp & { isExpanded?: boolean }> = ({ isExpand
     <article>
       <Accordion
         className="print:overflow-auto px-0"
-        defaultExpandedKeys={isExpanded ? interestList : undefined}
+        defaultSelectedKeys={isExpanded ? interestList : undefined}
+        disableAnimation={isExpanded}
+        disableIndicatorAnimation={isExpanded}
         keepContentMounted
         selectedKeys={isPrint ? interestList : undefined}
         selectionMode="multiple"
@@ -62,7 +64,9 @@ export const Sections: FC<WithLangProp & { isExpanded?: boolean }> = ({ isExpand
               id={interestKey}
               title={<h2>{interest.title}</h2>}
               textValue={interest.title}
-              startContent={<Icon className="fill-current mx-1" width={iconSize} height={iconSize} />}
+              startContent={
+                <Icon className="fill-current mx-1" width={iconSize} height={iconSize} />
+              }
               subtitle={interest.description}
               onFocusChange={(isFocused) => {
                 if (isFocused) {
