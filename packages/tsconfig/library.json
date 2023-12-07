@@ -5,6 +5,7 @@
   "compilerOptions": {
     "lib": ["ES2015"],
     "module": "ESNext",
+    "rootDir": ".",
     "target": "ES6"
   }
 }
