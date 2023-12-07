@@ -6,9 +6,9 @@ import { BASE_URL, ESocialLinks, USERNAME } from 'my-constants'
 import * as locales from 'my-locales'
 import { availableLocales } from 'my-locales/constants'
 
-import type { ParamsWithLang } from 'src/types'
 import { Footer } from 'src/components/layout/Footer'
 import { TopNavbar } from 'src/components/layout/TopNavbar'
+import type { ParamsWithLang } from 'src/types'
 import { initTheme } from 'src/utils/theme'
 
 import { Providers } from './providers'
@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: ParamsWithLang) {
     keywords,
     manifest: '/manifest.webmanifest',
     alternates: {
-      languages: Object.fromEntries(availableLocales.map((lang) => [lang, '/' + lang])),
+      languages: Object.fromEntries(availableLocales.map((lang) => [lang, `/${lang}`])),
     },
     icons: [
       { url: '/favicon.ico' },
@@ -101,6 +101,7 @@ export default function LangLayout({ children, params }: ParamsWithLang) {
       <head>
         <link rel="sitemap" href="/sitemap.xml" />
         <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: this is a special case
           dangerouslySetInnerHTML={{
             __html: `(${initTheme.toString().replace(/\s+/g, ' ')})()`,
           }}
@@ -117,6 +118,7 @@ export default function LangLayout({ children, params }: ParamsWithLang) {
         </main>
         <script
           type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: this is a special case
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(personJsonLd),
           }}

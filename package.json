@@ -3,20 +3,19 @@
   "scripts": {
     "build": "turbo build",
     "bump": "npx npm-check-updates --root --workspaces -u",
-    "start": "turbo start",
-    "dev": "turbo dev",
-    "lint": "turbo lint",
+    "ci": "biome ci .",
     "clean": "turbo clean",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "dev": "turbo dev",
+    "check": "biome check .",
+    "check-apply": "biome check --apply-unsafe .",
+    "lint": "biome lint .",
+    "start": "turbo start"
   },
   "devDependencies": {
-    "eslint": "8.55.0",
-    "eslint-config-custom": "file:*",
-    "prettier": "3.1.0",
-    "prettier-plugin-tailwindcss": "0.5.9",
+    "@biomejs/biome": "1.4.1",
     "turbo": "1.11.0"
   },
-  "packageManager": "npm@9.6.7",
+  "packageManager": "npm@10.2.3",
   "workspaces": [
     "apps/*",
     "packages/*"

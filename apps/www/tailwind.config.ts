@@ -1,5 +1,5 @@
-import type { Config } from 'tailwindcss'
 import { nextui } from '@nextui-org/theme'
+import type { Config } from 'tailwindcss'
 
 import pkg from './package.json'
 
@@ -8,7 +8,7 @@ const componentsInUse = Object.keys(pkg.dependencies)
   .filter((c) => c.startsWith(nextuiPrefix) && c.search(/(theme|system)/) === -1)
   .map((c) => c.replace(nextuiPrefix, ''))
 
-export default {
+export default ({
   content: [
     './app/{,**/}*.{ts,jsx,tsx,mdx}',
     './pages/{,**/}*.{ts,jsx,tsx,mdx}',
@@ -25,4 +25,4 @@ export default {
   },
   darkMode: 'class',
   plugins: [nextui()],
-} satisfies Config
+} satisfies Config)

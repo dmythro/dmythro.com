@@ -1,5 +1,5 @@
-import { Viewport } from 'next'
 import { ESocialLinks } from 'my-constants'
+import { Viewport } from 'next'
 
 import FacebookIcon from 'src/assets/facebook-f.svg'
 import GitHubIcon from 'src/assets/github.svg'

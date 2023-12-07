@@ -24,7 +24,7 @@ export default async function ContactPage({ params }: { params: WithLangProp }) 
         </div>
         <div className="basis-full sm:basis-7/12 print:block">
           <div className="flex flex-col gap-4 mb-4">
-            {session && session.user ? (
+            {session?.user ? (
               <>
                 <h2 className="text-2xl">Contact</h2>
                 <p>

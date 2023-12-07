@@ -1,5 +1,5 @@
-import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/react'
+import Script from 'next/script'
 
 import 'src/styles/global.css'
 import { GA_TRACKING_ID } from 'src/utils/analytics'
@@ -20,6 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <Script
         id="google-analytics"
         strategy="afterInteractive"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: this is a special case
         dangerouslySetInnerHTML={{
           __html: `
   window.dataLayer = window.dataLayer || [];

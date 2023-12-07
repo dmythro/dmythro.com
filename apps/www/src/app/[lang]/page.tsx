@@ -8,8 +8,8 @@ export const dynamicParams = false
 import { Card, CardBody } from '@nextui-org/card'
 import { Link } from '@nextui-org/link'
 
-import { Sections } from 'src/components/Sections'
 import { PhotoCard } from 'src/components/PhotoCard'
+import { Sections } from 'src/components/Sections'
 // import { SaveLevCard } from 'src/components/SaveLevCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
 

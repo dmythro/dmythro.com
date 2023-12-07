@@ -1,5 +1,5 @@
-import { FC } from 'react'
 import { Card, CardBody } from '@nextui-org/card'
+import { FC } from 'react'
 
 import { ResponsiveImage } from 'src/components/ResponsiveImage'
 import { getT } from 'src/utils/getT'

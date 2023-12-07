@@ -1,12 +1,13 @@
-import { initTheme } from 'src/utils/theme'
 import { Card, CardBody, CardFooter } from '@nextui-org/card'
 import { Link } from '@nextui-org/link'
+import { initTheme } from 'src/utils/theme'
 
 export default function NotFound() {
   return (
     <html lang="en">
       <head>
         <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: this is a special case
           dangerouslySetInnerHTML={{
             __html: `(${initTheme.toString().replace(/\s+/g, ' ')})()`,
           }}

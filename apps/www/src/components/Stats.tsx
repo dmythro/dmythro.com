@@ -1,7 +1,7 @@
 'use client'
 
+import { Card, CardBody, CardHeader } from '@nextui-org/card'
 import { FC, useCallback, useRef, useState } from 'react'
-import { Card, CardHeader, CardBody } from '@nextui-org/card'
 
 import type { SkillTime } from 'my-locales'
 
@@ -47,7 +47,7 @@ export const Stats: FC<StatsProps> = ({ items, isExpanded, title }) => {
     setExpanded(!expanded)
 
     setTimeout(() => {
-      ref.current && ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }, 250)
   }, [expanded])
 

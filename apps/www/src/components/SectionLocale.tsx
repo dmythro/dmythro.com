@@ -1,5 +1,5 @@
-import type { FC } from 'react'
 import type { InterestKey, LocaleCode } from 'my-locales'
+import type { FC } from 'react'
 
 import WebDevEn from 'my-locales/mdx/web-dev.en.md'
 import WebDevUk from 'my-locales/mdx/web-dev.uk.md'
