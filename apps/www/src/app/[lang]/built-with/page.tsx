@@ -1,3 +1,10 @@
+/**
+ * @see https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
+ */
+
+export const dynamic = 'error'
+export const dynamicParams = false
+
 import type { Metadata, ResolvingMetadata } from 'next'
 
 import { USERNAME } from 'my-constants'

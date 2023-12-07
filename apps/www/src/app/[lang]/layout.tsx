@@ -16,13 +16,6 @@ import { Providers } from './providers'
 import avatarImg from 'public/avatar@og.jpg'
 import { getT } from 'src/utils/getT'
 
-/**
- * @see https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
- */
-
-export const dynamic = 'error'
-export const dynamicParams = false
-
 // const inter = Inter({ subsets: ['latin'] })
 
 export { viewport } from 'src/constants'

@@ -7,8 +7,6 @@ import { PhotoCard } from 'src/components/PhotoCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
 import { WithLangProp } from 'src/types'
 
-export const dynamic = 'auto'
-
 export default async function ContactPage({ params }: { params: WithLangProp }) {
   const { lang } = params
 
