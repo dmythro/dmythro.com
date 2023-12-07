@@ -1,3 +1,6 @@
+import { Card, CardBody } from '@nextui-org/card'
+import { Link } from '@nextui-org/link'
+
 import { Sections } from 'src/components/Sections'
 import { PhotoCard } from 'src/components/PhotoCard'
 // import { SaveLevCard } from 'src/components/SaveLevCard'
@@ -15,6 +18,9 @@ export default function Home({ params }: { params: WithLangProp }) {
             <PhotoCard lang={lang} />
             <SupportUkraineCard lang={lang} />
             {/* <SaveLevCard /> Raised enough for now! */}
+            <Card as={Link} href={`/${lang}/contact`}>
+              <CardBody className="flex flex-row items-center">Contact me</CardBody>
+            </Card>
           </div>
         </div>
         <div className="basis-full sm:basis-7/12 print:block">
