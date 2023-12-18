@@ -5,6 +5,8 @@
 export const dynamic = 'error'
 export const dynamicParams = false
 
+export { viewport } from 'src/constants'
+
 import type { Metadata, ResolvingMetadata } from 'next'
 
 import { USERNAME } from 'my-constants'
