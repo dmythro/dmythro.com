@@ -60,6 +60,7 @@ export const isOpenToWork = true
 
 /** @see https://nextjs.org/docs/app/api-reference/functions/generate-viewport */
 export const viewport: Viewport = {
+  colorScheme: 'dark light',
   initialScale: 1,
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: 'white' },
