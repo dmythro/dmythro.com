@@ -1,5 +1,7 @@
-import { Viewport } from 'next'
 import { ESocialLinks } from 'my-constants'
+import { Viewport } from 'next'
+
+import type { SvgIcon } from './types'
 
 import FacebookIcon from 'src/assets/facebook-f.svg'
 import GitHubIcon from 'src/assets/github.svg'
@@ -10,7 +12,7 @@ import ThreadsIcon from 'src/assets/threads.svg'
 import TwitterIcon from 'src/assets/x-twitter.svg'
 
 export interface SocialLink {
-  Icon: any
+  Icon: SvgIcon
   title: string
   href: ESocialLinks
 }
@@ -60,6 +62,7 @@ export const isOpenToWork = true
 
 /** @see https://nextjs.org/docs/app/api-reference/functions/generate-viewport */
 export const viewport: Viewport = {
+  colorScheme: 'dark light',
   initialScale: 1,
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: 'white' },

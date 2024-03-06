@@ -1,4 +1,7 @@
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import type { Person, WithContext } from 'schema-dts'
 // import { Inter } from 'next/font/google'
 
@@ -6,9 +9,10 @@ import { BASE_URL, ESocialLinks, USERNAME } from 'my-constants'
 import * as locales from 'my-locales'
 import { availableLocales } from 'my-locales/constants'
 
-import type { ParamsWithLang } from 'src/types'
 import { Footer } from 'src/components/layout/Footer'
 import { TopNavbar } from 'src/components/layout/TopNavbar'
+import type { ParamsWithLang } from 'src/types'
+import { GA_TRACKING_ID } from 'src/utils/analytics'
 import { initTheme } from 'src/utils/theme'
 
 import { Providers } from './providers'
@@ -16,13 +20,7 @@ import { Providers } from './providers'
 import avatarImg from 'public/avatar@og.jpg'
 import { getT } from 'src/utils/getT'
 
-/**
- * @see https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
- */
-
-export const dynamic = 'error'
-export const dynamicParams = false
-
+const GA_DEBUG = process.env.NODE_ENV === 'development' ? 'true' : 'false'
 // const inter = Inter({ subsets: ['latin'] })
 
 export { viewport } from 'src/constants'
@@ -44,7 +42,7 @@ export async function generateMetadata({ params }: ParamsWithLang) {
     keywords,
     manifest: '/manifest.webmanifest',
     alternates: {
-      languages: Object.fromEntries(availableLocales.map((lang) => [lang, '/' + lang])),
+      languages: Object.fromEntries(availableLocales.map((lang) => [lang, `/${lang}`])),
     },
     icons: [
       { url: '/favicon.ico' },
@@ -108,6 +106,7 @@ export default function LangLayout({ children, params }: ParamsWithLang) {
       <head>
         <link rel="sitemap" href="/sitemap.xml" />
         <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: this is a special case
           dangerouslySetInnerHTML={{
             __html: `(${initTheme.toString().replace(/\s+/g, ' ')})()`,
           }}
@@ -124,10 +123,31 @@ export default function LangLayout({ children, params }: ParamsWithLang) {
         </main>
         <script
           type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: this is a special case
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(personJsonLd),
           }}
         />
+        <Analytics />
+        <SpeedInsights />
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: this is a special case
+          dangerouslySetInnerHTML={{
+            __html: `
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '${GA_TRACKING_ID}', { debug_mode: ${GA_DEBUG} });
+`,
+          }}
+        />
+        <SpeedInsights />
       </body>
     </html>
   )

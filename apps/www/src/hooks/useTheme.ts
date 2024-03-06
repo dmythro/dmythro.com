@@ -27,7 +27,7 @@ const detectTheme = (): Theme => {
     return defaultTheme
   }
 
-  const matchDarkTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)')
+  const matchDarkTheme = window.matchMedia?.('(prefers-color-scheme: dark)')
 
   if (matchDarkTheme) {
     return matchDarkTheme.matches ? 'dark' : 'light'
@@ -43,14 +43,13 @@ const detectAndWatchTheme = (onChange?: (theme: Theme) => void, isStorage = fals
 
   // Watch for changes if there's no manually selected theme
   if (!selectedTheme) {
-    window.matchMedia &&
-      window
-        .matchMedia('(prefers-color-scheme: dark)')
-        .addEventListener('change', ({ matches }) => {
-          const nextTheme: Theme = matches ? 'dark' : 'light'
-          applyTheme(nextTheme, isStorage)
-          onChange && onChange(nextTheme)
-        })
+    window
+      .matchMedia?.('(prefers-color-scheme: dark)')
+      .addEventListener('change', ({ matches }) => {
+        const nextTheme: Theme = matches ? 'dark' : 'light'
+        applyTheme(nextTheme, isStorage)
+        onChange?.(nextTheme)
+      })
   }
 
   applyTheme(getCurrentTheme(), isStorage)

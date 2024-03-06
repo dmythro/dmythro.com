@@ -1,9 +1,9 @@
 'use client'
 
-import { FC, useState } from 'react'
 import type { ImageProps } from 'next/image'
 import Image from 'next/image'
 import Link from 'next/link'
+import { FC, useState } from 'react'
 
 import { Button } from '@nextui-org/button'
 import { Chip } from '@nextui-org/chip'
@@ -12,8 +12,8 @@ import { Navbar, NavbarContent, NavbarMenuToggle } from '@nextui-org/navbar'
 import { User } from '@nextui-org/user'
 
 import { ELocaleNames, USERNAME, isOpenToWork } from 'my-constants'
-import type { WithLangProp } from 'src/types'
 import { DropdownMenuLocaleLinks, NavMenuLocaleLinks } from 'src/components/layout/LocaleLinks'
+import { WithLangProp } from 'src/types'
 import { getT } from 'src/utils/getT'
 
 import EarthEuropeIcon from 'src/assets/earth-europe-solid.svg'
@@ -92,7 +92,7 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
                     color="success"
                     variant="bordered"
                     startContent={
-                      <span className="animate-pulse w-2 h-2 ml-0.5 bg-green-500 leading-3 rounded-full"></span>
+                      <span className="animate-pulse w-2 h-2 ml-0.5 bg-green-500 leading-3 rounded-full" />
                     }
                   >
                     {t.openToWork}

@@ -3,10 +3,9 @@
   "display": "Library",
   "extends": "./base.json",
   "compilerOptions": {
-    "lib": [
-      "ES2015"
-    ],
+    "lib": ["ES2015"],
     "module": "ESNext",
+    "rootDir": ".",
     "target": "ES6"
   }
 }

@@ -3,7 +3,7 @@ import { FC } from 'react'
 import { Button } from '@nextui-org/button'
 import { Link } from '@nextui-org/link'
 
-import { SOCIAL_LINKS_WORK, SOCIAL_LINKS } from 'src/constants'
+import { SOCIAL_LINKS, SOCIAL_LINKS_WORK } from 'src/constants'
 
 export const iconSize = 30
 const links = [...SOCIAL_LINKS_WORK, ...SOCIAL_LINKS]

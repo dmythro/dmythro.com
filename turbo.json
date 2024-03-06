@@ -1,37 +1,15 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": [
-    "**/.env.*local",
-    "**/.env.*example"
-  ],
-  "globalEnv": [
-    "NODE_ENV",
-    "NEXT_GA_ID",
-    "NEXT_RESEND_API_KEY"
-  ],
+  "globalDependencies": ["**/.env.*local", "**/.env.*example"],
+  "globalEnv": ["NODE_ENV", "NEXT_GA_ID", "NEXT_RESEND_API_KEY"],
   "pipeline": {
     "www#build": {
-      "dependsOn": [
-        "my-constants#build",
-        "my-locales#build"
-      ],
-      "outputs": [
-        "dist/**",
-        ".next/**",
-        "!.next/cache/**",
-        "!public/cv*.pdf"
-      ]
+      "dependsOn": ["my-constants#build", "my-locales#build"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**", "!public/cv*.pdf"]
     },
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        "dist/**",
-        ".next/**",
-        "!.next/cache/**",
-        "!public/cv.*.pdf"
-      ]
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**", "!public/cv.*.pdf"]
     },
     "dev": {
       "cache": false,
@@ -39,12 +17,8 @@
     },
     "cv": {
       "cache": false,
-      "dependsOn": [
-        "www#build"
-      ],
-      "outputs": [
-        "public/cv.*.pdf"
-      ]
+      "dependsOn": ["www#build"],
+      "outputs": ["public/cv.*.pdf"]
     },
     "lint": {},
     "check-types": {},

@@ -1,11 +1,20 @@
+/**
+ * @see https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
+ */
+
+export const dynamic = 'error'
+export const dynamicParams = false
+
+export { viewport } from 'src/constants'
+
 import type { Metadata, ResolvingMetadata } from 'next'
 
 import { USERNAME } from 'my-constants'
 import { availableLocales } from 'my-locales/constants'
 
-import type { WithLangProp } from 'src/types'
 import { BuiltWith } from 'src/components/BuiltWith'
 import { HomeLink } from 'src/components/HomeLink'
+import type { WithLangProp } from 'src/types'
 import { getT } from 'src/utils/getT'
 
 export async function generateMetadata({ params }, parent: ResolvingMetadata) {
@@ -16,7 +25,7 @@ export async function generateMetadata({ params }, parent: ResolvingMetadata) {
 
   meta.title = title
   meta.alternates = {
-    languages: Object.fromEntries(availableLocales.map((lang) => [lang, '/' + lang])),
+    languages: Object.fromEntries(availableLocales.map((lang) => [lang, `/${lang}`])),
   }
   meta.openGraph.title = title
 

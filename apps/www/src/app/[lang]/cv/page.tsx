@@ -1,10 +1,17 @@
-import type { WithLangProp } from 'src/types'
+/**
+ * @see https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
+ */
+
+export const dynamic = 'error'
+export const dynamicParams = false
+
 import { CVPdfLink } from 'src/components/CVPdfLink'
 import { HomeLink } from 'src/components/HomeLink'
-import { Sections } from 'src/components/Sections'
 import { PhotoCard } from 'src/components/PhotoCard'
+import { Sections } from 'src/components/Sections'
 // import { SaveLevCard } from 'src/components/SaveLevCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
+import type { WithLangProp } from 'src/types'
 
 export default function CVPage({ params }: { params: WithLangProp }) {
   const { lang } = params

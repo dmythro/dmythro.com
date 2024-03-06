@@ -8,11 +8,11 @@ import type { InterestKey, InterestLocale } from 'my-locales'
 
 import myStudioImg from 'public/my-studio.webp'
 import WorkIcon from 'src/assets/briefcase-solid.svg'
-import MusicIcon from 'src/assets/headphones-simple-solid.svg'
-import TravelIcon from 'src/assets/map-location-dot-solid.svg'
-import HobbiesIcon from 'src/assets/gamepad-solid.svg'
 import FaqIcon from 'src/assets/clipboard-question-solid.svg'
+import HobbiesIcon from 'src/assets/gamepad-solid.svg'
+import MusicIcon from 'src/assets/headphones-simple-solid.svg'
 import LinksIcon from 'src/assets/link-solid.svg'
+import TravelIcon from 'src/assets/map-location-dot-solid.svg'
 
 import { CVPdfLink } from 'src/components/CVPdfLink'
 import { ResponsiveImage } from 'src/components/ResponsiveImage'
@@ -20,13 +20,13 @@ import { SectionLocale } from 'src/components/SectionLocale'
 import { Stats } from 'src/components/Stats'
 import { Timeline } from 'src/components/Timeline'
 import { usePrint } from 'src/hooks/useMediaQuery'
-import { WithLangProp } from 'src/types'
+import type { SvgIcon, WithLangProp } from 'src/types'
 import { trackCustomEvent } from 'src/utils/analytics'
 import { getT } from 'src/utils/getT'
 
 const iconSize = 24
 
-const sectionIcons: Record<string, any> = {
+const sectionIcons: Record<string, SvgIcon> = {
   webDev: WorkIcon,
   music: MusicIcon,
   travel: TravelIcon,

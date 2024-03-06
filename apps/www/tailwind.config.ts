@@ -1,5 +1,5 @@
-import type { Config } from 'tailwindcss'
 import { nextui } from '@nextui-org/theme'
+import type { Config } from 'tailwindcss'
 
 import pkg from './package.json'
 
@@ -18,11 +18,11 @@ export default {
     './src/**/*.{ts,jsx,tsx,mdx}',
 
     // NextUI individual installation:
-    `../../node_modules/@nextui-org/theme/dist/components/(${componentsInUse.join('|')}).js`,
+    `../../node_modules/@nextui-org/theme/dist/components/(${componentsInUse.join('|')}).{js,jsx}`,
   ],
+  darkMode: 'class',
   theme: {
     extend: {},
   },
-  darkMode: 'class',
   plugins: [nextui()],
 } satisfies Config

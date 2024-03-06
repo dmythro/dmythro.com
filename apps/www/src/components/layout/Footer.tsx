@@ -1,15 +1,15 @@
 'use client'
 
-import { FC } from 'react'
 import NextLink from 'next/link'
 import { usePathname } from 'next/navigation'
+import { FC } from 'react'
 
 import { Link } from '@nextui-org/link'
 
-import GitHubIcon from 'src/assets/github.svg'
 import CodeIcon from 'src/assets/code-solid.svg'
-import { getT } from 'src/utils/getT'
+import GitHubIcon from 'src/assets/github.svg'
 import { WithLangProp } from 'src/types'
+import { getT } from 'src/utils/getT'
 
 const builtWithUrl = '/built-with'
 const lastPublishDate = new Date()

@@ -1,5 +1,5 @@
-import { FC } from 'react'
 import { Card, CardBody } from '@nextui-org/card'
+import { FC } from 'react'
 
 import { ResponsiveImage } from 'src/components/ResponsiveImage'
 import { getT } from 'src/utils/getT'
@@ -20,8 +20,7 @@ export const PhotoCard: FC<WithLangProp> = ({ lang }) => {
   const caption = (
     <>
       {t.fullName}
-      <br />
-      📷 Alina Delyne
+      <br />📷 Alina Delyne
     </>
   )
   const years = new Date().getFullYear() - 2006
@@ -32,8 +31,9 @@ export const PhotoCard: FC<WithLangProp> = ({ lang }) => {
       <Card className="hidden print:block print:border-small print:rounded-md print:shadow-none print:transition-none mt-4">
         <CardBody>
           <h1 className="text-xl mb-3">{t.cv.title}</h1>
-          {t.cv.description(years).map((p, i) => (
-            <p key={i}>{p}</p>
+          {t.cv.description(years).map((text, index) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: lines won't change here
+            <p key={index}>{text}</p>
           ))}
         </CardBody>
       </Card>

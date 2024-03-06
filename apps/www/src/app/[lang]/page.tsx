@@ -1,9 +1,18 @@
-import { Sections } from 'src/components/Sections'
+/**
+ * @see https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
+ */
+
+export const dynamic = 'error'
+export const dynamicParams = false
+
+// import { Card, CardBody } from '@nextui-org/card'
+// import { Link } from '@nextui-org/link'
+
 import { PhotoCard } from 'src/components/PhotoCard'
+import { Sections } from 'src/components/Sections'
 // import { SaveLevCard } from 'src/components/SaveLevCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
-
-import { WithLangProp } from 'src/types'
+import type { WithLangProp } from 'src/types'
 
 export default function Home({ params }: { params: WithLangProp }) {
   const { lang } = params
@@ -15,6 +24,9 @@ export default function Home({ params }: { params: WithLangProp }) {
             <PhotoCard lang={lang} />
             <SupportUkraineCard lang={lang} />
             {/* <SaveLevCard /> Raised enough for now! */}
+            {/* <Card as={Link} href={`/${lang}/contact`}>
+              <CardBody className="flex flex-row items-center">Contact me</CardBody>
+            </Card> */}
           </div>
         </div>
         <div className="basis-full sm:basis-7/12 print:block">

@@ -1,8 +1,8 @@
 import { FC } from 'react'
 
-import { DropdownMenu, DropdownItem } from '@nextui-org/dropdown'
-import { NavbarMenu, NavbarMenuItem } from '@nextui-org/navbar'
+import { DropdownItem, DropdownMenu } from '@nextui-org/dropdown'
 import { Link } from '@nextui-org/link'
+import { NavbarMenu, NavbarMenuItem } from '@nextui-org/navbar'
 
 import { ELocaleNames } from 'my-constants'
 import { availableLocales } from 'my-locales/constants'

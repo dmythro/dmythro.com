@@ -12,7 +12,8 @@ export const en = {
   fullName: 'Dmytro Klymenko',
   name: 'Dmytro',
   meta: {
-    description: `My name is Dmytro and I love tech, web development, music, traveling, space and many more.`,
+    description:
+      'My name is Dmytro and I love tech, web development, music, traveling, space and many more.',
     keywords: 'Web Dev, Music, Travel',
   },
   actions: {
@@ -57,9 +58,7 @@ export const en = {
   },
   supportUkraine: {
     message: (day: number) =>
-      'I was born and live in Ukraine.' +
-      ' Now, my country is under a full-scale invasion by russia.' +
-      ` Today is Day ${day} of fight for democracy, our existense and freedom 🇺🇦`,
+      `I was born and live in Ukraine. Now, my country is under a full-scale invasion by russia. Today is Day ${day} of fight for democracy, our existense and freedom 🇺🇦`,
     linkTitle: 'Find out how you can help',
   },
 }
