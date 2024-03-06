@@ -32,6 +32,7 @@ export const TimelineBlock: FC<TimelineBlockProps> = ({ item }) => {
     <div className="text-foreground-600">
       {Array.isArray(description)
         ? description.map((line, index) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: lines won't change here
             <p key={index} className="my-2">
               {line}
             </p>

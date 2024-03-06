@@ -8,7 +8,7 @@ const componentsInUse = Object.keys(pkg.dependencies)
   .filter((c) => c.startsWith(nextuiPrefix) && c.search(/(theme|system)/) === -1)
   .map((c) => c.replace(nextuiPrefix, ''))
 
-export default ({
+export default {
   content: [
     './app/{,**/}*.{ts,jsx,tsx,mdx}',
     './pages/{,**/}*.{ts,jsx,tsx,mdx}',
@@ -25,4 +25,4 @@ export default ({
     extend: {},
   },
   plugins: [nextui()],
-} satisfies Config)
+} satisfies Config

@@ -20,13 +20,13 @@ import { SectionLocale } from 'src/components/SectionLocale'
 import { Stats } from 'src/components/Stats'
 import { Timeline } from 'src/components/Timeline'
 import { usePrint } from 'src/hooks/useMediaQuery'
-import { WithLangProp } from 'src/types'
+import type { SvgIcon, WithLangProp } from 'src/types'
 import { trackCustomEvent } from 'src/utils/analytics'
 import { getT } from 'src/utils/getT'
 
 const iconSize = 24
 
-const sectionIcons: Record<string, any> = {
+const sectionIcons: Record<string, SvgIcon> = {
   webDev: WorkIcon,
   music: MusicIcon,
   travel: TravelIcon,

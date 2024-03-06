@@ -50,7 +50,9 @@ async function runGhostScript(filePath: string) {
 async function start() {
   console.info('Generating CV:')
 
-  return new Promise(async (resolve, reject) => {
+  const browser = await puppeteer.launch({ headless: true })
+
+  return new Promise((resolve, reject) => {
     console.info(' - start server')
 
     const staticServer = spawn('turbo', ['start'], {
@@ -58,9 +60,7 @@ async function start() {
       detached: true,
     })
 
-    const browser = await puppeteer.launch({ headless: 'new' })
-
-    staticServer.stdout?.on('data', async (data: any) => {
+    staticServer.stdout?.on('data', async (data: string) => {
       if (`${data}`.includes(`://${host}:${port}`)) {
         return generatePdfs()
       }

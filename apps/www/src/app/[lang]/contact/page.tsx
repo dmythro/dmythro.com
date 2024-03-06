@@ -5,7 +5,7 @@ import { CVPdfLink } from 'src/components/CVPdfLink'
 import { HomeLink } from 'src/components/HomeLink'
 import { PhotoCard } from 'src/components/PhotoCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
-import { WithLangProp } from 'src/types'
+import type { WithLangProp } from 'src/types'
 
 export default async function ContactPage({ params }: { params: WithLangProp }) {
   const { lang } = params
