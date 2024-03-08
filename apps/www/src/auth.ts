@@ -9,6 +9,9 @@ export const {
 } = NextAuth({
   callbacks: {
     async signIn({ account, profile }) {
+      if (!account) {
+        return false
+      }
       if (account.provider === 'google') {
         return Boolean(profile.email_verified)
       }

@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata } from 'next'
@@ -20,7 +21,6 @@ import { Providers } from './providers'
 import avatarImg from 'public/avatar@og.jpg'
 import { getT } from 'src/utils/getT'
 
-const GA_DEBUG = process.env.NODE_ENV === 'development' ? 'true' : 'false'
 // const inter = Inter({ subsets: ['latin'] })
 
 export { viewport } from 'src/constants'
@@ -134,19 +134,7 @@ export default function LangLayout({ children, params }: ParamsWithLang) {
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
           strategy="afterInteractive"
         />
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: this is a special case
-          dangerouslySetInnerHTML={{
-            __html: `
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){window.dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', '${GA_TRACKING_ID}', { debug_mode: ${GA_DEBUG} });
-`,
-          }}
-        />
+        <GoogleAnalytics gaId={GA_TRACKING_ID} />
         <SpeedInsights />
       </body>
     </html>
