@@ -1,12 +1,12 @@
 'use client'
 
 import dayjs from 'dayjs'
-import { FC, useState } from 'react'
+import { type FC, useState } from 'react'
 
 import { Card, CardBody, CardFooter } from '@nextui-org/card'
 import { Link } from '@nextui-org/link'
 
-import { WithLangProp } from 'src/types'
+import type { WithLangProp } from 'src/types'
 import { getT } from 'src/utils/getT'
 
 import InfoIcon from 'src/assets/circle-info-solid.svg'

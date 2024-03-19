@@ -1,4 +1,4 @@
-import { SkillTime } from 'src/types'
+import type { SkillTime } from 'src/types'
 
 export const skills: SkillTime[] = [
   {

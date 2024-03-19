@@ -1,4 +1,4 @@
 import { ELocaleNames } from 'my-constants'
-import { LocaleCode } from './types'
+import type { LocaleCode } from './types'
 
 export const availableLocales = Object.keys(ELocaleNames) as LocaleCode[]

@@ -1,5 +1,5 @@
 import { ESocialLinks } from 'my-constants'
-import { Viewport } from 'next'
+import type { Viewport } from 'next'
 
 import type { SvgIcon } from './types'
 

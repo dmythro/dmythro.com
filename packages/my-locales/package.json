@@ -5,12 +5,8 @@
   "types": "dist/*.d.mts",
   "typesVersions": {
     "*": {
-      "*": [
-        "dist/index.d.mts"
-      ],
-      "constants": [
-        "dist/constants.d.mts"
-      ]
+      "*": ["dist/index.d.mts"],
+      "constants": ["dist/constants.d.mts"]
     }
   },
   "exports": {

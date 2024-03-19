@@ -1,7 +1,7 @@
 'use client'
 
 import { Card, CardBody, CardHeader } from '@nextui-org/card'
-import { FC, useCallback, useRef, useState } from 'react'
+import { type FC, useCallback, useRef, useState } from 'react'
 
 import type { SkillTime } from 'my-locales'
 

@@ -1,5 +1,5 @@
 import { Card, CardBody } from '@nextui-org/card'
-import { FC } from 'react'
+import type { FC } from 'react'
 
 import { ResponsiveImage } from 'src/components/ResponsiveImage'
 import { getT } from 'src/utils/getT'
@@ -7,7 +7,7 @@ import { getT } from 'src/utils/getT'
 import avatarImg1200 from 'public/avatar.jpg'
 import avatarImg400 from 'public/avatar@400px.jpg'
 import avatarImg800 from 'public/avatar@800px.jpg'
-import { WithLangProp } from 'src/types'
+import type { WithLangProp } from 'src/types'
 
 const images = [avatarImg400, avatarImg800, avatarImg1200]
 const sizes = images

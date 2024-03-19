@@ -1,6 +1,6 @@
 import { Link } from '@nextui-org/link'
 import NextLink from 'next/link'
-import { FC } from 'react'
+import type { FC } from 'react'
 
 import BackIcon from 'src/assets/arrow-left-solid.svg'
 import HomeIcon from 'src/assets/house-solid.svg'

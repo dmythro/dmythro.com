@@ -2,13 +2,13 @@
 
 import NextLink from 'next/link'
 import { usePathname } from 'next/navigation'
-import { FC } from 'react'
+import type { FC } from 'react'
 
 import { Link } from '@nextui-org/link'
 
 import CodeIcon from 'src/assets/code-solid.svg'
 import GitHubIcon from 'src/assets/github.svg'
-import { WithLangProp } from 'src/types'
+import type { WithLangProp } from 'src/types'
 import { getT } from 'src/utils/getT'
 
 const builtWithUrl = '/built-with'

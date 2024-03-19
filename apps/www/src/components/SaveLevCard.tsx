@@ -1,8 +1,8 @@
-import { FC } from 'react'
+import type { FC } from 'react'
 
 import { Card, CardBody } from '@nextui-org/card'
 import { Link } from '@nextui-org/link'
-import { WithLangProp } from 'src/types'
+import type { WithLangProp } from 'src/types'
 import { getT } from 'src/utils/getT'
 
 export const SaveLevCard: FC<WithLangProp> = ({ lang }) => {

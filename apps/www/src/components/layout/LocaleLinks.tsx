@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import type { FC } from 'react'
 
 import { DropdownItem, DropdownMenu } from '@nextui-org/dropdown'
 import { Link } from '@nextui-org/link'
@@ -9,7 +9,7 @@ import { availableLocales } from 'my-locales/constants'
 
 import CheckIcon from 'src/assets/check-solid.svg'
 import { useCurrentPath } from 'src/hooks/useCurrentPath'
-import { WithLangProp } from 'src/types'
+import type { WithLangProp } from 'src/types'
 
 export const NavMenuLocaleLinks: FC<WithLangProp> = ({ lang }) => {
   const currentPath = useCurrentPath()

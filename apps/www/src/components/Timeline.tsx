@@ -1,8 +1,8 @@
-import { FC } from 'react'
+import type { FC } from 'react'
 
 import { Chip } from '@nextui-org/chip'
 
-import { TimelineItem } from 'my-locales'
+import type { TimelineItem } from 'my-locales'
 
 import './Timeline.module.css'
 

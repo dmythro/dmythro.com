@@ -3,7 +3,7 @@
 import type { ImageProps } from 'next/image'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FC, useState } from 'react'
+import { type FC, useState } from 'react'
 
 import { Button } from '@nextui-org/button'
 import { Chip } from '@nextui-org/chip'
@@ -13,7 +13,7 @@ import { User } from '@nextui-org/user'
 
 import { ELocaleNames, USERNAME, isOpenToWork } from 'my-constants'
 import { DropdownMenuLocaleLinks, NavMenuLocaleLinks } from 'src/components/layout/LocaleLinks'
-import { WithLangProp } from 'src/types'
+import type { WithLangProp } from 'src/types'
 import { getT } from 'src/utils/getT'
 
 import EarthEuropeIcon from 'src/assets/earth-europe-solid.svg'
