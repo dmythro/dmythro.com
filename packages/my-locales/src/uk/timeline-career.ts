@@ -8,8 +8,8 @@ export const careerTimeline: TimelineItem[] = [
     title: 'Lead Full-stack Engineer',
     subtitle: 'KITRUM (контракт)',
     description: [
-      'Я повністю переробив і вдосконалив клієнтську програму, додав авторизацію на основі ролей, CI/CD, перегляд 3D-моделей, AR для мобільних телефонів (USDZ/GLB) та створив спеціальну панель адміністратора протягом 2-місячного контракту.',
-      'Технічний стек базувався на Google Cloud, TypeScript і RDS SQL (Drizzle ORM, Postgres, динамічні схеми). Node.js, Next.js/React, NextUI 2/Tailwind CSS, Zod, Next Auth, GraphQL/Yoga.',
+      'Я повністю переробив і вдосконалив клієнтський фул-стек веб-сервіс, додав авторизацію на основі ролей, CI/CD, перегляд 3D-моделей, AR для мобільних телефонів (USDZ/GLB) та створив спеціальну панель адміністратора протягом 2-місячного контракту.',
+      'Технічний стек базувався на Google Cloud, TypeScript і RDS SQL (Drizzle ORM, Postgres, динамічні схеми). Node.js, Next.js/React, NextUI 2/Tailwind CSS, Zod, Next Auth, GraphQL/Yoga, TanStack Query.',
       'Ретельно оцінено продуктивність Mongo DB 7 Atlas Search і Meilisearch для фасетного пошуку.',
     ],
   },

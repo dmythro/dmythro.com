@@ -13,7 +13,7 @@ Personal website. An unnecessarily complex project to showcase some of the thing
 - Informative
 - Nicely looking
 - **Open-source**
-- **Generate CV in PDF** from local data
+- **CSS for print-friendly pages**, **generate CV PDF** from local data
 - Analytics
 - (some other planned features to add)
 
@@ -21,6 +21,6 @@ Personal website. An unnecessarily complex project to showcase some of the thing
 
 Built with [Next.js](https://nextjs.org/) (App Router, Middleware for i18n and locale detection, Metadata API, SSG, error handling), [NextUI](https://nextui.org/) (based on [Tailwind CSS](https://tailwindcss.com/) now), [Font Awesome](https://fontawesome.com/) SVG icons.
 TypeScript for type safety.
-Monorepo build system [Turborepo](https://turbo.build/repo).
+Monorepo build system [Turborepo](https://turbo.build/repo). Format &amp; lint with [Biome.js](https://biomejs.dev).
 Powered by [Vercel](https://vercel.com/), auto-deploy from GitHub.
 Other open-source tools are used under the hood.

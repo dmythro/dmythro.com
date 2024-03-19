@@ -13,7 +13,7 @@
 - Інформативність
 - Гарний вигляд
 - **Відкритий код**
-- **Генерація резюме у форматі PDF** із локальних даних
+- **CSS для друку сторінок**, **генерація резюме у форматі PDF** із локальних даних
 - Аналітика
 - (кілька інших запланованих функцій для додавання)
 
@@ -22,6 +22,6 @@
 Створено на базі фреймворку [Next.js](https://nextjs.org/) (App Router, Middleware для визначення локалі i18n, Metadata API, SSG, error handling), [NextUI](https://nextui.org/) (зараз на основі [Tailwind CSS](https://tailwindcss.com/)), SVG піктограми [Font Awesome](https://fontawesome.com/).
 
 TypeScript для безпеки типів.
-[Turborepo](https://turbo.build/repo) як система збірки Monorepo.
+[Turborepo](https://turbo.build/repo) як система збірки Monorepo. Format + lint з [Biome.js](https://biomejs.dev).
 Хмарний хостинг [Vercel](https://vercel.com/), авто-деплой з GitHub.
 Багато інструментів з відкритим кодом використовується під капотом.
