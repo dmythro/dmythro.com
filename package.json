@@ -12,12 +12,9 @@
     "start": "turbo start"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.6.0",
+    "@biomejs/biome": "1.6.1",
     "turbo": "1.12.5"
   },
   "packageManager": "npm@10.2.3",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+  "workspaces": ["apps/*", "packages/*"]
 }
