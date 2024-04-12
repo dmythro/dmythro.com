@@ -1,5 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "experimentalUI": true,
   "globalDependencies": ["**/.env.*local", "**/.env.*example"],
   "globalEnv": ["NODE_ENV", "NEXT_GA_ID", "NEXT_RESEND_API_KEY"],
   "pipeline": {
