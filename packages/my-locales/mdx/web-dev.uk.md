@@ -4,6 +4,6 @@ _TL;DR_
 
 Мені подобається вирішувати складніші задачі та гарна командна робота. Завжди прагну надавати якісні рішення у розумні терміни.
 
-Також працюю над деякими **open-source** проектами. Як от вихідний код [даного сайту](https://github.com/dmythro/dmythro.com) чи мій модуль `countries-list` з [~1к зірок на GitHub](https://github.com/annexare/Countries) та [600к+ зкачувань на місяць на NPM](https://www.npmjs.com/package/countries-list).
+Також працюю над деякими **open-source** проектами. Як от вихідний код [даного сайту](https://github.com/dmythro/dmythro.com) чи мій модуль `countries-list` з [~1к зірок на GitHub](https://github.com/annexare/Countries) та [800к+ зкачувань на місяць на NPM](https://www.npmjs.com/package/countries-list).
 
 Розділ **FAQ** містить трохи більше інформації про поточну ситуацію.
