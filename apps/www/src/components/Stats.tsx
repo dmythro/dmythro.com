@@ -28,7 +28,7 @@ export const Stat: FC<StatProps> = ({ item, isExpanded, onClick }) => (
   >
     <CardHeader className="flex flex-row">
       <div className="flex flex-col flex-grow gap-1">
-        <h3 className="text-md">{item.title}</h3>
+        <h2 className="text-md">{item.title}</h2>
         <div className="text-small text-default-500">{item.subtitle}</div>
       </div>
     </CardHeader>

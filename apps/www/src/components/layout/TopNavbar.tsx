@@ -18,7 +18,7 @@ import { getT } from 'src/utils/getT'
 
 import EarthEuropeIcon from 'src/assets/earth-europe-solid.svg'
 
-import avatarUserImg from 'public/avatar@44px.jpg'
+import avatarUserImg from 'public/avatar@40px.webp'
 import { cn } from '@nextui-org/theme'
 
 const { blurDataURL, width, height } = avatarUserImg
