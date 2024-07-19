@@ -14,7 +14,7 @@
   }
 
   .timeline-block-content > time {
-    @apply font-semibold text-center inline-flex sm:absolute left-0 translate-y-0.5 sm:min-w-unit-20 h-6 mb-3 sm:mb-0 sm:h-auto sm:rounded-lg print:break-after-avoid;
+    @apply font-semibold text-center inline-flex sm:absolute left-0 translate-y-0.5 sm:min-w-20 h-6 mb-3 sm:mb-0 sm:h-auto sm:rounded-lg print:break-after-avoid;
   }
   .timeline-block-content > time > span {
     @apply p-0.5 flex sm:flex-col-reverse gap-1;

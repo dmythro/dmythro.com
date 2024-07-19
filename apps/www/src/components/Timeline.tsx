@@ -41,11 +41,6 @@ export const TimelineBlock: FC<TimelineBlockProps> = ({ item }) => {
     </div>
   )
 
-  const timeClasses = [
-    'font-semibold text-center left-0 h-6 mb-3',
-    'inline-flex sm:absolute translate-y-0.5 sm:min-w-unit-20 sm:mb-0',
-  ].join(' ')
-
   return (
     <div className="timeline-block group">
       <div className="timeline-block-content group-last:before:hidden">

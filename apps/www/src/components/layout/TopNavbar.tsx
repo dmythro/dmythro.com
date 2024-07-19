@@ -19,6 +19,7 @@ import { getT } from 'src/utils/getT'
 import EarthEuropeIcon from 'src/assets/earth-europe-solid.svg'
 
 import avatarUserImg from 'public/avatar@44px.jpg'
+import { cn } from '@nextui-org/theme'
 
 const { blurDataURL, width, height } = avatarUserImg
 const avatarImageProps: ImageProps = {
@@ -61,7 +62,7 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
       onMenuOpenChange={setIsMenuOpen}
     >
       <NavbarContent as="div">
-        <Button as={Link} className="min-h-unit-12 py-0 px-1" href={`/${lang}`} variant="light">
+        <Button as={Link} className="min-h-12 py-0 px-1" href={`/${lang}`} variant="light">
           <User
             className="transition-transform"
             classNames={{
@@ -83,21 +84,25 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
                   <span className="text-gray-500 font-thin mr-0.5">@</span>
                   {USERNAME.replace('@', '')}
                 </span>
-                {isOpenToWork && (
-                  <Chip
-                    className="flex flex-nowrap text-xs whitespace-nowrap h-6 leading-3 self-center print:hidden"
-                    classNames={{
-                      content: 'pl-1 pr-0.5',
-                    }}
-                    color="success"
-                    variant="bordered"
-                    startContent={
-                      <span className="animate-pulse w-2 h-2 ml-0.5 bg-green-500 leading-3 rounded-full" />
-                    }
-                  >
-                    {t.openToWork}
-                  </Chip>
-                )}
+
+                <Chip
+                  className={cn(
+                    'flex flex-nowrap text-xs whitespace-nowrap h-6 leading-3 self-center print:hidden',
+                    {
+                      'opacity-70': !isOpenToWork,
+                    },
+                  )}
+                  classNames={{
+                    content: 'pl-1 pr-0.5',
+                  }}
+                  color={isOpenToWork ? 'success' : 'default'}
+                  variant="flat"
+                  startContent={
+                    <span className="animate-pulse w-2 h-2 ml-0.5 bg-green-500 leading-3 rounded-full" />
+                  }
+                >
+                  {isOpenToWork ? t.openToWork : t.fullTimeEmployment}
+                </Chip>
               </span>
             }
             description={t.meta.keywords}

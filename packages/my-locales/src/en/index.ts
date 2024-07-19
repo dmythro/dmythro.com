@@ -39,6 +39,7 @@ export const en = {
   careerTimeline,
   interests,
   myStudio: 'My studio, where I do all my work and music',
+  fullTimeEmployment: 'Full-time employment',
   openToWork: 'Open to work',
   socialMedia: {
     title: 'Links & Social Media',

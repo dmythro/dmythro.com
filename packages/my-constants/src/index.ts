@@ -16,4 +16,4 @@ export enum ESocialLinks {
   twitter = 'https://twitter.com/dmythro',
 }
 
-export const isOpenToWork = true
+export const isOpenToWork = false
