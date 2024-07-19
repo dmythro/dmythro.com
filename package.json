@@ -7,14 +7,15 @@
     "clean": "turbo clean",
     "dev": "turbo dev",
     "check": "biome check .",
-    "check-apply": "biome check --apply-unsafe .",
+    "check-apply": "biome check --write --unsafe .",
     "lint": "biome lint .",
     "start": "turbo start"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.6.4",
-    "turbo": "1.13.2"
+    "@biomejs/biome": "1.8.3",
+    "turbo": "2.0.7"
   },
-  "packageManager": "npm@10.2.3",
-  "workspaces": ["apps/*", "packages/*"]
+  "packageManager": "npm@10.7.0",
+  "workspaces": ["apps/*", "packages/*"],
+  "name": "dmythro.com"
 }
