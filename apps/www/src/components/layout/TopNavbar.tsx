@@ -62,52 +62,50 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
       onMenuOpenChange={setIsMenuOpen}
     >
       <NavbarContent as="div">
-        <Button as={Link} className="min-h-12 py-0 px-1" href={`/${lang}`} variant="light">
-          <User
-            className="transition-transform"
-            classNames={{
-              base: 'p-1 min-h-full',
-              description: 'text-foreground-500',
-            }}
-            avatarProps={{
-              className: 'group-data-[focus-visible=true]:ring-0',
-              color: 'primary',
-              isBordered: true,
-              src: avatarUserImg.src,
-              ImgComponent: Image,
-              // @ts-ignore
-              imgProps: avatarImageProps,
-            }}
-            name={
-              <span className="flex flex-nowrap gap-1">
-                <span className="flex text-lg lowercase">
-                  <span className="text-gray-500 font-thin mr-0.5">@</span>
-                  {USERNAME.replace('@', '')}
-                </span>
-
-                <Chip
-                  className={cn(
-                    'flex flex-nowrap text-xs whitespace-nowrap h-6 leading-3 self-center print:hidden',
-                    {
-                      'opacity-70': !isOpenToWork,
-                    },
-                  )}
-                  classNames={{
-                    content: 'pl-1 pr-0.5',
-                  }}
-                  color={isOpenToWork ? 'success' : 'default'}
-                  variant="flat"
-                  startContent={
-                    <span className="animate-pulse w-2 h-2 ml-0.5 bg-green-500 leading-3 rounded-full" />
-                  }
-                >
-                  {isOpenToWork ? t.openToWork : t.fullTimeEmployment}
-                </Chip>
+        <User
+          className="transition-transform"
+          classNames={{
+            base: 'p-1 min-h-full',
+            description: 'text-foreground-500',
+          }}
+          avatarProps={{
+            className: 'group-data-[focus-visible=true]:ring-0',
+            color: 'primary',
+            isBordered: true,
+            src: avatarUserImg.src,
+            ImgComponent: Image,
+            // @ts-ignore
+            imgProps: avatarImageProps,
+          }}
+          name={
+            <span className="flex flex-nowrap gap-1">
+              <span className="flex text-lg lowercase">
+                <span className="text-gray-500 font-thin mr-0.5">@</span>
+                {USERNAME.replace('@', '')}
               </span>
-            }
-            description={t.meta.keywords}
-          />
-        </Button>
+
+              <Chip
+                className={cn(
+                  'flex flex-nowrap text-xs whitespace-nowrap h-6 leading-3 self-center print:hidden',
+                  {
+                    'opacity-70': !isOpenToWork,
+                  },
+                )}
+                classNames={{
+                  content: 'pl-1 pr-0.5',
+                }}
+                color={isOpenToWork ? 'success' : 'default'}
+                variant="flat"
+                startContent={
+                  <span className="animate-pulse w-2 h-2 ml-0.5 bg-green-500 leading-3 rounded-full" />
+                }
+              >
+                {isOpenToWork ? t.openToWork : t.fullTimeEmployment}
+              </Chip>
+            </span>
+          }
+          description={t.meta.keywords}
+        />
       </NavbarContent>
 
       {/* Locale select */}
