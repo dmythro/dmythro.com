@@ -2,7 +2,6 @@
 
 import type { ImageProps } from 'next/image'
 import Image from 'next/image'
-import Link from 'next/link'
 import { type FC, useState } from 'react'
 
 import { Button } from '@nextui-org/button'
