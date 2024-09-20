@@ -21,6 +21,7 @@ export async function generateMetadata({ params }, parent: ResolvingMetadata) {
   const { lang } = params as WithLangProp
   const t = getT(lang)
   const title = `${t.builtWithTitle} – ${USERNAME}`
+  // @ts-ignore
   const meta: Metadata = { ...(await parent) }
 
   meta.title = title

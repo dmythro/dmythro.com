@@ -9,6 +9,7 @@ import { Chip } from '@nextui-org/chip'
 import { Dropdown, DropdownTrigger } from '@nextui-org/dropdown'
 import { Navbar, NavbarContent, NavbarMenuToggle } from '@nextui-org/navbar'
 import { User } from '@nextui-org/user'
+import { cn } from '@nextui-org/theme'
 
 import { ELocaleNames, USERNAME, isOpenToWork } from 'my-constants'
 import { DropdownMenuLocaleLinks, NavMenuLocaleLinks } from 'src/components/layout/LocaleLinks'
@@ -18,7 +19,6 @@ import { getT } from 'src/utils/getT'
 import EarthEuropeIcon from 'src/assets/earth-europe-solid.svg'
 
 import avatarUserImg from 'public/avatar@40px.webp'
-import { cn } from '@nextui-org/theme'
 
 const { blurDataURL, width, height } = avatarUserImg
 const avatarImageProps: ImageProps = {

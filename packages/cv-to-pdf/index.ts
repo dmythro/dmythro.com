@@ -55,8 +55,8 @@ async function start() {
   return new Promise((resolve, reject) => {
     console.info(' - start server')
 
-    const staticServer = spawn('turbo', ['start'], {
-      cwd: path.resolve(__dirname, '../../'),
+    const staticServer = spawn('npm', ['start'], {
+      cwd: path.resolve(__dirname, '../../apps/www'),
       detached: true,
     })
 

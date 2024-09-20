@@ -13,5 +13,5 @@ p + figure {
   margin-top: 1em;
 }
 
-@import '../components/ResponsiveImage.module.css';
-@import '../components/Timeline.module.css';
+@import "../components/ResponsiveImage.module.css";
+@import "../components/Timeline.module.css";

@@ -22,11 +22,7 @@ export const TimelineBlock: FC<TimelineBlockProps> = ({ item }) => {
     return null
   }
 
-  const whereBlock = where && (
-    <>
-      <span className="font-light"> &ndash; {where}</span>
-    </>
-  )
+  const whereBlock = where && <span className="font-light"> &ndash; {where}</span>
 
   const descriptionBlock = description && (
     <div className="text-foreground-600">

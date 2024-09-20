@@ -16,8 +16,8 @@ No, I don't have plans like that now. I chose to stay in Ukraine and support fam
 
 ## Do you have open-source projects?
 
-Sure, I love open source community and contribute where I can. My biggest NPM module `countries-list` has 500k+ downloads/month. You can check them, or the source code of the current website on GitHub.
+Sure, I love open source community and contribute where I can. My biggest NPM module `countries-list` has 800k+ downloads/month. You can check them, or the source code of the current website on GitHub.
 
 ## Do you prefer remote work, office or hybrid?
 
-I only work remotely in recent years. In general, I truly value real-life communication and am happy to have periodical in-person meetings. But not on a day-to-day basis right now, not until the end of the war. I try to be highly available during a working day, so video calls are possible whenever it is required.
+In recent years, I have primarily worked remotely. In general, I truly value real-life communication and am happy to have periodical in-person meetings. But not on a day-to-day basis right now, not until the end of the war. I try to be highly available during a working day, so video calls are possible whenever it is required.
