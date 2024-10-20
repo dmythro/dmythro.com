@@ -70,7 +70,7 @@ export async function generateMetadata({ params }: ParamsWithLang) {
       //   },
       // ],
       type: 'profile',
-      url: ESocialLinks.facebook,
+      url: BASE_URL,
       firstName,
       lastName,
       username: USERNAME.replace('@', ''),
