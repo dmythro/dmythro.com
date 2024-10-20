@@ -70,7 +70,7 @@ export async function generateMetadata({ params }: ParamsWithLang) {
       //   },
       // ],
       type: 'profile',
-      url: BASE_URL,
+      url: params.lang ? `${BASE_URL}/${params.lang}` : BASE_URL,
       firstName,
       lastName,
       username: USERNAME.replace('@', ''),
