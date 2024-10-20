@@ -20,7 +20,6 @@ export const Links: FC = () => (
         // @ts-ignore
         isExternal
         rel="me"
-        role="link"
         startContent={
           <Icon
             className="fill-white print:fill-black"

@@ -57,7 +57,6 @@ export const DropdownMenuLocaleLinks: FC<WithLangProp> = ({ lang }) => {
             // @ts-ignore
             hrefLang={l}
             rel="me"
-            role="link"
             endContent={
               isActive ? <CheckIcon className="fill-foreground" width={16} height={16} /> : null
             }
