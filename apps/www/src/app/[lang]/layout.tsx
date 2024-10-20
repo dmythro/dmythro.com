@@ -18,7 +18,7 @@ import { initTheme } from 'src/utils/theme'
 
 import { Providers } from './providers'
 
-import avatarImg from 'public/avatar@og.jpg'
+// import avatarImg from 'public/avatar@og.jpg'
 import { getT } from 'src/utils/getT'
 
 const GA_DEBUG = process.env.NODE_ENV === 'development' ? 'true' : 'false'
@@ -59,15 +59,16 @@ export async function generateMetadata({ params }: ParamsWithLang) {
     openGraph: {
       title: USERNAME,
       description,
-      images: [
-        {
-          url: '/avatar@og.jpg',
-          width: avatarImg.width,
-          height: avatarImg.height,
-          alt: USERNAME,
-          type: 'image/jpeg',
-        },
-      ],
+      // Removed in favor of the `opengraph-image`:
+      // images: [
+      //   {
+      //     url: '/avatar@og.jpg',
+      //     width: avatarImg.width,
+      //     height: avatarImg.height,
+      //     alt: USERNAME,
+      //     type: 'image/jpeg',
+      //   },
+      // ],
       type: 'profile',
       url: ESocialLinks.facebook,
       firstName,
@@ -148,7 +149,6 @@ export default function LangLayout({ children, params }: ParamsWithLang) {
  `,
           }}
         />
-        <SpeedInsights />
       </body>
     </html>
   )

@@ -1,11 +1,12 @@
 import type { LocaleCode } from 'my-locales'
-import type { FC, ReactNode } from 'react'
+import type { CSSProperties, FC, ReactNode } from 'react'
 
 export type SvgIconProps = {
   className?: string
   fill?: string
   width?: number
   height?: number
+  style?: CSSProperties
 }
 
 export type SvgIcon = FC<SvgIconProps>
