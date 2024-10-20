@@ -104,7 +104,7 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
               </Chip>
             </div>
           }
-          description={t.meta.keywords}
+          description={t.meta.descriptionShort}
         />
       </NavbarContent>
 

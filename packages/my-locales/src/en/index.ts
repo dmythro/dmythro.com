@@ -14,6 +14,7 @@ export const en = {
   meta: {
     description:
       'My name is Dmytro and I love tech, web development, music, traveling, space and many more.',
+    descriptionShort: 'Web Dev, Music, Travel',
     keywords: 'Web Dev, Music, Travel, Dmytro Klymenko, profile, CV, resume, LinkedIn, GitHub',
   },
   actions: {
