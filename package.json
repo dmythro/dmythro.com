@@ -12,10 +12,10 @@
     "start": "turbo start"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.2",
-    "turbo": "2.1.2"
+    "@biomejs/biome": "1.9.4",
+    "turbo": "2.2.1"
   },
-  "packageManager": "npm@10.8.3",
+  "packageManager": "npm@10.9.0",
   "workspaces": ["apps/*", "packages/*"],
   "name": "dmythro.com"
 }

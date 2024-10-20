@@ -3,3 +3,5 @@ export type { InterestLocale, LocaleCode, SkillLevel, SkillTime, TimelineItem } 
 
 export { en } from 'src/en'
 export { uk } from 'src/uk'
+
+export default {}
