@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { BASE_URL } from 'my-constants/dist/index.mjs'
+import { BASE_URL } from 'my-constants'
 
 const urls = ['', '/built-with']
 
