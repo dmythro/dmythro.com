@@ -23,12 +23,16 @@ export async function generateMetadata({ params }, parent: ResolvingMetadata) {
   const title = `${t.builtWithTitle} – ${USERNAME}`
   // @ts-ignore
   const meta: Metadata = { ...(await parent) }
+  const pagePath = '/built-with'
 
   meta.title = title
   meta.alternates = {
-    languages: Object.fromEntries(availableLocales.map((lang) => [lang, `/${lang}`])),
+    languages: Object.fromEntries(availableLocales.map((lang) => [lang, `/${lang}${pagePath}`])),
   }
   meta.openGraph.title = title
+  // @ts-ignore
+  meta.openGraph.type = 'article'
+  meta.openGraph.url = `${meta.metadataBase}${lang}${pagePath}`
 
   return meta
 }
