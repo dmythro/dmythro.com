@@ -67,6 +67,7 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
             base: 'p-1 min-h-full',
             description: 'text-foreground-500',
           }}
+          as="div"
           avatarProps={{
             className: 'group-data-[focus-visible=true]:ring-0',
             color: 'primary',
@@ -77,11 +78,11 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
             imgProps: avatarImageProps,
           }}
           name={
-            <span className="flex flex-nowrap gap-1">
-              <span className="flex text-lg lowercase">
+            <div className="flex flex-nowrap gap-1">
+              <h1 className="flex text-lg lowercase">
                 <span className="text-gray-500 font-thin mr-0.5">@</span>
                 {USERNAME.replace('@', '')}
-              </span>
+              </h1>
 
               <Chip
                 className={cn(
@@ -101,7 +102,7 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
               >
                 {isOpenToWork ? t.openToWork : t.fullTimeEmployment}
               </Chip>
-            </span>
+            </div>
           }
           description={t.meta.keywords}
         />
