@@ -69,7 +69,7 @@ export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
           }}
           as="div"
           avatarProps={{
-            className: 'group-data-[focus-visible=true]:ring-0',
+            className: 'group-data-[focus-visible=true]:ring-0 mr-1',
             color: 'primary',
             isBordered: true,
             src: avatarUserImg.src,
