@@ -7,6 +7,7 @@ export enum ELocaleNames {
 }
 
 export enum ESocialLinks {
+  bluesky = 'https://bsky.app/profile/dmythro.bsky.social',
   facebook = 'https://www.facebook.com/dmythro/',
   github = 'https://github.com/dmythro',
   instagram = 'https://instagram.com/dmythro',

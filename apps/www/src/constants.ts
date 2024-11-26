@@ -3,6 +3,7 @@ import type { Viewport } from 'next'
 
 import type { SvgIcon } from './types'
 
+import BlueSkyIcon from 'src/assets/bluesky.svg'
 import FacebookIcon from 'src/assets/facebook-f.svg'
 import GitHubIcon from 'src/assets/github.svg'
 import InstagramIcon from 'src/assets/instagram.svg'
@@ -37,9 +38,14 @@ export const SOCIAL_LINKS_WORK: SocialLink[] = [
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
-    Icon: FacebookIcon,
-    title: 'Facebook',
-    href: ESocialLinks.facebook,
+    Icon: BlueSkyIcon,
+    title: 'BlueSky',
+    href: ESocialLinks.bluesky,
+  },
+  {
+    Icon: ThreadsIcon,
+    title: 'Threads',
+    href: ESocialLinks.threads,
   },
   {
     Icon: InstagramIcon,
@@ -47,14 +53,14 @@ export const SOCIAL_LINKS: SocialLink[] = [
     href: ESocialLinks.instagram,
   },
   {
+    Icon: FacebookIcon,
+    title: 'Facebook',
+    href: ESocialLinks.facebook,
+  },
+  {
     Icon: TwitterIcon,
     title: 'X / Twitter',
     href: ESocialLinks.twitter,
-  },
-  {
-    Icon: ThreadsIcon,
-    title: 'Threads',
-    href: ESocialLinks.threads,
   },
 ]
 

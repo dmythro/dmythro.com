@@ -98,8 +98,9 @@ export default function LangLayout({ children, params }: ParamsWithLang) {
       ESocialLinks.linkedin,
       ESocialLinks.facebook,
       ESocialLinks.instagram,
-      ESocialLinks.twitter,
+      ESocialLinks.bluesky,
       ESocialLinks.threads,
+      ESocialLinks.twitter,
     ],
   }
 
