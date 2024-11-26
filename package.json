@@ -5,6 +5,7 @@
     "bump": "npx npm-check-updates --root --workspaces -u",
     "ci": "biome ci .",
     "clean": "turbo clean",
+    "cv": "turbo cv",
     "dev": "turbo dev",
     "check": "biome check .",
     "check-apply": "biome check --write --unsafe .",
