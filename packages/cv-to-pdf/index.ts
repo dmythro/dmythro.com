@@ -62,7 +62,11 @@ async function start() {
 
     staticServer.stdout?.on('data', async (data: string) => {
       if (`${data}`.includes(`://${host}:${port}`)) {
-        return generatePdfs()
+        try {
+          await generatePdfs()
+        } catch (err) {
+          done(`${err}`)
+        }
       }
     })
 
@@ -70,41 +74,57 @@ async function start() {
     staticServer.on('error', done)
 
     async function generatePdfs() {
-      for (const lang of locales) {
-        console.info(` - open "${lang}" CV page`)
-        const page = await browser.newPage()
-        await page.goto(`http://${host}:${port}/${lang}/cv`, { waitUntil: 'networkidle0' })
+      let step = 'starting'
+      try {
+        for (const lang of locales) {
+          console.info(` - open "${lang}" CV page`)
 
-        // Load all non-priority <Image />
-        await page.evaluate(() => {
-          window.scrollTo({ left: 0, top: window.document.body.scrollHeight, behavior: 'smooth' })
-        })
-        await page.waitForNetworkIdle()
+          step = 'opening page'
+          const page = await browser.newPage()
+          await page.goto(`http://${host}:${port}/${lang}/cv`, { waitUntil: 'networkidle0' })
 
-        const pdf = await page.pdf({
-          format: 'A4',
-          margin: {
-            top: '0.5cm',
-            bottom: '0.5cm',
-            left: '0.5cm',
-            right: '0.5cm',
-          },
-          printBackground: true,
-        })
-        const pdfPath = path.resolve(__dirname, `../../apps/www/public/cv.${lang}${pdfExt}`)
-        console.info(` - save "${pdfPath}"`)
-        fs.writeFileSync(pdfPath, pdf)
-        await runGhostScript(pdfPath)
+          step = 'loading all non-priority <Image />'
+          await page.evaluate(() => {
+            window.scrollTo({ left: 0, top: window.document.body.scrollHeight, behavior: 'smooth' })
+          })
+          await page.waitForNetworkIdle()
+
+          step = 'saving PDF'
+          const pdf = await page.pdf({
+            format: 'A4',
+            margin: {
+              top: '0.5cm',
+              bottom: '0.5cm',
+              left: '0.5cm',
+              right: '0.5cm',
+            },
+            printBackground: true,
+          })
+          const pdfPath = path.resolve(__dirname, `../../apps/www/public/cv.${lang}${pdfExt}`)
+          console.info(` - save "${pdfPath}"`)
+          fs.writeFileSync(pdfPath, pdf)
+          await runGhostScript(pdfPath)
+        }
+
+        staticServer.removeAllListeners()
+
+        return done()
+      } catch (error) {
+        return done(`Error ${step}: ${error}`)
       }
-
-      staticServer.removeAllListeners()
-
-      return done()
     }
 
     async function done(error?: string) {
+      const message = `${error}`
+
+      // Ignore warnings
+      if (message.includes('Warning') || message.includes('⚠')) {
+        console.warn(`Warn: ${message}`)
+        return
+      }
+
       if (error) {
-        console.error(error)
+        console.error(`Fail: ${error}`)
         reject()
       } else {
         console.info('Done.')
