@@ -1,4 +1,4 @@
-import { Card, CardBody } from '@nextui-org/card'
+import { Card, CardBody } from '@heroui/card'
 import type { FC } from 'react'
 
 import { ResponsiveImage } from 'src/components/ResponsiveImage'

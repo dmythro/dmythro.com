@@ -5,8 +5,8 @@
 export const dynamic = 'error'
 export const dynamicParams = false
 
-// import { Card, CardBody } from '@nextui-org/card'
-// import { Link } from '@nextui-org/link'
+// import { Card, CardBody } from '@heroui/card'
+// import { Link } from '@heroui/link'
 
 import { PhotoCard } from 'src/components/PhotoCard'
 import { Sections } from 'src/components/Sections'

@@ -1,5 +1,5 @@
-import { Card, CardBody, CardFooter } from '@nextui-org/card'
-import { Link } from '@nextui-org/link'
+import { Card, CardBody, CardFooter } from '@heroui/card'
+import { Link } from '@heroui/link'
 import { initTheme } from 'src/utils/theme'
 
 export default function NotFound() {

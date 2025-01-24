@@ -1,12 +1,12 @@
-import { nextui } from '@nextui-org/theme'
+import { heroui } from '@heroui/theme'
 import type { Config } from 'tailwindcss'
 
 import pkg from './package.json'
 
-const nextuiPrefix = '@nextui-org/'
+const herouiPrefix = '@heroui/'
 const componentsInUse = Object.keys(pkg.dependencies)
-  .filter((c) => c.startsWith(nextuiPrefix) && c.search(/(theme|system)/) === -1)
-  .map((c) => c.replace(nextuiPrefix, ''))
+  .filter((c) => c.startsWith(herouiPrefix) && c.search(/(theme|system)/) === -1)
+  .map((c) => c.replace(herouiPrefix, ''))
 
 export default {
   content: [
@@ -18,11 +18,11 @@ export default {
     './src/**/*.{ts,jsx,tsx,mdx}',
 
     // NextUI individual installation:
-    `../../node_modules/@nextui-org/theme/dist/components/(${componentsInUse.join('|')}).{js,jsx}`,
+    `../../node_modules/@heroui/theme/dist/components/(${componentsInUse.join('|')}).{js,jsx}`,
   ],
   darkMode: 'class',
   theme: {
     extend: {},
   },
-  plugins: [nextui()],
+  plugins: [heroui()],
 } satisfies Config

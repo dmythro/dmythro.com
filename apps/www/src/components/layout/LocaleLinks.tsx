@@ -1,8 +1,8 @@
 import type { FC } from 'react'
 
-import { DropdownItem, DropdownMenu } from '@nextui-org/dropdown'
-import { Link } from '@nextui-org/link'
-import { NavbarMenu, NavbarMenuItem } from '@nextui-org/navbar'
+import { DropdownItem, DropdownMenu } from '@heroui/dropdown'
+import { Link } from '@heroui/link'
+import { NavbarMenu, NavbarMenuItem } from '@heroui/navbar'
 
 import { ELocaleNames } from 'my-constants'
 import { availableLocales } from 'my-locales/constants'

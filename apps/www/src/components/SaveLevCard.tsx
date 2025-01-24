@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 
-import { Card, CardBody } from '@nextui-org/card'
-import { Link } from '@nextui-org/link'
+import { Card, CardBody } from '@heroui/card'
+import { Link } from '@heroui/link'
 import type { WithLangProp } from 'src/types'
 import { getT } from 'src/utils/getT'
 

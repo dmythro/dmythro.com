@@ -1,7 +1,7 @@
 import type { MDXComponents } from 'mdx/types'
 
-import { Code } from '@nextui-org/code'
-import { Link } from '@nextui-org/link'
+import { Code } from '@heroui/code'
+import { Link } from '@heroui/link'
 import { ResponsiveImage } from 'src/components/ResponsiveImage'
 
 import { BASE_URL } from 'my-constants'

@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 
-import { Chip } from '@nextui-org/chip'
+import { Chip } from '@heroui/chip'
 
 import type { TimelineItem } from 'my-locales'
 

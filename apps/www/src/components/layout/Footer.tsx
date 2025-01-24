@@ -4,7 +4,7 @@ import NextLink from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { FC } from 'react'
 
-import { Link } from '@nextui-org/link'
+import { Link } from '@heroui/link'
 
 import CodeIcon from 'src/assets/code-solid.svg'
 import GitHubIcon from 'src/assets/github.svg'

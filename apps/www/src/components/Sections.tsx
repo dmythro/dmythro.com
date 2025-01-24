@@ -2,7 +2,7 @@
 
 import type { FC } from 'react'
 
-import { Accordion, AccordionItem } from '@nextui-org/accordion'
+import { Accordion, AccordionItem } from '@heroui/accordion'
 
 import type { InterestKey, InterestLocale } from 'my-locales'
 

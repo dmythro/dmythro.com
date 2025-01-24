@@ -3,8 +3,8 @@
 import dayjs from 'dayjs'
 import { type FC, useState } from 'react'
 
-import { Card, CardBody, CardFooter } from '@nextui-org/card'
-import { Link } from '@nextui-org/link'
+import { Card, CardBody, CardFooter } from '@heroui/card'
+import { Link } from '@heroui/link'
 
 import type { WithLangProp } from 'src/types'
 import { getT } from 'src/utils/getT'

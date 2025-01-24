@@ -1,4 +1,4 @@
-import { Link } from '@nextui-org/link'
+import { Link } from '@heroui/link'
 
 import { auth } from 'src/auth'
 import { CVPdfLink } from 'src/components/CVPdfLink'

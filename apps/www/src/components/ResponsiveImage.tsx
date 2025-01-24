@@ -1,8 +1,8 @@
-import type { CardProps } from '@nextui-org/card'
+import type { CardProps } from '@heroui/card'
 import type { ImageProps, StaticImageData } from 'next/image'
 import type { FC, ReactElement } from 'react'
 
-import { Card, CardFooter } from '@nextui-org/card'
+import { Card, CardFooter } from '@heroui/card'
 import Image from 'next/image'
 
 type ResponsiveImageProps = Pick<ImageProps, 'priority' | 'src' | 'sizes' | 'alt'> &
