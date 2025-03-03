@@ -8,6 +8,10 @@
       "dependsOn": ["my-constants#build", "my-locales#build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "!public/cv*.pdf"]
     },
+    "www#build-cv": {
+      "dependsOn": ["my-constants#build", "my-locales#build"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**", "!public/cv*.pdf"]
+    },
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "!public/cv.*.pdf"]
@@ -18,7 +22,7 @@
     },
     "cv": {
       "cache": false,
-      "dependsOn": ["www#build"],
+      "dependsOn": ["www#build-cv"],
       "outputs": ["public/cv.*.pdf"]
     },
     "lint": {},

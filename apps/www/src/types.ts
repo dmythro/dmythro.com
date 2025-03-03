@@ -1,5 +1,5 @@
 import type { LocaleCode } from 'my-locales'
-import type { CSSProperties, FC, ReactNode } from 'react'
+import type { CSSProperties, FC } from 'react'
 
 export type SvgIconProps = {
   className?: string
