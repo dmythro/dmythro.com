@@ -61,7 +61,7 @@ export const skills: SkillTime[] = [
     subtitle: 'For full-stack, BE or UI',
     description: [
       'Had production experience with a variety of frameworks.',
-      'From UI (NextUI, MUI, Tailwind CSS and others) to backend (Nest.js/Express) to full-stack (Next.js, Astro).',
+      'From UI (HeroUI, MUI, Tailwind CSS and others) to backend (Nest.js/Express) to full-stack (Next.js, Astro).',
     ],
   },
   {

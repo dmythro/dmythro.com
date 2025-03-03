@@ -62,7 +62,7 @@ export const skills: SkillTime[] = [
     subtitle: 'Фреймворки для повного стеку, бекенду чи UI',
     description: [
       'Працював із різноманітними фреймворками.',
-      'Від UI (NextUI, MUI, Tailwind CSS тощо) до бекенду (Nest.js/Express тощо) та повного стеку (Next.js, Astro тощо).',
+      'Від UI (HeroUI, MUI, Tailwind CSS тощо) до бекенду (Nest.js/Express тощо) та повного стеку (Next.js, Astro тощо).',
     ],
   },
   {

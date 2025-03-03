@@ -22,7 +22,7 @@ It aims to answer most of the basic questions, and generate more relevant ones.
 
 ## Tech stack
 
-Built with [Next.js](https://nextjs.org/) (App Router, Middleware for i18n and locale detection, Metadata API, SSG, error handling), [NextUI](https://nextui.org/) (based on [Tailwind CSS](https://tailwindcss.com/) now), [Font Awesome](https://fontawesome.com/) SVG icons.
+Built with [Next.js](https://nextjs.org/) (App Router, Middleware for i18n and locale detection, Metadata API, SSG, error handling), [HeroUI](https://heroui.com/) (based on [Tailwind CSS](https://tailwindcss.com/) now), [Font Awesome](https://fontawesome.com/) SVG icons.
 TypeScript for type safety.
 A lot of other open-source tools under the hood.
 Monorepo build system [Turborepo](https://turbo.build/repo).

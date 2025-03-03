@@ -19,7 +19,7 @@ Personal website. An unnecessarily complex project to showcase some of the thing
 
 ## Tech stack
 
-Built with [Next.js](https://nextjs.org/) (App Router, Middleware for i18n and locale detection, Metadata API, SSG, error handling), [NextUI](https://nextui.org/) (based on [Tailwind CSS](https://tailwindcss.com/) now), [Font Awesome](https://fontawesome.com/) SVG icons.
+Built with [Next.js](https://nextjs.org/) (App Router, Middleware for i18n and locale detection, Metadata API, SSG, error handling), [HeroUI](https://heroui.com/) (based on [Tailwind CSS](https://tailwindcss.com/) now), [Font Awesome](https://fontawesome.com/) SVG icons.
 TypeScript for type safety.
 Monorepo build system [Turborepo](https://turbo.build/repo). Format &amp; lint with [Biome.js](https://biomejs.dev).
 Powered by [Vercel](https://vercel.com/), auto-deploy from GitHub.

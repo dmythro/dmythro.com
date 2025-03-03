@@ -9,7 +9,7 @@ export const careerTimeline: TimelineItem[] = [
     subtitle: 'KITRUM (contractor)',
     description: [
       'I did a complete rework and further improvement of the full-stack DAM (digital asset management) app, added role-based auth, CI/CD, 3D models preview, AR for mobile phones (USDZ/GLB) and created a custom admin panel during a 2-month contract.',
-      'Tech stack was based on Google Cloud, TypeScript, RDS SQL (Drizzle ORM, Postgres, dynamic schemas). Node.js, Next.js/React, NextUI 2/Tailwind CSS, Zod, Next Auth, GraphQL/Yoga, TanStack Query.',
+      'Tech stack was based on Google Cloud, TypeScript, RDS SQL (Drizzle ORM, Postgres, dynamic schemas). Node.js, Next.js/React, HeroUI 2/Tailwind CSS, Zod, Next Auth, GraphQL/Yoga, TanStack Query.',
       'Thoroughly evaluated Mongo DB 7 Atlas Search and Meilisearch performance for faceted search.',
     ],
   },
