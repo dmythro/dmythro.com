@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "sleep 2 && next dev",
     "build": "next build",
+    "build-cv": "IS_CV=true next build",
     "start": "next start",
     "lint": "next lint"
   },

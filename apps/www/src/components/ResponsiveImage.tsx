@@ -20,6 +20,8 @@ export const ResponsiveImage: FC<ResponsiveImageProps> = ({
 }) => {
   const isSrcImport = typeof src === 'object'
   const data: StaticImageData = isSrcImport ? (src as StaticImageData) : undefined
+  // Make sure CV PDF builds load all images, immediately
+  const isPriority = process.env.IS_CV ? true : priority
 
   return (
     <Card
@@ -36,8 +38,8 @@ export const ResponsiveImage: FC<ResponsiveImageProps> = ({
         sizes={sizes}
         src={src}
         alt={alt}
-        priority={priority}
-        loading={priority ? 'eager' : 'lazy'}
+        priority={isPriority}
+        loading={isPriority ? 'eager' : 'lazy'}
         width={isSrcImport ? data?.width : 1440}
         height={isSrcImport ? data?.height : 960}
       />
