@@ -2,10 +2,10 @@ import type { FC } from 'react'
 
 import { Card, CardBody } from '@heroui/card'
 import { Link } from '@heroui/link'
-import type { WithLangProp } from 'src/types'
+import type { LangProp } from 'src/types'
 import { getT } from 'src/utils/getT'
 
-export const SaveLevCard: FC<WithLangProp> = ({ lang }) => {
+export const SaveLevCard: FC<LangProp> = ({ lang }) => {
   const { saveLev } = getT(lang)
 
   return (

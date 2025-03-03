@@ -7,7 +7,6 @@ const nextConfig = {
   },
   pageExtensions: ['ts', 'tsx', 'mdx'],
   reactStrictMode: true,
-  swcMinify: true,
 
   webpack(config, { isServer }) {
     // Configures webpack to handle SVG files with SVGR. SVGR optimizes and transforms SVG files

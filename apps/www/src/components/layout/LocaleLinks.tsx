@@ -9,9 +9,9 @@ import { availableLocales } from 'my-locales/constants'
 
 import CheckIcon from 'src/assets/check-solid.svg'
 import { useCurrentPath } from 'src/hooks/useCurrentPath'
-import type { WithLangProp } from 'src/types'
+import type { LangProp } from 'src/types'
 
-export const NavMenuLocaleLinks: FC<WithLangProp> = ({ lang }) => {
+export const NavMenuLocaleLinks: FC<LangProp> = ({ lang }) => {
   const currentPath = useCurrentPath()
 
   return (
@@ -37,7 +37,7 @@ export const NavMenuLocaleLinks: FC<WithLangProp> = ({ lang }) => {
   )
 }
 
-export const DropdownMenuLocaleLinks: FC<WithLangProp> = ({ lang }) => {
+export const DropdownMenuLocaleLinks: FC<LangProp> = ({ lang }) => {
   const currentPath = useCurrentPath()
 
   return (

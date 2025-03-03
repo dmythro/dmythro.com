@@ -5,10 +5,10 @@ import { CVPdfLink } from 'src/components/CVPdfLink'
 import { HomeLink } from 'src/components/HomeLink'
 import { PhotoCard } from 'src/components/PhotoCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
-import type { WithLangProp } from 'src/types'
+import type { ParamsWithLang } from 'src/types'
 
-export default async function ContactPage({ params }: { params: WithLangProp }) {
-  const { lang } = params
+export default async function ContactPage({ params }: ParamsWithLang) {
+  const { lang } = await params
 
   const session = await auth()
   const callbackUrl = encodeURIComponent(`/${lang}/contact`)

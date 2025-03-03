@@ -12,10 +12,10 @@ import { PhotoCard } from 'src/components/PhotoCard'
 import { Sections } from 'src/components/Sections'
 // import { SaveLevCard } from 'src/components/SaveLevCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
-import type { WithLangProp } from 'src/types'
+import type { ParamsWithLang } from 'src/types'
 
-export default function Home({ params }: { params: WithLangProp }) {
-  const { lang } = params
+export default async function Home({ params }: ParamsWithLang) {
+  const { lang } = await params
   return (
     <div className="flex max-w-[1024px] mx-auto p-4 md:p-6 relative print:block">
       <div className="flex flex-col sm:flex-row-reverse print:!flex-col gap-4 md:gap-6 relative print:block">

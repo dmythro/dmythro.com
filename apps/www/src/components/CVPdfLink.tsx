@@ -4,9 +4,9 @@ import type { FC } from 'react'
 
 import PdfFileIcon from 'src/assets/file-pdf-solid.svg'
 
-import type { WithLangProp } from 'src/types'
+import type { LangProp } from 'src/types'
 
-export const CVPdfLink: FC<WithLangProp> = ({ lang }) => {
+export const CVPdfLink: FC<LangProp> = ({ lang }) => {
   const title = `CV.${lang}.pdf`
 
   return (

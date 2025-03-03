@@ -7,7 +7,7 @@ import { getT } from 'src/utils/getT'
 import avatarImg1200 from 'public/avatar.jpg'
 import avatarImg400 from 'public/avatar@400px.jpg'
 import avatarImg800 from 'public/avatar@800px.jpg'
-import type { WithLangProp } from 'src/types'
+import type { LangProp } from 'src/types'
 
 const images = [avatarImg400, avatarImg800, avatarImg1200]
 const sizes = images
@@ -15,7 +15,7 @@ const sizes = images
   .join(', ')
 // const srcSet = images.map((img) => `${img.src} ${img.width}w`).join(', ')
 
-export const PhotoCard: FC<WithLangProp> = ({ lang }) => {
+export const PhotoCard: FC<LangProp> = ({ lang }) => {
   const t = getT(lang)
   const caption = (
     <>

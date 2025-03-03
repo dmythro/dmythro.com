@@ -8,13 +8,13 @@ import { Link } from '@heroui/link'
 
 import CodeIcon from 'src/assets/code-solid.svg'
 import GitHubIcon from 'src/assets/github.svg'
-import type { WithLangProp } from 'src/types'
+import type { LangProp } from 'src/types'
 import { getT } from 'src/utils/getT'
 
 const builtWithUrl = '/built-with'
 const lastPublishDate = new Date()
 
-export const Footer: FC<WithLangProp> = ({ lang }) => {
+export const Footer: FC<LangProp> = ({ lang }) => {
   const t = getT(lang)
   const pathname = usePathname()
   const isBuiltWith = pathname.includes(builtWithUrl)

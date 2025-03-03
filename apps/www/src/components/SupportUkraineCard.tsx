@@ -6,7 +6,7 @@ import { type FC, useState } from 'react'
 import { Card, CardBody, CardFooter } from '@heroui/card'
 import { Link } from '@heroui/link'
 
-import type { WithLangProp } from 'src/types'
+import type { LangProp } from 'src/types'
 import { getT } from 'src/utils/getT'
 
 import InfoIcon from 'src/assets/circle-info-solid.svg'
@@ -15,7 +15,7 @@ export const invasionStartDate = '2022-02-24'
 const todayDate = new Date().toISOString().split('T')[0]
 const daysSinceInvasion = dayjs(todayDate).diff(invasionStartDate, 'days')
 
-export const SupportUkraineCard: FC<WithLangProp> = ({ lang }) => {
+export const SupportUkraineCard: FC<LangProp> = ({ lang }) => {
   const [isExpanded, setExpanded] = useState(false)
   const { supportUkraine } = getT(lang)
 

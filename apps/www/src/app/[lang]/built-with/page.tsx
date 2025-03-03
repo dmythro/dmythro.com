@@ -14,11 +14,11 @@ import { availableLocales } from 'my-locales/constants'
 
 import { BuiltWith } from 'src/components/BuiltWith'
 import { HomeLink } from 'src/components/HomeLink'
-import type { WithLangProp } from 'src/types'
+import type { ParamsWithLang } from 'src/types'
 import { getT } from 'src/utils/getT'
 
-export async function generateMetadata({ params }, parent: ResolvingMetadata) {
-  const { lang } = params as WithLangProp
+export async function generateMetadata({ params }: ParamsWithLang, parent: ResolvingMetadata) {
+  const { lang } = await params
   const t = getT(lang)
   const title = `${t.builtWithTitle} – ${USERNAME}`
   // @ts-ignore
@@ -37,8 +37,8 @@ export async function generateMetadata({ params }, parent: ResolvingMetadata) {
   return meta
 }
 
-export default function BuiltWithPage({ params }: { params: WithLangProp }) {
-  const { lang } = params
+export default async function BuiltWithPage({ params }: ParamsWithLang) {
+  const { lang } = await params
   return (
     <div className="flex flex-col max-w-5xl mx-auto gap-4 p-4 relative print:block">
       <div>

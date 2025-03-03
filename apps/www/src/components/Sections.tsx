@@ -20,7 +20,7 @@ import { SectionLocale } from 'src/components/SectionLocale'
 import { Stats } from 'src/components/Stats'
 import { Timeline } from 'src/components/Timeline'
 import { usePrint } from 'src/hooks/useMediaQuery'
-import type { SvgIcon, WithLangProp } from 'src/types'
+import type { SvgIcon, LangProp } from 'src/types'
 import { trackCustomEvent } from 'src/utils/analytics'
 import { getT } from 'src/utils/getT'
 
@@ -35,7 +35,7 @@ const sectionIcons: Record<string, SvgIcon> = {
   links: LinksIcon,
 }
 
-export const Sections: FC<WithLangProp & { isExpanded?: boolean }> = ({ isExpanded, lang }) => {
+export const Sections: FC<LangProp & { isExpanded?: boolean }> = ({ isExpanded, lang }) => {
   const isPrint = usePrint() // useMediaQuery('print')
   const t = getT(lang)
 

@@ -11,10 +11,10 @@ import { PhotoCard } from 'src/components/PhotoCard'
 import { Sections } from 'src/components/Sections'
 // import { SaveLevCard } from 'src/components/SaveLevCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
-import type { WithLangProp } from 'src/types'
+import type { ParamsWithLang } from 'src/types'
 
-export default function CVPage({ params }: { params: WithLangProp }) {
-  const { lang } = params
+export default async function CVPage({ params }: ParamsWithLang) {
+  const { lang } = await params
   return (
     <div className="flex flex-col max-w-[1024px] mx-auto gap-4 p-4 relative print:block">
       <div className="flex flex-col sm:flex-row-reverse print:!flex-col gap-4 relative print:block">
