@@ -1,33 +1,29 @@
-import assert from 'node:assert'
-import { describe, it } from 'node:test'
+import { describe, expect, it } from 'bun:test'
 
 import { generalTimeline as en } from '../src/en/timeline-general'
 import { generalTimeline as uk } from '../src/uk/timeline-general'
 
 describe('Timeline: General', () => {
   it('same length', () => {
-    assert.equal(en.length, uk.length)
+    expect(en.length).toBe(uk.length)
   })
 
   it('same when', () => {
-    assert.deepEqual(
-      en.map(({ when }) => when),
-      uk.map(({ when }) => when),
-    )
+    expect(en.map(({ when }) => when)).toEqual(uk.map(({ when }) => when))
   })
 
   it('same isHighlighted', () => {
-    assert.deepEqual(
-      en.map(({ isHighlighted }) => isHighlighted),
+    expect(en.map(({ isHighlighted }) => isHighlighted)).toEqual(
       uk.map(({ isHighlighted }) => isHighlighted),
     )
   })
 
   it('same description length', () => {
-    assert.deepEqual(
+    expect(
       en.map(({ description }) =>
         Array.isArray(description) ? description.length : Boolean(description?.length),
       ),
+    ).toEqual(
       uk.map(({ description }) =>
         Array.isArray(description) ? description.length : Boolean(description?.length),
       ),

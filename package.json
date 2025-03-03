@@ -18,5 +18,8 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "turbo": "2.4.4"
+  },
+  "dependencies": {
+    "@types/bun": "1.2.4"
   }
 }

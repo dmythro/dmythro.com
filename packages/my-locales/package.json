@@ -19,7 +19,7 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "check-types": "tsc --noEmit",
-    "test": "SWC_NODE_PROJECT=./tsconfig.json node --no-warnings --loader @swc-node/register/esm --test-reporter spec --test tests/*.test.ts"
+    "test": "bun test"
   },
   "publishConfig": {
     "access": "public"
@@ -28,7 +28,6 @@
     "my-constants": "workspace:*"
   },
   "devDependencies": {
-    "@swc-node/register": "1.10.9",
     "tsconfig": "workspace:*",
     "tsup": "8.4.0",
     "typescript": "5.8.2"
