@@ -37,6 +37,7 @@ export const ResponsiveImage: FC<ResponsiveImageProps> = ({
         src={src}
         alt={alt}
         priority={priority}
+        loading={priority ? 'eager' : 'lazy'}
         width={isSrcImport ? data?.width : 1440}
         height={isSrcImport ? data?.height : 960}
       />

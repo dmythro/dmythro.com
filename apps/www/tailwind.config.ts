@@ -17,7 +17,7 @@ export default {
     // If using `src` directory:
     './src/**/*.{ts,jsx,tsx,mdx}',
 
-    // NextUI individual installation:
+    // HeroUI individual installation:
     `../../node_modules/@heroui/theme/dist/components/(${componentsInUse.join('|')}).{js,jsx}`,
   ],
   darkMode: 'class',
