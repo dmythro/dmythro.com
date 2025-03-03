@@ -13,7 +13,7 @@ import { User } from '@heroui/user'
 
 import { ELocaleNames, USERNAME, isOpenToWork } from 'my-constants'
 import { DropdownMenuLocaleLinks, NavMenuLocaleLinks } from 'src/components/layout/LocaleLinks'
-import type { WithLangProp } from 'src/types'
+import type { LangProp } from 'src/types'
 import { getT } from 'src/utils/getT'
 
 import EarthEuropeIcon from 'src/assets/earth-europe-solid.svg'
@@ -30,7 +30,7 @@ const avatarImageProps: ImageProps = {
   alt: USERNAME,
 }
 
-export const TopNavbar: FC<WithLangProp> = ({ lang }) => {
+export const TopNavbar: FC<LangProp> = ({ lang }) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean | undefined>()
   const t = getT(lang)
   const localeName = ELocaleNames[lang]

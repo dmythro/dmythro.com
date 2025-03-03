@@ -42,7 +42,7 @@ export const Stat: FC<StatProps> = ({ item, isExpanded, onClick }) => (
 
 export const Stats: FC<StatsProps> = ({ items, isExpanded, title }) => {
   const [expanded, setExpanded] = useState(isExpanded)
-  const ref = useRef<HTMLHeadingElement>()
+  const ref = useRef<HTMLHeadingElement>(undefined)
   const handleClick = useCallback(() => {
     setExpanded(!expanded)
 

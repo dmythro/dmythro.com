@@ -11,11 +11,10 @@ export type SvgIconProps = {
 
 export type SvgIcon = FC<SvgIconProps>
 
-export type WithLangProp = {
+export type LangProp<T = Record<string, unknown>> = T & {
   lang: LocaleCode
 }
 
 export type ParamsWithLang = {
-  children: ReactNode
-  params: WithLangProp
+  params: Promise<LangProp>
 }

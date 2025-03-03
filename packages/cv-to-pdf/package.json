@@ -10,12 +10,12 @@
     "access": "public"
   },
   "dependencies": {
-    "my-constants": "file:*"
+    "my-constants": "workspace:*"
   },
   "devDependencies": {
-    "puppeteer": "23.9.0",
-    "tsconfig": "file:*",
-    "tsx": "4.19.2",
-    "typescript": "5.7.2"
+    "puppeteer": "24.3.0",
+    "tsconfig": "workspace:*",
+    "tsx": "4.19.3",
+    "typescript": "5.8.2"
   }
 }

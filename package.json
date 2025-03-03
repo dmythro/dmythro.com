@@ -1,8 +1,11 @@
 {
+  "name": "dmythro-com",
+  "packageManager": "bun@1.2.4",
   "private": true,
+  "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "build": "turbo build",
-    "bump": "npx npm-check-updates --root --workspaces -u",
+    "bump": "bunx npm-check-updates --root --workspaces -u",
     "ci": "biome ci .",
     "clean": "turbo clean",
     "cv": "turbo cv",
@@ -14,9 +17,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "turbo": "2.3.3"
-  },
-  "packageManager": "npm@10.9.0",
-  "workspaces": ["apps/*", "packages/*"],
-  "name": "dmythro.com"
+    "turbo": "2.4.4"
+  }
 }

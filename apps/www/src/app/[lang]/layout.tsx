@@ -2,6 +2,7 @@
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata } from 'next'
+import type { ReactNode } from 'react'
 import Script from 'next/script'
 import type { Person, WithContext } from 'schema-dts'
 // import { Inter } from 'next/font/google'
@@ -31,7 +32,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: ParamsWithLang) {
-  const t = getT(params.lang)
+  const { lang } = await params
+  const t = getT(lang)
 
   const [firstName, lastName] = t.fullName.split(' ')
   const { description, keywords } = t.meta
@@ -43,7 +45,7 @@ export async function generateMetadata({ params }: ParamsWithLang) {
     keywords,
     manifest: '/manifest.webmanifest',
     alternates: {
-      languages: Object.fromEntries(availableLocales.map((lang) => [lang, `/${lang}`])),
+      languages: Object.fromEntries(availableLocales.map((l) => [l, `/${l}`])),
     },
     icons: [
       { url: '/favicon.ico' },
@@ -70,7 +72,7 @@ export async function generateMetadata({ params }: ParamsWithLang) {
       //   },
       // ],
       type: 'profile',
-      url: params.lang ? `${BASE_URL}/${params.lang}` : BASE_URL,
+      url: lang ? `${BASE_URL}/${lang}` : BASE_URL,
       firstName,
       lastName,
       username: USERNAME.replace('@', ''),
@@ -85,8 +87,11 @@ export async function generateMetadata({ params }: ParamsWithLang) {
   return meta
 }
 
-export default function LangLayout({ children, params }: ParamsWithLang) {
-  const { lang } = params
+export default async function LangLayout({
+  children,
+  params,
+}: ParamsWithLang & { children: ReactNode }) {
+  const { lang } = await params
   const t = locales[lang]
   const personJsonLd: WithContext<Person> = {
     '@context': 'https://schema.org',

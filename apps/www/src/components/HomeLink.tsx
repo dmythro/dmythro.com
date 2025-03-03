@@ -5,10 +5,10 @@ import type { FC } from 'react'
 import BackIcon from 'src/assets/arrow-left-solid.svg'
 import HomeIcon from 'src/assets/house-solid.svg'
 
-import type { WithLangProp } from 'src/types'
+import type { LangProp } from 'src/types'
 import { getT } from 'src/utils/getT'
 
-export const HomeLink: FC<WithLangProp> = ({ lang }) => {
+export const HomeLink: FC<LangProp> = async ({ lang }) => {
   const t = getT(lang)
 
   return (
