@@ -6,8 +6,10 @@
     "dev": "sleep 2 && next dev",
     "build": "next build",
     "build-cv": "IS_CV=true next build",
-    "start": "next start",
-    "lint": "next lint"
+    "check-types": "tsc --noEmit -p ./tsconfig.json",
+    "check": "biome check .",
+    "lint": "next lint",
+    "start": "next start"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "0.6.0",

@@ -26,6 +26,17 @@
       "correctness": {
         "noInvalidPositionAtImportRule": "info"
       },
+      "nursery": {
+        /**
+         * Next.ls specific rules.
+         * @see: https://biomejs.dev/linter/rules-sources/#nexteslint-plugin-next
+         */
+        "noDocumentImportInPage": "error",
+        "noHeadElement": "error",
+        "noHeadImportInDocument": "error",
+        "noImgElement": "error",
+        "useGoogleFontDisplay": "error"
+      },
       "suspicious": {
         "noArrayIndexKey": "warn",
         "noAsyncPromiseExecutor": "warn",

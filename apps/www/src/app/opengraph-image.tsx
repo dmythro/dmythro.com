@@ -66,6 +66,7 @@ export default async function Image() {
             width: 400,
           }}
         >
+          {/* biome-ignore lint/nursery/noImgElement: */}
           <img
             src={imageSrc}
             alt="Avatar"

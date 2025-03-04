@@ -5,7 +5,7 @@
   "ui": "tui",
   "tasks": {
     "www#build": {
-      "dependsOn": ["my-constants#build", "my-locales#build"],
+      "dependsOn": ["check-types", "check", "my-constants#build", "my-locales#build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "!public/cv*.pdf"]
     },
     "www#build-cv": {
@@ -13,7 +13,7 @@
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "!public/cv*.pdf"]
     },
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["check-types", "check", "^build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "!public/cv.*.pdf"]
     },
     "dev": {
@@ -25,8 +25,9 @@
       "dependsOn": ["www#build-cv"],
       "outputs": ["public/cv.*.pdf"]
     },
-    "lint": {},
+    "check": {},
     "check-types": {},
+    "lint": {},
     "start": {
       "cache": false,
       "persistent": true

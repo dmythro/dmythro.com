@@ -2,8 +2,8 @@
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata } from 'next'
-import type { ReactNode } from 'react'
 import Script from 'next/script'
+import type { ReactNode } from 'react'
 import type { Person, WithContext } from 'schema-dts'
 // import { Inter } from 'next/font/google'
 

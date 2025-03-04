@@ -4,6 +4,8 @@ import nextMdx from '@next/mdx'
 const nextConfig = {
   experimental: {
     mdxRs: true,
+    typedEnv: true,
+    typedRoutes: true,
   },
   pageExtensions: ['ts', 'tsx', 'mdx'],
   reactStrictMode: true,
