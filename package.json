@@ -5,7 +5,7 @@
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "build": "turbo build",
-    "bump": "bunx npm-check-updates --root --workspaces -u",
+    "bump": "bun outdated -F '*'",
     "check-types": "turbo check-types",
     "ci": "biome ci .",
     "clean": "turbo clean",

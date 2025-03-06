@@ -14,4 +14,4 @@ Also, I collect some music on physical media (vinyl and cassette tape). Sometime
 
 ![Live show with my band](/me-live.webp)
 
-P.S. You can watch me playing live with Nabaath [here](https://youtu.be/ThlDSKGNc-k) or [here](https://youtu.be/osGApVlgYk8) (warning: it may be a bit "too heavy" for some). The rest of the musical projects &amp; records are still in progress.
+P.S. You can watch me playing live with Nabaath on YouTube: [part 1](https://youtu.be/ThlDSKGNc-k), [part 2](https://youtu.be/osGApVlgYk8) (warning: it may be a bit "too heavy" for some). The rest of the musical projects &amp; records are still in progress.
