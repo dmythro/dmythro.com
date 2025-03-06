@@ -92,9 +92,9 @@ export const TopNavbar: FC<LangProp> = ({ lang }) => {
                   },
                 )}
                 classNames={{
-                  content: 'pl-1 pr-0.5',
+                  content: cn('pl-1 pr-0.5', isOpenToWork ? 'text-success' : 'text-foreground-800'),
                 }}
-                color={isOpenToWork ? 'success' : 'default'}
+                color={isOpenToWork ? 'success' : undefined}
                 variant="flat"
                 startContent={
                   <span className="animate-pulse w-2 h-2 ml-0.5 bg-green-500 leading-3 rounded-full" />

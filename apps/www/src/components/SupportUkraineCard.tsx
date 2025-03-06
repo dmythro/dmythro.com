@@ -34,8 +34,7 @@ export const SupportUkraineCard: FC<LangProp> = ({ lang }) => {
           <CardBody>{supportUkraine.message(daysSinceInvasion + 1)}</CardBody>
           <CardFooter>
             <Link
-              isBlock
-              className="print:bg-transparent print:text-foreground"
+              className="print:bg-transparent print:text-foreground dark:text-blue-300"
               href="https://war.ukraine.ua/support-ukraine/"
               isExternal
               showAnchorIcon
@@ -47,7 +46,9 @@ export const SupportUkraineCard: FC<LangProp> = ({ lang }) => {
         </>
       ) : (
         <CardBody className="flex flex-row items-center">
-          <span className="flex text-primary flex-grow">#StandWithUkraine 🇺🇦</span>
+          <span className="flex text-primary dark:text-blue-300 flex-grow">
+            #StandWithUkraine 🇺🇦
+          </span>
           <InfoIcon className="fill-foreground print:hidden" width={18} height={18} />
         </CardBody>
       )}
