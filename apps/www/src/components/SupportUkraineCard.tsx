@@ -39,6 +39,7 @@ export const SupportUkraineCard: FC<LangProp> = ({ lang }) => {
               isExternal
               showAnchorIcon
               target="_blank"
+              underline="hover"
             >
               {supportUkraine.linkTitle}
             </Link>
