@@ -24,7 +24,7 @@ export const Stat: FC<StatProps> = ({ item, isExpanded, onClick }) => (
     isHoverable
     isPressable
     radius="md"
-    onClick={onClick}
+    onPress={onClick}
   >
     <CardHeader className="flex flex-row">
       <div className="flex flex-col flex-grow gap-1">

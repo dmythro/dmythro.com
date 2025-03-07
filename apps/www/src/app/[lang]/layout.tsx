@@ -110,7 +110,7 @@ export default async function LangLayout({
   }
 
   return (
-    <html lang={lang}>
+    <html lang={lang} suppressHydrationWarning>
       <head>
         <link rel="sitemap" href="/sitemap.xml" />
         <script

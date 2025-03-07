@@ -25,7 +25,7 @@ export const SupportUkraineCard: FC<LangProp> = ({ lang }) => {
       isHoverable
       isPressable
       shadow="md"
-      onClick={() => {
+      onPress={() => {
         setExpanded((value) => !value)
       }}
     >
