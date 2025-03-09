@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
     typedEnv: true,
     typedRoutes: true,
   },
+  // images: {
+  //   deviceSizes: [480, 960, 1440],
+  //   imageSizes: [480, 960, 1440],
+  // },
   pageExtensions: ['ts', 'tsx', 'mdx'],
   reactStrictMode: true,
 

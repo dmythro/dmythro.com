@@ -17,7 +17,7 @@ const urlIcons = {
 }
 
 export const mdxComponents = {
-  img: (props) => <ResponsiveImage {...props} shadow="none" />,
+  img: (props) => <ResponsiveImage {...props} isMDX shadow="none" />,
   a: (props) => {
     const url = new URL(props.href || '')
     const isExternal = !url.href.startsWith(BASE_URL)
