@@ -1,7 +1,7 @@
 {
   "name": "my-locales",
   "version": "0.2.0",
-  "private": true,
+  "private": false,
   "types": "dist/*.d.mts",
   "typesVersions": {
     "*": {

@@ -1,7 +1,7 @@
 {
   "name": "dmythro-com",
   "packageManager": "bun@1.2.4",
-  "private": true,
+  "private": false,
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "build": "turbo build",
