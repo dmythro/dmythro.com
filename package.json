@@ -2,6 +2,7 @@
   "name": "dmythro-com",
   "packageManager": "bun@1.2.4",
   "private": false,
+  "license": "MIT",
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "build": "turbo build",

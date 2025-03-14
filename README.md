@@ -27,3 +27,7 @@ TypeScript for type safety.
 A lot of other open-source tools under the hood.
 Monorepo build system [Turborepo](https://turbo.build/repo).
 Powered by [Vercel](https://vercel.com/).
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
