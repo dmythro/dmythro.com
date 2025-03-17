@@ -12,6 +12,7 @@ export enum ESocialLinks {
   github = 'https://github.com/dmythro',
   instagram = 'https://instagram.com/dmythro',
   linkedin = 'https://www.linkedin.com/in/dklymenko/',
+  nostr = 'https://dmythro.nos.social',
   telegram = 'https://t.me/Dmythro',
   threads = 'https://www.threads.net/@dmythro',
   twitter = 'https://twitter.com/dmythro',
