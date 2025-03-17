@@ -7,7 +7,8 @@ const nextConfig: NextConfig = {
     typedEnv: true,
     typedRoutes: true,
   },
-  pageExtensions: ['ts', 'tsx', 'mdx'],
+  output: 'standalone',
+  pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
   reactStrictMode: true,
 
   webpack(config, { isServer }) {
