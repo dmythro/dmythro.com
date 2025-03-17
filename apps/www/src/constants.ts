@@ -8,6 +8,7 @@ import FacebookIcon from 'src/assets/facebook-f.svg'
 import GitHubIcon from 'src/assets/github.svg'
 import InstagramIcon from 'src/assets/instagram.svg'
 import LinkedInIcon from 'src/assets/linkedin.svg'
+import NostrIcon from 'src/assets/nostr.svg'
 import TelegramIcon from 'src/assets/telegram.svg'
 import ThreadsIcon from 'src/assets/threads.svg'
 import TwitterIcon from 'src/assets/x-twitter.svg'
@@ -61,6 +62,11 @@ export const SOCIAL_LINKS: SocialLink[] = [
     Icon: TwitterIcon,
     title: 'X / Twitter',
     href: ESocialLinks.twitter,
+  },
+  {
+    Icon: NostrIcon,
+    title: 'Nostr',
+    href: ESocialLinks.nostr,
   },
 ]
 
