@@ -6,6 +6,8 @@
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "build": "turbo build",
+    "build:clean": "turbo build --cache=local:r,remote:r",
+    "build:force": "turbo build --force",
     "bump": "bun outdated -F '*'",
     "check-types": "turbo check-types",
     "ci": "biome ci .",
@@ -19,7 +21,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "turbo": "2.4.4"
+    "turbo": "2.5.0"
   },
   "dependencies": {
     "@types/bun": "1.2.4"
