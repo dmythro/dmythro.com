@@ -18,15 +18,15 @@ import { getT } from 'src/utils/getT'
 
 import EarthEuropeIcon from 'src/assets/earth-europe-solid.svg'
 
-import avatarUserImg from 'public/avatar@40px.webp'
+// import avatarUserImg from 'public/avatar@40px.webp'
 
-const { blurDataURL, width, height } = avatarUserImg
-const avatarImageProps: ImageProps = {
-  unoptimized: true,
-  blurDataURL,
-  height,
-  width,
-  src: avatarUserImg,
+// const { blurDataURL, width, height } = avatarUserImg
+const avatarImageProps = {
+  // unoptimized: true,
+  // blurDataURL,
+  height: 40,
+  width: 40,
+  src: '/avatar@40px.webp',
   alt: USERNAME,
 }
 
@@ -72,9 +72,9 @@ export const TopNavbar: FC<LangProp> = ({ lang }) => {
             className: 'group-data-[focus-visible=true]:ring-0 mr-1',
             color: 'primary',
             isBordered: true,
-            src: avatarUserImg.src,
-            ImgComponent: Image,
-            // @ts-ignore
+            // src: avatarUserImg.src,
+            src: avatarImageProps.src,
+            // ImgComponent: Image,
             imgProps: avatarImageProps,
           }}
           name={
