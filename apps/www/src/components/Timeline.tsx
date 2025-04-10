@@ -4,7 +4,7 @@ import { Chip } from '@heroui/chip'
 
 import type { TimelineItem } from 'my-locales'
 
-import './Timeline.module.css'
+import './Timeline.css'
 
 interface TimelineProps {
   title?: string

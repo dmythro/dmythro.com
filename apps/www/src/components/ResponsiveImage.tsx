@@ -5,6 +5,8 @@ import type { FC, ReactElement } from 'react'
 import { Card, CardFooter } from '@heroui/card'
 import Image from 'next/image'
 
+import './ResponsiveImage.css'
+
 type ResponsiveImageProps = Pick<ImageProps, 'priority' | 'src' | 'sizes' | 'alt'> &
   Pick<CardProps, 'shadow'> & {
     caption?: string | ReactElement

@@ -13,7 +13,7 @@
     "my-constants": "workspace:*"
   },
   "devDependencies": {
-    "puppeteer": "24.6.0",
+    "puppeteer": "24.6.1",
     "tsconfig": "workspace:*",
     "typescript": "5.8.3"
   }
