@@ -5,12 +5,21 @@ const nextConfig: NextConfig = {
   experimental: {
     mdxRs: true,
     typedEnv: true,
-    typedRoutes: true,
+    // typedRoutes: true,
   },
   output: 'standalone',
   pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
   reactStrictMode: true,
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
+      },
+    },
+  },
 
+  /*
   webpack(config, { isServer }) {
     // Configures webpack to handle SVG files with SVGR. SVGR optimizes and transforms SVG files
     // into React components. See https://react-svgr.com/docs/next/
@@ -40,6 +49,7 @@ const nextConfig: NextConfig = {
 
     return config
   },
+  */
 }
 
 const withMDX = nextMdx({
