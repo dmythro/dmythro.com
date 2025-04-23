@@ -1,6 +1,6 @@
 {
   "name": "dmythro-com",
-  "packageManager": "bun@1.2.4",
+  "packageManager": "bun@1.2.10",
   "private": false,
   "license": "MIT",
   "workspaces": ["apps/*", "packages/*"],
@@ -12,7 +12,7 @@
     "check-types": "turbo check-types",
     "ci": "biome ci .",
     "clean": "turbo clean",
-    "cv": "turbo cv",
+    "cv": "turbo cv --force",
     "dev": "turbo dev",
     "check": "biome check .",
     "check-apply": "biome check --write --unsafe .",
@@ -24,6 +24,6 @@
     "turbo": "2.5.0"
   },
   "dependencies": {
-    "@types/bun": "1.2.9"
+    "@types/bun": "1.2.10"
   }
 }
