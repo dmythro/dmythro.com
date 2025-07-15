@@ -37,7 +37,7 @@
     "@vercel/postgres": "0.10.0",
     "@vercel/speed-insights": "1.2.0",
     "dayjs": "1.11.13",
-    "framer-motion": "12.7.5",
+    "framer-motion": "12.23.6",
     "my-constants": "workspace:*",
     "my-locales": "workspace:*",
     "negotiator": "1.0.0",
@@ -46,17 +46,17 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "schema-dts": "1.1.5",
-    "sharp": "0.34.1"
+    "sharp": "0.34.3"
   },
   "devDependencies": {
     "@svgr/webpack": "8.1.0",
     "@types/mdx": "2.0.13",
-    "@types/negotiator": "0.6.3",
-    "@types/react": "19.1.2",
-    "@types/react-dom": "19.1.2",
+    "@types/negotiator": "0.6.4",
+    "@types/react": "19.1.8",
+    "@types/react-dom": "19.1.6",
     "autoprefixer": "10.4.21",
-    "cssnano": "7.0.6",
-    "postcss": "8.5.3",
+    "cssnano": "7.1.0",
+    "postcss": "8.5.6",
     "tailwindcss": "3.4.17",
     "tsconfig": "workspace:*",
     "typescript": "5.8.3"
