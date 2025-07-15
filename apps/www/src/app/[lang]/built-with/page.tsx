@@ -18,9 +18,14 @@ import { getT } from 'src/utils/getT'
 export async function generateMetadata({ params }: ParamsWithLang, parent: ResolvingMetadata) {
   const { lang } = await params
   const t = getT(lang)
+
+  // biome-ignore lint/correctness/noUnusedVariables: -
+  const { facebook, pinterest, ...parentMeta } = await parent
+
+  const meta: Metadata = {
+    ...parentMeta,
+  }
   const title = `${t.builtWithTitle} – ${USERNAME}`
-  // @ts-ignore
-  const meta: Metadata = structuredClone(await parent)
   const pagePath = '/built-with'
 
   meta.title = title
@@ -28,7 +33,7 @@ export async function generateMetadata({ params }: ParamsWithLang, parent: Resol
     languages: Object.fromEntries(availableLocales.map((lang) => [lang, `/${lang}${pagePath}`])),
   }
   meta.openGraph = {
-    ...(meta.openGraph || {}),
+    ...(parentMeta.openGraph || {}),
     title,
     type: 'article',
     url: `${meta.metadataBase}${lang}${pagePath}`,
