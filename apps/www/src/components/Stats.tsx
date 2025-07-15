@@ -1,9 +1,8 @@
 'use client'
 
 import { Card, CardBody, CardHeader } from '@heroui/card'
-import { type FC, useCallback, useRef, useState } from 'react'
-
 import type { SkillTime } from 'my-locales'
+import { type FC, useCallback, useRef, useState } from 'react'
 
 interface StatProps {
   item: SkillTime
@@ -27,7 +26,7 @@ export const Stat: FC<StatProps> = ({ item, isExpanded, onClick }) => (
     onPress={onClick}
   >
     <CardHeader className="flex flex-row">
-      <div className="flex flex-col flex-grow gap-1">
+      <div className="flex flex-col grow gap-1">
         <h2 className="text-md">{item.title}</h2>
         <div className="text-small text-default-500">{item.subtitle}</div>
       </div>

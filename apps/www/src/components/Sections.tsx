@@ -1,19 +1,15 @@
 'use client'
 
-import type { FC } from 'react'
-
 import { Accordion, AccordionItem } from '@heroui/accordion'
-
 import type { InterestKey, InterestLocale } from 'my-locales'
-
 import myStudioImg from 'public/my-studio.webp'
+import type { FC } from 'react'
 import WorkIcon from 'src/assets/briefcase-solid.svg'
 import FaqIcon from 'src/assets/clipboard-question-solid.svg'
 import HobbiesIcon from 'src/assets/gamepad-solid.svg'
 import MusicIcon from 'src/assets/headphones-simple-solid.svg'
 import LinksIcon from 'src/assets/link-solid.svg'
 import TravelIcon from 'src/assets/map-location-dot-solid.svg'
-
 import { CVPdfLink } from 'src/components/CVPdfLink'
 import { ResponsiveImage } from 'src/components/ResponsiveImage'
 import { SectionLocale } from 'src/components/SectionLocale'
@@ -60,7 +56,7 @@ export const Sections: FC<LangProp & { isExpanded?: boolean }> = ({ isExpanded, 
             <AccordionItem
               key={interestKey}
               aria-label={interest.title}
-              className="[&>section]:print:!opacity-100 [&>section]:print:!h-auto [&>section]:print:!overflow-y-auto print:break-before-page"
+              className="[&>section]:print:opacity-100! [&>section]:print:h-auto! [&>section]:print:overflow-y-auto! print:break-before-page"
               id={interestKey}
               title={<h2>{interest.title}</h2>}
               textValue={interest.title}

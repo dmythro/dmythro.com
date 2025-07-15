@@ -1,6 +1,5 @@
-import type { FC } from 'react'
-
 import type { LocaleCode } from 'my-locales'
+import type { FC } from 'react'
 import type { LangProp } from 'src/types'
 // import { getT } from 'src/utils/getT'
 

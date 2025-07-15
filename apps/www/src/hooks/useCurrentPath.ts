@@ -1,7 +1,6 @@
 'use client'
 
 import { availableLocales } from 'my-locales/constants'
-
 import { usePathname } from 'next/navigation'
 
 const re = new RegExp(`\/(${availableLocales.join('|')})`, 'i')

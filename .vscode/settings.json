@@ -1,5 +1,26 @@
 {
   "editor.defaultFormatter": "biomejs.biome",
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "github.copilot.chat.commitMessageGeneration.instructions": [{ "file": ".commit-rules.md" }],
+  "tailwindCSS.classFunctions": ["cn", "tv", "tw"],
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "classNames",
+    "mainClassName",
+    "wrapperClassName",
+    "ngClass",
+    "class:list"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "workbench.editor.customLabels.patterns": {
+    "**/app/**/{index,layout,page,route}.*": "${dirname}/${filename}.${extname}"
+  },
   "[json]": {
     "editor.defaultFormatter": "biomejs.biome"
   },

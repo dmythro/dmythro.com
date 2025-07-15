@@ -1,13 +1,11 @@
 import { Card, CardBody } from '@heroui/card'
-import type { FC } from 'react'
-
-import { ResponsiveImage } from 'src/components/ResponsiveImage'
-import { getT } from 'src/utils/getT'
-
-import avatarImg1200 from 'public/avatar.jpg'
 import avatarImg400 from 'public/avatar@400px.jpg'
 import avatarImg800 from 'public/avatar@800px.jpg'
+import avatarImg1200 from 'public/avatar.jpg'
+import type { FC } from 'react'
+import { ResponsiveImage } from 'src/components/ResponsiveImage'
 import type { LangProp } from 'src/types'
+import { getT } from 'src/utils/getT'
 
 const images = [avatarImg400, avatarImg800, avatarImg1200]
 const sizes = images

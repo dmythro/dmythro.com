@@ -1,21 +1,15 @@
 import type { InterestKey, LocaleCode } from 'my-locales'
-import type { FC } from 'react'
-
-import WebDevEn from 'my-locales/mdx/web-dev.en.md'
-import WebDevUk from 'my-locales/mdx/web-dev.uk.md'
-
-import MusicEn from 'my-locales/mdx/music.en.md'
-import MusicUk from 'my-locales/mdx/music.uk.md'
-
-import TravelEn from 'my-locales/mdx/travel.en.md'
-import TravelUk from 'my-locales/mdx/travel.uk.md'
-
-import HobbiesEn from 'my-locales/mdx/hobbies.en.md'
-import HobbiesUk from 'my-locales/mdx/hobbies.uk.md'
-
 import FaqEn from 'my-locales/mdx/faq.en.md'
 import FaqUk from 'my-locales/mdx/faq.uk.md'
-
+import HobbiesEn from 'my-locales/mdx/hobbies.en.md'
+import HobbiesUk from 'my-locales/mdx/hobbies.uk.md'
+import MusicEn from 'my-locales/mdx/music.en.md'
+import MusicUk from 'my-locales/mdx/music.uk.md'
+import TravelEn from 'my-locales/mdx/travel.en.md'
+import TravelUk from 'my-locales/mdx/travel.uk.md'
+import WebDevEn from 'my-locales/mdx/web-dev.en.md'
+import WebDevUk from 'my-locales/mdx/web-dev.uk.md'
+import type { FC } from 'react'
 import { Links } from 'src/components/Links'
 
 const sectionLocales: Record<

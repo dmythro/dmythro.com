@@ -7,11 +7,9 @@ export const dynamicParams = false
 
 export { viewport } from 'src/constants'
 
-import type { Metadata, ResolvingMetadata } from 'next'
-
 import { USERNAME } from 'my-constants'
 import { availableLocales } from 'my-locales/constants'
-
+import type { Metadata, ResolvingMetadata } from 'next'
 import { BuiltWith } from 'src/components/BuiltWith'
 import { HomeLink } from 'src/components/HomeLink'
 import type { ParamsWithLang } from 'src/types'
@@ -20,19 +18,26 @@ import { getT } from 'src/utils/getT'
 export async function generateMetadata({ params }: ParamsWithLang, parent: ResolvingMetadata) {
   const { lang } = await params
   const t = getT(lang)
+
+  // biome-ignore lint/correctness/noUnusedVariables: -
+  const { facebook, pinterest, ...parentMeta } = await parent
+
+  const meta: Metadata = {
+    ...parentMeta,
+  }
   const title = `${t.builtWithTitle} – ${USERNAME}`
-  // @ts-ignore
-  const meta: Metadata = { ...(await parent) }
   const pagePath = '/built-with'
 
   meta.title = title
   meta.alternates = {
     languages: Object.fromEntries(availableLocales.map((lang) => [lang, `/${lang}${pagePath}`])),
   }
-  meta.openGraph.title = title
-  // @ts-ignore
-  meta.openGraph.type = 'article'
-  meta.openGraph.url = `${meta.metadataBase}${lang}${pagePath}`
+  meta.openGraph = {
+    ...(parentMeta.openGraph || {}),
+    title,
+    type: 'article',
+    url: `${meta.metadataBase}${lang}${pagePath}`,
+  }
 
   return meta
 }

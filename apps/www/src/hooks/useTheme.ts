@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { type Theme, defaultTheme, themeAttrName } from 'src/utils/theme'
+import { defaultTheme, type Theme, themeAttrName } from 'src/utils/theme'
 
 const getSelectedTheme = (): Theme | false =>
   (window.localStorage.getItem(themeAttrName) as Theme) || false

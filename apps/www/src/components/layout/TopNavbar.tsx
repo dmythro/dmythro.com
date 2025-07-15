@@ -1,22 +1,19 @@
 'use client'
 
-// import type { ImageProps } from 'next/image'
-// import Image from 'next/image'
-import { type FC, useState } from 'react'
-
 import { Button } from '@heroui/button'
 import { Chip } from '@heroui/chip'
 import { Dropdown, DropdownTrigger } from '@heroui/dropdown'
 import { Navbar, NavbarContent, NavbarMenuToggle } from '@heroui/navbar'
 import { cn } from '@heroui/theme'
 import { User } from '@heroui/user'
-
-import { ELocaleNames, USERNAME, isOpenToWork } from 'my-constants'
+import { ELocaleNames, isOpenToWork, USERNAME } from 'my-constants'
+// import type { ImageProps } from 'next/image'
+// import Image from 'next/image'
+import { type FC, useState } from 'react'
+import EarthEuropeIcon from 'src/assets/earth-europe-solid.svg'
 import { DropdownMenuLocaleLinks, NavMenuLocaleLinks } from 'src/components/layout/LocaleLinks'
 import type { LangProp } from 'src/types'
 import { getT } from 'src/utils/getT'
-
-import EarthEuropeIcon from 'src/assets/earth-europe-solid.svg'
 
 // import avatarUserImg from 'public/avatar@40px.webp'
 
@@ -39,7 +36,7 @@ export const TopNavbar: FC<LangProp> = ({ lang }) => {
     <Navbar
       as="div"
       classNames={{
-        base: 'print:relative print:!border-small print:rounded-md',
+        base: 'print:relative print:border-small! print:rounded-md',
         wrapper: 'pl-3 pr-4',
         item: [
           'flex',
@@ -112,12 +109,12 @@ export const TopNavbar: FC<LangProp> = ({ lang }) => {
       <NavbarContent
         as="div"
         justify="end"
-        className="hidden sm:flex sm: flex-grow-0 justify-end justify-items-end print:flex"
+        className="hidden sm:flex sm: grow-0 justify-end justify-items-end print:flex"
       >
         <Dropdown className="self-center" placement="bottom-end">
           <DropdownTrigger>
             <Button
-              className="-mr-2 px-2 hover:shadow !bg-transparent dark:hover:outline-white/10 dark:hover:outline-1"
+              className="-mr-2 px-2 hover:shadow bg-transparent! dark:hover:outline-white/10 dark:hover:outline-1"
               endContent={<EarthEuropeIcon className="fill-foreground" width={32} height={32} />}
               variant="light"
             >
@@ -131,7 +128,7 @@ export const TopNavbar: FC<LangProp> = ({ lang }) => {
       <NavbarContent
         as="div"
         justify="end"
-        className="sm:hidden !grow-0 justify-end justify-items-end print:hidden"
+        className="sm:hidden grow-0! justify-end justify-items-end print:hidden"
       >
         <NavbarMenuToggle aria-label={isMenuOpen ? t.actions.closeMenu : t.actions.openMenu} />
       </NavbarContent>

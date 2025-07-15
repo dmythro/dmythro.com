@@ -1,8 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { ImageResponse } from 'next/og'
-
 import { USERNAME } from 'my-constants'
+import { ImageResponse } from 'next/og'
 import { SOCIAL_LINKS, SOCIAL_LINKS_WORK } from 'src/constants'
 
 const links = [...SOCIAL_LINKS_WORK, ...SOCIAL_LINKS]
@@ -66,7 +65,7 @@ export default async function Image() {
             width: 400,
           }}
         >
-          {/* biome-ignore lint/nursery/noImgElement: */}
+          {/** biome-ignore lint/performance/noImgElement: - */}
           <img
             src={imageSrc}
             alt="Avatar"

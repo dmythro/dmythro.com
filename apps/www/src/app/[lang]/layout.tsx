@@ -10,19 +10,18 @@ import type { Person, WithContext } from 'schema-dts'
 import { BASE_URL, ESocialLinks, USERNAME } from 'my-constants'
 import * as locales from 'my-locales'
 import { availableLocales } from 'my-locales/constants'
-
 import { Footer } from 'src/components/layout/Footer'
 import { TopNavbar } from 'src/components/layout/TopNavbar'
 import type { ParamsWithLang } from 'src/types'
 import { GA_TRACKING_ID } from 'src/utils/analytics'
+// import avatarImg from 'public/avatar@og.jpg'
+import { getT } from 'src/utils/getT'
 import { initTheme } from 'src/utils/theme'
 
 import { Providers } from './providers'
 
-// import avatarImg from 'public/avatar@og.jpg'
-import { getT } from 'src/utils/getT'
-
 const GA_DEBUG = process.env.NODE_ENV === 'development' ? 'true' : 'false'
+
 // const inter = Inter({ subsets: ['latin'] })
 
 export { viewport } from 'src/constants'
