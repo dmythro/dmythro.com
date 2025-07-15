@@ -7,11 +7,9 @@ export const dynamicParams = false
 
 export { viewport } from 'src/constants'
 
-import type { Metadata, ResolvingMetadata } from 'next'
-
 import { USERNAME } from 'my-constants'
 import { availableLocales } from 'my-locales/constants'
-
+import type { Metadata, ResolvingMetadata } from 'next'
 import { BuiltWith } from 'src/components/BuiltWith'
 import { HomeLink } from 'src/components/HomeLink'
 import type { ParamsWithLang } from 'src/types'

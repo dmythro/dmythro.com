@@ -1,9 +1,8 @@
 import type { CardProps } from '@heroui/card'
-import type { ImageProps, StaticImageData } from 'next/image'
-import type { FC, ReactElement } from 'react'
-
 import { Card, CardFooter } from '@heroui/card'
+import type { ImageProps, StaticImageData } from 'next/image'
 import Image from 'next/image'
+import type { FC, ReactElement } from 'react'
 
 import './ResponsiveImage.css'
 

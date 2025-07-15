@@ -1,22 +1,19 @@
 'use client'
 
-// import type { ImageProps } from 'next/image'
-// import Image from 'next/image'
-import { type FC, useState } from 'react'
-
 import { Button } from '@heroui/button'
 import { Chip } from '@heroui/chip'
 import { Dropdown, DropdownTrigger } from '@heroui/dropdown'
 import { Navbar, NavbarContent, NavbarMenuToggle } from '@heroui/navbar'
 import { cn } from '@heroui/theme'
 import { User } from '@heroui/user'
-
-import { ELocaleNames, USERNAME, isOpenToWork } from 'my-constants'
+import { ELocaleNames, isOpenToWork, USERNAME } from 'my-constants'
+// import type { ImageProps } from 'next/image'
+// import Image from 'next/image'
+import { type FC, useState } from 'react'
+import EarthEuropeIcon from 'src/assets/earth-europe-solid.svg'
 import { DropdownMenuLocaleLinks, NavMenuLocaleLinks } from 'src/components/layout/LocaleLinks'
 import type { LangProp } from 'src/types'
 import { getT } from 'src/utils/getT'
-
-import EarthEuropeIcon from 'src/assets/earth-europe-solid.svg'
 
 // import avatarUserImg from 'public/avatar@40px.webp'
 

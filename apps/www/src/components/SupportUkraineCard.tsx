@@ -1,15 +1,12 @@
 'use client'
 
-import dayjs from 'dayjs'
-import { type FC, useState } from 'react'
-
 import { Card, CardBody, CardFooter } from '@heroui/card'
 import { Link } from '@heroui/link'
-
+import dayjs from 'dayjs'
+import { type FC, useState } from 'react'
+import InfoIcon from 'src/assets/circle-info-solid.svg'
 import type { LangProp } from 'src/types'
 import { getT } from 'src/utils/getT'
-
-import InfoIcon from 'src/assets/circle-info-solid.svg'
 
 export const invasionStartDate = '2022-02-24'
 const todayDate = new Date().toISOString().split('T')[0]

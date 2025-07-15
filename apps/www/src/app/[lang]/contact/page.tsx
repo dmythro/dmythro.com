@@ -1,5 +1,4 @@
 import { Link } from '@heroui/link'
-
 import { auth } from 'src/auth'
 import { CVPdfLink } from 'src/components/CVPdfLink'
 import { HomeLink } from 'src/components/HomeLink'

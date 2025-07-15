@@ -1,8 +1,6 @@
-import type { FC } from 'react'
-
 import { Button } from '@heroui/button'
 import { Link } from '@heroui/link'
-
+import type { FC } from 'react'
 import { SOCIAL_LINKS, SOCIAL_LINKS_WORK } from 'src/constants'
 
 export const iconSize = 30

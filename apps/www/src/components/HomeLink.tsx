@@ -1,10 +1,8 @@
 import { Link } from '@heroui/link'
 import NextLink from 'next/link'
 import type { FC } from 'react'
-
 import BackIcon from 'src/assets/arrow-left-solid.svg'
 import HomeIcon from 'src/assets/house-solid.svg'
-
 import type { LangProp } from 'src/types'
 import { getT } from 'src/utils/getT'
 

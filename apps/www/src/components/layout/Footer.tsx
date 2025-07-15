@@ -1,11 +1,9 @@
 'use client'
 
+import { Link } from '@heroui/link'
 import NextLink from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { FC } from 'react'
-
-import { Link } from '@heroui/link'
-
 import CodeIcon from 'src/assets/code-solid.svg'
 import GitHubIcon from 'src/assets/github.svg'
 import type { LangProp } from 'src/types'

@@ -1,7 +1,6 @@
-import type { FC } from 'react'
-
 import { Card, CardBody } from '@heroui/card'
 import { Link } from '@heroui/link'
+import type { FC } from 'react'
 import type { LangProp } from 'src/types'
 import { getT } from 'src/utils/getT'
 

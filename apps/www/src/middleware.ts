@@ -1,10 +1,9 @@
 import { match } from '@formatjs/intl-localematcher'
+import type { LocaleCode } from 'my-locales'
+import { availableLocales } from 'my-locales/constants'
 import Negotiator from 'negotiator'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
-
-import type { LocaleCode } from 'my-locales'
-import { availableLocales } from 'my-locales/constants'
 
 const defaultLocale: LocaleCode = 'en'
 const headersLocaleKey = 'accept-language'

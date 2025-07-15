@@ -1,8 +1,5 @@
 import { ESocialLinks } from 'my-constants'
 import type { Viewport } from 'next'
-
-import type { SvgIcon } from './types'
-
 import BlueSkyIcon from 'src/assets/bluesky.svg'
 import FacebookIcon from 'src/assets/facebook-f.svg'
 import GitHubIcon from 'src/assets/github.svg'
@@ -12,6 +9,8 @@ import NostrIcon from 'src/assets/nostr.svg'
 import TelegramIcon from 'src/assets/telegram.svg'
 import ThreadsIcon from 'src/assets/threads.svg'
 import TwitterIcon from 'src/assets/x-twitter.svg'
+
+import type { SvgIcon } from './types'
 
 export interface SocialLink {
   Icon: SvgIcon
