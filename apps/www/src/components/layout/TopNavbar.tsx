@@ -36,7 +36,7 @@ export const TopNavbar: FC<LangProp> = ({ lang }) => {
     <Navbar
       as="div"
       classNames={{
-        base: 'print:relative print:!border-small print:rounded-md',
+        base: 'print:relative print:border-small! print:rounded-md',
         wrapper: 'pl-3 pr-4',
         item: [
           'flex',
@@ -109,12 +109,12 @@ export const TopNavbar: FC<LangProp> = ({ lang }) => {
       <NavbarContent
         as="div"
         justify="end"
-        className="hidden sm:flex sm: flex-grow-0 justify-end justify-items-end print:flex"
+        className="hidden sm:flex sm: grow-0 justify-end justify-items-end print:flex"
       >
         <Dropdown className="self-center" placement="bottom-end">
           <DropdownTrigger>
             <Button
-              className="-mr-2 px-2 hover:shadow !bg-transparent dark:hover:outline-white/10 dark:hover:outline-1"
+              className="-mr-2 px-2 hover:shadow bg-transparent! dark:hover:outline-white/10 dark:hover:outline-1"
               endContent={<EarthEuropeIcon className="fill-foreground" width={32} height={32} />}
               variant="light"
             >
@@ -128,7 +128,7 @@ export const TopNavbar: FC<LangProp> = ({ lang }) => {
       <NavbarContent
         as="div"
         justify="end"
-        className="sm:hidden !grow-0 justify-end justify-items-end print:hidden"
+        className="sm:hidden grow-0! justify-end justify-items-end print:hidden"
       >
         <NavbarMenuToggle aria-label={isMenuOpen ? t.actions.closeMenu : t.actions.openMenu} />
       </NavbarContent>

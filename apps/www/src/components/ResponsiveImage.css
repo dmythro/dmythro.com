@@ -1,4 +1,5 @@
-@tailwind components;
+@import 'tailwindcss';
+@plugin '../hero-ui.ts';
 
 @layer components {
   .responsive-image {

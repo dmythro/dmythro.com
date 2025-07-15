@@ -44,7 +44,7 @@ export const SupportUkraineCard: FC<LangProp> = ({ lang }) => {
         </>
       ) : (
         <CardBody className="flex flex-row items-center">
-          <span className="flex text-primary dark:text-blue-300 flex-grow">
+          <span className="flex text-primary dark:text-blue-300 grow">
             #StandWithUkraine 🇺🇦
           </span>
           <InfoIcon className="fill-foreground print:hidden" width={18} height={18} />

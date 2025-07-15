@@ -1,5 +1,6 @@
-import { heroui } from '@heroui/theme'
-import type { Config } from 'tailwindcss'
+import heroui from 'src/hero-ui'
+
+// import type { Config } from 'tailwindcss'
 
 import pkg from './package.json'
 
@@ -24,5 +25,5 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [heroui()],
-} satisfies Config
+  plugins: [heroui],
+}

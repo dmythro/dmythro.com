@@ -12,7 +12,7 @@ export const Links: FC = () => (
       <Button
         key={href}
         as={Link}
-        className="bg-gradient-to-tr from-purple-600 to-primary-500 text-white shadow-lg px-2 print:bg-none print:text-black print:shadow-none"
+        className="bg-linear-to-tr from-purple-600 to-primary-500 text-white shadow-lg px-2 print:bg-none print:text-black print:shadow-none"
         // @ts-ignore
         href={href}
         // @ts-ignore

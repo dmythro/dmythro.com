@@ -20,17 +20,19 @@ export async function generateMetadata({ params }: ParamsWithLang, parent: Resol
   const t = getT(lang)
   const title = `${t.builtWithTitle} – ${USERNAME}`
   // @ts-ignore
-  const meta: Metadata = { ...(await parent) }
+  const meta: Metadata = structuredClone(await parent)
   const pagePath = '/built-with'
 
   meta.title = title
   meta.alternates = {
     languages: Object.fromEntries(availableLocales.map((lang) => [lang, `/${lang}${pagePath}`])),
   }
-  meta.openGraph.title = title
-  // @ts-ignore
-  meta.openGraph.type = 'article'
-  meta.openGraph.url = `${meta.metadataBase}${lang}${pagePath}`
+  meta.openGraph = {
+    ...(meta.openGraph || {}),
+    title,
+    type: 'article',
+    url: `${meta.metadataBase}${lang}${pagePath}`,
+  }
 
   return meta
 }

@@ -56,7 +56,7 @@ export const Sections: FC<LangProp & { isExpanded?: boolean }> = ({ isExpanded, 
             <AccordionItem
               key={interestKey}
               aria-label={interest.title}
-              className="[&>section]:print:!opacity-100 [&>section]:print:!h-auto [&>section]:print:!overflow-y-auto print:break-before-page"
+              className="[&>section]:print:opacity-100! [&>section]:print:h-auto! [&>section]:print:overflow-y-auto! print:break-before-page"
               id={interestKey}
               title={<h2>{interest.title}</h2>}
               textValue={interest.title}
