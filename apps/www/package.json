@@ -8,6 +8,7 @@
     "build-cv": "IS_CV=true next build --turbopack",
     "check-types": "tsc --noEmit -p ./tsconfig.json",
     "check": "biome check .",
+    "clean": "rm -rf ./.next ./.turbo",
     "lint": "next lint",
     "start": "next start"
   },

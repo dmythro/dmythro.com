@@ -19,24 +19,24 @@ export async function generateMetadata({ params }: ParamsWithLang, parent: Resol
   const { lang } = await params
   const t = getT(lang)
 
-  // biome-ignore lint/correctness/noUnusedVariables: -
-  const { facebook, pinterest, ...parentMeta } = await parent
+  const { description, icons, manifest, metadataBase, openGraph } = await parent
 
-  const meta: Metadata = {
-    ...parentMeta,
-  }
   const title = `${t.builtWithTitle} – ${USERNAME}`
   const pagePath = '/built-with'
-
-  meta.title = title
-  meta.alternates = {
-    languages: Object.fromEntries(availableLocales.map((lang) => [lang, `/${lang}${pagePath}`])),
-  }
-  meta.openGraph = {
-    ...(parentMeta.openGraph || {}),
+  const meta: Metadata = {
     title,
-    type: 'article',
-    url: `${meta.metadataBase}${lang}${pagePath}`,
+    description,
+    alternates: {
+      languages: Object.fromEntries(availableLocales.map((lang) => [lang, `/${lang}${pagePath}`])),
+    },
+    icons: structuredClone(icons),
+    manifest,
+    openGraph: {
+      ...(openGraph || {}),
+      title,
+      type: 'article',
+      url: `${metadataBase}${lang}${pagePath}`,
+    },
   }
 
   return meta
