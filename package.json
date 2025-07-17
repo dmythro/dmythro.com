@@ -23,8 +23,8 @@
     "start": "turbo start"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.0.6",
-    "turbo": "2.5.4"
+    "@biomejs/biome": "2.1.2",
+    "turbo": "2.5.5"
   },
   "dependencies": {
     "@types/bun": "1.2.18",
