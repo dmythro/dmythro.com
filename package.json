@@ -1,6 +1,6 @@
 {
   "name": "dmythro-com",
-  "packageManager": "bun@1.2.18",
+  "packageManager": "bun@1.2.19",
   "private": false,
   "license": "MIT",
   "workspaces": [
@@ -23,11 +23,11 @@
     "start": "turbo start"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.1.2",
+    "@biomejs/biome": "2.1.4",
     "turbo": "2.5.5"
   },
   "dependencies": {
-    "@types/bun": "1.2.18",
+    "@types/bun": "1.2.19",
     "tailwindcss": "4.1.11"
   }
 }
