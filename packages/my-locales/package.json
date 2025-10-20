@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "tsconfig": "workspace:*",
-    "tsup": "8.4.0",
-    "typescript": "5.9.2"
+    "tsup": "8.5.0",
+    "typescript": "5.9.3"
   }
 }
