@@ -1,6 +1,6 @@
 {
   "name": "dmythro-com",
-  "packageManager": "bun@1.2.19",
+  "packageManager": "bun@1.3.0",
   "private": false,
   "license": "MIT",
   "workspaces": [
@@ -11,7 +11,7 @@
     "build": "turbo build",
     "build:clean": "turbo build --cache=local:r,remote:r",
     "build:force": "turbo build --force",
-    "bump": "bun outdated -F '*'",
+    "bump": "bun update -i -r",
     "check-types": "turbo check-types",
     "clean-up": "find . -type d \\( -name \"node_modules\" -o -name \".next\" -o -name \".turbo\" -o -name \"dist\" -o -name \".cache\" -o -name \".swc\" -o -name \".tsbuildinfo\" \\) -exec rm -rf {} + 2>/dev/null || true && find . -type f -name \"*.tsbuildinfo\" -delete 2>/dev/null || true",
     "ci": "biome ci .",
