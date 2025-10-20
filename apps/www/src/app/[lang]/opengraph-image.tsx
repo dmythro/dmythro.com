@@ -1,5 +1,5 @@
-import fs from 'node:fs'
-import path from 'node:path'
+import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
 import { USERNAME } from 'my-constants'
 import { ImageResponse } from 'next/og'
 import { SOCIAL_LINKS, SOCIAL_LINKS_WORK } from 'src/constants'
@@ -23,12 +23,10 @@ export const contentType = 'image/png'
 // TODO: edge runtime can load image with full absolute URL with fetch, but it feels odd:
 // export const runtime = 'edge'
 
-const imagePath = path.resolve('public/avatar@400px.jpg')
-const imageBuffer = fs.readFileSync(imagePath)
-const imageBase64 = imageBuffer.toString('base64')
-const imageSrc = `data:image/jpeg;base64,${imageBase64}`
-
 export default async function Image() {
+  const imageData = await readFile(join(process.cwd(), 'public/avatar@400px.jpg'), 'base64')
+  const imageSrc = `data:image/jpeg;base64,${imageData}`
+
   return new ImageResponse(
     <div
       style={{
