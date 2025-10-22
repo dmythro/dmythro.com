@@ -1,6 +1,6 @@
-import { spawn } from 'node:child_process'
-import fs from 'node:fs'
-import path from 'node:path'
+import { cpSync, renameSync, rmSync, writeFileSync } from 'node:fs'
+import { join, resolve } from 'node:path'
+import { spawn } from 'bun'
 import puppeteer from 'puppeteer'
 
 const host = 'localhost'
@@ -9,83 +9,281 @@ const port = 3000
 const locales = ['en', 'uk']
 const pdfExt = '.pdf'
 const tempPathSuffix = '.browser'
+const useOptimization = true // Use GhostScript for PDF optimization
 
-async function runGhostScript(filePath: string) {
+const wwwDir = resolve(import.meta.dir, '../../apps/www')
+const standalonePath = join(wwwDir, '.next/standalone')
+const serverPath = join(standalonePath, 'apps/www/server.js')
+
+async function copyStaticFiles() {
+  console.info(' - Copy static files')
+
+  // Copy .next/static to standalone/.next/static
+  const staticSource = join(wwwDir, '.next/static')
+  const staticDest = join(standalonePath, 'apps/www/.next/static')
+  console.info(`     Copying ${staticSource} -> ${staticDest}`)
+  cpSync(staticSource, staticDest, { recursive: true, force: true })
+
+  // Copy public folder to standalone/apps/www/public
+  const publicSource = join(wwwDir, 'public')
+  const publicDest = join(standalonePath, 'apps/www/public')
+  console.info(`     Copying ${publicSource} -> ${publicDest}`)
+  cpSync(publicSource, publicDest, { recursive: true, force: true })
+
+  console.info(' - Static files copied')
+}
+
+async function optimizePdf(filePath: string) {
   return new Promise((resolve, reject) => {
     const tempFilePath = filePath.replace(pdfExt, tempPathSuffix + pdfExt)
-    fs.renameSync(filePath, tempFilePath)
+    renameSync(filePath, tempFilePath)
 
-    const dpi = 150
-    const gs = spawn('gs', [
-      '-sDEVICE=pdfwrite',
-      '-dCompatibilityLevel=1.4',
-      '-dDetectDuplicateImages=true',
-      '-dDownsampleColorImages=true',
-      '-dDownsampleGrayImages=true',
-      '-dDownsampleMonoImages=true',
-      `-dColorImageResolution=${dpi}`,
-      `-dGrayImageResolution=${dpi}`,
-      `-dMonoImageResolution=${dpi}`,
-      // '-dPDFSETTINGS=/ebook',
-      // '-dPDFSETTINGS=/default',
-      '-dNOPAUSE',
-      '-dQUIET',
-      '-dBATCH',
-      `-sOutputFile=${filePath}`,
-      tempFilePath,
-    ])
+    console.info(`     Input: ${tempFilePath}`)
+    console.info(`     Output: ${filePath}`)
 
-    gs.on('error', () => {
-      fs.renameSync(tempFilePath, filePath)
-      reject('Error while using GhostScript CLI.')
+    // Use GhostScript with specific settings to compress images while preserving them
+    const gs = spawn({
+      cmd: [
+        'gs',
+        '-sDEVICE=pdfwrite',
+        '-dCompatibilityLevel=1.4',
+        '-dPDFSETTINGS=/ebook',
+        '-dNOPAUSE',
+        '-dQUIET',
+        '-dBATCH',
+        '-dSAFER',
+        `-sOutputFile=${filePath}`,
+        // Image compression - downsample to 150 DPI
+        '-dColorImageDownsampleType=/Bicubic',
+        '-dColorImageResolution=150',
+        '-dGrayImageDownsampleType=/Bicubic',
+        '-dGrayImageResolution=150',
+        '-dMonoImageDownsampleType=/Bicubic',
+        '-dMonoImageResolution=150',
+        // Font optimization
+        '-dEmbedAllFonts=true',
+        '-dSubsetFonts=true',
+        '-dCompressFonts=true',
+        tempFilePath,
+      ],
+      stdout: 'pipe',
+      stderr: 'pipe',
     })
 
-    gs.on('close', () => {
-      fs.rmSync(tempFilePath)
-      resolve(true)
-    })
+    // Capture both stdout and stderr for debugging
+    const stderrReader = gs.stderr.getReader()
+    const stdoutReader = gs.stdout.getReader()
+    const decoder = new TextDecoder()
+    let stderrOutput = ''
+    let stdoutOutput = ''
+
+    const readStderr = async () => {
+      try {
+        while (true) {
+          const { done, value } = await stderrReader.read()
+          if (done) break
+          const text = decoder.decode(value)
+          stderrOutput += text
+          console.log('    [gs stderr]', text.trim())
+        }
+      } catch {
+        // Ignore read errors
+      }
+    }
+
+    const readStdout = async () => {
+      try {
+        while (true) {
+          const { done, value } = await stdoutReader.read()
+          if (done) break
+          const text = decoder.decode(value)
+          stdoutOutput += text
+          console.log('    [gs stdout]', text.trim())
+        }
+      } catch {
+        // Ignore read errors
+      }
+    }
+
+    readStderr()
+    readStdout()
+
+    gs.exited
+      .then((exitCode) => {
+        if (exitCode === 0) {
+          rmSync(tempFilePath)
+          console.info('     PDF optimized successfully')
+          resolve(true)
+        } else {
+          console.error('GhostScript stdout:', stdoutOutput)
+          console.error('GhostScript stderr:', stderrOutput)
+          renameSync(tempFilePath, filePath)
+          reject(`GhostScript failed with exit code ${exitCode}`)
+        }
+      })
+      .catch((err) => {
+        console.error('GhostScript error:', err)
+        console.error('GhostScript stdout:', stdoutOutput)
+        console.error('GhostScript stderr:', stderrOutput)
+        renameSync(tempFilePath, filePath)
+        reject('Error while using GhostScript.')
+      })
   })
 }
 
 async function start() {
   console.info('Generating CV:')
 
+  // Copy static files before starting server
+  await copyStaticFiles()
+
   const browser = await puppeteer.launch({ headless: true })
 
   return new Promise((resolve, reject) => {
-    console.info(' - start server')
+    console.info(' - Start server')
 
-    const staticServer = spawn('npm', ['start'], {
-      cwd: path.resolve(__dirname, '../../apps/www'),
-      detached: true,
+    const staticServer = spawn({
+      cmd: ['bun', serverPath],
+      cwd: standalonePath,
+      env: {
+        ...process.env,
+        PORT: `${port}`,
+        HOSTNAME: host,
+        IS_CV: 'true',
+      },
+      stdout: 'pipe',
+      stderr: 'pipe',
     })
 
-    staticServer.stdout?.on('data', async (data: string) => {
-      if (`${data}`.includes(`://${host}:${port}`)) {
-        try {
-          await generatePdfs()
-        } catch (err) {
-          done(`${err}`)
+    // Read stdout stream
+    const reader = staticServer.stdout.getReader()
+    const decoder = new TextDecoder()
+
+    const checkOutput = async () => {
+      try {
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+
+          const text = decoder.decode(value)
+          console.log(text)
+
+          if (text.includes(`${host}:${port}`)) {
+            try {
+              await generatePdfs()
+            } catch (err) {
+              await cleanup(`${err}`)
+            }
+            break
+          }
         }
+      } catch (err) {
+        await cleanup(`Error reading output: ${err}`)
       }
-    })
+    }
 
-    staticServer.stderr?.on('data', done)
-    staticServer.on('error', done)
+    checkOutput()
 
     async function generatePdfs() {
       let step = 'starting'
       try {
         for (const lang of locales) {
-          console.info(` - open "${lang}" CV page`)
+          console.info(` - Open "${lang}" CV page`)
 
           step = 'opening page'
           const page = await browser.newPage()
-          await page.goto(`http://${host}:${port}/${lang}/cv`, { waitUntil: 'networkidle0' })
 
-          step = 'loading all non-priority <Image />'
+          // Emulate print media to get correct styles
+          await page.emulateMediaType('print')
+
+          // Navigate and wait for network to be idle
+          await page.goto(`http://${host}:${port}/${lang}/cv`, {
+            waitUntil: 'networkidle0',
+            timeout: 60000,
+          })
+
+          step = 'loading all images'
+
+          // Force all images to load eagerly
           await page.evaluate(() => {
-            window.scrollTo({ left: 0, top: window.document.body.scrollHeight, behavior: 'smooth' })
+            const images = Array.from(document.querySelectorAll('img'))
+            images.forEach((img) => {
+              img.loading = 'eager'
+            })
+          })
+
+          // Scroll to load lazy images
+          await page.evaluate(() => {
+            window.scrollTo({
+              left: 0,
+              top: window.document.body.scrollHeight,
+              behavior: 'instant',
+            })
+          })
+
+          // Wait for network to settle after scroll
+          await page.waitForNetworkIdle({ timeout: 10000 })
+
+          // Debug: check image sources
+          const imageInfo = await page.evaluate(() => {
+            const images = Array.from(document.querySelectorAll('img'))
+            return images.map((img) => ({
+              src: img.src,
+              currentSrc: img.currentSrc,
+              complete: img.complete,
+              naturalWidth: img.naturalWidth,
+              naturalHeight: img.naturalHeight,
+              width: img.width,
+              height: img.height,
+              loading: img.loading,
+              decoding: img.decoding,
+            }))
+          })
+          console.info(`     Found ${imageInfo.length} images`)
+          imageInfo.forEach((img, i) => {
+            console.info(`     Image ${i + 1}: ${img.src}`)
+            console.info(
+              `       Complete: ${img.complete}, Natural: ${img.naturalWidth}x${img.naturalHeight}, Display: ${img.width}x${img.height}`,
+            )
+            if (img.naturalWidth === 0) {
+              console.warn('       ⚠️  FAILED TO LOAD')
+            }
+          })
+
+          // Wait for all images to be loaded
+          await page.evaluate(async () => {
+            const images = Array.from(document.querySelectorAll('img'))
+            await Promise.all(
+              images.map(async (img) => {
+                if (img.complete && img.naturalWidth > 0) {
+                  // Force decode to ensure image is ready for rendering
+                  try {
+                    await img.decode()
+                  } catch {
+                    // Ignore decode errors
+                  }
+                  return Promise.resolve(undefined)
+                }
+                return new Promise<void>((resolve) => {
+                  img.addEventListener('load', async () => {
+                    try {
+                      await img.decode()
+                    } catch {
+                      // Ignore decode errors
+                    }
+                    resolve()
+                  })
+                  img.addEventListener('error', () => resolve())
+                  // Timeout after 5 seconds
+                  setTimeout(() => resolve(), 5000)
+                })
+              }),
+            )
+          })
+
+          // Force a repaint to ensure images are rendered
+          await page.evaluate(() => {
+            window.scrollTo(0, 0)
           })
           await page.waitForNetworkIdle()
 
@@ -99,22 +297,30 @@ async function start() {
               right: '0.5cm',
             },
             printBackground: true,
+            preferCSSPageSize: false,
+            omitBackground: false,
+            // Use tagged PDF for better compression (Chrome feature)
+            tagged: true,
           })
-          const pdfPath = path.resolve(__dirname, `../../apps/www/public/cv.${lang}${pdfExt}`)
-          console.info(` - save "${pdfPath}"`)
-          fs.writeFileSync(pdfPath, pdf)
-          await runGhostScript(pdfPath)
+          const pdfPath = join(wwwDir, `public/cv.${lang}${pdfExt}`)
+          console.info(` - Save "${pdfPath}"`)
+          writeFileSync(pdfPath, pdf)
+
+          if (useOptimization) {
+            console.info(' - Optimize PDF with GhostScript')
+            await optimizePdf(pdfPath)
+          } else {
+            console.info(' - Skipping PDF optimization')
+          }
         }
 
-        staticServer.removeAllListeners()
-
-        return done()
+        return await cleanup()
       } catch (error) {
-        return done(`Error ${step}: ${error}`)
+        return await cleanup(`Error ${step}: ${error}`)
       }
     }
 
-    async function done(error?: string) {
+    async function cleanup(error?: string) {
       const message = `${error}`
 
       // Ignore warnings
@@ -125,19 +331,15 @@ async function start() {
 
       if (error) {
         console.error(`Fail: ${error}`)
-        reject()
+        reject(error)
       } else {
         console.info('Done.')
         resolve(true)
       }
 
-      if (staticServer.pid) {
-        process.kill(-staticServer.pid)
-      } else {
-        staticServer.kill()
-      }
-
-      return browser.close()
+      // Kill the server process
+      staticServer.kill()
+      await browser.close()
     }
   })
 }

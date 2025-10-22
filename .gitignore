@@ -19,6 +19,7 @@ build
 .nova
 *.pem
 *.tsbuildinfo
+*.before-gs.pdf
 
 # debug
 npm-debug.log*
