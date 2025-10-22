@@ -6,7 +6,7 @@ import type { FC, ReactElement } from 'react'
 
 import './ResponsiveImage.css'
 
-type ResponsiveImageProps = Pick<ImageProps, 'priority' | 'src' | 'sizes' | 'alt'> &
+type ResponsiveImageProps = Pick<ImageProps, 'preload' | 'src' | 'sizes' | 'alt'> &
   Pick<CardProps, 'shadow'> & {
     caption?: string | ReactElement
   }
@@ -14,7 +14,7 @@ type ResponsiveImageProps = Pick<ImageProps, 'priority' | 'src' | 'sizes' | 'alt
 export const ResponsiveImage: FC<ResponsiveImageProps> = ({
   alt,
   caption,
-  priority = false,
+  preload = false,
   shadow = 'md',
   sizes,
   src,
@@ -22,7 +22,7 @@ export const ResponsiveImage: FC<ResponsiveImageProps> = ({
   const isSrcImport = typeof src === 'object'
   const data: StaticImageData = isSrcImport ? (src as StaticImageData) : undefined
   // Make sure CV PDF builds load all images, immediately
-  const isPriority = process.env.IS_CV ? true : priority
+  const isPreload = process.env.IS_CV ? true : preload
 
   return (
     <Card
@@ -39,8 +39,9 @@ export const ResponsiveImage: FC<ResponsiveImageProps> = ({
         sizes={sizes}
         src={src}
         alt={alt}
-        priority={isPriority}
-        loading={isPriority ? 'eager' : 'lazy'}
+        fetchPriority={isPreload ? 'high' : undefined}
+        preload={isPreload}
+        loading={isPreload ? undefined : 'lazy'}
         width={isSrcImport ? data?.width : 1440}
         height={isSrcImport ? data?.height : 960}
       />

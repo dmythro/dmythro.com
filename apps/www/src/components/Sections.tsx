@@ -83,7 +83,7 @@ export const Sections: FC<LangProp & { isExpanded?: boolean }> = ({ isExpanded, 
 
               {interestKey === 'webDev' && (
                 <>
-                  <ResponsiveImage src={myStudioImg} alt={t.myStudio} priority={isExpanded} />
+                  <ResponsiveImage src={myStudioImg} alt={t.myStudio} preload={isExpanded} />
 
                   <Stats title={t.skillsTitle} items={t.skills} isExpanded={isExpanded} />
 

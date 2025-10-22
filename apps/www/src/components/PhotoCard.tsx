@@ -28,7 +28,7 @@ export const PhotoCard: FC<LangProp> = ({ lang }) => {
       <ResponsiveImage
         alt={t.fullName}
         caption={caption}
-        priority
+        preload={true}
         sizes={sizes}
         src={avatarImg800}
       />
