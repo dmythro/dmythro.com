@@ -27,7 +27,7 @@ export const ResponsiveImage: FC<ResponsiveImageProps> = ({
   return (
     <Card
       as="figure"
-      className="responsive-image print:block print:border-small print:rounded-md print:shadow-none print:transition-none"
+      className="responsive-image print:block print:border-small print:border-default-200 print:rounded-md print:shadow-none print:transition-none"
       fullWidth
       isFooterBlurred
       shadow={shadow}

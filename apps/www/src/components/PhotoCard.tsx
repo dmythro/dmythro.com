@@ -32,7 +32,7 @@ export const PhotoCard: FC<LangProp> = ({ lang }) => {
         sizes={sizes}
         src={avatarImg800}
       />
-      <Card className="hidden print:block print:border-small print:rounded-md print:shadow-none print:transition-none mt-4">
+      <Card className="hidden print:block print:border-small print:border-default-200 print:rounded-md print:shadow-none print:transition-none mt-4">
         <CardBody>
           <h1 className="text-xl mb-3">{t.cv.title}</h1>
           {t.cv.description(years).map((text, index) => (

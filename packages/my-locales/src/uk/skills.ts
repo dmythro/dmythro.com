@@ -18,7 +18,7 @@ export const skills: SkillTime[] = [
       'Працюю з React нон-стоп з версії 0.5 (2012), від React.Component класу до функціональних, серверних компонент та хуків.',
   },
   {
-    title: 'Node.js',
+    title: 'Bun.js/Node.js',
     level: 'proficient',
     times: ['2012-now'],
     subtitle: 'Працюю постійно з ранніх версій',

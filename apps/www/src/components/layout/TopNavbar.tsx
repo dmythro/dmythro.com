@@ -36,7 +36,7 @@ export const TopNavbar: FC<LangProp> = ({ lang }) => {
     <Navbar
       as="div"
       classNames={{
-        base: 'print:relative print:border-small! print:rounded-md',
+        base: 'print:relative print:border-small! print:border-default-200 print:rounded-md',
         wrapper: 'pl-3 pr-4',
         item: [
           'flex',

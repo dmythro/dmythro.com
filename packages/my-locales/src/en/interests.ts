@@ -4,7 +4,7 @@ export const interests = {
   webDev: {
     title: 'Web Development, Career, Education',
     description:
-      'TypeScript, Node.js, Nest, React, Next.js/Astro, PostgreSQL, Drizzle/Prisma, Google Cloud/Vercel.',
+      'TypeScript, Bun.js/Node.js, React, Next.js/Astro, PostgreSQL, Drizzle/Prisma ORM, Google Cloud/Vercel/self-host.',
   },
   music: {
     title: 'Music',
