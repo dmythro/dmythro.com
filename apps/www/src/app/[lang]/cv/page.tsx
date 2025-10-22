@@ -12,9 +12,11 @@ import { Sections } from 'src/components/Sections'
 // import { SaveLevCard } from 'src/components/SaveLevCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
 import type { ParamsWithLang } from 'src/types'
+import { getT } from 'src/utils/getT'
 
 export default async function CVPage({ params }: ParamsWithLang) {
   const { lang } = await params
+  const t = getT(lang)
   return (
     <div className="flex flex-col max-w-[1024px] mx-auto gap-4 p-4 relative print:block">
       <div className="flex flex-col sm:flex-row-reverse print:flex-col! gap-4 relative print:block">
@@ -32,7 +34,7 @@ export default async function CVPage({ params }: ParamsWithLang) {
         </div>
       </div>
       <div className="print:hidden flex flex-row items-center text-foreground-400">
-        <HomeLink lang={lang} />
+        <HomeLink lang={lang} title={t.actions.backHome} />
         <span>&bull;</span>
         <CVPdfLink lang={lang} />
       </div>

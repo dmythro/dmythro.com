@@ -1,3 +1,5 @@
+'use client'
+
 import { DropdownItem, DropdownMenu } from '@heroui/dropdown'
 import { Link } from '@heroui/link'
 import { NavbarMenu, NavbarMenuItem } from '@heroui/navbar'
@@ -49,9 +51,7 @@ export const DropdownMenuLocaleLinks: FC<LangProp> = ({ lang }) => {
             key={l}
             className="text-foreground"
             color={isActive ? 'default' : 'primary'}
-            // @ts-ignore
             href={`/${l}${currentPath}`}
-            // @ts-ignore
             hrefLang={l}
             rel="me"
             endContent={

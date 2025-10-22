@@ -8,7 +8,6 @@ import type { Person, WithContext } from 'schema-dts'
 // import { Inter } from 'next/font/google'
 
 import { BASE_URL, ESocialLinks, USERNAME } from 'my-constants'
-import * as locales from 'my-locales'
 import { availableLocales } from 'my-locales/constants'
 import { Footer } from 'src/components/layout/Footer'
 import { TopNavbar } from 'src/components/layout/TopNavbar'
@@ -91,7 +90,7 @@ export default async function LangLayout({
   params,
 }: ParamsWithLang & { children: ReactNode }) {
   const { lang } = await params
-  const t = locales[lang]
+  const t = getT(lang)
   const personJsonLd: WithContext<Person> = {
     '@context': 'https://schema.org',
     '@type': 'Person',
@@ -142,7 +141,6 @@ export default async function LangLayout({
           strategy="afterInteractive"
         />
         <Script
-          id="google-analytics"
           strategy="afterInteractive"
           // biome-ignore lint/security/noDangerouslySetInnerHtml: this is a special case
           dangerouslySetInnerHTML={{

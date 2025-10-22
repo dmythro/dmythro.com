@@ -1,15 +1,17 @@
 import { Link } from '@heroui/link'
-import { auth } from 'src/auth'
 import { CVPdfLink } from 'src/components/CVPdfLink'
 import { HomeLink } from 'src/components/HomeLink'
 import { PhotoCard } from 'src/components/PhotoCard'
 import { SupportUkraineCard } from 'src/components/SupportUkraineCard'
 import type { ParamsWithLang } from 'src/types'
+import { getT } from 'src/utils/getT'
 
+// TODO: implement actual authentication logic
 export default async function ContactPage({ params }: ParamsWithLang) {
   const { lang } = await params
+  const t = getT(lang)
 
-  const session = await auth()
+  const session = null
   const callbackUrl = encodeURIComponent(`/${lang}/contact`)
 
   return (
@@ -43,7 +45,7 @@ export default async function ContactPage({ params }: ParamsWithLang) {
             )}
           </div>
           <div className="print:hidden flex flex-row items-center text-foreground-400">
-            <HomeLink lang={lang} />
+            <HomeLink lang={lang} title={t.actions.backHome} />
             <span>&bull;</span>
             <CVPdfLink lang={lang} />
           </div>

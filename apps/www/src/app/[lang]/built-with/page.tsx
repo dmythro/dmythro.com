@@ -44,6 +44,8 @@ export async function generateMetadata({ params }: ParamsWithLang, parent: Resol
 
 export default async function BuiltWithPage({ params }: ParamsWithLang) {
   const { lang } = await params
+  const t = getT(lang)
+
   return (
     <div className="flex flex-col max-w-5xl mx-auto gap-4 p-4 relative print:block">
       <div>
@@ -51,7 +53,7 @@ export default async function BuiltWithPage({ params }: ParamsWithLang) {
       </div>
 
       <div>
-        <HomeLink lang={lang} />
+        <HomeLink lang={lang} title={t.actions.backHome} />
       </div>
     </div>
   )

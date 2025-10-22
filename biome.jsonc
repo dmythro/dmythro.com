@@ -7,8 +7,8 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!**/*.css", "!.next", "!data/test/**", "!node_modules"],
-    "experimentalScannerIgnores": [".next", "dist", "node_modules"]
+    "includes": ["**", "!**/*.css", "!.next", "!**/next-env.d.ts", "!data/test", "!node_modules"],
+    "experimentalScannerIgnores": [".next", "dist", "**/next-env.d.ts", "node_modules"]
   },
   "assist": {
     "actions": {

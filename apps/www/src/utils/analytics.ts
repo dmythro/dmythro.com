@@ -4,7 +4,7 @@ export const GA_TRACKING_ID = process.env.NEXT_GA_ID || ''
 // https://developers.google.com/analytics/devguides/collection/gtagjs/events
 
 export const trackPageView = (url: string) => {
-  // @ts-ignore
+  // @ts-expect-error
   window.gtag('event', 'page_view', {
     page_path: url,
   })
@@ -17,7 +17,7 @@ export interface IGACustomEvent {
 }
 
 export const trackCustomEvent = (action: string, { category, label, value }: IGACustomEvent) => {
-  // @ts-ignore
+  // @ts-expect-error
   window.gtag('event', action, {
     event_category: category,
     event_label: label,

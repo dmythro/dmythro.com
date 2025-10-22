@@ -1,3 +1,5 @@
+'use client'
+
 import { Link } from '@heroui/link'
 import NextLink from 'next/link'
 import type { FC } from 'react'

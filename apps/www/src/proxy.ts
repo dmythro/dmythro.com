@@ -18,7 +18,7 @@ function getLocale(request: NextRequest) {
   return match(requestedLocales, availableLocales, defaultLocale)
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const pathnameIsMissingLocale = availableLocales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`,
