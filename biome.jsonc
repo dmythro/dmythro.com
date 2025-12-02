@@ -7,8 +7,18 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!**/*.css", "!.next", "!**/next-env.d.ts", "!data/test", "!node_modules"],
-    "experimentalScannerIgnores": [".next", "dist", "**/next-env.d.ts", "node_modules"]
+    "includes": [
+      "**",
+      "!**/*.css",
+      "!.next",
+      "!**/next-env.d.ts",
+      "!data/test",
+      "!node_modules",
+      "!!**/.next",
+      "!!**/dist",
+      "!!**/next-env.d.ts",
+      "!!**/node_modules"
+    ]
   },
   "assist": {
     "actions": {
@@ -17,11 +27,17 @@
           "level": "on",
           "options": {
             "groups": [
-              [":PACKAGE_WITH_PROTOCOL:", ":PACKAGE:"],
+              [
+                ":PACKAGE_WITH_PROTOCOL:",
+                ":PACKAGE:"
+              ],
               ":BLANK_LINE:",
               ":ALIAS:",
               ":BLANK_LINE:",
-              [":PATH:", ":URL:"]
+              [
+                ":PATH:",
+                ":URL:"
+              ]
             ]
           }
         }
