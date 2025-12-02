@@ -27,17 +27,11 @@
           "level": "on",
           "options": {
             "groups": [
-              [
-                ":PACKAGE_WITH_PROTOCOL:",
-                ":PACKAGE:"
-              ],
+              [":PACKAGE_WITH_PROTOCOL:", ":PACKAGE:"],
               ":BLANK_LINE:",
               ":ALIAS:",
               ":BLANK_LINE:",
-              [
-                ":PATH:",
-                ":URL:"
-              ]
+              [":PATH:", ":URL:"]
             ]
           }
         }
