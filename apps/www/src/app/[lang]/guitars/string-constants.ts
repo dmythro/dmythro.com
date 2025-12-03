@@ -336,6 +336,14 @@ export const STRING_RANGES: Record<InstrumentType, { min: number; max: number; d
     bass: { min: 2, max: 6, default: 5 },
   }
 
+// Scale length ranges per instrument type (in inches)
+// Guitar: typical range 24"-28", extended 20"-30" for unusual instruments
+// Bass: typical range 32"-35", extended 30"-36" for short/long scale
+export const SCALE_RANGES: Record<InstrumentType, { min: number; max: number }> = {
+  guitar: { min: 20, max: 30 },
+  bass: { min: 30, max: 36 },
+}
+
 // Instrument presets
 export interface Preset {
   key: string
@@ -415,7 +423,7 @@ export const PRESETS: Record<InstrumentType, Preset[]> = {
 
 export const DEFAULT_PRESETS: Record<InstrumentType, string> = {
   guitar: '6-d',
-  bass: '4-d',
+  bass: '5-d',
 }
 
 // Available gauge options - plain and wound variants

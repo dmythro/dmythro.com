@@ -15,6 +15,7 @@ import {
   type InstrumentType,
   NOTE_FREQUENCIES,
   PRESETS,
+  SCALE_RANGES,
   STRING_BRAND_PRESETS,
   STRING_RANGES,
   type StringMaterial,
@@ -227,6 +228,7 @@ export const StringTensionCalculator: FC = () => {
     scaleTo,
   } = form
   const range = STRING_RANGES[type]
+  const scaleRange = SCALE_RANGES[type]
   const presets = PRESETS[type]
   const presetLabel = type === 'guitar' ? 'Guitar Preset' : 'Bass Preset'
 
@@ -328,6 +330,9 @@ export const StringTensionCalculator: FC = () => {
           <Input
             type="number"
             label="Scale 1st"
+            aria-label="Scale length for first string"
+            min={scaleRange.min}
+            max={scaleRange.max}
             step={0.5}
             value={scaleFrom}
             onValueChange={handleScaleFromChange}
@@ -336,6 +341,9 @@ export const StringTensionCalculator: FC = () => {
           <Input
             type="number"
             label="Scale last"
+            aria-label="Scale length for last string"
+            min={scaleRange.min}
+            max={scaleRange.max}
             step={0.5}
             value={scaleTo}
             onValueChange={handleScaleToChange}
@@ -359,6 +367,10 @@ export const StringTensionCalculator: FC = () => {
                   <Input
                     type="number"
                     size="sm"
+                    aria-label={`Scale length for string ${string.number}`}
+                    min={scaleRange.min}
+                    max={scaleRange.max}
+                    step={0.5}
                     value={string.scale}
                     onValueChange={(value) => updateString(index, 'scale', value)}
                     endContent={<span className="text-default-400 text-xs">"</span>}
