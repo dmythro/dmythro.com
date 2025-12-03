@@ -24,7 +24,7 @@ export function parseGauge(gauge: string): { value: number; isWound: boolean } {
 
 // Calculate unit weight based on gauge, material, and brand
 // Uses brand-specific lookup tables when available for accuracy,
-// falls back to formula-based calculation for unknown gauges
+// applies material adjustment ratio for non-nickel materials
 export function getUnitWeight(
   gauge: string,
   material: StringMaterial = 'nickel-wound',
@@ -37,6 +37,11 @@ export function getUnitWeight(
   if (brand && BRAND_UNIT_WEIGHTS[brand]) {
     const brandWeights = BRAND_UNIT_WEIGHTS[brand]
     if (brandWeights[gauge]) {
+      // Brand data is for nickel-wound, apply material ratio for wound strings
+      if (isWound && material !== 'nickel-wound') {
+        const materialRatio = WOUND_COEFFICIENTS[material] / WOUND_COEFFICIENTS['nickel-wound']
+        return brandWeights[gauge] * materialRatio
+      }
       return brandWeights[gauge]
     }
   }
