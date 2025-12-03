@@ -67,6 +67,8 @@ export const en = {
     stringTension: {
       pageTitle: 'Guitars',
       title: 'String Tension Calculator',
+      description:
+        'Calculate string tension for guitar and bass. Supports multi-scale instruments, various tunings, string brands and materials.',
       instrumentType: 'Instrument type',
       guitar: 'Guitar',
       bass: 'Bass',

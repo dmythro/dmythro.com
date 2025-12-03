@@ -67,11 +67,13 @@ export const uk: Translation = {
     stringTension: {
       pageTitle: 'Гітари',
       title: 'Калькулятор натягу струн',
+      description:
+        'Розрахунок натягу струн для гітари та басу. Підтримка мультимензурних інструментів, різних строїв, брендів та матеріалів струн.',
       instrumentType: 'Тип інструмента',
       guitar: 'Гітара',
       bass: 'Бас',
       guitarPreset: 'Пресет гітари',
-      bassPreset: 'Пресет баса',
+      bassPreset: 'Пресет басу',
       stringPreset: 'Пресет струн',
       strings: 'Струни',
       tuning: 'Стрій',
