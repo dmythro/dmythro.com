@@ -367,6 +367,7 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
 
           <Input
             type="number"
+            classNames={{ input: 'text-right' }}
             label={t.scaleLast}
             aria-label="Scale length for last string"
             min={scaleRange.min}
@@ -379,6 +380,7 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
 
           <Input
             type="number"
+            classNames={{ input: 'text-right' }}
             label={t.scaleFirst}
             aria-label="Scale length for first string"
             min={scaleRange.min}
