@@ -3,7 +3,6 @@
 import { Card, CardBody } from '@heroui/card'
 import { Input } from '@heroui/input'
 import { Select, SelectItem } from '@heroui/select'
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/table'
 import { Tab, Tabs } from '@heroui/tabs'
 import { type FC, type Key, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
@@ -308,7 +307,7 @@ export const StringTensionCalculator: FC = () => {
 
   return (
     <Card>
-      <CardBody className="gap-4">
+      <CardBody className="gap-4 p-2 sm:p-3">
         <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:items-end sm:justify-between">
           <Tabs
             aria-label="Instrument type"
@@ -408,85 +407,73 @@ export const StringTensionCalculator: FC = () => {
           />
         </div>
 
-        <Table
-          aria-label="String tensions"
-          removeWrapper
-          classNames={{
-            th: 'px-0.5 sm:px-3',
-            td: 'px-0.5 sm:px-3 py-1 sm:py-2',
-          }}
-        >
-          <TableHeader>
-            <TableColumn className="w-6 sm:w-12">#</TableColumn>
-            <TableColumn className="w-20 sm:w-28">Scale</TableColumn>
-            <TableColumn className="w-20 sm:w-28">Note</TableColumn>
-            <TableColumn className="w-20 sm:w-28">Gauge</TableColumn>
-            <TableColumn className="w-12 sm:w-24 text-right">Tension</TableColumn>
-          </TableHeader>
-          <TableBody>
-            {stringsData.map((string, index) => (
-              <TableRow key={string.number}>
-                <TableCell className="font-medium">{string.number}</TableCell>
-                <TableCell>
-                  <Input
-                    type="number"
-                    size="sm"
-                    aria-label={`Scale length for string ${string.number}`}
-                    min={scaleRange.min}
-                    max={scaleRange.max}
-                    step={0.5}
-                    value={string.scale}
-                    onValueChange={(value) => updateString(index, 'scale', value)}
-                    endContent={<span className="text-default-400 text-xs">"</span>}
-                    classNames={{ input: 'text-center' }}
-                  />
-                </TableCell>
-                <TableCell>
-                  <Select
-                    size="sm"
-                    selectedKeys={[string.note]}
-                    onSelectionChange={(keys) => {
-                      if (keys !== 'all' && keys.size > 0) {
-                        updateString(index, 'note', Array.from(keys)[0] as string)
-                      }
-                    }}
-                    aria-label={`Note for string ${string.number}`}
-                  >
-                    {noteOptions.map((note) => (
-                      <SelectItem key={note}>{note}</SelectItem>
-                    ))}
-                  </Select>
-                </TableCell>
-                <TableCell>
-                  <Select
-                    size="sm"
-                    selectedKeys={[string.gauge]}
-                    onSelectionChange={(keys) => {
-                      if (keys !== 'all' && keys.size > 0) {
-                        updateString(index, 'gauge', Array.from(keys)[0] as string)
-                      }
-                    }}
-                    aria-label={`Gauge for string ${string.number}`}
-                  >
-                    {GAUGE_OPTIONS.map((gauge) => (
-                      <SelectItem key={gauge}>{gauge}</SelectItem>
-                    ))}
-                  </Select>
-                </TableCell>
-                <TableCell className="text-right font-mono text-xs sm:text-sm">
-                  {string.tension > 0 ? (
-                    <span className="flex flex-col gap-1 sm:flex-row justify-end">
-                      <span>{string.tension}</span>
-                      <span> lbs</span>
-                    </span>
-                  ) : (
-                    '—'
-                  )}
-                </TableCell>
-              </TableRow>
+        <div className="flex flex-col gap-2">
+          {/* Header row */}
+          <div className="grid gap-1 sm:gap-2 text-xs font-semibold text-default-500 uppercase px-1 grid-cols-[1.5rem_5rem_4.5rem_5rem_3.5rem] sm:grid-cols-[2rem_1fr_1fr_1fr_4.5rem]">
+            <div className="text-center">#</div>
+            <div>Scale</div>
+            <div>Note</div>
+            <div>Gauge</div>
+            <div className="text-right">Tension</div>
+          </div>
+
+          {/* String rows */}
+          <div className="flex flex-col gap-1 sm:gap-2">
+            {stringsData.map((row, index) => (
+              <div
+                key={row.number}
+                className="grid gap-1 sm:gap-2 items-center grid-cols-[1.5rem_5rem_4.5rem_5rem_3.5rem] sm:grid-cols-[2rem_1fr_1fr_1fr_4.5rem]"
+              >
+                <div className="font-medium text-center text-sm">{row.number}</div>
+                <Input
+                  type="number"
+                  size="sm"
+                  aria-label={`Scale length for string ${row.number}`}
+                  min={scaleRange.min}
+                  max={scaleRange.max}
+                  step={0.5}
+                  value={row.scale}
+                  onValueChange={(value) => updateString(index, 'scale', value)}
+                  endContent={<span className="text-default-400 text-xs">"</span>}
+                  classNames={{ input: 'text-right' }}
+                />
+                <Select
+                  size="sm"
+                  selectedKeys={[row.note]}
+                  onSelectionChange={(keys) => {
+                    if (keys !== 'all' && keys.size > 0) {
+                      updateString(index, 'note', Array.from(keys)[0] as string)
+                    }
+                  }}
+                  aria-label={`Note for string ${row.number}`}
+                  classNames={{ popoverContent: 'min-w-24' }}
+                >
+                  {noteOptions.map((note) => (
+                    <SelectItem key={note}>{note}</SelectItem>
+                  ))}
+                </Select>
+                <Select
+                  size="sm"
+                  selectedKeys={[row.gauge]}
+                  onSelectionChange={(keys) => {
+                    if (keys !== 'all' && keys.size > 0) {
+                      updateString(index, 'gauge', Array.from(keys)[0] as string)
+                    }
+                  }}
+                  aria-label={`Gauge for string ${row.number}`}
+                  classNames={{ base: 'min-w-[85px]', popoverContent: 'min-w-24' }}
+                >
+                  {GAUGE_OPTIONS.map((gauge) => (
+                    <SelectItem key={gauge}>{gauge}</SelectItem>
+                  ))}
+                </Select>
+                <div className="text-center font-mono text-xs sm:text-sm tabular-nums">
+                  {row.tension > 0 ? row.tension : '—'}
+                </div>
+              </div>
             ))}
-          </TableBody>
-        </Table>
+          </div>
+        </div>
 
         <div className="flex justify-end pt-2 border-t border-default-200">
           <span className="text-default-600">Total tension:</span>
