@@ -6,7 +6,11 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
-  "github.copilot.chat.commitMessageGeneration.instructions": [{ "file": ".commit-rules.md" }],
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "file": ".commit-rules.md"
+    }
+  ],
   "tailwindCSS.classFunctions": ["cn", "tv", "tw"],
   "tailwindCSS.classAttributes": [
     "class",
@@ -22,6 +26,9 @@
     "**/app/**/{index,layout,page,route}.*": "${dirname}/${filename}.${extname}"
   },
   "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[jsonc]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
   "[typescript]": {
