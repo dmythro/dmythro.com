@@ -63,6 +63,40 @@ export const en = {
       `I was born and live in Ukraine. Now, my country is under a full-scale invasion by russia. Today is Day ${day} of fight for democracy, our existense and freedom 🇺🇦`,
     linkTitle: 'Find out how you can help',
   },
+  guitars: {
+    stringTension: {
+      pageTitle: 'Guitars',
+      title: 'String Tension Calculator',
+      instrumentType: 'Instrument type',
+      guitar: 'Guitar',
+      bass: 'Bass',
+      guitarPreset: 'Guitar Preset',
+      bassPreset: 'Bass Preset',
+      stringPreset: 'String Preset',
+      strings: 'Strings',
+      tuning: 'Tuning',
+      material: 'Material',
+      scaleLast: 'Scale last',
+      scaleFirst: 'Scale 1st',
+      scale: 'Scale',
+      note: 'Note',
+      gauge: 'Gauge',
+      tension: 'Tension',
+      totalTension: 'Total tension',
+      tunings: {
+        e: 'E Standard',
+        'e-drop-d': 'E Drop D',
+        eb: 'Eb Standard',
+        d: 'D Standard',
+        b: 'B Standard',
+      },
+      materials: {
+        'nickel-wound': 'Nickel Wound',
+        'stainless-wound': 'Stainless Steel',
+        'pure-nickel': 'Pure Nickel',
+      },
+    },
+  },
 }
 
 export type Translation = typeof en

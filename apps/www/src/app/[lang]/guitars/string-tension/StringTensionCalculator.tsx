@@ -5,6 +5,7 @@ import { Divider } from '@heroui/divider'
 import { Input } from '@heroui/input'
 import { Select, SelectItem } from '@heroui/select'
 import { Tab, Tabs } from '@heroui/tabs'
+import type { Translation } from 'my-locales'
 import { type FC, type Key, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import {
@@ -28,6 +29,12 @@ import {
 } from './string-utils'
 
 const STORAGE_KEY = 'string-tension-calculator'
+
+type StringTensionTranslations = Translation['guitars']['stringTension']
+
+interface StringTensionCalculatorProps {
+  translations: StringTensionTranslations
+}
 
 interface StringData {
   number: number
@@ -88,7 +95,7 @@ const saveToStorage = (state: StoredState): void => {
   }
 }
 
-export const StringTensionCalculator: FC = () => {
+export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ translations: t }) => {
   const [form, setForm] = useState<FormState>(getDefaultForm)
   const [stringsData, setStringsData] = useState<StringData[]>([])
   const [isHydrated, setIsHydrated] = useState(false)
@@ -263,8 +270,8 @@ export const StringTensionCalculator: FC = () => {
   const range = STRING_RANGES[type]
   const scaleRange = SCALE_RANGES[type]
   const presets = PRESETS[type]
-  const presetLabel = type === 'guitar' ? 'Guitar Preset' : 'Bass Preset'
-  const selectedPreset = presets.find((p) => p.key === preset)
+  const presetLabel = type === 'guitar' ? t.guitarPreset : t.bassPreset
+  // const selectedPreset = presets.find((p) => p.key === preset)
   const selectedStringPreset = STRING_BRAND_PRESETS.find((b) => b.key === stringBrand)
 
   const stringOptions = useMemo(
@@ -292,21 +299,21 @@ export const StringTensionCalculator: FC = () => {
       <CardBody className="gap-4 p-2 sm:p-3">
         <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:items-end sm:justify-between">
           <Tabs
-            aria-label="Instrument type"
+            aria-label={t.instrumentType}
             selectedKey={type}
             onSelectionChange={handleTypeChange}
             variant="bordered"
             fullWidth
-            classNames={{ base: 'sm:w-auto' }}
+            classNames={{ base: 'sm:w-auto self-start' }}
           >
-            <Tab key="guitar" title="Guitar" />
-            <Tab key="bass" title="Bass" />
+            <Tab key="guitar" title={t.guitar} />
+            <Tab key="bass" title={t.bass} />
           </Tabs>
 
           <div className="grid grid-cols-1 gap-4 sm:flex sm:gap-4">
             <Select
               label={presetLabel}
-              description={selectedPreset?.description}
+              // description={selectedPreset?.description}
               items={presets}
               selectedKeys={[preset]}
               onSelectionChange={handlePresetChange}
@@ -320,7 +327,7 @@ export const StringTensionCalculator: FC = () => {
             </Select>
 
             <Select
-              label="String Preset"
+              label={t.stringPreset}
               description={selectedStringPreset?.description}
               items={STRING_BRAND_PRESETS}
               selectedKeys={[stringBrand]}
@@ -341,7 +348,7 @@ export const StringTensionCalculator: FC = () => {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           <Select
-            label="Strings"
+            label={t.strings}
             items={stringOptions.map((n) => ({ key: String(n), label: String(n) }))}
             selectedKeys={[String(strings)]}
             onSelectionChange={handleStringsChange}
@@ -349,17 +356,17 @@ export const StringTensionCalculator: FC = () => {
             {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
           </Select>
 
-          <Select label="Tuning" selectedKeys={[tuning]} onSelectionChange={handleTuningChange}>
-            <SelectItem key="e">E Standard</SelectItem>
-            <SelectItem key="e-drop-d">E Drop D</SelectItem>
-            <SelectItem key="eb">Eb Standard</SelectItem>
-            <SelectItem key="d">D Standard</SelectItem>
-            <SelectItem key="b">B Standard</SelectItem>
+          <Select label={t.tuning} selectedKeys={[tuning]} onSelectionChange={handleTuningChange}>
+            <SelectItem key="e">{t.tunings.e}</SelectItem>
+            <SelectItem key="e-drop-d">{t.tunings['e-drop-d']}</SelectItem>
+            <SelectItem key="eb">{t.tunings.eb}</SelectItem>
+            <SelectItem key="d">{t.tunings.d}</SelectItem>
+            <SelectItem key="b">{t.tunings.b}</SelectItem>
           </Select>
 
           <Input
             type="number"
-            label="Scale last"
+            label={t.scaleLast}
             aria-label="Scale length for last string"
             min={scaleRange.min}
             max={scaleRange.max}
@@ -371,7 +378,7 @@ export const StringTensionCalculator: FC = () => {
 
           <Input
             type="number"
-            label="Scale 1st"
+            label={t.scaleFirst}
             aria-label="Scale length for first string"
             min={scaleRange.min}
             max={scaleRange.max}
@@ -382,13 +389,14 @@ export const StringTensionCalculator: FC = () => {
           />
 
           <Select
-            label="Material"
+            className="col-span-2 sm:col-span-1"
+            label={t.material}
             selectedKeys={[stringMaterial]}
             onSelectionChange={handleMaterialChange}
           >
-            <SelectItem key="nickel-wound">Nickel Wound</SelectItem>
-            <SelectItem key="stainless-wound">Stainless Steel</SelectItem>
-            <SelectItem key="pure-nickel">Pure Nickel</SelectItem>
+            <SelectItem key="nickel-wound">{t.materials['nickel-wound']}</SelectItem>
+            <SelectItem key="stainless-wound">{t.materials['stainless-wound']}</SelectItem>
+            <SelectItem key="pure-nickel">{t.materials['pure-nickel']}</SelectItem>
           </Select>
         </div>
 
@@ -398,10 +406,10 @@ export const StringTensionCalculator: FC = () => {
           {/* Header row */}
           <div className="grid gap-1 sm:gap-2 text-xs font-semibold text-default-500 uppercase px-1 grid-cols-[1.5rem_5rem_4.5rem_5rem_3.5rem] sm:grid-cols-[2rem_1fr_1fr_1fr_4.5rem]">
             <div className="text-center">#</div>
-            <div>Scale</div>
-            <div>Note</div>
-            <div>Gauge</div>
-            <div className="text-right">Tension</div>
+            <div>{t.scale}</div>
+            <div>{t.note}</div>
+            <div>{t.gauge}</div>
+            <div className="text-right">{t.tension}</div>
           </div>
 
           {/* String rows */}
@@ -465,7 +473,7 @@ export const StringTensionCalculator: FC = () => {
         <Divider />
 
         <div className="flex justify-end pb-2 pr-2">
-          <span className="text-default-600">Total tension:</span>
+          <span className="text-default-600">{t.totalTension}:</span>
           <span className="font-mono font-semibold ml-2">{totalTension.toFixed(1)} lbs</span>
         </div>
       </CardBody>

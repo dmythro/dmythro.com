@@ -14,10 +14,11 @@ import { StringTensionCalculator } from './StringTensionCalculator'
 
 export async function generateMetadata({ params }: ParamsWithLang, parent: ResolvingMetadata) {
   const { lang } = await params
+  const t = getT(lang)
 
   const { description, icons, manifest, metadataBase, openGraph } = await parent
 
-  const title = `Guitar String Tension Calculator – ${USERNAME}`
+  const title = `${t.guitars.stringTension.title} – ${USERNAME}`
   const pagePath = '/guitars/string-tension'
   const meta: Metadata = {
     title,
@@ -41,15 +42,17 @@ export async function generateMetadata({ params }: ParamsWithLang, parent: Resol
 export default async function StringTensionPage({ params }: ParamsWithLang) {
   const { lang } = await params
   const t = getT(lang)
+  const st = t.guitars.stringTension
 
   return (
     <div className="flex flex-col max-w-5xl mx-auto gap-4 p-4 relative">
       <h1 className="text-2xl font-bold">
-        <span className="font-normal text-foreground-400">Guitars / </span>String Tension Calculator
+        <span className="font-normal text-foreground-400">{st.pageTitle} / </span>
+        {st.title}
       </h1>
 
       <section>
-        <StringTensionCalculator />
+        <StringTensionCalculator translations={st} />
       </section>
 
       <div>
