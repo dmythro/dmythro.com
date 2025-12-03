@@ -129,7 +129,7 @@ export const StringTensionCalculator: FC = () => {
     const notes = getNotesForTuning(type, tuning, strings)
     const gauges =
       type === 'guitar'
-        ? getGaugesFromBrand(stringBrand, strings)
+        ? getGaugesFromBrand(stringBrand, strings, tuning)
         : DEFAULT_BASS_GAUGES.slice(0, strings)
 
     const newStringsData: StringData[] = Array.from({ length: strings }, (_, i) => {

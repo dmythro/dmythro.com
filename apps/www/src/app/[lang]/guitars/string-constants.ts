@@ -221,10 +221,14 @@ export interface StringBrandPreset {
   label: string
   material: StringMaterial
   coating: CoatingType
-  // Common gauge sets for 6/7/8 string guitars (light-top/heavy-bottom style)
+  // Standard tuning gauges (10-46 style)
   gauges6: string[]
   gauges7: string[]
   gauges8: string[]
+  // D standard / drop tuning gauges (10-52 style)
+  gauges6d: string[]
+  gauges7d: string[]
+  gauges8d: string[]
 }
 
 export const STRING_BRAND_PRESETS: StringBrandPreset[] = [
@@ -236,6 +240,9 @@ export const STRING_BRAND_PRESETS: StringBrandPreset[] = [
     gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
     gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
     gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
+    gauges6d: ['.010', '.013', '.017', '.030w', '.042w', '.052w'],
+    gauges7d: ['.010', '.013', '.017', '.030w', '.042w', '.052w', '.064w'],
+    gauges8d: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
   },
   {
     key: 'daddario-xl',
@@ -245,6 +252,9 @@ export const STRING_BRAND_PRESETS: StringBrandPreset[] = [
     gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
     gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
     gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
+    gauges6d: ['.010', '.013', '.017', '.030w', '.042w', '.052w'],
+    gauges7d: ['.010', '.013', '.017', '.030w', '.042w', '.052w', '.064w'],
+    gauges8d: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
   },
   {
     key: 'elixir-optiweb',
@@ -254,6 +264,9 @@ export const STRING_BRAND_PRESETS: StringBrandPreset[] = [
     gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
     gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
     gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
+    gauges6d: ['.010', '.013', '.017', '.030w', '.042w', '.052w'],
+    gauges7d: ['.010', '.013', '.017', '.030w', '.042w', '.052w', '.064w'],
+    gauges8d: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
   },
   {
     key: 'elixir-nanoweb',
@@ -263,6 +276,9 @@ export const STRING_BRAND_PRESETS: StringBrandPreset[] = [
     gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
     gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
     gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
+    gauges6d: ['.010', '.013', '.017', '.030w', '.042w', '.052w'],
+    gauges7d: ['.010', '.013', '.017', '.030w', '.042w', '.052w', '.064w'],
+    gauges8d: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
   },
   {
     key: 'elixir-polyweb',
@@ -272,6 +288,9 @@ export const STRING_BRAND_PRESETS: StringBrandPreset[] = [
     gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
     gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
     gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
+    gauges6d: ['.010', '.013', '.017', '.030w', '.042w', '.052w'],
+    gauges7d: ['.010', '.013', '.017', '.030w', '.042w', '.052w', '.064w'],
+    gauges8d: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
   },
   {
     key: 'ernie-ball-paradigm',
@@ -281,6 +300,9 @@ export const STRING_BRAND_PRESETS: StringBrandPreset[] = [
     gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
     gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
     gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
+    gauges6d: ['.010', '.013', '.017', '.030w', '.042w', '.052w'],
+    gauges7d: ['.010', '.013', '.017', '.030w', '.042w', '.052w', '.064w'],
+    gauges8d: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
   },
   {
     key: 'ernie-ball-slinky',
@@ -290,6 +312,9 @@ export const STRING_BRAND_PRESETS: StringBrandPreset[] = [
     gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
     gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
     gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
+    gauges6d: ['.010', '.013', '.017', '.030w', '.042w', '.052w'],
+    gauges7d: ['.010', '.013', '.017', '.030w', '.042w', '.052w', '.064w'],
+    gauges8d: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
   },
 ]
 

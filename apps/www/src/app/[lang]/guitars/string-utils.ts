@@ -95,18 +95,25 @@ export function getNotesForTuning(
   return notes.slice(0, stringCount)
 }
 
-// Get gauges from string brand preset
-export function getGaugesFromBrand(brandKey: string, stringCount: number): string[] {
+// Get gauges from string brand preset based on tuning
+export function getGaugesFromBrand(
+  brandKey: string,
+  stringCount: number,
+  tuning?: string,
+): string[] {
   const brand = STRING_BRAND_PRESETS.find((b) => b.key === brandKey)
   if (!brand) return DEFAULT_GUITAR_GAUGES.slice(0, stringCount)
 
+  // Use heavier gauges for drop/down tunings
+  const useHeavyGauges = tuning === 'full-down' || tuning === 'drop-d' || tuning === 'half-down'
+
   let baseGauges: string[]
   if (stringCount <= 6) {
-    baseGauges = brand.gauges6
+    baseGauges = useHeavyGauges ? brand.gauges6d : brand.gauges6
   } else if (stringCount === 7) {
-    baseGauges = brand.gauges7
+    baseGauges = useHeavyGauges ? brand.gauges7d : brand.gauges7
   } else {
-    baseGauges = brand.gauges8
+    baseGauges = useHeavyGauges ? brand.gauges8d : brand.gauges8
   }
 
   // If we need more strings than the preset has, extend with heavier gauges
