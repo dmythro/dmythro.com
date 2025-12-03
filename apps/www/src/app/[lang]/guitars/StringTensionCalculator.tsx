@@ -474,7 +474,7 @@ export const StringTensionCalculator: FC = () => {
                 </TableCell>
                 <TableCell className="text-right font-mono text-xs sm:text-sm">
                   {string.tension > 0 ? (
-                    <span className="flex flex-col sm:flex-row">
+                    <span className="flex flex-col gap-1 sm:flex-row">
                       <span>{string.tension}</span>
                       <span> lbs</span>
                     </span>
