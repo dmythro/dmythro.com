@@ -134,7 +134,7 @@ export const TensionIndicator: FC<TensionIndicatorProps> = ({
         <span role="img" className="text-xs" style={{ color }} aria-hidden="true">
           {symbol}
         </span>
-        <span>{tension}</span>
+        <span>{tension.toFixed(1)}</span>
       </button>
     </Tooltip>
   )
