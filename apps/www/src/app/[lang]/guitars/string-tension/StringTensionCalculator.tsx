@@ -345,7 +345,7 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
           </div>
         </div>
 
-        <Divider />
+        <Divider className="opacity-30" />
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           <Select
@@ -401,9 +401,9 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
           </Select>
         </div>
 
-        <Divider />
+        <Divider className="opacity-30" />
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 mb-2">
           {/* Header row */}
           <div className="grid gap-1 sm:gap-2 text-xs font-semibold text-default-500 uppercase px-1 grid-cols-[1.5rem_5rem_4.5rem_5rem_3.5rem] sm:grid-cols-[2rem_1fr_1fr_1fr_4.5rem]">
             <div className="text-center">#</div>
@@ -473,7 +473,7 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
           </div>
         </div>
 
-        <Divider />
+        <Divider className="opacity-30" />
 
         <div className="flex justify-end pb-2 pr-2">
           <span className="text-default-600">{t.totalTension}:</span>
