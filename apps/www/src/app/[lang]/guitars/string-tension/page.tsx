@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: ParamsWithLang, parent: Resol
 
   const { description, icons, manifest, metadataBase, openGraph } = await parent
 
-  const title = `String Tension Calculator – ${USERNAME}`
+  const title = `Guitar String Tension Calculator – ${USERNAME}`
   const pagePath = '/guitars/string-tension'
   const meta: Metadata = {
     title,
