@@ -97,6 +97,10 @@ export const uk: Translation = {
         'stainless-wound': 'Нержавіюча сталь',
         'pure-nickel': 'Чистий нікель',
       },
+      indicator: {
+        optimal: 'Оптимально',
+        vsBaseline: 'від',
+      },
     },
   },
 }

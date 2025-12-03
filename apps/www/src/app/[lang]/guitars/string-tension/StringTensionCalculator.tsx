@@ -27,6 +27,7 @@ import {
   getNotesForTuning,
   interpolateScale,
 } from './string-utils'
+import { TensionIndicator } from './TensionIndicator'
 
 const STORAGE_KEY = 'string-tension-calculator'
 
@@ -462,9 +463,11 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
                     <SelectItem key={gauge}>{gauge}</SelectItem>
                   ))}
                 </Select>
-                <div className="text-center font-mono text-xs sm:text-sm tabular-nums">
-                  {row.tension > 0 ? row.tension : '—'}
-                </div>
+                <TensionIndicator
+                  tension={row.tension}
+                  stringNumber={row.number}
+                  translations={t.indicator}
+                />
               </div>
             ))}
           </div>

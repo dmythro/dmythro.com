@@ -97,6 +97,10 @@ export const en = {
         'stainless-wound': 'Stainless Steel',
         'pure-nickel': 'Pure Nickel',
       },
+      indicator: {
+        optimal: 'Optimal',
+        vsBaseline: 'vs',
+      },
     },
   },
 }
