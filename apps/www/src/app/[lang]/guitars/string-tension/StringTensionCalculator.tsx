@@ -244,26 +244,37 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
     setForm((prev) => ({ ...prev, tuning: value }))
   }, [])
 
+  // Allow free typing, just update the value
   const handleScaleFromChange = useCallback((value: string) => {
-    const numValue = Number.parseFloat(value) || 0
-    setForm((prev) => {
-      const prevTo = Number.parseFloat(prev.scaleTo) || 0
-      return {
-        ...prev,
-        scaleFrom: value,
-        scaleTo: prevTo < numValue ? value : prev.scaleTo,
-      }
-    })
+    setForm((prev) => ({ ...prev, scaleFrom: value }))
   }, [])
 
   const handleScaleToChange = useCallback((value: string) => {
-    const numValue = Number.parseFloat(value) || 0
+    setForm((prev) => ({ ...prev, scaleTo: value }))
+  }, [])
+
+  // Validate and constrain on blur
+  const handleScaleFromBlur = useCallback(() => {
     setForm((prev) => {
       const fromValue = Number.parseFloat(prev.scaleFrom) || 0
-      return {
-        ...prev,
-        scaleTo: numValue < fromValue ? prev.scaleFrom : value,
+      const toValue = Number.parseFloat(prev.scaleTo) || 0
+      // If "from" (1st string) is now larger than "to" (last string), update "to"
+      if (fromValue > toValue) {
+        return { ...prev, scaleTo: prev.scaleFrom }
       }
+      return prev
+    })
+  }, [])
+
+  const handleScaleToBlur = useCallback(() => {
+    setForm((prev) => {
+      const fromValue = Number.parseFloat(prev.scaleFrom) || 0
+      const toValue = Number.parseFloat(prev.scaleTo) || 0
+      // If "to" (last string) is now smaller than "from" (1st string), update "to" to match "from"
+      if (toValue < fromValue) {
+        return { ...prev, scaleTo: prev.scaleFrom }
+      }
+      return prev
     })
   }, [])
 
@@ -372,9 +383,10 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
             aria-label="Scale length for last string"
             min={scaleRange.min}
             max={scaleRange.max}
-            step={0.5}
+            step={0.25}
             value={scaleTo}
             onValueChange={handleScaleToChange}
+            onBlur={handleScaleToBlur}
             endContent={<span className="text-default-400 text-sm">"</span>}
           />
 
@@ -385,9 +397,10 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
             aria-label="Scale length for first string"
             min={scaleRange.min}
             max={scaleRange.max}
-            step={0.5}
+            step={0.25}
             value={scaleFrom}
             onValueChange={handleScaleFromChange}
+            onBlur={handleScaleFromBlur}
             endContent={<span className="text-default-400 text-sm">"</span>}
           />
 
@@ -429,7 +442,7 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
                   aria-label={`Scale length for string ${row.number}`}
                   min={scaleRange.min}
                   max={scaleRange.max}
-                  step={0.5}
+                  step={0.25}
                   value={row.scale}
                   onValueChange={(value) => updateString(index, 'scale', value)}
                   endContent={<span className="text-default-400 text-xs">"</span>}
