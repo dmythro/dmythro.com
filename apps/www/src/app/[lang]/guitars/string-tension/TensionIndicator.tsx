@@ -2,18 +2,22 @@ import { Tooltip } from '@heroui/tooltip'
 import type { Translation } from 'my-locales'
 import { type FC, useState } from 'react'
 
+import type { InstrumentType } from './string-constants'
+
 type IndicatorTranslations = Translation['guitars']['stringTension']['indicator']
 
-// Baseline tensions: D'Addario NYXL 10-46/59/74 at E standard, 25.5" scale
-// These represent the "ideal" tension range for each string position
+// Guitar baseline tensions: D'Addario NYXL 10-46/59/74 at E standard, 25.5" scale
 // String 1-6: standard 10-46 set, String 7: .059w, String 8: .074w
-const BASELINE_TENSIONS = [16.2, 15.4, 16.6, 18.4, 19.7, 18.1, 16.7, 14.8]
+const GUITAR_BASELINE_TENSIONS = [16.2, 15.4, 16.6, 18.4, 19.7, 18.1, 16.7, 14.8]
+
+// Bass baseline tensions: Standard 5-string set (.045-.130) at E standard, 34" scale
+const BASS_BASELINE_TENSIONS = [50.2, 58.7, 56.4, 48.3, 41.5]
 
 // Get baseline tension for a string position (1-indexed)
-// For strings beyond 8, use the last baseline value
-function getBaselineTension(stringNumber: number): number {
-  const index = Math.min(stringNumber - 1, BASELINE_TENSIONS.length - 1)
-  return BASELINE_TENSIONS[index] ?? BASELINE_TENSIONS[BASELINE_TENSIONS.length - 1]
+function getBaselineTension(instrumentType: InstrumentType, stringNumber: number): number {
+  const baselines = instrumentType === 'bass' ? BASS_BASELINE_TENSIONS : GUITAR_BASELINE_TENSIONS
+  const index = Math.min(stringNumber - 1, baselines.length - 1)
+  return baselines[index] ?? baselines[baselines.length - 1]
 }
 
 // Calculate deviation percentage from baseline
@@ -69,12 +73,14 @@ function getIndicatorColor(deviationPercent: number): string {
 interface TensionIndicatorProps {
   tension: number
   stringNumber: number
+  instrumentType: InstrumentType
   translations: IndicatorTranslations
 }
 
 export const TensionIndicator: FC<TensionIndicatorProps> = ({
   tension,
   stringNumber,
+  instrumentType,
   translations: t,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -87,7 +93,7 @@ export const TensionIndicator: FC<TensionIndicatorProps> = ({
     )
   }
 
-  const baseline = getBaselineTension(stringNumber)
+  const baseline = getBaselineTension(instrumentType, stringNumber)
   const deviation = getDeviation(tension, baseline)
   const color = getIndicatorColor(deviation)
 

@@ -468,6 +468,7 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
                 <TensionIndicator
                   tension={row.tension}
                   stringNumber={row.number}
+                  instrumentType={type}
                   translations={t.indicator}
                 />
               </div>
