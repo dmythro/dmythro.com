@@ -1,7 +1,7 @@
 import { BASE_URL } from 'my-constants'
 import type { MetadataRoute } from 'next'
 
-const urls = ['', '/built-with']
+const urls = ['', '/built-with', '/guitars/string-tension']
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return urls.map((url) => ({
