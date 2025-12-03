@@ -377,23 +377,13 @@ export const StringTensionCalculator: FC = () => {
           </Select>
 
           <Select label="Tuning" selectedKeys={[tuning]} onSelectionChange={handleTuningChange}>
-            <SelectItem key="standard">Standard</SelectItem>
-            <SelectItem key="drop-d">Drop D</SelectItem>
-            <SelectItem key="half-down">Half Step Down</SelectItem>
-            <SelectItem key="full-down">Full Step Down</SelectItem>
+            <SelectItem key="e">E Standard</SelectItem>
+            <SelectItem key="e-drop-d">E Drop D</SelectItem>
+            <SelectItem key="eb">Eb Standard</SelectItem>
+            <SelectItem key="d">D Standard</SelectItem>
+            <SelectItem key="b">B Standard</SelectItem>
           </Select>
 
-          <Input
-            type="number"
-            label="Scale 1st"
-            aria-label="Scale length for first string"
-            min={scaleRange.min}
-            max={scaleRange.max}
-            step={0.5}
-            value={scaleFrom}
-            onValueChange={handleScaleFromChange}
-            endContent={<span className="text-default-400 text-sm">"</span>}
-          />
           <Input
             type="number"
             label="Scale last"
@@ -403,6 +393,17 @@ export const StringTensionCalculator: FC = () => {
             step={0.5}
             value={scaleTo}
             onValueChange={handleScaleToChange}
+            endContent={<span className="text-default-400 text-sm">"</span>}
+          />
+          <Input
+            type="number"
+            label="Scale 1st"
+            aria-label="Scale length for first string"
+            min={scaleRange.min}
+            max={scaleRange.max}
+            step={0.5}
+            value={scaleFrom}
+            onValueChange={handleScaleFromChange}
             endContent={<span className="text-default-400 text-sm">"</span>}
           />
         </div>
@@ -474,7 +475,7 @@ export const StringTensionCalculator: FC = () => {
                 </TableCell>
                 <TableCell className="text-right font-mono text-xs sm:text-sm">
                   {string.tension > 0 ? (
-                    <span className="flex flex-col gap-1 sm:flex-row">
+                    <span className="flex flex-col gap-1 sm:flex-row justify-end">
                       <span>{string.tension}</span>
                       <span> lbs</span>
                     </span>

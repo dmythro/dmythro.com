@@ -91,7 +91,7 @@ export function getNotesForTuning(
   stringCount: number,
 ): string[] {
   const tunings = type === 'guitar' ? GUITAR_TUNINGS : BASS_TUNINGS
-  const notes = tunings[tuning] || tunings.standard
+  const notes = tunings[tuning] || tunings.e
   return notes.slice(0, stringCount)
 }
 
@@ -105,7 +105,8 @@ export function getGaugesFromBrand(
   if (!brand) return DEFAULT_GUITAR_GAUGES.slice(0, stringCount)
 
   // Use heavier gauges for drop/down tunings
-  const useHeavyGauges = tuning === 'full-down' || tuning === 'drop-d' || tuning === 'half-down'
+  const useHeavyGauges =
+    tuning === 'd' || tuning === 'e-drop-d' || tuning === 'eb' || tuning === 'b'
 
   let baseGauges: string[]
   if (stringCount <= 6) {

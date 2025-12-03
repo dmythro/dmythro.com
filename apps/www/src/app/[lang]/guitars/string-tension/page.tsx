@@ -44,7 +44,9 @@ export default async function StringTensionPage({ params }: ParamsWithLang) {
 
   return (
     <div className="flex flex-col max-w-5xl mx-auto gap-4 p-4 relative">
-      <h1 className="text-2xl font-bold">String Tension Calculator</h1>
+      <h1 className="text-2xl font-bold">
+        <span className="font-normal text-foreground-400">Guitars / </span>String Tension Calculator
+      </h1>
 
       <section>
         <StringTensionCalculator />
