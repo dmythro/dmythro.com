@@ -2,7 +2,6 @@
 
 export type InstrumentType = 'guitar' | 'bass'
 export type StringMaterial = 'nickel-wound' | 'stainless-wound' | 'pure-nickel'
-export type CoatingType = 'none' | 'optiweb' | 'nanoweb' | 'polyweb'
 
 // Note frequencies in Hz (scientific pitch notation)
 export const NOTE_FREQUENCIES: Record<string, number> = {
@@ -79,16 +78,6 @@ export const WOUND_COEFFICIENTS: Record<StringMaterial, number> = {
   'nickel-wound': 0.2155, // Nickel-plated steel wrap over hex core (avg from D'Addario data)
   'stainless-wound': 0.2069, // Stainless steel wrap (slightly less dense)
   'pure-nickel': 0.21, // Pure nickel wrap
-}
-
-// Coating effect on string mass
-// Based on Elixir's published tension data, coatings have negligible impact on tension
-// Elixir tensions match D'Addario uncoated strings at the same gauge
-export const COATING_MULTIPLIERS: Record<CoatingType, number> = {
-  none: 1.0,
-  optiweb: 1.0, // Negligible effect on tension
-  nanoweb: 1.0, // Negligible effect on tension
-  polyweb: 1.0, // Negligible effect on tension
 }
 
 // Brand-specific unit weights (lbs/inch) derived from published tension data
@@ -219,8 +208,8 @@ export const BRAND_UNIT_WEIGHTS: Record<string, BrandUnitWeights> = {
 export interface StringBrandPreset {
   key: string
   label: string
+  description: string
   material: StringMaterial
-  coating: CoatingType
   // Standard tuning gauges (10-46 style)
   gauges6: string[]
   gauges7: string[]
@@ -235,8 +224,8 @@ export const STRING_BRAND_PRESETS: StringBrandPreset[] = [
   {
     key: 'daddario-nyxl',
     label: "D'Addario NYXL",
+    description: 'Nickel-wound, high carbon steel core, bright tone, enhanced tuning stability',
     material: 'nickel-wound',
-    coating: 'none',
     gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
     gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
     gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
@@ -247,8 +236,8 @@ export const STRING_BRAND_PRESETS: StringBrandPreset[] = [
   {
     key: 'daddario-xl',
     label: "D'Addario XL",
+    description: 'Nickel-wound, hex core, balanced tone, industry standard',
     material: 'nickel-wound',
-    coating: 'none',
     gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
     gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
     gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
@@ -259,8 +248,8 @@ export const STRING_BRAND_PRESETS: StringBrandPreset[] = [
   {
     key: 'elixir-optiweb',
     label: 'Elixir Optiweb',
+    description: 'Nickel-wound, ultra-thin coating, natural feel, long-lasting tone',
     material: 'nickel-wound',
-    coating: 'optiweb',
     gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
     gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
     gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
@@ -271,8 +260,8 @@ export const STRING_BRAND_PRESETS: StringBrandPreset[] = [
   {
     key: 'elixir-nanoweb',
     label: 'Elixir Nanoweb',
+    description: 'Nickel-wound, thin coating, balanced feel, extended lifespan',
     material: 'nickel-wound',
-    coating: 'nanoweb',
     gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
     gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
     gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
@@ -283,8 +272,8 @@ export const STRING_BRAND_PRESETS: StringBrandPreset[] = [
   {
     key: 'elixir-polyweb',
     label: 'Elixir Polyweb',
+    description: 'Nickel-wound, original coating, warm tone, smooth feel',
     material: 'nickel-wound',
-    coating: 'polyweb',
     gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
     gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
     gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
@@ -295,8 +284,8 @@ export const STRING_BRAND_PRESETS: StringBrandPreset[] = [
   {
     key: 'ernie-ball-paradigm',
     label: 'Ernie Ball Paradigm',
+    description: 'Nickel-wound, reinforced plain strings, break-resistant, bright tone',
     material: 'nickel-wound',
-    coating: 'none',
     gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
     gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
     gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
@@ -307,8 +296,8 @@ export const STRING_BRAND_PRESETS: StringBrandPreset[] = [
   {
     key: 'ernie-ball-slinky',
     label: 'Ernie Ball Slinky',
+    description: 'Nickel-wound, tin-plated hex core, flexible feel, classic rock tone',
     material: 'nickel-wound',
-    coating: 'none',
     gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
     gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
     gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],

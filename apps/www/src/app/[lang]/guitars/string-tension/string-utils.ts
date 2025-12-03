@@ -3,8 +3,6 @@
 import {
   BASS_TUNINGS,
   BRAND_UNIT_WEIGHTS,
-  COATING_MULTIPLIERS,
-  type CoatingType,
   DEFAULT_GUITAR_GAUGES,
   GUITAR_TUNINGS,
   type InstrumentType,
@@ -24,13 +22,12 @@ export function parseGauge(gauge: string): { value: number; isWound: boolean } {
   return { value: Number.isNaN(value) ? 0 : value, isWound }
 }
 
-// Calculate unit weight based on gauge, material, coating, and brand
+// Calculate unit weight based on gauge, material, and brand
 // Uses brand-specific lookup tables when available for accuracy,
 // falls back to formula-based calculation for unknown gauges
 export function getUnitWeight(
   gauge: string,
   material: StringMaterial = 'nickel-wound',
-  coating: CoatingType = 'none',
   brand?: string,
 ): number {
   const { value, isWound } = parseGauge(gauge)
@@ -40,16 +37,13 @@ export function getUnitWeight(
   if (brand && BRAND_UNIT_WEIGHTS[brand]) {
     const brandWeights = BRAND_UNIT_WEIGHTS[brand]
     if (brandWeights[gauge]) {
-      // Brand data already accounts for material, just apply coating
-      const coatingMultiplier = COATING_MULTIPLIERS[coating]
-      return brandWeights[gauge] * coatingMultiplier
+      return brandWeights[gauge]
     }
   }
 
   // Fall back to formula-based calculation
   const coefficient = isWound ? WOUND_COEFFICIENTS[material] : PLAIN_STEEL_COEFFICIENT
-  const coatingMultiplier = COATING_MULTIPLIERS[coating]
-  return value * value * coefficient * coatingMultiplier
+  return value * value * coefficient
 }
 
 // Calculate tension using the formula: T = (UW × (2 × L × F)²) / 386.4
@@ -58,10 +52,9 @@ export function calculateTension(
   scaleLength: number,
   note: string,
   material: StringMaterial = 'nickel-wound',
-  coating: CoatingType = 'none',
   brand?: string,
 ): number {
-  const unitWeight = getUnitWeight(gauge, material, coating, brand)
+  const unitWeight = getUnitWeight(gauge, material, brand)
   const frequency = NOTE_FREQUENCIES[note]
 
   if (!unitWeight || !frequency || scaleLength <= 0) {

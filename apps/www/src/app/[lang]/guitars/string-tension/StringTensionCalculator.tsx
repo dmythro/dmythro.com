@@ -1,13 +1,13 @@
 'use client'
 
 import { Card, CardBody } from '@heroui/card'
+import { Divider } from '@heroui/divider'
 import { Input } from '@heroui/input'
 import { Select, SelectItem } from '@heroui/select'
 import { Tab, Tabs } from '@heroui/tabs'
 import { type FC, type Key, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import {
-  type CoatingType,
   DEFAULT_BASS_GAUGES,
   DEFAULT_PRESETS,
   GAUGE_OPTIONS,
@@ -43,7 +43,6 @@ interface FormState {
   strings: number
   stringBrand: string
   stringMaterial: StringMaterial
-  coating: CoatingType
   tuning: string
   scaleFrom: string
   scaleTo: string
@@ -63,7 +62,6 @@ const getDefaultForm = (): FormState => {
     strings: preset?.strings ?? 6,
     stringBrand: defaultBrand.key,
     stringMaterial: defaultBrand.material,
-    coating: defaultBrand.coating,
     tuning: preset?.tuning ?? 'standard',
     scaleFrom: preset?.scaleFrom ?? '25.5',
     scaleTo: preset?.scaleTo ?? '25.5',
@@ -122,7 +120,7 @@ export const StringTensionCalculator: FC = () => {
       return
     }
 
-    const { type, strings, stringBrand, stringMaterial, coating, tuning, scaleFrom, scaleTo } = form
+    const { type, strings, stringBrand, stringMaterial, tuning, scaleFrom, scaleTo } = form
     const scaleFromNum = Number.parseFloat(scaleFrom) || 25.5
     const scaleToNum = Number.parseFloat(scaleTo) || scaleFromNum
     const notes = getNotesForTuning(type, tuning, strings)
@@ -135,7 +133,7 @@ export const StringTensionCalculator: FC = () => {
       const scale = interpolateScale(i, strings, scaleFromNum, scaleToNum)
       const note = notes[i] || notes[notes.length - 1]
       const gauge = gauges[i] || gauges[gauges.length - 1]
-      const tension = calculateTension(gauge, scale, note, stringMaterial, coating, stringBrand)
+      const tension = calculateTension(gauge, scale, note, stringMaterial, stringBrand)
 
       return {
         number: i + 1,
@@ -169,14 +167,13 @@ export const StringTensionCalculator: FC = () => {
           Number.parseFloat(string.scale),
           string.note,
           form.stringMaterial,
-          form.coating,
           form.stringBrand,
         )
         updated[index] = string
         return updated
       })
     },
-    [form.stringMaterial, form.coating, form.stringBrand],
+    [form.stringMaterial, form.stringBrand],
   )
 
   const handleTypeChange = useCallback((key: Key) => {
@@ -218,7 +215,6 @@ export const StringTensionCalculator: FC = () => {
       ...prev,
       stringBrand: brandKey,
       stringMaterial: brand.material,
-      coating: brand.coating,
     }))
   }, [])
 
@@ -226,12 +222,6 @@ export const StringTensionCalculator: FC = () => {
     if (keys === 'all' || keys.size === 0) return
     const value = Array.from(keys)[0] as StringMaterial
     setForm((prev) => ({ ...prev, stringMaterial: value }))
-  }, [])
-
-  const handleCoatingChange = useCallback((keys: 'all' | Set<Key>) => {
-    if (keys === 'all' || keys.size === 0) return
-    const value = Array.from(keys)[0] as CoatingType
-    setForm((prev) => ({ ...prev, coating: value }))
   }, [])
 
   const handleStringsChange = useCallback((keys: 'all' | Set<Key>) => {
@@ -269,21 +259,13 @@ export const StringTensionCalculator: FC = () => {
     })
   }, [])
 
-  const {
-    type,
-    preset,
-    strings,
-    stringBrand,
-    stringMaterial,
-    coating,
-    tuning,
-    scaleFrom,
-    scaleTo,
-  } = form
+  const { type, preset, strings, stringBrand, stringMaterial, tuning, scaleFrom, scaleTo } = form
   const range = STRING_RANGES[type]
   const scaleRange = SCALE_RANGES[type]
   const presets = PRESETS[type]
   const presetLabel = type === 'guitar' ? 'Guitar Preset' : 'Bass Preset'
+  const selectedPreset = presets.find((p) => p.key === preset)
+  const selectedStringPreset = STRING_BRAND_PRESETS.find((b) => b.key === stringBrand)
 
   const stringOptions = useMemo(
     () => Array.from({ length: range.max - range.min + 1 }, (_, i) => range.min + i),
@@ -324,6 +306,7 @@ export const StringTensionCalculator: FC = () => {
           <div className="grid grid-cols-1 gap-4 sm:flex sm:gap-4">
             <Select
               label={presetLabel}
+              description={selectedPreset?.description}
               items={presets}
               selectedKeys={[preset]}
               onSelectionChange={handlePresetChange}
@@ -337,18 +320,26 @@ export const StringTensionCalculator: FC = () => {
             </Select>
 
             <Select
-              label="String Brand"
+              label="String Preset"
+              description={selectedStringPreset?.description}
               items={STRING_BRAND_PRESETS}
               selectedKeys={[stringBrand]}
               onSelectionChange={handleBrandChange}
               className="sm:w-48"
+              classNames={{ popoverContent: 'min-w-72' }}
             >
-              {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
+              {(item) => (
+                <SelectItem key={item.key} description={item.description}>
+                  {item.label}
+                </SelectItem>
+              )}
             </Select>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <Divider />
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           <Select
             label="Strings"
             items={stringOptions.map((n) => ({ key: String(n), label: String(n) }))}
@@ -356,23 +347,6 @@ export const StringTensionCalculator: FC = () => {
             onSelectionChange={handleStringsChange}
           >
             {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
-          </Select>
-
-          <Select
-            label="Material"
-            selectedKeys={[stringMaterial]}
-            onSelectionChange={handleMaterialChange}
-          >
-            <SelectItem key="nickel-wound">Nickel Wound</SelectItem>
-            <SelectItem key="stainless-wound">Stainless Steel</SelectItem>
-            <SelectItem key="pure-nickel">Pure Nickel</SelectItem>
-          </Select>
-
-          <Select label="Coating" selectedKeys={[coating]} onSelectionChange={handleCoatingChange}>
-            <SelectItem key="none">None</SelectItem>
-            <SelectItem key="optiweb">Optiweb</SelectItem>
-            <SelectItem key="nanoweb">Nanoweb</SelectItem>
-            <SelectItem key="polyweb">Polyweb</SelectItem>
           </Select>
 
           <Select label="Tuning" selectedKeys={[tuning]} onSelectionChange={handleTuningChange}>
@@ -394,6 +368,7 @@ export const StringTensionCalculator: FC = () => {
             onValueChange={handleScaleToChange}
             endContent={<span className="text-default-400 text-sm">"</span>}
           />
+
           <Input
             type="number"
             label="Scale 1st"
@@ -405,7 +380,19 @@ export const StringTensionCalculator: FC = () => {
             onValueChange={handleScaleFromChange}
             endContent={<span className="text-default-400 text-sm">"</span>}
           />
+
+          <Select
+            label="Material"
+            selectedKeys={[stringMaterial]}
+            onSelectionChange={handleMaterialChange}
+          >
+            <SelectItem key="nickel-wound">Nickel Wound</SelectItem>
+            <SelectItem key="stainless-wound">Stainless Steel</SelectItem>
+            <SelectItem key="pure-nickel">Pure Nickel</SelectItem>
+          </Select>
         </div>
+
+        <Divider />
 
         <div className="flex flex-col gap-2">
           {/* Header row */}
@@ -475,7 +462,9 @@ export const StringTensionCalculator: FC = () => {
           </div>
         </div>
 
-        <div className="flex justify-end pt-2 border-t border-default-200">
+        <Divider />
+
+        <div className="flex justify-end pb-2 pr-2">
           <span className="text-default-600">Total tension:</span>
           <span className="font-mono font-semibold ml-2">{totalTension.toFixed(1)} lbs</span>
         </div>
