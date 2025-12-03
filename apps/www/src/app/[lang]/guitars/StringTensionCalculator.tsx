@@ -5,7 +5,7 @@ import { Input } from '@heroui/input'
 import { Select, SelectItem } from '@heroui/select'
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/table'
 import { Tab, Tabs } from '@heroui/tabs'
-import { type FC, type Key, useCallback, useEffect, useMemo, useState } from 'react'
+import { type FC, type Key, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import {
   type CoatingType,
@@ -28,6 +28,8 @@ import {
   interpolateScale,
 } from './string-utils'
 
+const STORAGE_KEY = 'string-tension-calculator'
+
 interface StringData {
   number: number
   scale: string
@@ -48,27 +50,79 @@ interface FormState {
   scaleTo: string
 }
 
-export const StringTensionCalculator: FC = () => {
-  const [form, setForm] = useState<FormState>(() => {
-    const preset = PRESETS.guitar.find((p) => p.key === DEFAULT_PRESETS.guitar)
-    const defaultBrand = STRING_BRAND_PRESETS[0]
-    return {
-      type: 'guitar',
-      preset: DEFAULT_PRESETS.guitar,
-      strings: preset?.strings ?? 6,
-      stringBrand: defaultBrand.key,
-      stringMaterial: defaultBrand.material,
-      coating: defaultBrand.coating,
-      tuning: preset?.tuning ?? 'standard',
-      scaleFrom: preset?.scaleFrom ?? '25.5',
-      scaleTo: preset?.scaleTo ?? '25.5',
-    }
-  })
+interface StoredState {
+  form: FormState
+  stringsData: StringData[]
+}
 
+const getDefaultForm = (): FormState => {
+  const preset = PRESETS.guitar.find((p) => p.key === DEFAULT_PRESETS.guitar)
+  const defaultBrand = STRING_BRAND_PRESETS[0]
+  return {
+    type: 'guitar',
+    preset: DEFAULT_PRESETS.guitar,
+    strings: preset?.strings ?? 6,
+    stringBrand: defaultBrand.key,
+    stringMaterial: defaultBrand.material,
+    coating: defaultBrand.coating,
+    tuning: preset?.tuning ?? 'standard',
+    scaleFrom: preset?.scaleFrom ?? '25.5',
+    scaleTo: preset?.scaleTo ?? '25.5',
+  }
+}
+
+const loadFromStorage = (): StoredState | null => {
+  if (typeof window === 'undefined') return null
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    if (!stored) return null
+    return JSON.parse(stored) as StoredState
+  } catch {
+    return null
+  }
+}
+
+const saveToStorage = (state: StoredState): void => {
+  if (typeof window === 'undefined') return
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+  } catch {
+    // Storage full or unavailable
+  }
+}
+
+export const StringTensionCalculator: FC = () => {
+  const [form, setForm] = useState<FormState>(getDefaultForm)
   const [stringsData, setStringsData] = useState<StringData[]>([])
+  const [isHydrated, setIsHydrated] = useState(false)
+  const skipNextFormEffect = useRef(false)
+
+  // Load state from localStorage on mount (after hydration)
+  useEffect(() => {
+    const stored = loadFromStorage()
+    if (stored) {
+      skipNextFormEffect.current = true
+      setForm(stored.form)
+      setStringsData(stored.stringsData)
+    }
+    setIsHydrated(true)
+  }, [])
+
+  // Save state to localStorage when it changes
+  useEffect(() => {
+    if (isHydrated && stringsData.length > 0) {
+      saveToStorage({ form, stringsData })
+    }
+  }, [form, stringsData, isHydrated])
 
   // Initialize/update strings data when form changes
   useEffect(() => {
+    // Skip if we just restored from storage
+    if (skipNextFormEffect.current) {
+      skipNextFormEffect.current = false
+      return
+    }
+
     const { type, strings, stringBrand, stringMaterial, coating, tuning, scaleFrom, scaleTo } = form
     const scaleFromNum = Number.parseFloat(scaleFrom) || 25.5
     const scaleToNum = Number.parseFloat(scaleTo) || scaleFromNum
@@ -255,24 +309,26 @@ export const StringTensionCalculator: FC = () => {
   return (
     <Card>
       <CardBody className="gap-4">
-        <div className="flex flex-wrap gap-4 items-end justify-between">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:items-end sm:justify-between">
           <Tabs
             aria-label="Instrument type"
             selectedKey={type}
             onSelectionChange={handleTypeChange}
             variant="bordered"
+            fullWidth
+            classNames={{ base: 'sm:w-auto' }}
           >
             <Tab key="guitar" title="Guitar" />
             <Tab key="bass" title="Bass" />
           </Tabs>
 
-          <div className="flex flex-wrap gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:flex sm:gap-4">
             <Select
               label={presetLabel}
               items={presets}
               selectedKeys={[preset]}
               onSelectionChange={handlePresetChange}
-              className="w-56"
+              className="sm:w-56"
             >
               {(item) => (
                 <SelectItem key={item.key} description={item.description}>
@@ -286,7 +342,7 @@ export const StringTensionCalculator: FC = () => {
               items={STRING_BRAND_PRESETS}
               selectedKeys={[stringBrand]}
               onSelectionChange={handleBrandChange}
-              className="w-48"
+              className="sm:w-48"
             >
               {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
             </Select>
@@ -351,13 +407,20 @@ export const StringTensionCalculator: FC = () => {
           />
         </div>
 
-        <Table aria-label="String tensions" removeWrapper>
+        <Table
+          aria-label="String tensions"
+          removeWrapper
+          classNames={{
+            th: 'px-0.5 sm:px-3',
+            td: 'px-0.5 sm:px-3 py-1 sm:py-2',
+          }}
+        >
           <TableHeader>
-            <TableColumn className="w-12">#</TableColumn>
-            <TableColumn className="w-28">Scale</TableColumn>
-            <TableColumn className="w-28">Note</TableColumn>
-            <TableColumn className="w-28">Gauge</TableColumn>
-            <TableColumn className="w-24 text-right">Tension</TableColumn>
+            <TableColumn className="w-6 sm:w-12">#</TableColumn>
+            <TableColumn className="w-20 sm:w-28">Scale</TableColumn>
+            <TableColumn className="w-20 sm:w-28">Note</TableColumn>
+            <TableColumn className="w-20 sm:w-28">Gauge</TableColumn>
+            <TableColumn className="w-12 sm:w-24 text-right">Tension</TableColumn>
           </TableHeader>
           <TableBody>
             {stringsData.map((string, index) => (
@@ -409,8 +472,15 @@ export const StringTensionCalculator: FC = () => {
                     ))}
                   </Select>
                 </TableCell>
-                <TableCell className="text-right font-mono">
-                  {string.tension > 0 ? `${string.tension} lbs` : '—'}
+                <TableCell className="text-right font-mono text-xs sm:text-sm">
+                  {string.tension > 0 ? (
+                    <span className="flex flex-col sm:flex-row">
+                      <span>{string.tension}</span>
+                      <span> lbs</span>
+                    </span>
+                  ) : (
+                    '—'
+                  )}
                 </TableCell>
               </TableRow>
             ))}
