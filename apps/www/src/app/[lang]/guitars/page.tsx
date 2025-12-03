@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: ParamsWithLang, parent: Resol
     title,
     description,
     alternates: {
-      languages: Object.fromEntries(availableLocales.map((lang) => [lang, `/${lang}${pagePath}`])),
+      languages: Object.fromEntries(availableLocales.map((l) => [l, `/${l}${pagePath}`])),
     },
     icons: structuredClone(icons),
     manifest,
