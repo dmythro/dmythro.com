@@ -1,6 +1,12 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local", "**/.env.*example"],
+  "globalDependencies": [
+    "**/.env.*local",
+    "**/.env.*example",
+    "package.json",
+    "bun.lock",
+    "bunfig.toml"
+  ],
   "globalEnv": ["NODE_ENV", "NEXT_GA_ID", "NEXT_RESEND_API_KEY"],
   "ui": "tui",
   "tasks": {
