@@ -21,6 +21,11 @@ export const uk: Translation = {
     backHome: 'Повернутись на головну',
     closeMenu: 'Закрити меню',
     openMenu: 'Відкрити меню',
+    language: 'Мова',
+    theme: 'Тема',
+    themeSystem: 'Системна',
+    themeDark: 'Темна',
+    themeLight: 'Світла',
   },
   builtWithTitle: 'Технічні деталі проекту',
   builtWith: 'Розроблено з',
@@ -42,6 +47,11 @@ export const uk: Translation = {
   myStudio: 'Моя студія, місце де працюю та займаюсь музикою',
   fullTimeEmployment: 'Повна зайнятість',
   openToWork: 'Шукаю проект',
+  contact: {
+    title: 'Контакти та соцмережі',
+    subtitle: 'Знайдіть мене в соцмережах або напишіть напряму.',
+    directContact: 'Прямий контакт',
+  },
   socialMedia: {
     title: 'Посилання на соціальні мережі',
     description: 'Мій GitHub, LinkedIn та інші профілі у соціальних мережах.',
@@ -51,6 +61,12 @@ export const uk: Translation = {
     [ESocialLinks.github]: 'Мої опен-сорс проекти та активність',
     [ESocialLinks.linkedin]: 'Єдиний актуальний профіль',
     [ESocialLinks.telegram]: 'Прямий контакт',
+    [ESocialLinks.bluesky]: 'Мікроблог та оновлення',
+    [ESocialLinks.threads]: 'Threads від Meta',
+    [ESocialLinks.instagram]: 'Фото та історії',
+    [ESocialLinks.facebook]: 'Особистий профіль',
+    [ESocialLinks.twitter]: 'Профіль X / Twitter',
+    [ESocialLinks.nostr]: 'Децентралізована мережа',
   },
   saveLev: {
     message:
@@ -68,7 +84,8 @@ export const uk: Translation = {
     projects: 'Проєкти',
     cv: 'CV',
     tools: 'Інструменти',
-    contact: 'Контакт',
+    faq: 'FAQ',
+    contact: 'Контакти',
   },
   landing: {
     heroDescription: 'Цікавлюсь технологіями, веб розробкою, музикою, подорожами, космосом та іншим.',
