@@ -1,13 +1,23 @@
 # Agent Guidelines
 
 ## Commands
-- **Build**: `bun run build` or `bun run build --filter=www` (specific package)
+- **Build**: `bun run build` or `bun run build --filter=www` / `--filter=www2`
 - **Dev**: `bun run dev` (starts all apps with Turbo)
+- **Dev www2 only**: `cd apps/www2 && bun run dev`
+- **Build www2 directly**: `cd apps/www2 && bun run astro build`
 - **Lint/Format**: `bun run check` (lint), `bun run check-apply` (auto-fix)
 - **Type check**: `bun run check-types`
 - **Test all**: `bun test` (in `/packages/my-locales`)
 - **Test single**: `bun test tests/skills.test.ts` (from package dir)
 - **Clean**: `bun run clean` or `bun run clean-up` (deep clean)
+
+## Apps
+- **www** (apps/www): Next.js 16 + HeroUI 2.x (current production site)
+- **www2** (apps/www2): Astro 6 beta + DaisyUI 5 + Tailwind 4 (v2 rework, `feat/www2` branch)
+  - Zero JS by default, React islands only for interactivity
+  - DaisyUI CSS-only components, no React for layout/nav/footer
+  - i18n: `[locale]` dynamic param with `getStaticPaths`
+  - Deployment target: Cloudflare Pages
 
 ## Code Style
 - **Stack**: Bun 1.3+, Turbo workspaces, Biome formatter/linter
