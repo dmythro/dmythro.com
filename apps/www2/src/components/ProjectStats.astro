@@ -1,0 +1,23 @@
+---
+import { formatNumber } from '@/utils/fetchNpmStats'
+
+interface Props {
+  npmDownloads?: number
+  githubStars?: number
+}
+
+const { npmDownloads, githubStars } = Astro.props
+---
+
+<div class="flex flex-wrap gap-2">
+  {npmDownloads !== undefined && npmDownloads > 0 && (
+    <span class="badge badge-primary badge-outline gap-1">
+      📦 {formatNumber(npmDownloads)}/mo
+    </span>
+  )}
+  {githubStars !== undefined && githubStars > 0 && (
+    <span class="badge badge-warning badge-outline gap-1">
+      ⭐ {formatNumber(githubStars)}
+    </span>
+  )}
+</div>

@@ -1,0 +1,36 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro'
+import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
+import { getT } from '@/utils/getT'
+
+export function getStaticPaths() {
+  return getStaticLocalePaths()
+}
+
+const { locale } = Astro.params as { locale: LocaleCode }
+const t = getT(locale)
+const st = t.guitars.stringTension
+---
+
+<PageLayout locale={locale} title={`${st.title} — ${t.name}`} description={st.description}>
+  <h1 class="text-3xl font-bold mb-2">{st.title}</h1>
+  <p class="text-base-content/70 mb-6">{st.description}</p>
+
+  {/* React island — loads with full interactivity */}
+  <div id="string-tension-calculator">
+    <div class="loading loading-spinner loading-lg mx-auto block" />
+  </div>
+
+  <script>
+    import { createElement } from 'react'
+    import { createRoot } from 'react-dom/client'
+    import { StringTensionCalculator } from '@/components/islands/StringTensionCalculator'
+
+    const container = document.getElementById('string-tension-calculator')
+    if (container) {
+      const lang = window.location.pathname.split('/')[1] || 'en'
+      const root = createRoot(container)
+      root.render(createElement(StringTensionCalculator, { lang }))
+    }
+  </script>
+</PageLayout>

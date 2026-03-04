@@ -1,0 +1,72 @@
+---
+import type { LocaleCode } from '@/utils/i18n'
+import { availableLocales } from '@/utils/i18n'
+import { BASE_URL } from 'my-constants'
+import '@/styles/global.css'
+
+interface Props {
+  locale: LocaleCode
+  title: string
+  description: string
+  jsonLd?: Record<string, unknown>
+}
+
+const { locale, title, description, jsonLd } = Astro.props
+const canonicalUrl = new URL(Astro.url.pathname, BASE_URL)
+---
+
+<html lang={locale} data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    {/* Open Graph */}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl.href} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={`${BASE_URL}/avatar@og.jpg`} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@dmythro" />
+
+    <link rel="canonical" href={canonicalUrl.href} />
+    {availableLocales.map((l) => (
+      <link
+        rel="alternate"
+        hreflang={l}
+        href={`${BASE_URL}/${l}${Astro.url.pathname.replace(`/${locale}`, '')}`}
+      />
+    ))}
+
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="sitemap" href="/sitemap.xml" />
+
+    {/* Theme init — prevent FOUC */}
+    <script is:inline>
+      ;(function () {
+        const saved = localStorage.getItem('theme')
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        const theme = saved || (prefersDark ? 'dark' : 'light')
+        document.documentElement.setAttribute('data-theme', theme)
+        if (theme === 'dark') document.documentElement.classList.add('dark')
+      })()
+    </script>
+
+    <slot name="head" />
+
+    {jsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    )}
+  </head>
+  <body class="min-h-screen bg-base-100 text-base-content">
+    <slot />
+  </body>
+</html>

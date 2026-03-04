@@ -1,0 +1,28 @@
+---
+import type { SkillTime } from 'my-locales'
+import StatCard from './StatCard.astro'
+
+interface Props {
+  title?: string
+  items: SkillTime[]
+  isExpanded?: boolean
+}
+
+const { title, items, isExpanded = false } = Astro.props
+---
+
+<section>
+  {title && (
+    <h2 class="font-semibold my-6 text-2xl print:break-before-page print:break-after-avoid">
+      {title}
+    </h2>
+  )}
+  <div class:list={[
+    'clear-both grid gap-4 rounded print:grid-cols-3',
+    isExpanded ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-2 sm:grid-cols-3',
+  ]}>
+    {items.map((item) => (
+      <StatCard item={item} isExpanded={isExpanded} />
+    ))}
+  </div>
+</section>

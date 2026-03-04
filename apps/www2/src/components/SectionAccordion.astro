@@ -1,0 +1,94 @@
+---
+import type { LocaleCode } from '@/utils/i18n'
+import type { InterestKey, InterestLocale } from 'my-locales'
+import { getT } from '@/utils/getT'
+import Stats from './Stats.astro'
+import Timeline from './Timeline.astro'
+import Links from './Links.astro'
+
+interface Props {
+  locale: LocaleCode
+  isExpanded?: boolean
+}
+
+const { locale, isExpanded = false } = Astro.props
+const t = getT(locale)
+const interestList = Object.keys(t.interests) as InterestKey[]
+
+const sectionIcons: Record<string, string> = {
+  webDev: '💼',
+  music: '🎵',
+  travel: '🌍',
+  hobbies: '🎮',
+  faq: '❓',
+  links: '🔗',
+}
+
+// Map interest keys to MDX file names
+const mdxKeyMap: Record<string, string> = {
+  webDev: 'web-dev',
+  music: 'music',
+  travel: 'travel',
+  hobbies: 'hobbies',
+  faq: 'faq',
+}
+
+// Precompute data for template
+const sections = interestList.map((interestKey) => {
+  const interest = t.interests[interestKey] as InterestLocale
+  const icon = sectionIcons[interestKey] || '📌'
+  const mdxKey = mdxKeyMap[interestKey]
+  return { interestKey, interest, icon, mdxKey }
+})
+---
+
+<article>
+  {sections.map(({ interestKey, interest, icon, mdxKey }) => (
+    <div
+      class:list={[
+        'collapse collapse-arrow bg-base-100 border border-base-300 mb-3 print:collapse-open print:break-before-page',
+        { 'collapse-open': isExpanded },
+      ]}
+      id={interestKey}
+    >
+      {!isExpanded && <input type="checkbox" />}
+      <div class="collapse-title">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">{icon}</span>
+          <div>
+            <h2 class="text-lg font-semibold">{interest.title}</h2>
+            <p class="text-sm text-base-content/60">{interest.description}</p>
+          </div>
+        </div>
+      </div>
+      <div class="collapse-content">
+        {interestKey === 'links' ? (
+          <Links />
+        ) : mdxKey ? (
+          <div class="prose prose-sm max-w-none" />
+        ) : null}
+
+        {interestKey === 'webDev' && (
+          <>
+            <figure class="my-4 rounded-lg overflow-hidden">
+              <img
+                src="/my-studio.webp"
+                alt={t.myStudio}
+                class="w-full h-auto rounded-lg"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption class="text-xs text-base-content/50 text-center py-1">
+                {t.myStudio}
+              </figcaption>
+            </figure>
+
+            <Stats title={t.skillsTitle} items={t.skills} isExpanded={isExpanded} />
+            <Timeline title={t.generalTitle} items={t.generalTimeline} />
+            <Timeline title={t.careerTitle} items={t.careerTimeline} />
+          </>
+        )}
+      </div>
+    </div>
+  ))}
+</article>

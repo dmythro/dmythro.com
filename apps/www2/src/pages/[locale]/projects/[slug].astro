@@ -1,0 +1,93 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro'
+import ProjectCard from '@/components/ProjectCard.astro'
+import ProjectStats from '@/components/ProjectStats.astro'
+import { projects, getHighlightedProjects } from '@/data/projects'
+import { availableLocales, type LocaleCode } from '@/utils/i18n'
+import { getT } from '@/utils/getT'
+import { fetchNpmStats } from '@/utils/fetchNpmStats'
+import { fetchGithubStats } from '@/utils/fetchGithubStats'
+
+export function getStaticPaths() {
+  return projects.flatMap((project) =>
+    availableLocales.map((locale) => ({
+      params: { locale, slug: project.slug },
+      props: { project },
+    })),
+  )
+}
+
+const { locale, slug } = Astro.params as { locale: LocaleCode; slug: string }
+const { project } = Astro.props
+const t = getT(locale)
+const title = project.title[locale]
+const description = project.description[locale]
+
+// Fetch stats at build time
+const npmStats = project.npm ? await fetchNpmStats(project.npm) : null
+const githubStats = project.github ? await fetchGithubStats(project.github) : null
+
+// Other highlighted projects for cross-linking
+const otherProjects = getHighlightedProjects()
+  .filter((p) => p.slug !== project.slug)
+  .slice(0, 3)
+---
+
+<PageLayout locale={locale} title={`${title} — ${t.name}`} description={description}>
+  <article class="max-w-3xl mx-auto">
+    <div class="mb-6">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="badge badge-outline">{project.category}</span>
+        {project.tags.map((tag) => (
+          <span class="badge badge-sm badge-ghost">{tag}</span>
+        ))}
+      </div>
+      <h1 class="text-3xl font-bold mb-2">{title}</h1>
+      <p class="text-lg text-base-content/70 mb-4">{description}</p>
+
+      <ProjectStats
+        npmDownloads={npmStats?.downloads}
+        githubStars={githubStats?.stars}
+      />
+
+      <div class="flex gap-2 mt-4">
+        {project.url && (
+          <a href={project.url} class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">
+            Visit site ↗
+          </a>
+        )}
+        {project.github && (
+          <a href={`https://github.com/${project.github}`} class="btn btn-outline btn-sm" target="_blank" rel="noopener noreferrer">
+            GitHub ↗
+          </a>
+        )}
+        {project.npm && (
+          <a href={`https://www.npmjs.com/package/${project.npm}`} class="btn btn-outline btn-sm" target="_blank" rel="noopener noreferrer">
+            npm ↗
+          </a>
+        )}
+      </div>
+    </div>
+
+    <div class="divider" />
+
+    {/* Content area — MDX content collection will go here later */}
+    <div class="prose max-w-none mb-8">
+      <p>{description}</p>
+    </div>
+  </article>
+
+  {/* Other projects */}
+  {otherProjects.length > 0 && (
+    <section class="mt-12">
+      <h2 class="text-2xl font-semibold mb-4">
+        {locale === 'uk' ? 'Інші проєкти' : 'Other projects'}
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {otherProjects.map((p) => (
+          <ProjectCard project={p} locale={locale} />
+        ))}
+      </div>
+    </section>
+  )}
+</PageLayout>

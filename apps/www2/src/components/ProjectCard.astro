@@ -1,0 +1,34 @@
+---
+import type { Project } from '@/data/projects'
+import type { LocaleCode } from '@/utils/i18n'
+
+interface Props {
+  project: Project
+  locale: LocaleCode
+}
+
+const { project, locale } = Astro.props
+const title = project.title[locale]
+const description = project.description[locale]
+---
+
+<a
+  href={`/${locale}/projects/${project.slug}`}
+  class="card bg-base-100 border border-base-300 shadow-sm hover:shadow-md transition-shadow"
+>
+  {project.image && (
+    <figure>
+      <img src={project.image} alt={title} class="w-full h-40 object-cover" loading="lazy" />
+    </figure>
+  )}
+  <div class="card-body p-4">
+    <h3 class="card-title text-base">{title}</h3>
+    <p class="text-sm text-base-content/60 line-clamp-2">{description}</p>
+    <div class="card-actions justify-start mt-2 flex-wrap gap-1">
+      <span class="badge badge-sm badge-outline">{project.category}</span>
+      {project.tags.slice(0, 3).map((tag) => (
+        <span class="badge badge-sm badge-ghost">{tag}</span>
+      ))}
+    </div>
+  </div>
+</a>

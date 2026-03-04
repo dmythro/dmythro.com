@@ -1,0 +1,52 @@
+---
+import type { TimelineItem } from 'my-locales'
+
+interface Props {
+  item: TimelineItem
+}
+
+const { item } = Astro.props
+const { title, subtitle, description, when, till, where, isHighlighted } = item
+
+if ((!when && !till) || (!title && !subtitle && !description)) {
+  return
+}
+---
+
+<div class="timeline-block group relative pl-8 sm:pl-32 py-3">
+  <div class="timeline-block-content flex flex-col sm:flex-row items-start mb-1
+    before:absolute before:left-2 sm:before:left-0 before:h-full before:px-px before:bg-base-300 sm:before:ml-[6.5rem] before:self-start before:-translate-x-1/2 before:translate-y-3
+    after:absolute after:left-2 sm:after:left-0 after:w-2 after:h-2 after:bg-primary after:border-4 after:box-content after:border-base-200 after:rounded-full sm:after:ml-[6.5rem] after:-translate-x-1/2 after:translate-y-1.5
+    group-last:before:hidden">
+
+    <time class="badge badge-outline badge-success font-semibold text-center inline-flex sm:absolute left-0 translate-y-0.5 sm:min-w-20 h-6 mb-3 sm:mb-0 sm:h-auto sm:rounded-lg print:break-after-avoid">
+      {when && till ? (
+        <>
+          <span class="p-0.5 flex sm:flex-col-reverse gap-1">{when}</span>
+          <span class="rotate-90 sm:rotate-0">&uarr;</span>
+          <span class="p-0.5 flex sm:flex-col-reverse gap-1">{till}</span>
+        </>
+      ) : (
+        when || till
+      )}
+    </time>
+
+    <div>
+      {title && <h3 class:list={['text-xl text-primary mb-1 mt-0 sm:mb-0 print:break-after-avoid', { 'font-bold': isHighlighted, 'font-normal': !isHighlighted }]}>{title}</h3>}
+      {subtitle && (
+        <h4 class="text-lg font-medium my-1 print:break-after-avoid">
+          {subtitle}
+          {where && <span class="font-light"> &ndash; {where}</span>}
+        </h4>
+      )}
+      {description && (
+        <div class="text-base-content/60">
+          {Array.isArray(description)
+            ? description.map((line) => <p class="my-2">{line}</p>)
+            : description
+          }
+        </div>
+      )}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+---
+import { ESocialLinks } from 'my-constants'
+
+const links = [
+  { title: 'GitHub', href: ESocialLinks.github },
+  { title: 'LinkedIn', href: ESocialLinks.linkedin },
+  { title: 'Telegram', href: ESocialLinks.telegram },
+  { title: 'BlueSky', href: ESocialLinks.bluesky },
+  { title: 'Threads', href: ESocialLinks.threads },
+  { title: 'Instagram', href: ESocialLinks.instagram },
+  { title: 'Facebook', href: ESocialLinks.facebook },
+  { title: 'X / Twitter', href: ESocialLinks.twitter },
+  { title: 'Nostr', href: ESocialLinks.nostr },
+]
+---
+
+<div class="flex flex-wrap w-full gap-2 overflow-auto">
+  {links.map(({ title, href }) => (
+    <a
+      href={href}
+      class="btn btn-primary btn-sm shadow-lg print:bg-transparent print:text-base-content print:shadow-none"
+      target="_blank"
+      rel="me noopener noreferrer"
+    >
+      {title}
+    </a>
+  ))}
+</div>

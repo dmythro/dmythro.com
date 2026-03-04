@@ -1,0 +1,66 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro'
+import ProjectCard from '@/components/ProjectCard.astro'
+import { getProjectsByCategory, type ProjectCategory } from '@/data/projects'
+import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
+import { getT } from '@/utils/getT'
+
+export function getStaticPaths() {
+  return getStaticLocalePaths()
+}
+
+const { locale } = Astro.params as { locale: LocaleCode }
+const t = getT(locale)
+const allProjects = getProjectsByCategory()
+const categories: (ProjectCategory | undefined)[] = [undefined, 'dev', 'music', 'photos']
+const categoryLabels = {
+  undefined: locale === 'uk' ? 'Всі' : 'All',
+  dev: locale === 'uk' ? 'Розробка' : 'Dev',
+  music: locale === 'uk' ? 'Музика' : 'Music',
+  photos: locale === 'uk' ? 'Фото' : 'Photos',
+}
+---
+
+<PageLayout
+  locale={locale}
+  title={`${locale === 'uk' ? 'Проєкти' : 'Projects'} — ${t.name}`}
+  description={locale === 'uk' ? 'Мої проєкти' : 'My projects'}
+>
+  <h1 class="text-3xl font-bold mb-6">{locale === 'uk' ? 'Проєкти' : 'Projects'}</h1>
+
+  {/* Category tabs */}
+  <div role="tablist" class="tabs tabs-box mb-6">
+    {categories.map((cat) => (
+      <button
+        role="tab"
+        class:list={['tab', { 'tab-active': cat === undefined }]}
+        data-category={cat || 'all'}
+      >
+        {categoryLabels[String(cat)]}
+      </button>
+    ))}
+  </div>
+
+  {/* Project grid */}
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="projects-grid">
+    {allProjects.map((project) => (
+      <div data-category={project.category}>
+        <ProjectCard project={project} locale={locale} />
+      </div>
+    ))}
+  </div>
+
+  {/* Client-side filtering */}
+  <script is:inline>
+    document.querySelectorAll('[role="tab"]').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('[role="tab"]').forEach(t => t.classList.remove('tab-active'))
+        tab.classList.add('tab-active')
+        const cat = tab.dataset.category
+        document.querySelectorAll('#projects-grid > div').forEach(card => {
+          card.style.display = (cat === 'all' || card.dataset.category === cat) ? '' : 'none'
+        })
+      })
+    })
+  </script>
+</PageLayout>
