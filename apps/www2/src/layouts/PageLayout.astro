@@ -1,0 +1,35 @@
+---
+import type { LocaleCode } from '@/utils/i18n'
+import BaseLayout from './BaseLayout.astro'
+import TopNavbar from '@/components/TopNavbar.astro'
+import Footer from '@/components/Footer.astro'
+
+interface Props {
+  locale: LocaleCode
+  title: string
+  description: string
+  jsonLd?: Record<string, unknown>
+  isHeroPage?: boolean
+}
+
+const { locale, title, description, jsonLd, isHeroPage = false } = Astro.props
+---
+
+<BaseLayout locale={locale} title={title} description={description} jsonLd={jsonLd}>
+  <slot name="head" slot="head" />
+
+  <TopNavbar locale={locale} isHeroPage={isHeroPage} />
+
+  {isHeroPage ? (
+    <slot name="hero" />
+    <main class="container mx-auto max-w-5xl px-4 py-6">
+      <slot />
+    </main>
+  ) : (
+    <main class="container mx-auto max-w-5xl px-4 py-6">
+      <slot />
+    </main>
+  )}
+
+  <Footer locale={locale} />
+</BaseLayout>

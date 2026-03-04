@@ -1,0 +1,44 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro'
+import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
+import { getT } from '@/utils/getT'
+
+export function getStaticPaths() {
+  return getStaticLocalePaths()
+}
+
+const { locale } = Astro.params as { locale: LocaleCode }
+const t = getT(locale)
+---
+
+<PageLayout locale={locale} title={`${t.builtWithTitle} — ${t.name}`} description={t.builtWithTitle}>
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">{t.builtWithTitle}</h1>
+
+    <a href={`/${locale}/`} class="btn btn-ghost btn-sm mb-4 no-print">
+      ← {t.actions.backHome}
+    </a>
+
+    <div class="prose max-w-none">
+      <h2>v2 (2026)</h2>
+      <ul>
+        <li><strong>Framework:</strong> <a href="https://astro.build" target="_blank" rel="noopener">Astro 6</a> (beta) — zero JS by default</li>
+        <li><strong>UI:</strong> <a href="https://daisyui.com" target="_blank" rel="noopener">DaisyUI 5</a> — CSS-only components</li>
+        <li><strong>Styling:</strong> <a href="https://tailwindcss.com" target="_blank" rel="noopener">Tailwind CSS 4</a></li>
+        <li><strong>Runtime:</strong> <a href="https://bun.sh" target="_blank" rel="noopener">Bun</a></li>
+        <li><strong>Deployment:</strong> <a href="https://pages.cloudflare.com" target="_blank" rel="noopener">Cloudflare Pages</a></li>
+        <li><strong>Monorepo:</strong> Bun workspaces + Turborepo</li>
+        <li><strong>Linting:</strong> <a href="https://biomejs.dev" target="_blank" rel="noopener">Biome</a></li>
+        <li><strong>i18n:</strong> English + Ukrainian</li>
+      </ul>
+
+      <h2>v1 (2024–2025)</h2>
+      <ul>
+        <li><strong>Framework:</strong> Next.js 16 (App Router)</li>
+        <li><strong>UI:</strong> HeroUI 2.x (React component library)</li>
+        <li><strong>Styling:</strong> Tailwind CSS 4</li>
+        <li><strong>Deployment:</strong> Vercel</li>
+      </ul>
+    </div>
+  </div>
+</PageLayout>

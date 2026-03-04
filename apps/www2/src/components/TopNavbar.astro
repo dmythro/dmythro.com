@@ -1,0 +1,124 @@
+---
+import type { LocaleCode } from '@/utils/i18n'
+import { getT } from '@/utils/getT'
+import { USERNAME, isOpenToWork, ELocaleNames } from 'my-constants'
+import NavbarLocaleSwitch from './NavbarLocaleSwitch.astro'
+import ThemeToggle from './ThemeToggle.astro'
+
+interface Props {
+  locale: LocaleCode
+  isHeroPage?: boolean
+}
+
+const { locale, isHeroPage = false } = Astro.props
+const t = getT(locale)
+---
+
+<header
+  class:list={[
+    'navbar bg-base-100/95 backdrop-blur-sm border-b border-base-300 z-50 no-print transition-all duration-300',
+    isHeroPage ? 'fixed top-0 left-0 right-0 -translate-y-full' : 'sticky top-0',
+  ]}
+  id="main-navbar"
+  data-hero-page={isHeroPage ? 'true' : undefined}
+>
+  <input id="nav-drawer" type="checkbox" class="hidden peer" />
+
+  {/* Logo / User — avatar shown when not on hero, or when scrolled past hero */}
+  <div class="navbar-start">
+    <a href={`/${locale}/`} class="flex items-center gap-3 px-2">
+      <div class="avatar" id="navbar-avatar">
+        <div class="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+          <img src="/avatar@40px.webp" alt={USERNAME} width="40" height="40" />
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div class="flex items-center gap-1.5">
+          <span class="text-lg font-semibold lowercase">
+            <span class="text-base-content/50 font-thin">@</span>{USERNAME.replace('@', '')}
+          </span>
+          <span class={`badge badge-sm ${isOpenToWork ? 'badge-success' : 'badge-ghost'} hidden sm:inline-flex`}>
+            {isOpenToWork ? t.openToWork : t.fullTimeEmployment}
+          </span>
+        </div>
+        <span class="text-xs text-base-content/60 hidden sm:inline">{t.meta.descriptionShort}</span>
+      </div>
+    </a>
+  </div>
+
+  {/* Desktop nav links */}
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1 gap-1">
+      <li><a href={`/${locale}/`}>{locale === 'uk' ? 'Головна' : 'Home'}</a></li>
+      <li><a href={`/${locale}/projects`}>{locale === 'uk' ? 'Проєкти' : 'Projects'}</a></li>
+      <li><a href={`/${locale}/cv`}>CV</a></li>
+      <li><a href={`/${locale}/guitars/string-tension`}>{locale === 'uk' ? 'Інструменти' : 'Tools'}</a></li>
+    </ul>
+  </div>
+
+  {/* Right side */}
+  <div class="navbar-end gap-1">
+    <ThemeToggle />
+    <div class="hidden sm:block">
+      <NavbarLocaleSwitch locale={locale} />
+    </div>
+    <label for="nav-drawer" class="btn btn-ghost btn-square lg:hidden">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </label>
+  </div>
+
+  {/* Mobile drawer */}
+  <div class="fixed inset-0 z-40 hidden peer-checked:block lg:hidden">
+    <label for="nav-drawer" class="fixed inset-0 bg-black/30"></label>
+    <div class="fixed right-0 top-0 h-full w-64 bg-base-100 shadow-xl p-4">
+      <label for="nav-drawer" class="btn btn-ghost btn-sm btn-square float-right mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </label>
+      <ul class="menu w-full clear-both gap-1">
+        <li><a href={`/${locale}/`}>{locale === 'uk' ? 'Головна' : 'Home'}</a></li>
+        <li><a href={`/${locale}/projects`}>{locale === 'uk' ? 'Проєкти' : 'Projects'}</a></li>
+        <li><a href={`/${locale}/cv`}>CV</a></li>
+        <li><a href={`/${locale}/guitars/string-tension`}>{locale === 'uk' ? 'Інструменти' : 'Tools'}</a></li>
+        <li class="sm:hidden">
+          <NavbarLocaleSwitch locale={locale} />
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+{/* Scroll behavior for hero pages */}
+<script is:inline>
+  ;(function () {
+    const navbar = document.getElementById('main-navbar')
+    if (!navbar || !navbar.dataset.heroPage) return
+
+    const heroSection = document.getElementById('hero-section')
+    if (!heroSection) {
+      // Not a hero page, show navbar immediately
+      navbar.classList.remove('-translate-y-full')
+      navbar.classList.add('sticky', 'top-0')
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // Hero visible — hide navbar
+          navbar.classList.add('-translate-y-full')
+          navbar.classList.remove('translate-y-0')
+        } else {
+          // Hero not visible — show navbar
+          navbar.classList.remove('-translate-y-full')
+          navbar.classList.add('translate-y-0')
+        }
+      },
+      { threshold: 0, rootMargin: '-64px 0px 0px 0px' },
+    )
+    observer.observe(heroSection)
+  })()
+</script>

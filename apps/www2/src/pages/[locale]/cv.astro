@@ -1,0 +1,41 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro'
+import PhotoCard from '@/components/PhotoCard.astro'
+import SectionAccordion from '@/components/SectionAccordion.astro'
+import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
+import { getT } from '@/utils/getT'
+
+export function getStaticPaths() {
+  return getStaticLocalePaths()
+}
+
+const { locale } = Astro.params as { locale: LocaleCode }
+const t = getT(locale)
+---
+
+<PageLayout
+  locale={locale}
+  title={`CV — ${t.fullName}`}
+  description={t.meta.description}
+>
+  <div class="flex flex-col sm:flex-row-reverse gap-6 md:gap-8 print:flex-col print:block">
+    {/* Sidebar: photo */}
+    <div class="basis-full sm:basis-5/12 sm:sticky sm:self-start sm:top-20 print:relative print:top-auto print:max-w-[60%] print:mx-auto print:mt-4">
+      <PhotoCard locale={locale} />
+      <div class="mt-4 no-print">
+        <a
+          href={`/cv.${locale}.pdf`}
+          class="btn btn-outline btn-sm w-full"
+          download
+        >
+          📄 {locale === 'uk' ? 'Завантажити PDF' : 'Download PDF'}
+        </a>
+      </div>
+    </div>
+
+    {/* Main: all sections expanded */}
+    <div class="basis-full sm:basis-7/12 print:block">
+      <SectionAccordion locale={locale} isExpanded={true} />
+    </div>
+  </div>
+</PageLayout>

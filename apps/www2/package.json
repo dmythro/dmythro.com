@@ -1,0 +1,36 @@
+{
+  "name": "www2",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "check-types": "astro check",
+    "clean": "rm -rf dist .astro"
+  },
+  "dependencies": {
+    "astro": "6.0.0-beta.17",
+    "@astrojs/react": "4.4.2",
+    "@astrojs/sitemap": "3.7.0",
+    "@astrojs/mdx": "4.3.13",
+    "@astrojs/cloudflare": "12.6.12",
+    "@astrojs/check": "0.9.4",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "daisyui": "5.5.19",
+    "tailwindcss": "4.2.1",
+    "@tailwindcss/vite": "4.2.1",
+    "my-constants": "workspace:*",
+    "my-locales": "workspace:*",
+    "schema-dts": "1.1.5",
+    "dayjs": "1.11.13"
+  },
+  "devDependencies": {
+    "@types/react": "19.1.8",
+    "@types/react-dom": "19.1.6",
+    "typescript": "5.8.3"
+  }
+}
