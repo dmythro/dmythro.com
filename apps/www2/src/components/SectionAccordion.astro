@@ -45,7 +45,7 @@ const sections = interestList.map((interestKey) => {
 ---
 
 <article>
-  {sections.map(({ interestKey, interest, icon, mdxKey }) => (
+  {sections.map(({ interestKey, interest, icon, mdxKey }, i) => (
     <div
       class:list={[
         'collapse collapse-arrow bg-base-100 border border-base-300 mb-3 print:collapse-open print:break-before-page',
@@ -53,7 +53,7 @@ const sections = interestList.map((interestKey) => {
       ]}
       id={interestKey}
     >
-      {!isExpanded && <input type="checkbox" />}
+      {!isExpanded && <input type="radio" name="accordion-sections" checked={i === 0} />}
       <div class="collapse-title">
         <div class="flex items-center gap-2">
           <span class="text-xl">{icon}</span>
