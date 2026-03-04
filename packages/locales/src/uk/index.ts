@@ -1,5 +1,5 @@
-import { ESocialLinks } from 'my-constants'
-import type { Translation } from 'src'
+import { ESocialLinks } from '@dmythro/constants'
+import type { Translation } from '..'
 
 import { skillLevel } from './constants'
 import { interests } from './interests'

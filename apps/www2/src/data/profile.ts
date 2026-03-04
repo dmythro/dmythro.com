@@ -1,4 +1,4 @@
-import { ESocialLinks } from 'my-constants'
+import { ESocialLinks } from '@dmythro/constants'
 
 export const socialLinks = [
   {

@@ -1,4 +1,4 @@
-import type { InterestLocale } from 'src/types'
+import type { InterestLocale } from '../types'
 
 export const interests = {
   webDev: {

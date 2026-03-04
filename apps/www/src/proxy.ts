@@ -1,6 +1,6 @@
+import type { LocaleCode } from '@dmythro/locales'
+import { availableLocales } from '@dmythro/locales/constants'
 import { match } from '@formatjs/intl-localematcher'
-import type { LocaleCode } from 'my-locales'
-import { availableLocales } from 'my-locales/constants'
 import Negotiator from 'negotiator'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'

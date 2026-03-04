@@ -1,4 +1,4 @@
-import { ESocialLinks } from 'my-constants'
+import { ESocialLinks } from '@dmythro/constants'
 import type { Viewport } from 'next'
 import BlueSkyIcon from 'src/assets/bluesky.svg'
 import FacebookIcon from 'src/assets/facebook-f.svg'

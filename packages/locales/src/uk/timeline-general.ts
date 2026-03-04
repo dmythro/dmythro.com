@@ -1,4 +1,4 @@
-import type { TimelineItem } from 'src/types'
+import type { TimelineItem } from '../types'
 
 export const generalTimeline: TimelineItem[] = [
   {

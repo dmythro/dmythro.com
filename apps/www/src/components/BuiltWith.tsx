@@ -1,10 +1,10 @@
-import type { LocaleCode } from 'my-locales'
+import type { LocaleCode } from '@dmythro/locales'
 import type { FC } from 'react'
 import type { LangProp } from 'src/types'
 // import { getT } from 'src/utils/getT'
 
-import BuiltWithEn from 'my-locales/mdx/built-with.en.md'
-import BuiltWithUk from 'my-locales/mdx/built-with.uk.md'
+import BuiltWithEn from '@dmythro/locales/mdx/built-with.en.md'
+import BuiltWithUk from '@dmythro/locales/mdx/built-with.uk.md'
 
 const localeData: Record<LocaleCode, unknown> = {
   en: BuiltWithEn,

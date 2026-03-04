@@ -1,5 +1,5 @@
+import type { TimelineItem } from '@dmythro/locales'
 import { Chip } from '@heroui/chip'
-import type { TimelineItem } from 'my-locales'
 import type { FC } from 'react'
 
 import './Timeline.css'

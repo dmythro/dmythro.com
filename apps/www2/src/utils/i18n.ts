@@ -1,5 +1,5 @@
-import type { LocaleCode } from 'my-locales'
-import { availableLocales } from 'my-locales/constants'
+import type { LocaleCode } from '@dmythro/locales'
+import { availableLocales } from '@dmythro/locales/constants'
 
 export { availableLocales }
 export type { LocaleCode }

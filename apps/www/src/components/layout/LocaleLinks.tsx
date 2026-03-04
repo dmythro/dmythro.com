@@ -1,10 +1,10 @@
 'use client'
 
+import { ELocaleNames } from '@dmythro/constants'
+import { availableLocales } from '@dmythro/locales/constants'
 import { DropdownItem, DropdownMenu } from '@heroui/dropdown'
 import { Link } from '@heroui/link'
 import { NavbarMenu, NavbarMenuItem } from '@heroui/navbar'
-import { ELocaleNames } from 'my-constants'
-import { availableLocales } from 'my-locales/constants'
 import type { FC } from 'react'
 import CheckIcon from 'src/assets/check-solid.svg'
 import { useCurrentPath } from 'src/hooks/useCurrentPath'

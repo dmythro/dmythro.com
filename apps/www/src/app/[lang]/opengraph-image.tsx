@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import { USERNAME } from 'my-constants'
+import { USERNAME } from '@dmythro/constants'
 import { ImageResponse } from 'next/og'
 import { SOCIAL_LINKS, SOCIAL_LINKS_WORK } from 'src/constants'
 

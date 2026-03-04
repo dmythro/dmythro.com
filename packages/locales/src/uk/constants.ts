@@ -1,4 +1,4 @@
-import type { SkillLevel } from 'src/types'
+import type { SkillLevel } from '../types'
 
 export const skillLevel: Record<SkillLevel, string> = {
   basic: 'Базовий',

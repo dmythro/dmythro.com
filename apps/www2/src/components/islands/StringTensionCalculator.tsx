@@ -3,7 +3,7 @@ import { Divider } from '@heroui/divider'
 import { Input } from '@heroui/input'
 import { Select, SelectItem } from '@heroui/select'
 import { Tab, Tabs } from '@heroui/tabs'
-import type { Translation } from 'my-locales'
+import type { Translation } from '@dmythro/locales'
 import { type FC, type Key, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import {
