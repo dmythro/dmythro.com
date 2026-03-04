@@ -81,6 +81,25 @@
   padding-right: 16px;
 }
 
+/* Card hover: glow + lift + press */
+.card {
+  transition: all 200ms ease;
+}
+.card:hover {
+  scale: 1.02;
+  box-shadow: 0 10px 15px -3px oklch(0.5457 0.2124 264.05 / 0.1),
+              0 4px 6px -4px oklch(0.5457 0.2124 264.05 / 0.1);
+}
+.card:active {
+  scale: 0.98;
+}
+@media print {
+  .card:hover {
+    scale: 1;
+    box-shadow: none;
+  }
+}
+
 /* Prose typography defaults */
 .prose h2 {
   margin-top: 1.5em;

@@ -1,5 +1,5 @@
 ---
-import { ArrowRight, FileText } from '@lucide/astro'
+import { ArrowRight, FileText, Github, Package } from '@lucide/astro'
 import { ESocialLinks } from '@dmythro/constants'
 
 import type { AggregateStats } from '@/utils/fetchAggregateStats'
@@ -19,33 +19,37 @@ const statItems = [
   {
     value: `${stats.yearsExperience}+`,
     label: t.landing.stats.years,
+    icon: '' as const,
     href: `/${locale}/cv`,
     gradient: 'from-indigo-500/20 to-violet-500/10',
-    border: 'border-indigo-500/30',
+    border: 'border-indigo-500/30 hover:border-indigo-300/70',
     shadow: 'shadow-[0_0_20px_rgba(99,102,241,0.1)]',
   },
   {
     value: `${stats.projectCount}+`,
     label: t.landing.stats.projects,
+    icon: '' as const,
     href: `/${locale}/projects`,
     gradient: 'from-violet-500/20 to-indigo-500/10',
-    border: 'border-violet-500/30',
+    border: 'border-violet-500/30 hover:border-violet-300/70',
     shadow: 'shadow-[0_0_20px_rgba(139,92,246,0.1)]',
   },
   {
     value: `${stats.totalDownloadsFormatted}+`,
     label: t.landing.stats.downloads,
+    icon: 'npm' as const,
     href: 'https://www.npmjs.com/~dmythro',
     gradient: 'from-cyan-500/20 to-indigo-500/10',
-    border: 'border-cyan-500/30',
+    border: 'border-cyan-500/30 hover:border-cyan-300/70',
     shadow: 'shadow-[0_0_20px_rgba(34,211,238,0.1)]',
   },
   {
     value: `${stats.totalStarsFormatted}+`,
     label: t.landing.stats.stars,
+    icon: 'github' as const,
     href: ESocialLinks.github,
     gradient: 'from-indigo-500/20 to-cyan-500/10',
-    border: 'border-indigo-500/30',
+    border: 'border-indigo-500/30 hover:border-indigo-300/70',
     shadow: 'shadow-[0_0_20px_rgba(99,102,241,0.1)]',
   },
 ]
@@ -70,15 +74,14 @@ const statItems = [
 
       {/* Stats grid */}
       <div class="w-full md:w-[380px] md:shrink-0 grid grid-cols-2 gap-3">
-        {statItems.map(({ value, label, href, gradient, border, shadow }) => (
+        {statItems.map(({ value, label, icon, href, gradient, border, shadow }) => (
           <a
             href={href}
             class:list={[
-              'group rounded-xl p-5 transition-all',
+              'card p-5',
               `bg-gradient-to-br ${gradient}`,
               `border ${border}`,
               shadow,
-              'hover:scale-[1.02]',
             ]}
             target={href.startsWith('http') ? '_blank' : undefined}
             rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
@@ -86,9 +89,10 @@ const statItems = [
             <span class="block text-4xl font-extrabold bg-gradient-to-r from-cyan-300 to-indigo-300 bg-clip-text text-transparent">
               {value}
             </span>
-            <span class="flex items-center gap-1 mt-2 text-xs text-indigo-300">
-              {label}
-              <ArrowRight class="h-3 w-3" />
+            <span class="mt-2 text-xs text-indigo-300">
+              {icon === 'npm' && <Package class="h-3.5 w-3.5 inline align-[-0.1875rem]" aria-label="NPM" role="img" /> }
+              {icon === 'github' && <Github class="h-3.5 w-3.5 inline align-[-0.1875rem]" aria-label="GitHub" role="img" /> }
+              {icon && ' '}{label}&nbsp;<ArrowRight class="h-3 w-3 inline align-[-0.125rem]" />
             </span>
           </a>
         ))}
