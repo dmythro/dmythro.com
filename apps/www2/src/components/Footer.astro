@@ -1,4 +1,6 @@
 ---
+import { USERNAME } from '@dmythro/constants'
+
 import { footerLinks } from '@/data/profile'
 import type { LocaleCode } from '@/utils/i18n'
 
@@ -25,10 +27,7 @@ const year = new Date().getFullYear()
       ))}
     </div>
     <div class="text-sm">
-      &copy; {year} &middot;
-      <a href={`/${locale}/built-with`} class="link link-hover">
-        Built with Astro
-      </a>
+      &copy; {year} {USERNAME.replace('@', '')}
     </div>
   </div>
 </footer>
