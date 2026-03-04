@@ -52,14 +52,14 @@ const canonicalUrl = new URL(Astro.url.pathname, BASE_URL)
 
     {/* Theme init — prevent FOUC */}
     <script is:inline>
-      ;(function () {
-        var mode = localStorage.getItem('theme-mode')
+      ;(() => {
+        let mode = localStorage.getItem('theme-mode')
         if (!mode) {
-          var old = localStorage.getItem('theme')
+          const old = localStorage.getItem('theme')
           if (old) { mode = old; localStorage.setItem('theme-mode', old); localStorage.removeItem('theme') }
           else { mode = 'system' }
         }
-        var theme = mode === 'system'
+        const theme = mode === 'system'
           ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
           : mode
         document.documentElement.setAttribute('data-theme', theme)

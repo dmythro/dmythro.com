@@ -1,0 +1,72 @@
+---
+import { ESocialLinks } from '@dmythro/constants'
+import { ExternalLink } from '@lucide/astro'
+
+import PageLayout from '@/layouts/PageLayout.astro'
+import { getT } from '@/utils/getT'
+import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
+
+export function getStaticPaths() {
+  return getStaticLocalePaths()
+}
+
+const { locale } = Astro.params as { locale: LocaleCode }
+const t = getT(locale)
+
+const workLinks = [
+  { title: 'GitHub', href: ESocialLinks.github, description: t.socialMedia[ESocialLinks.github] },
+  { title: 'LinkedIn', href: ESocialLinks.linkedin, description: t.socialMedia[ESocialLinks.linkedin] },
+]
+
+const directLinks = [
+  { title: 'Telegram', href: ESocialLinks.telegram, description: t.socialMedia[ESocialLinks.telegram] },
+]
+
+const personalLinks = [
+  { title: 'BlueSky', href: ESocialLinks.bluesky, description: t.socialMedia[ESocialLinks.bluesky] },
+  { title: 'Threads', href: ESocialLinks.threads, description: t.socialMedia[ESocialLinks.threads] },
+  { title: 'Instagram', href: ESocialLinks.instagram, description: t.socialMedia[ESocialLinks.instagram] },
+  { title: 'Facebook', href: ESocialLinks.facebook, description: t.socialMedia[ESocialLinks.facebook] },
+  { title: 'X / Twitter', href: ESocialLinks.twitter, description: t.socialMedia[ESocialLinks.twitter] },
+  { title: 'Nostr', href: ESocialLinks.nostr, description: t.socialMedia[ESocialLinks.nostr] },
+]
+
+type LinkItem = { title: string; href: string; description: string }
+
+const sections: { heading: string; links: LinkItem[] }[] = [
+  { heading: t.socialMedia.work, links: workLinks },
+  { heading: t.contact.directContact, links: directLinks },
+  { heading: t.socialMedia.personal, links: personalLinks },
+]
+---
+
+<PageLayout locale={locale} title={t.contact.title} description={t.contact.subtitle}>
+  <div class="max-w-2xl mx-auto">
+    <h1 class="text-3xl font-bold mb-2">{t.contact.title}</h1>
+    <p class="text-[var(--color-content-secondary)] mb-8">{t.contact.subtitle}</p>
+
+    {sections.map(({ heading, links }) => (
+      <section class="mb-8">
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-content-muted)] mb-3">
+          {heading}
+        </h2>
+        <div class="flex flex-col gap-2">
+          {links.map(({ title, href, description }) => (
+            <a
+              href={href}
+              target="_blank"
+              rel="me noopener noreferrer"
+              class="group flex items-center gap-4 p-4 rounded-xl border border-base-300 bg-base-100 hover:bg-base-200 transition-colors"
+            >
+              <div class="flex-1 min-w-0">
+                <div class="font-medium">{title}</div>
+                <div class="text-sm text-[var(--color-content-secondary)] truncate">{description}</div>
+              </div>
+              <ExternalLink class="h-4 w-4 text-[var(--color-content-muted)] shrink-0 group-hover:text-primary transition-colors" />
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+</PageLayout>

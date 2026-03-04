@@ -21,6 +21,11 @@ export const en = {
     backHome: 'Back to main page',
     closeMenu: 'Close menu',
     openMenu: 'Open menu',
+    language: 'Language',
+    theme: 'Theme',
+    themeSystem: 'System',
+    themeDark: 'Dark',
+    themeLight: 'Light',
   },
   builtWithTitle: 'Details of This Project',
   builtWith: 'Built with',
@@ -42,6 +47,11 @@ export const en = {
   myStudio: 'My studio, where I do all my work and music',
   fullTimeEmployment: 'Full-time employment',
   openToWork: 'Open to work',
+  contact: {
+    title: 'Contact & Social Media',
+    subtitle: 'Find me on social media or reach out directly.',
+    directContact: 'Direct Contact',
+  },
   socialMedia: {
     title: 'Links & Social Media',
     description: 'Check out my GitHub, LinkedIn or other social media profiles.',
@@ -51,6 +61,12 @@ export const en = {
     [ESocialLinks.github]: 'My open-source projects & activity',
     [ESocialLinks.linkedin]: 'The only up-to-date profile',
     [ESocialLinks.telegram]: 'Direct contact',
+    [ESocialLinks.bluesky]: 'Microblogging & updates',
+    [ESocialLinks.threads]: 'Threads by Meta',
+    [ESocialLinks.instagram]: 'Photos & stories',
+    [ESocialLinks.facebook]: 'Personal profile',
+    [ESocialLinks.twitter]: 'X / Twitter profile',
+    [ESocialLinks.nostr]: 'Decentralized social',
   },
   saveLev: {
     message:
@@ -68,7 +84,8 @@ export const en = {
     projects: 'Projects',
     cv: 'CV',
     tools: 'Tools',
-    contact: 'Contact',
+    faq: 'FAQ',
+    contact: 'Contacts',
   },
   landing: {
     heroDescription: 'I love tech, web development, music, traveling, space and many more.',

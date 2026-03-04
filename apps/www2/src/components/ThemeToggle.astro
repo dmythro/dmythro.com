@@ -24,35 +24,32 @@ import { Monitor, Moon, Sun } from '@lucide/astro'
 </button>
 
 <script is:inline>
-  ;(function () {
+  ;(() => {
     const btn = document.getElementById('theme-toggle')
     if (!btn) return
 
-    function getEffectiveTheme(mode) {
-      if (mode === 'system') {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-      }
-      return mode
-    }
+    const getEffectiveTheme = (mode) =>
+      mode === 'system'
+        ? window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        : mode
 
-    function applyTheme(mode) {
-      var theme = getEffectiveTheme(mode)
+    const applyTheme = (mode) => {
+      const theme = getEffectiveTheme(mode)
       document.documentElement.setAttribute('data-theme', theme)
       document.documentElement.classList.toggle('dark', theme === 'dark')
     }
 
-    function updateIcon(mode) {
-      var icons = btn.querySelectorAll('.theme-icon')
-      for (var i = 0; i < icons.length; i++) {
-        icons[i].classList.add('hidden')
+    const updateIcon = (mode) => {
+      for (const icon of btn.querySelectorAll('.theme-icon')) {
+        icon.classList.add('hidden')
       }
-      btn.querySelector('.theme-icon-' + mode).classList.remove('hidden')
+      btn.querySelector(`.theme-icon-${mode}`)?.classList.remove('hidden')
     }
 
-    var saved = localStorage.getItem('theme-mode') || 'system'
+    let saved = localStorage.getItem('theme-mode') || 'system'
     // Migrate from old 'theme' key
     if (!localStorage.getItem('theme-mode')) {
-      var old = localStorage.getItem('theme')
+      const old = localStorage.getItem('theme')
       if (old) {
         saved = old
         localStorage.setItem('theme-mode', old)
@@ -63,16 +60,15 @@ import { Monitor, Moon, Sun } from '@lucide/astro'
     applyTheme(saved)
     updateIcon(saved)
 
-    var cycle = { system: 'dark', dark: 'light', light: 'system' }
-    btn.addEventListener('click', function () {
+    const cycle = { system: 'dark', dark: 'light', light: 'system' }
+    btn.addEventListener('click', () => {
       saved = cycle[saved] || 'system'
       localStorage.setItem('theme-mode', saved)
       applyTheme(saved)
       updateIcon(saved)
     })
 
-    // Listen for system preference changes when in system mode
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
       if (saved === 'system') applyTheme('system')
     })
   })()

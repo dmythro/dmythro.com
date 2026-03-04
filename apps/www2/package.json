@@ -7,6 +7,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "preview:local": "astro build && bunx --bun serve dist",
     "check": "astro check",
     "check-types": "astro check",
     "clean": "rm -rf dist .astro"
