@@ -1,7 +1,7 @@
 'use client'
 
+import type { InterestKey, InterestLocale } from '@dmythro/locales'
 import { Accordion, AccordionItem } from '@heroui/accordion'
-import type { InterestKey, InterestLocale } from 'my-locales'
 import myStudioImg from 'public/my-studio.webp'
 import type { FC } from 'react'
 import WorkIcon from 'src/assets/briefcase-solid.svg'

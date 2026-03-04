@@ -1,4 +1,4 @@
-import { ESocialLinks } from 'my-constants'
+import { ESocialLinks } from '@dmythro/constants'
 
 import { skillLevel } from './constants'
 import { interests } from './interests'

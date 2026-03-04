@@ -1,4 +1,4 @@
-import { ELocaleNames } from 'my-constants'
+import { ELocaleNames } from '@dmythro/constants'
 
 import type { LocaleCode } from './types'
 

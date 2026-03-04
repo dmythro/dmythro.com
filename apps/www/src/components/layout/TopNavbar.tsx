@@ -1,12 +1,12 @@
 'use client'
 
+import { ELocaleNames, isOpenToWork, USERNAME } from '@dmythro/constants'
 import { Button } from '@heroui/button'
 import { Chip } from '@heroui/chip'
 import { Dropdown, DropdownTrigger } from '@heroui/dropdown'
 import { Navbar, NavbarContent, NavbarMenuToggle } from '@heroui/navbar'
 import { cn } from '@heroui/theme'
 import { User } from '@heroui/user'
-import { ELocaleNames, isOpenToWork, USERNAME } from 'my-constants'
 // import type { ImageProps } from 'next/image'
 // import Image from 'next/image'
 import { type FC, useState } from 'react'

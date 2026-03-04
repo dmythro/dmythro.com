@@ -1,0 +1,22 @@
+{
+  "name": "@dmythro/locales",
+  "version": "0.2.0",
+  "private": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./constants": "./src/constants.ts",
+    "./mdx/*": "./mdx/*"
+  },
+  "license": "MIT",
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@dmythro/constants": "workspace:*"
+  },
+  "devDependencies": {
+    "tsconfig": "workspace:*",
+    "typescript": "5.9.3"
+  }
+}

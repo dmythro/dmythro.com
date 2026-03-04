@@ -1,5 +1,5 @@
+import type { Translation } from '@dmythro/locales'
 import { Tooltip } from '@heroui/tooltip'
-import type { Translation } from 'my-locales'
 import { type FC, useState } from 'react'
 
 import type { InstrumentType } from './string-constants'

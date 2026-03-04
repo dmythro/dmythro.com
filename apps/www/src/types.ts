@@ -1,4 +1,4 @@
-import type { LocaleCode } from 'my-locales'
+import type { LocaleCode } from '@dmythro/locales'
 import type { CSSProperties, FC } from 'react'
 
 export type SvgIconProps = {

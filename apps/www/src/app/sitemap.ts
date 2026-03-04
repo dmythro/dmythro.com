@@ -1,4 +1,4 @@
-import { BASE_URL } from 'my-constants'
+import { BASE_URL } from '@dmythro/constants'
 import type { MetadataRoute } from 'next'
 
 const urls = ['', '/built-with', '/guitars/string-tension']

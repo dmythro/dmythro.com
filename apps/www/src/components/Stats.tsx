@@ -1,7 +1,7 @@
 'use client'
 
+import type { SkillTime } from '@dmythro/locales'
 import { Card, CardBody, CardHeader } from '@heroui/card'
-import type { SkillTime } from 'my-locales'
 import { type FC, useCallback, useRef, useState } from 'react'
 
 interface StatProps {

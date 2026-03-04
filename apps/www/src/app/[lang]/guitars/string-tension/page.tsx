@@ -3,8 +3,8 @@ export const dynamicParams = false
 
 export { viewport } from 'src/constants'
 
-import { USERNAME } from 'my-constants'
-import { availableLocales } from 'my-locales/constants'
+import { USERNAME } from '@dmythro/constants'
+import { availableLocales } from '@dmythro/locales/constants'
 import type { Metadata, ResolvingMetadata } from 'next'
 import { HomeLink } from 'src/components/HomeLink'
 import type { ParamsWithLang } from 'src/types'

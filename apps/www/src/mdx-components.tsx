@@ -1,7 +1,7 @@
+import { BASE_URL } from '@dmythro/constants'
 import { Code } from '@heroui/code'
 import { Link } from '@heroui/link'
 import type { MDXComponents } from 'mdx/types'
-import { BASE_URL } from 'my-constants'
 import GitHubIcon from 'src/assets/github.svg'
 import NpmIcon from 'src/assets/npm.svg'
 import YouTubeIcon from 'src/assets/youtube.svg'
