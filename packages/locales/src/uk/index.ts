@@ -96,10 +96,10 @@ export const uk: Translation = {
     featuredProjects: 'Проєкти',
     viewAll: 'всі →',
     stats: {
-      years: 'Років досвіду',
-      projects: 'Проєктів створено',
-      downloads: 'NPM завантажень/міс',
-      stars: 'GitHub зірок',
+      years: 'років досвіду',
+      projects: 'проєктів створено',
+      downloads: 'завантажень/міс',
+      stars: 'зірок',
     },
   },
   guitars: {

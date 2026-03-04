@@ -37,9 +37,9 @@ const otherProjects = getHighlightedProjects()
   <article class="max-w-3xl mx-auto">
     <div class="mb-6">
       <div class="flex items-center gap-2 mb-2">
-        <span class="badge badge-outline">{project.category}</span>
+        <span class="badge badge-soft badge-primary">{project.category}</span>
         {project.tags.map((tag) => (
-          <span class="badge badge-sm badge-ghost">{tag}</span>
+          <span class="badge badge-sm badge-soft">{tag}</span>
         ))}
       </div>
       <h1 class="text-3xl font-bold mb-2">{title}</h1>
@@ -53,17 +53,17 @@ const otherProjects = getHighlightedProjects()
       <div class="flex gap-2 mt-4">
         {project.url && (
           <a href={project.url} class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">
-            Visit site ↗
+            Visit site&nbsp;<span class="inline-block">↗</span>
           </a>
         )}
         {project.github && (
           <a href={`https://github.com/${project.github}`} class="btn btn-outline btn-sm" target="_blank" rel="noopener noreferrer">
-            GitHub ↗
+            GitHub&nbsp;<span class="inline-block">↗</span>
           </a>
         )}
         {project.npm && (
           <a href={`https://www.npmjs.com/package/${project.npm}`} class="btn btn-outline btn-sm" target="_blank" rel="noopener noreferrer">
-            NPM ↗
+            NPM&nbsp;<span class="inline-block">↗</span>
           </a>
         )}
       </div>
