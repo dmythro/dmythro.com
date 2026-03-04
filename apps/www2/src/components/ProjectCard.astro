@@ -1,5 +1,5 @@
 ---
-import { Package, Star } from '@lucide/astro'
+import { Camera, Globe, Music, Package, Star, Terminal } from '@lucide/astro'
 
 import type { Project } from '@/data/projects'
 import type { GithubStats } from '@/utils/fetchGithubStats'
@@ -14,15 +14,17 @@ interface Props {
   github?: GithubStats | null
 }
 
+const iconMap = { package: Package, globe: Globe, terminal: Terminal, music: Music, camera: Camera } as const
 const { project, locale, npm, github } = Astro.props
 const title = project.title[locale]
+const IconComponent = iconMap[project.icon as keyof typeof iconMap]
 const description = project.description[locale]
 const mainTags = project.tags.slice(0, 2)
 ---
 
 <a
   href={`/${locale}/projects/${project.slug}`}
-  class="card bg-base-100 border border-base-300 shadow-sm hover:shadow-md transition-shadow overflow-hidden"
+  class="card bg-base-100 border border-base-300 hover:border-primary/40 shadow-sm overflow-hidden"
 >
   {project.image && (
     <figure>
@@ -30,29 +32,26 @@ const mainTags = project.tags.slice(0, 2)
     </figure>
   )}
   <div class="card-body p-4 gap-2">
-    <h3 class="card-title text-base">{title}</h3>
-    <p class="text-sm text-base-content/60 line-clamp-2">{description}</p>
+    <h3 class="card-title text-base">
+      {IconComponent && <IconComponent class="h-4 w-4 shrink-0 opacity-60" />}
+      {title}
+    </h3>
+    <p class="text-sm text-base-content/60 line-clamp-4">{description}</p>
 
-    {/* Stats badges */}
-    {(npm || github) && (
-      <div class="flex flex-wrap gap-1.5 mt-1">
-        {npm && npm.downloads > 0 && (
-          <span class="badge badge-sm badge-primary badge-outline gap-1">
-            <Package class="h-3 w-3" /> {formatNumber(npm.downloads)}/mo
-          </span>
-        )}
-        {github && github.stars > 0 && (
-          <span class="badge badge-sm badge-warning badge-outline gap-1">
-            <Star class="h-3 w-3" /> {formatNumber(github.stars)}
-          </span>
-        )}
-      </div>
-    )}
-
-    {/* Tags — only main ones */}
-    <div class="card-actions justify-start mt-1 flex-wrap gap-1">
+    {/* Badges — stats + tags in one line */}
+    <div class="flex flex-wrap gap-1.5 mt-1">
+      {npm && npm.downloads > 0 && (
+        <span class="badge badge-sm badge-soft badge-primary">
+          <Package class="h-3 w-3 inline align-[-0.125rem]" />&nbsp;{formatNumber(npm.downloads)}/mo
+        </span>
+      )}
+      {github && github.stars > 0 && (
+        <span class="badge badge-sm badge-soft badge-warning">
+          <Star class="h-3 w-3 inline align-[-0.125rem]" />&nbsp;{formatNumber(github.stars)}
+        </span>
+      )}
       {mainTags.map((tag) => (
-        <span class="badge badge-sm badge-ghost">{tag}</span>
+        <span class="badge badge-sm badge-soft">{tag}</span>
       ))}
     </div>
   </div>

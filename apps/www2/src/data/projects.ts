@@ -8,6 +8,7 @@ export interface Project {
   description: Record<LocaleCode, string>
   category: ProjectCategory
   tags: string[]
+  icon: string
   npm?: string
   github?: string
   image?: string
@@ -22,13 +23,14 @@ export const projects: Project[] = [
   // annexare pinned repos (bigger, more important)
   {
     slug: 'countries-list',
-    title: { en: 'Countries', uk: 'Countries' },
+    title: { en: 'countries-list', uk: 'countries-list' },
     description: {
       en: 'Countries, Languages & Continents data (capital and currency, native name, calling codes). 1.3K+ stars.',
       uk: 'Дані країн, мов та континентів (столиці, валюти, назви рідною мовою, телефонні коди). 1.3K+ зірок.',
     },
     category: 'dev',
     tags: ['typescript', 'i18n', 'open-source', 'npm'],
+    icon: 'package',
     npm: 'countries-list',
     github: 'annexare/Countries',
     fallbackStars: 1300,
@@ -44,6 +46,7 @@ export const projects: Project[] = [
     },
     category: 'dev',
     tags: ['typescript', 'logging', 'open-source', 'npm'],
+    icon: 'package',
     npm: 'jsonl-logger',
     github: 'annexare/jsonl-logger',
     fallbackStars: 5,
@@ -59,6 +62,7 @@ export const projects: Project[] = [
     },
     category: 'dev',
     tags: ['typescript', 'graphql', 'drizzle', 'react-query'],
+    icon: 'package',
     npm: 'drizzle-graphql-suite',
     github: 'annexare/drizzle-graphql-suite',
     fallbackStars: 10,
@@ -75,6 +79,7 @@ export const projects: Project[] = [
     },
     category: 'dev',
     tags: ['astro', 'tailwind', 'daisyui', 'portfolio'],
+    icon: 'globe',
     github: 'dmythro/dmythro.com',
     fallbackStars: 3,
     url: 'https://dmythro.com',
@@ -90,9 +95,10 @@ export const projects: Project[] = [
     },
     category: 'dev',
     tags: ['shell', 'macos', 'dotfiles', 'setup'],
+    icon: 'terminal',
     github: 'dmythro/terminal-setup',
     fallbackStars: 15,
-    isHighlighted: false,
+    isHighlighted: true,
     sortOrder: 5,
   },
 ]
