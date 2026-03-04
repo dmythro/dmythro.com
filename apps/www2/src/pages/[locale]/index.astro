@@ -1,12 +1,18 @@
 ---
-import PageLayout from '@/layouts/PageLayout.astro'
-import Hero from '@/components/Hero.astro'
-import SupportUkraineCard from '@/components/SupportUkraineCard.astro'
-import SectionAccordion from '@/components/SectionAccordion.astro'
-import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
-import { getT } from '@/utils/getT'
 import { BASE_URL, ESocialLinks, USERNAME } from 'my-constants'
 import type { Person, WithContext } from 'schema-dts'
+
+import SectionBeyondCode from '@/components/SectionBeyondCode.astro'
+import SectionTldr from '@/components/SectionTldr.astro'
+import SectionWork from '@/components/SectionWork.astro'
+import Hero from '@/components/Hero.astro'
+import PageLayout from '@/layouts/PageLayout.astro'
+import { getHighlightedProjects } from '@/data/projects'
+import { fetchAggregateStats } from '@/utils/fetchAggregateStats'
+import { fetchGithubStats } from '@/utils/fetchGithubStats'
+import { fetchNpmStats } from '@/utils/fetchNpmStats'
+import { getT } from '@/utils/getT'
+import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
 
 export function getStaticPaths() {
   return getStaticLocalePaths()
@@ -14,6 +20,16 @@ export function getStaticPaths() {
 
 const { locale } = Astro.params as { locale: LocaleCode }
 const t = getT(locale)
+
+const stats = await fetchAggregateStats()
+const highlightedProjects = getHighlightedProjects()
+const projectStats = await Promise.all(
+  highlightedProjects.map(async (project) => ({
+    project,
+    npm: project.npm ? await fetchNpmStats(project.npm) : null,
+    github: project.github ? await fetchGithubStats(project.github, project.fallbackStars) : null,
+  })),
+)
 
 const personJsonLd: WithContext<Person> = {
   '@context': 'https://schema.org',
@@ -41,17 +57,7 @@ const personJsonLd: WithContext<Person> = {
 >
   <Hero locale={locale} slot="hero" />
 
-  <div class="flex flex-col sm:flex-row-reverse gap-6 md:gap-8 print:flex-col print:block">
-    {/* Sidebar */}
-    <div class="basis-full sm:basis-4/12 sm:sticky sm:self-start sm:top-20 print:relative print:top-auto">
-      <div class="flex flex-col gap-4 print:block">
-        <SupportUkraineCard locale={locale} />
-      </div>
-    </div>
-
-    {/* Main content: accordion sections */}
-    <div class="basis-full sm:basis-8/12 print:block">
-      <SectionAccordion locale={locale} />
-    </div>
-  </div>
+  <SectionTldr locale={locale} stats={stats} />
+  <SectionBeyondCode locale={locale} />
+  <SectionWork locale={locale} projects={projectStats} />
 </PageLayout>

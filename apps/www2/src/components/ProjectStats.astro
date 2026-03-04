@@ -1,4 +1,6 @@
 ---
+import { Package, Star } from '@lucide/astro'
+
 import { formatNumber } from '@/utils/fetchNpmStats'
 
 interface Props {
@@ -12,12 +14,12 @@ const { npmDownloads, githubStars } = Astro.props
 <div class="flex flex-wrap gap-2">
   {npmDownloads !== undefined && npmDownloads > 0 && (
     <span class="badge badge-primary badge-outline gap-1">
-      📦 {formatNumber(npmDownloads)}/mo
+      <Package class="h-3.5 w-3.5" /> {formatNumber(npmDownloads)}/mo
     </span>
   )}
   {githubStars !== undefined && githubStars > 0 && (
     <span class="badge badge-warning badge-outline gap-1">
-      ⭐ {formatNumber(githubStars)}
+      <Star class="h-3.5 w-3.5" /> {formatNumber(githubStars)}
     </span>
   )}
 </div>

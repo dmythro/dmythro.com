@@ -18,17 +18,18 @@ const { locale, title, description, jsonLd, isHeroPage = false } = Astro.props
 <BaseLayout locale={locale} title={title} description={description} jsonLd={jsonLd}>
   <slot name="head" slot="head" />
 
-  <TopNavbar locale={locale} isHeroPage={isHeroPage} />
-
   {isHeroPage ? (
     <slot name="hero" />
-    <main class="container mx-auto max-w-5xl px-4 py-6">
+    <main>
       <slot />
     </main>
   ) : (
-    <main class="container mx-auto max-w-5xl px-4 py-6">
-      <slot />
-    </main>
+    <>
+      <TopNavbar locale={locale} />
+      <main class="container mx-auto max-w-5xl px-4 py-6">
+        <slot />
+      </main>
+    </>
   )}
 
   <Footer locale={locale} />

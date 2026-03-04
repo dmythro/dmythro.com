@@ -15,6 +15,7 @@ export interface Project {
   isHighlighted: boolean
   sortOrder: number
   socialEmbeds?: string[]
+  fallbackStars?: number
 }
 
 export const projects: Project[] = [
@@ -30,6 +31,7 @@ export const projects: Project[] = [
     tags: ['typescript', 'i18n', 'open-source', 'npm'],
     npm: 'countries-list',
     github: 'annexare/Countries',
+    fallbackStars: 1300,
     isHighlighted: true,
     sortOrder: 1,
   },
@@ -44,6 +46,7 @@ export const projects: Project[] = [
     tags: ['typescript', 'logging', 'open-source', 'npm'],
     npm: 'jsonl-logger',
     github: 'annexare/jsonl-logger',
+    fallbackStars: 5,
     isHighlighted: true,
     sortOrder: 2,
   },
@@ -58,6 +61,7 @@ export const projects: Project[] = [
     tags: ['typescript', 'graphql', 'drizzle', 'react-query'],
     npm: 'drizzle-graphql-suite',
     github: 'annexare/drizzle-graphql-suite',
+    fallbackStars: 10,
     isHighlighted: true,
     sortOrder: 3,
   },
@@ -72,6 +76,7 @@ export const projects: Project[] = [
     category: 'dev',
     tags: ['astro', 'tailwind', 'daisyui', 'portfolio'],
     github: 'dmythro/dmythro.com',
+    fallbackStars: 3,
     url: 'https://dmythro.com',
     isHighlighted: true,
     sortOrder: 4,
@@ -86,6 +91,7 @@ export const projects: Project[] = [
     category: 'dev',
     tags: ['shell', 'macos', 'dotfiles', 'setup'],
     github: 'dmythro/terminal-setup',
+    fallbackStars: 15,
     isHighlighted: false,
     sortOrder: 5,
   },

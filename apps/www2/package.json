@@ -12,21 +12,22 @@
     "clean": "rm -rf dist .astro"
   },
   "dependencies": {
-    "astro": "6.0.0-beta.17",
+    "@astrojs/check": "0.9.4",
+    "@astrojs/cloudflare": "12.6.12",
+    "@astrojs/mdx": "4.3.13",
     "@astrojs/react": "4.4.2",
     "@astrojs/sitemap": "3.7.0",
-    "@astrojs/mdx": "4.3.13",
-    "@astrojs/cloudflare": "12.6.12",
-    "@astrojs/check": "0.9.4",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "daisyui": "5.5.19",
-    "tailwindcss": "4.2.1",
+    "@lucide/astro": "0.577.0",
     "@tailwindcss/vite": "4.2.1",
+    "astro": "6.0.0-beta.17",
+    "daisyui": "5.5.19",
+    "dayjs": "1.11.13",
     "my-constants": "workspace:*",
     "my-locales": "workspace:*",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
     "schema-dts": "1.1.5",
-    "dayjs": "1.11.13"
+    "tailwindcss": "4.2.1"
   },
   "devDependencies": {
     "@types/react": "19.1.8",

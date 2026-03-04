@@ -1,5 +1,5 @@
-import { en, uk } from 'my-locales'
 import type { LocaleCode, Translation } from 'my-locales'
+import { en, uk } from 'my-locales'
 
 const locales: Record<LocaleCode, Translation> = { en, uk }
 

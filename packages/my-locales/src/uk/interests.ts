@@ -1,7 +1,4 @@
-import type { InterestKey } from 'src'
-import type { InterestLocale } from 'src/types'
-
-export const interests: Record<InterestKey, InterestLocale> = {
+export const interests = {
   webDev: {
     title: "Веб розробка, кар'єра, освіта",
     description:
@@ -9,17 +6,20 @@ export const interests: Record<InterestKey, InterestLocale> = {
   },
   music: {
     title: 'Музика',
+    subtitle: 'Живий виступ з Nabaath',
     description:
       'Я люблю як слухати так і грати музику, маю невеличкий лейбл звукозапису та колекцію музики на фізичних носіях.',
   },
   travel: {
     title: 'Подорожі',
+    subtitle: 'Автоподорож 2021',
     description:
       'Поїздки на авто, заходи сонця, нічне небо, кемпінг.' +
       " Також огляд визначних пам'яток, музеї, трохи історії та культурного обміну.",
   },
   hobbies: {
     title: 'Хоббі',
+    subtitle: 'Студія та робочий простір',
     description:
       'Технології, пристрої, дизайн, ігри.' +
       ' Розумний будинок (HomeKit, Zigbee), автоматизації.' +

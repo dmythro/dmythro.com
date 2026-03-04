@@ -1,9 +1,11 @@
 ---
-import type { LocaleCode } from '@/utils/i18n'
+import { AtSign, Github, Linkedin, Twitter } from '@lucide/astro'
+
+import { socialLinks } from '@/data/profile'
 import { getT } from '@/utils/getT'
-import { ESocialLinks, USERNAME } from 'my-constants'
-import NavbarLocaleSwitch from './NavbarLocaleSwitch.astro'
-import ThemeToggle from './ThemeToggle.astro'
+import type { LocaleCode } from '@/utils/i18n'
+
+import TopNavbar from './TopNavbar.astro'
 
 interface Props {
   locale: LocaleCode
@@ -12,94 +14,74 @@ interface Props {
 const { locale } = Astro.props
 const t = getT(locale)
 
-const socialLinks = [
-  { title: 'GitHub', href: ESocialLinks.github },
-  { title: 'LinkedIn', href: ESocialLinks.linkedin },
-  { title: 'Telegram', href: ESocialLinks.telegram },
-  { title: 'BlueSky', href: ESocialLinks.bluesky },
-]
+const iconMap: Record<string, typeof Github> = {
+  github: Github,
+  twitter: Twitter,
+  threads: AtSign,
+  linkedin: Linkedin,
+}
 ---
 
+{/* Hero section — navbar height subtracted so hero + navbar = 100dvh */}
 <section
   id="hero-section"
-  class="min-h-[100dvh] flex flex-col relative bg-gradient-to-br from-base-300 via-base-100 to-base-200"
+  class="h-[calc(100dvh-4rem)] flex flex-col items-center justify-center relative bg-gradient-to-br from-base-300 via-base-100 to-base-200 px-4"
 >
-  {/* Hero content — centered */}
-  <div class="flex-1 flex items-center justify-center px-4">
-    <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12 max-w-4xl w-full">
-      {/* Avatar */}
-      <div class="shrink-0">
-        <div class="avatar">
-          <div class="w-48 md:w-56 rounded-full ring ring-primary ring-offset-base-100 ring-offset-4 shadow-2xl">
-            <img
-              src="/avatar@400px.jpg"
-              srcset="/avatar@400px.jpg 400w, /avatar@800px.jpg 800w"
-              sizes="(max-width: 768px) 192px, 224px"
-              alt={t.fullName}
-              loading="eager"
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Text */}
-      <div class="text-center md:text-left">
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-3">
-          {t.fullName}
-        </h1>
-        <p class="text-xl md:text-2xl text-base-content/70 mb-2">
-          {locale === 'uk'
-            ? 'Tech Lead / Principal Engineer'
-            : 'Tech Lead / Principal Engineer'}
-        </p>
-        <p class="text-base text-base-content/50 mb-6 max-w-lg">
-          {locale === 'uk'
-            ? 'Full-stack розробник з 18+ роками досвіду. TypeScript, React, Node.js/Bun, PostgreSQL, Cloud. Будую продукти, керую командами, створюю open-source.'
-            : 'Full-stack developer with 18+ years of experience. TypeScript, React, Node.js/Bun, PostgreSQL, Cloud. Building products, leading teams, creating open-source.'}
-        </p>
-
-        {/* Social links */}
-        <div class="flex flex-wrap gap-2 justify-center md:justify-start">
-          {socialLinks.map(({ title, href }) => (
-            <a
-              href={href}
-              class="btn btn-primary btn-sm shadow-md"
-              target="_blank"
-              rel="me noopener noreferrer"
-            >
-              {title}
-            </a>
-          ))}
+  <div class="flex flex-col items-center text-center gap-6 max-w-2xl w-full">
+    {/* Avatar with glow effect */}
+    <div class="relative" id="hero-avatar">
+      {/* Glow */}
+      <div class="absolute inset-0 scale-[1.4] rounded-full bg-[radial-gradient(circle,rgba(99,102,241,0.25)_0%,rgba(139,92,246,0.15)_40%,transparent_70%)] blur-2xl"></div>
+      {/* Avatar ring */}
+      <div class="relative w-40 h-40 md:w-[180px] md:h-[180px] rounded-full p-[3px] bg-gradient-to-br from-[#6366F1] via-[#8B5CF6] to-[#22D3EE]">
+        <div class="w-full h-full rounded-full overflow-hidden">
+          <img
+            src="/avatar@400px.jpg"
+            srcset="/avatar@400px.jpg 400w, /avatar@800px.jpg 800w"
+            sizes="180px"
+            alt={t.fullName}
+            loading="eager"
+            class="w-full h-full object-cover"
+          />
         </div>
       </div>
     </div>
-  </div>
 
-  {/* Bottom navbar — part of hero, sticks when hero exits */}
-  <nav class="navbar bg-base-100/90 backdrop-blur-sm border-t border-base-300 px-4" id="hero-navbar">
-    <div class="navbar-start">
-      <a href={`/${locale}/`} class="font-semibold text-lg lowercase">
-        <span class="text-base-content/50 font-thin">@</span>{USERNAME.replace('@', '')}
-      </a>
-    </div>
-    <div class="navbar-center hidden md:flex">
-      <ul class="menu menu-horizontal px-1 gap-1">
-        <li><a href={`/${locale}/`}>{locale === 'uk' ? 'Головна' : 'Home'}</a></li>
-        <li><a href={`/${locale}/projects`}>{locale === 'uk' ? 'Проєкти' : 'Projects'}</a></li>
-        <li><a href={`/${locale}/cv`}>CV</a></li>
-        <li><a href={`/${locale}/guitars/string-tension`}>{locale === 'uk' ? 'Інструменти' : 'Tools'}</a></li>
-      </ul>
-    </div>
-    <div class="navbar-end gap-1">
-      <ThemeToggle />
-      <NavbarLocaleSwitch locale={locale} />
-    </div>
-  </nav>
+    {/* Name — gradient text */}
+    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter bg-gradient-to-b from-white via-slate-200 to-indigo-200 bg-clip-text text-transparent">
+      {t.fullName}
+    </h1>
 
-  {/* Scroll indicator */}
-  <div class="absolute bottom-20 left-1/2 -translate-x-1/2 animate-bounce opacity-50">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-    </svg>
+    {/* Role */}
+    <p class="text-lg md:text-[22px] font-medium tracking-widest text-slate-400 uppercase -mt-3">
+      Tech Lead / Principal Engineer
+    </p>
+
+    {/* One-liner */}
+    <p class="text-[15px] text-slate-500 max-w-lg -mt-2">
+      {t.landing.heroDescription}
+    </p>
+
+    {/* Social pills — circle icons, expand to pill with label on hover/focus */}
+    <div class="flex flex-wrap gap-3 justify-center mt-2">
+      {socialLinks.map(({ id, title, href }) => {
+        const Icon = iconMap[id]
+        return (
+          <a
+            href={href}
+            class="social-pill group"
+            target="_blank"
+            rel="me noopener noreferrer"
+            aria-label={title}
+          >
+            {Icon && <Icon class="h-6 w-6 shrink-0" />}
+            <span class="social-pill-label">{title}</span>
+          </a>
+        )
+      })}
+    </div>
   </div>
 </section>
+
+{/* Navbar — right after hero, sticky so it sticks when scrolled to top */}
+<TopNavbar locale={locale} />

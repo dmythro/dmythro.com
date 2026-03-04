@@ -3,18 +3,21 @@ export interface GithubStats {
   repo: string
 }
 
-export async function fetchGithubStats(repo: string): Promise<GithubStats> {
+export async function fetchGithubStats(repo: string, fallbackStars = 0): Promise<GithubStats> {
   try {
-    const res = await fetch(`https://api.github.com/repos/${repo}`, {
-      headers: {
-        Accept: 'application/vnd.github.v3+json',
-        'User-Agent': 'dmythro.com',
-      },
-    })
-    if (!res.ok) return { stars: 0, repo }
+    const headers: Record<string, string> = {
+      Accept: 'application/vnd.github.v3+json',
+      'User-Agent': 'dmythro.com',
+    }
+    const token = import.meta.env.GITHUB_TOKEN || process.env.GITHUB_TOKEN
+    if (token) {
+      headers.Authorization = `Bearer ${token}`
+    }
+    const res = await fetch(`https://api.github.com/repos/${repo}`, { headers })
+    if (!res.ok) return { stars: fallbackStars, repo }
     const data = await res.json()
-    return { stars: data.stargazers_count ?? 0, repo }
+    return { stars: data.stargazers_count ?? fallbackStars, repo }
   } catch {
-    return { stars: 0, repo }
+    return { stars: fallbackStars, repo }
   }
 }

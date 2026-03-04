@@ -1,0 +1,48 @@
+---
+import type { Project } from '@/data/projects'
+import type { GithubStats } from '@/utils/fetchGithubStats'
+import type { NpmStats } from '@/utils/fetchNpmStats'
+import { getT } from '@/utils/getT'
+import type { LocaleCode } from '@/utils/i18n'
+
+import ProjectCard from './ProjectCard.astro'
+import Timeline from './Timeline.astro'
+
+interface ProjectWithStats {
+  project: Project
+  npm: NpmStats | null
+  github: GithubStats | null
+}
+
+interface Props {
+  locale: LocaleCode
+  projects: ProjectWithStats[]
+}
+
+const { locale, projects } = Astro.props
+const t = getT(locale)
+---
+
+<section class="py-16 px-5 md:px-16">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex flex-col-reverse md:grid md:grid-cols-3 gap-8">
+      {/* Timeline — spans 2 columns */}
+      <div class="md:col-span-2">
+        <Timeline title={t.generalTitle} items={t.generalTimeline} />
+      </div>
+
+      {/* Featured Projects */}
+      <div>
+        <div class="flex items-baseline justify-between my-6">
+          <h2 class="font-semibold text-2xl">{t.landing.featuredProjects}</h2>
+          <a href={`/${locale}/projects`} class="text-sm text-indigo-300 font-medium hover:text-indigo-200 transition-colors">{t.landing.viewAll}</a>
+        </div>
+        <div class="flex flex-col gap-4">
+          {projects.map(({ project, npm, github }) => (
+            <ProjectCard project={project} locale={locale} npm={npm} github={github} />
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -4,14 +4,81 @@
 }
 
 @theme {
-  --color-primary: oklch(0.55 0.22 265);
+  /* Primary palette from .pen design tokens */
+  --color-primary: oklch(0.5457 0.2124 264.05);       /* #6366F1 indigo-500 */
   --color-primary-content: oklch(0.98 0.01 265);
-  --color-secondary: oklch(0.55 0.19 285);
+  --color-secondary: oklch(0.5408 0.2222 285.75);      /* #8B5CF6 violet-500 */
   --color-secondary-content: oklch(0.98 0.01 285);
-  --color-accent: oklch(0.75 0.18 80);
+  --color-accent: oklch(0.7896 0.1541 194.77);         /* #22D3EE cyan-400 */
   --color-accent-content: oklch(0.15 0.04 80);
 
   --font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Dark theme overrides */
+[data-theme='dark'] {
+  --color-base-100: #0A0F1C;
+  --color-base-200: #0F172A;
+  --color-base-300: #1E293B;
+  --color-base-content: #FFFFFF;
+  --color-content-secondary: #94A3B8;
+  --color-content-muted: #64748B;
+  --color-border: #1E293B;
+}
+
+/* Light theme overrides */
+[data-theme='light'] {
+  --color-base-100: #FFFFFF;
+  --color-base-200: #F8FAFC;
+  --color-base-300: #F1F5F9;
+  --color-base-content: #0F172A;
+  --color-content-secondary: #64748B;
+  --color-content-muted: #94A3B8;
+  --color-border: #E2E8F0;
+}
+
+/* Social pill — circle that expands to pill on hover/focus.
+   Uses grid-template-columns 0fr→1fr for jank-free intrinsic width animation. */
+.social-pill {
+  display: inline-grid;
+  grid-template-columns: 44px 0fr;
+  align-items: center;
+  height: 44px;
+  border-radius: 9999px;
+  background: linear-gradient(to bottom, #6366F1, #8B5CF6);
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 2px 16px rgba(99, 102, 241, 0.25);
+  transition: grid-template-columns 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 300ms ease;
+  overflow: hidden;
+}
+
+.social-pill:hover,
+.social-pill:focus-visible {
+  grid-template-columns: 44px 1fr;
+  box-shadow: 0 4px 24px rgba(99, 102, 241, 0.35);
+}
+
+.social-pill > svg {
+  grid-column: 1;
+  justify-self: center;
+}
+
+.social-pill-label {
+  overflow: hidden;
+  min-width: 0;
+  padding-right: 0;
+  opacity: 0;
+  transition: opacity 200ms ease, padding-right 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  white-space: nowrap;
+}
+
+.social-pill:hover .social-pill-label,
+.social-pill:focus-visible .social-pill-label {
+  opacity: 1;
+  padding-right: 16px;
 }
 
 /* Prose typography defaults */

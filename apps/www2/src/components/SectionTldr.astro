@@ -1,0 +1,98 @@
+---
+import { ArrowRight, FileText } from '@lucide/astro'
+import { ESocialLinks } from 'my-constants'
+
+import type { AggregateStats } from '@/utils/fetchAggregateStats'
+import { getT } from '@/utils/getT'
+import type { LocaleCode } from '@/utils/i18n'
+
+interface Props {
+  locale: LocaleCode
+  stats: AggregateStats
+}
+
+const { locale, stats } = Astro.props
+const t = getT(locale)
+const paragraphs = t.cv.description(stats.yearsExperience)
+
+const statItems = [
+  {
+    value: `${stats.yearsExperience}+`,
+    label: t.landing.stats.years,
+    href: `/${locale}/cv`,
+    gradient: 'from-indigo-500/20 to-violet-500/10',
+    border: 'border-indigo-500/30',
+    shadow: 'shadow-[0_0_20px_rgba(99,102,241,0.1)]',
+  },
+  {
+    value: `${stats.projectCount}+`,
+    label: t.landing.stats.projects,
+    href: `/${locale}/projects`,
+    gradient: 'from-violet-500/20 to-indigo-500/10',
+    border: 'border-violet-500/30',
+    shadow: 'shadow-[0_0_20px_rgba(139,92,246,0.1)]',
+  },
+  {
+    value: `${stats.totalDownloadsFormatted}+`,
+    label: t.landing.stats.downloads,
+    href: 'https://www.npmjs.com/~dmythro',
+    gradient: 'from-cyan-500/20 to-indigo-500/10',
+    border: 'border-cyan-500/30',
+    shadow: 'shadow-[0_0_20px_rgba(34,211,238,0.1)]',
+  },
+  {
+    value: `${stats.totalStarsFormatted}+`,
+    label: t.landing.stats.stars,
+    href: ESocialLinks.github,
+    gradient: 'from-indigo-500/20 to-cyan-500/10',
+    border: 'border-indigo-500/30',
+    shadow: 'shadow-[0_0_20px_rgba(99,102,241,0.1)]',
+  },
+]
+---
+
+<section class="py-16 px-5 md:px-16">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold mb-8">{t.landing.tldr}</h2>
+    <div class="flex flex-col-reverse md:flex-row gap-8">
+      {/* Text content */}
+      <div class="flex-1 space-y-4">
+        {paragraphs.map((p, i) => (
+          <p class:list={['text-lg leading-relaxed', i === 0 ? 'text-slate-300' : 'text-slate-400']}>
+            {p}
+          </p>
+        ))}
+        <a href={`/${locale}/cv`} class="inline-flex items-center gap-1.5 mt-2 text-indigo-300 font-semibold text-sm hover:text-indigo-200 transition-colors">
+          <FileText class="h-4 w-4" />
+          {t.landing.cvLink}
+        </a>
+      </div>
+
+      {/* Stats grid */}
+      <div class="w-full md:w-[380px] md:shrink-0 grid grid-cols-2 gap-3">
+        {statItems.map(({ value, label, href, gradient, border, shadow }) => (
+          <a
+            href={href}
+            class:list={[
+              'group rounded-xl p-5 transition-all',
+              `bg-gradient-to-br ${gradient}`,
+              `border ${border}`,
+              shadow,
+              'hover:scale-[1.02]',
+            ]}
+            target={href.startsWith('http') ? '_blank' : undefined}
+            rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+          >
+            <span class="block text-4xl font-extrabold bg-gradient-to-r from-cyan-300 to-indigo-300 bg-clip-text text-transparent">
+              {value}
+            </span>
+            <span class="flex items-center gap-1 mt-2 text-xs text-indigo-300">
+              {label}
+              <ArrowRight class="h-3 w-3" />
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
