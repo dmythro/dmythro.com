@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets'
+
+import avatarLarge from '@/assets/avatar@800px.jpg'
 import type { LocaleCode } from '@/utils/i18n'
 import { getT } from '@/utils/getT'
 
@@ -13,14 +16,13 @@ const years = new Date().getFullYear() - 2006
 
 <div>
   <figure class="rounded-xl overflow-hidden shadow-lg">
-    <img
-      src="/avatar@800px.jpg"
-      srcset="/avatar@400px.jpg 400w, /avatar@800px.jpg 800w, /avatar.jpg 1200w"
-      sizes="(max-width: 400px) 400px, (max-width: 800px) 800px, 1200px"
+    <Image
+      src={avatarLarge}
+      widths={[400, 800]}
+      sizes="(max-width: 400px) 400px, 800px"
       alt={t.fullName}
       class="w-full h-auto"
       loading="eager"
-      decoding="async"
     />
     <figcaption class="text-xs text-base-content/50 text-center py-1.5">
       {t.fullName} — 📷 Alina Delyne

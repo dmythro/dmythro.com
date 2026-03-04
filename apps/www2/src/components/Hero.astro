@@ -1,6 +1,9 @@
 ---
-import { AtSign, Github, Linkedin, Twitter } from '@lucide/astro'
+import { Image } from 'astro:assets'
+import { ExternalLink, Info, Linkedin } from '@lucide/astro'
+import { Github, Threads, X } from 'simple-icons-astro'
 
+import avatarImg from '@/assets/avatar@400px.jpg'
 import { socialLinks } from '@/data/profile'
 import { getT } from '@/utils/getT'
 import type { LocaleCode } from '@/utils/i18n'
@@ -14,10 +17,14 @@ interface Props {
 const { locale } = Astro.props
 const t = getT(locale)
 
+const invasionStart = new Date('2022-02-24')
+const today = new Date()
+const daysSinceInvasion = Math.floor((today.getTime() - invasionStart.getTime()) / 86_400_000) + 1
+
 const iconMap: Record<string, typeof Github> = {
   github: Github,
-  twitter: Twitter,
-  threads: AtSign,
+  twitter: X,
+  threads: Threads,
   linkedin: Linkedin,
 }
 ---
@@ -27,17 +34,17 @@ const iconMap: Record<string, typeof Github> = {
   id="hero-section"
   class="h-[calc(100dvh-4rem)] flex flex-col items-center justify-center relative bg-gradient-to-br from-base-300 via-base-100 to-base-200 px-4"
 >
-  <div class="flex flex-col items-center text-center gap-8 max-w-2xl w-full">
+  <div class="flex flex-col items-center text-center gap-10 max-w-2xl w-full">
     {/* Avatar with glow effect */}
     <div class="relative" id="hero-avatar">
       {/* Glow */}
       <div class="absolute inset-0 scale-[1.4] rounded-full bg-[radial-gradient(circle,rgba(99,102,241,0.25)_0%,rgba(139,92,246,0.15)_40%,transparent_70%)] blur-2xl"></div>
       {/* Avatar ring — slow spinning conic gradient */}
-      <div class="avatar-ring relative w-40 h-40 md:w-[180px] md:h-[180px] rounded-full p-[3px]">
+      <div class="avatar-ring relative w-48 h-48 md:w-[256px] md:h-[256px] rounded-full p-[3px]">
         <div class="w-full h-full rounded-full overflow-hidden">
-          <img
-            src="/avatar@400px.jpg"
-            srcset="/avatar@400px.jpg 400w, /avatar@800px.jpg 800w"
+          <Image
+            src={avatarImg}
+            widths={[180, 360]}
             sizes="180px"
             alt={t.fullName}
             loading="eager"
@@ -48,19 +55,45 @@ const iconMap: Record<string, typeof Github> = {
     </div>
 
     {/* Name — gradient text */}
-    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter bg-gradient-to-b from-white via-slate-200 to-indigo-200 bg-clip-text text-transparent">
+    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter bg-gradient-to-b from-base-content via-base-content/80 to-primary/60 bg-clip-text text-transparent px-1">
       {t.fullName}
     </h1>
 
     {/* Role */}
-    <p class="text-lg md:text-[22px] font-medium tracking-widest text-slate-400 uppercase -mt-3">
+    <p class="text-lg md:text-[22px] font-medium tracking-widest text-base-content/60 uppercase -mt-3">
       Tech Lead / Principal Engineer
     </p>
 
     {/* One-liner */}
-    <p class="text-[15px] text-slate-500 max-w-lg -mt-2">
+    <p class="text-[15px] text-base-content/50 max-w-lg -mt-2">
       {t.landing.heroDescription}
     </p>
+
+    {/* Stand with Ukraine — dropdown opening upward */}
+    <div class="dropdown dropdown-top -mt-4">
+      <div tabindex="0" role="button" class="btn btn-soft btn-primary gap-2 px-5 py-2">
+        <Info class="h-4 w-4" />
+        #StandWithUkraine
+        <svg class="h-4 w-6 rounded-sm" viewBox="0 0 60 40" aria-label="Ukrainian flag" role="img">
+          <rect width="60" height="20" fill="#005BBB" />
+          <rect y="20" width="60" height="20" fill="#FFD500" />
+        </svg>
+      </div>
+      <div tabindex="0" class="dropdown-content bg-base-200 border border-base-300 rounded-xl shadow-lg p-4 w-80 mb-2 -translate-x-1/2 left-1/2">
+        <p class="text-sm text-base-content/70 mb-3">
+          {t.supportUkraine.message(daysSinceInvasion)}
+        </p>
+        <a
+          href="https://war.ukraine.ua/support-ukraine/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1 text-sm text-primary hover:text-primary/80 transition-colors"
+        >
+          {t.supportUkraine.linkTitle}
+          <ExternalLink class="h-3.5 w-3.5" />
+        </a>
+      </div>
+    </div>
 
     {/* Social pills — circle icons, expand to pill with label on hover/focus */}
     <div class="flex flex-wrap gap-3 justify-center mt-2">

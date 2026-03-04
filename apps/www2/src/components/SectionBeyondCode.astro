@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets'
 import { Gamepad2, Headphones, MapPin } from '@lucide/astro'
 
 import { profileImages } from '@/data/profile'
@@ -43,8 +44,8 @@ const cards = [
     <p class="text-base-content/60 mb-8">{t.landing.beyondCodeSubtitle}</p>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       {cards.map(({ image, title, subtitle, description, Icon }) => (
-        <div class="relative h-[280px] md:h-[360px] rounded-xl border border-[#1E293B] overflow-hidden group">
-          <img
+        <div class="relative h-[280px] md:h-[360px] rounded-xl border border-base-300 overflow-hidden group">
+          <Image
             src={image}
             alt={title}
             class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -52,16 +53,16 @@ const cards = [
           />
           {/* Caption pill */}
           <div class="absolute inset-x-0 bottom-0 p-4">
-            <div class="rounded-lg backdrop-blur-xl bg-[#0A0F1C]/[0.73] p-3.5 px-4 flex items-start gap-2.5">
+            <div class="rounded-lg backdrop-blur-3xl bg-[#0A0F1C]/50 p-3.5 px-4 flex items-start gap-2.5">
               <div class="shrink-0 mt-0.5 w-4">
                 <Icon class="h-4 w-4 text-indigo-300" />
               </div>
               <div class="min-w-0">
                 <p class="text-xs leading-tight">
-                  <span class="font-bold text-slate-100">{title}</span>
-                  {subtitle && <span class="text-[#94A3B8]"> · {subtitle}</span>}
+                  <span class="font-bold text-neutral-content">{title}</span>
+                  {subtitle && <span class="text-neutral-content/60"> · {subtitle}</span>}
                 </p>
-                <p class="text-[13px] leading-relaxed text-slate-300 mt-1 line-clamp-2">{description}</p>
+                <p class="text-xs leading-relaxed text-neutral-content/70 mt-1 line-clamp-2">{description}</p>
               </div>
             </div>
           </div>

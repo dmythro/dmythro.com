@@ -4,6 +4,9 @@ import type { InterestKey, InterestLocale } from '@dmythro/locales'
 import { getT } from '@/utils/getT'
 import type { LocaleCode } from '@/utils/i18n'
 
+import { Image } from 'astro:assets'
+
+import studioImg from '@/assets/my-studio.webp'
 import Links from './Links.astro'
 import Stats from './Stats.astro'
 import Timeline from './Timeline.astro'
@@ -73,12 +76,11 @@ const sections = interestList.map((interestKey) => {
         {interestKey === 'webDev' && (
           <>
             <figure class="my-4 rounded-lg overflow-hidden">
-              <img
-                src="/my-studio.webp"
+              <Image
+                src={studioImg}
                 alt={t.myStudio}
                 class="w-full h-auto rounded-lg"
                 loading="lazy"
-                decoding="async"
               />
               <figcaption class="text-xs text-base-content/50 text-center py-1">
                 {t.myStudio}

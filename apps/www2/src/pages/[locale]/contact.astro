@@ -1,6 +1,15 @@
 ---
 import { ESocialLinks } from '@dmythro/constants'
-import { ExternalLink } from '@lucide/astro'
+import { Hash, Linkedin as LucideLinkedin } from '@lucide/astro'
+import {
+  Bluesky,
+  Facebook,
+  Github,
+  Instagram,
+  Telegram,
+  Threads,
+  X,
+} from 'simple-icons-astro'
 
 import PageLayout from '@/layouts/PageLayout.astro'
 import { getT } from '@/utils/getT'
@@ -14,24 +23,24 @@ const { locale } = Astro.params as { locale: LocaleCode }
 const t = getT(locale)
 
 const workLinks = [
-  { title: 'GitHub', href: ESocialLinks.github, description: t.socialMedia[ESocialLinks.github] },
-  { title: 'LinkedIn', href: ESocialLinks.linkedin, description: t.socialMedia[ESocialLinks.linkedin] },
+  { title: 'GitHub', href: ESocialLinks.github, description: t.socialMedia[ESocialLinks.github], Icon: Github, color: 'currentColor' },
+  { title: 'LinkedIn', href: ESocialLinks.linkedin, description: t.socialMedia[ESocialLinks.linkedin], Icon: LucideLinkedin, color: '#0A66C2' },
 ]
 
 const directLinks = [
-  { title: 'Telegram', href: ESocialLinks.telegram, description: t.socialMedia[ESocialLinks.telegram] },
+  { title: 'Telegram', href: ESocialLinks.telegram, description: t.socialMedia[ESocialLinks.telegram], Icon: Telegram, color: '#26A5E4' },
 ]
 
 const personalLinks = [
-  { title: 'BlueSky', href: ESocialLinks.bluesky, description: t.socialMedia[ESocialLinks.bluesky] },
-  { title: 'Threads', href: ESocialLinks.threads, description: t.socialMedia[ESocialLinks.threads] },
-  { title: 'Instagram', href: ESocialLinks.instagram, description: t.socialMedia[ESocialLinks.instagram] },
-  { title: 'Facebook', href: ESocialLinks.facebook, description: t.socialMedia[ESocialLinks.facebook] },
-  { title: 'X / Twitter', href: ESocialLinks.twitter, description: t.socialMedia[ESocialLinks.twitter] },
-  { title: 'Nostr', href: ESocialLinks.nostr, description: t.socialMedia[ESocialLinks.nostr] },
+  { title: 'BlueSky', href: ESocialLinks.bluesky, description: t.socialMedia[ESocialLinks.bluesky], Icon: Bluesky, color: '#0285FF' },
+  { title: 'Threads', href: ESocialLinks.threads, description: t.socialMedia[ESocialLinks.threads], Icon: Threads, color: 'currentColor' },
+  { title: 'Instagram', href: ESocialLinks.instagram, description: t.socialMedia[ESocialLinks.instagram], Icon: Instagram, color: '#E4405F' },
+  { title: 'Facebook', href: ESocialLinks.facebook, description: t.socialMedia[ESocialLinks.facebook], Icon: Facebook, color: '#0866FF' },
+  { title: 'X / Twitter', href: ESocialLinks.twitter, description: t.socialMedia[ESocialLinks.twitter], Icon: X, color: 'currentColor' },
+  { title: 'Nostr', href: ESocialLinks.nostr, description: t.socialMedia[ESocialLinks.nostr], Icon: Hash, color: '#8B5CF6' },
 ]
 
-type LinkItem = { title: string; href: string; description: string }
+type LinkItem = { title: string; href: string; description: string; Icon: typeof Github; color: string }
 
 const sections: { heading: string; links: LinkItem[] }[] = [
   { heading: t.socialMedia.work, links: workLinks },
@@ -41,7 +50,7 @@ const sections: { heading: string; links: LinkItem[] }[] = [
 ---
 
 <PageLayout locale={locale} title={t.contact.title} description={t.contact.subtitle}>
-  <div class="max-w-2xl mx-auto">
+  <div class="max-w-3xl mx-auto">
     <h1 class="text-3xl font-bold mb-2">{t.contact.title}</h1>
     <p class="text-[var(--color-content-secondary)] mb-8">{t.contact.subtitle}</p>
 
@@ -50,19 +59,21 @@ const sections: { heading: string; links: LinkItem[] }[] = [
         <h2 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-content-muted)] mb-3">
           {heading}
         </h2>
-        <div class="flex flex-col gap-2">
-          {links.map(({ title, href, description }) => (
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {links.map(({ title, href, description, Icon, color }) => (
             <a
               href={href}
               target="_blank"
               rel="me noopener noreferrer"
               class="group flex items-center gap-4 p-4 rounded-xl border border-base-300 bg-base-100 hover:bg-base-200 transition-colors"
             >
+              <div class="shrink-0">
+                <Icon class="h-10 w-10" style={`color: ${color}`} />
+              </div>
               <div class="flex-1 min-w-0">
                 <div class="font-medium">{title}</div>
                 <div class="text-sm text-[var(--color-content-secondary)] truncate">{description}</div>
               </div>
-              <ExternalLink class="h-4 w-4 text-[var(--color-content-muted)] shrink-0 group-hover:text-primary transition-colors" />
             </a>
           ))}
         </div>
