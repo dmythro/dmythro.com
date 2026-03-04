@@ -5,9 +5,7 @@ export interface NpmStats {
 
 export async function fetchNpmStats(packageName: string): Promise<NpmStats> {
   try {
-    const res = await fetch(
-      `https://api.npmjs.org/downloads/point/last-month/${packageName}`,
-    )
+    const res = await fetch(`https://api.npmjs.org/downloads/point/last-month/${packageName}`)
     if (!res.ok) return { downloads: 0, package: packageName }
     const data = await res.json()
     return { downloads: data.downloads ?? 0, package: packageName }

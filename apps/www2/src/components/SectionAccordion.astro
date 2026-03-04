@@ -1,10 +1,12 @@
 ---
-import type { LocaleCode } from '@/utils/i18n'
 import type { InterestKey, InterestLocale } from 'my-locales'
+
 import { getT } from '@/utils/getT'
+import type { LocaleCode } from '@/utils/i18n'
+
+import Links from './Links.astro'
 import Stats from './Stats.astro'
 import Timeline from './Timeline.astro'
-import Links from './Links.astro'
 
 interface Props {
   locale: LocaleCode

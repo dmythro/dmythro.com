@@ -1,7 +1,8 @@
 ---
+import { BASE_URL } from 'my-constants'
+
 import type { LocaleCode } from '@/utils/i18n'
 import { availableLocales } from '@/utils/i18n'
-import { BASE_URL } from 'my-constants'
 import '@/styles/global.css'
 
 interface Props {
@@ -52,9 +53,15 @@ const canonicalUrl = new URL(Astro.url.pathname, BASE_URL)
     {/* Theme init — prevent FOUC */}
     <script is:inline>
       ;(function () {
-        const saved = localStorage.getItem('theme')
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-        const theme = saved || (prefersDark ? 'dark' : 'light')
+        var mode = localStorage.getItem('theme-mode')
+        if (!mode) {
+          var old = localStorage.getItem('theme')
+          if (old) { mode = old; localStorage.setItem('theme-mode', old); localStorage.removeItem('theme') }
+          else { mode = 'system' }
+        }
+        var theme = mode === 'system'
+          ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : mode
         document.documentElement.setAttribute('data-theme', theme)
         if (theme === 'dark') document.documentElement.classList.add('dark')
       })()

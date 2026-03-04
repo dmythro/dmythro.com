@@ -8,17 +8,20 @@ export const interests = {
   },
   music: {
     title: 'Music',
+    subtitle: 'Live show with Nabaath',
     description:
       'I love both listening and playing music, have a small record label and record collection.',
   },
   travel: {
     title: 'Travel',
+    subtitle: 'Road trip 2021',
     description:
       'Car trips, sunsets, night skies, camping.' +
       ' Also sightseeing, museums, a bit of history and culture.',
   },
   hobbies: {
     title: 'Hobbies',
+    subtitle: 'Studio & workspace',
     description:
       'Tech, gear, design, games.' +
       ' Smart home (HomeKit, Zigbee), automations.' +

@@ -1,5 +1,6 @@
 ---
 import type { TimelineItem } from 'my-locales'
+
 import TimelineBlock from './TimelineBlock.astro'
 
 interface Props {
@@ -16,9 +17,9 @@ const { title, items } = Astro.props
       {title}
     </h2>
   )}
-  <div class="-my-4">
-    {items.map((item) => (
-      <TimelineBlock item={item} />
+  <ul class="timeline timeline-vertical timeline-compact">
+    {items.map((item, i) => (
+      <TimelineBlock item={item} isLast={i === items.length - 1} />
     ))}
-  </div>
+  </ul>
 </section>

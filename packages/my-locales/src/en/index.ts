@@ -14,7 +14,7 @@ export const en = {
   meta: {
     description:
       'My name is Dmytro and I love tech, web development, music, traveling, space and many more.',
-    descriptionShort: 'Web Dev, Music, Travel',
+    descriptionShort: 'Web Dev, Tech, Music, Travel',
     keywords: 'Web Dev, Music, Travel, Dmytro Klymenko, profile, CV, resume, LinkedIn, GitHub',
   },
   actions: {
@@ -62,6 +62,29 @@ export const en = {
     message: (day: number) =>
       `I was born and live in Ukraine. Now, my country is under a full-scale invasion by russia. Today is Day ${day} of fight for democracy, our existense and freedom 🇺🇦`,
     linkTitle: 'Find out how you can help',
+  },
+  nav: {
+    home: 'Home',
+    projects: 'Projects',
+    cv: 'CV',
+    tools: 'Tools',
+    contact: 'Contact',
+  },
+  landing: {
+    heroDescription: 'I love tech, web development, music, traveling, space and many more.',
+
+    tldr: 'TL;DR',
+    cvLink: 'Read full CV →',
+    beyondCode: 'Beyond Code',
+    beyondCodeSubtitle: 'Music, travel, and everything else that keeps me going.',
+    featuredProjects: 'Projects',
+    viewAll: 'view all →',
+    stats: {
+      years: 'Years of experience',
+      projects: 'Projects built',
+      downloads: 'NPM downloads/mo',
+      stars: 'GitHub stars',
+    },
   },
   guitars: {
     stringTension: {

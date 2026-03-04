@@ -25,7 +25,7 @@ const description = project.description[locale]
 
 // Fetch stats at build time
 const npmStats = project.npm ? await fetchNpmStats(project.npm) : null
-const githubStats = project.github ? await fetchGithubStats(project.github) : null
+const githubStats = project.github ? await fetchGithubStats(project.github, project.fallbackStars) : null
 
 // Other highlighted projects for cross-linking
 const otherProjects = getHighlightedProjects()
@@ -63,7 +63,7 @@ const otherProjects = getHighlightedProjects()
         )}
         {project.npm && (
           <a href={`https://www.npmjs.com/package/${project.npm}`} class="btn btn-outline btn-sm" target="_blank" rel="noopener noreferrer">
-            npm ↗
+            NPM ↗
           </a>
         )}
       </div>

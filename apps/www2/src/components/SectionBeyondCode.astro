@@ -1,0 +1,72 @@
+---
+import { Gamepad2, Headphones, MapPin } from '@lucide/astro'
+
+import { profileImages } from '@/data/profile'
+import { getT } from '@/utils/getT'
+import type { LocaleCode } from '@/utils/i18n'
+
+interface Props {
+  locale: LocaleCode
+}
+
+const { locale } = Astro.props
+const t = getT(locale)
+
+const cards = [
+  {
+    image: profileImages.music,
+    title: t.interests.music.title,
+    subtitle: t.interests.music.subtitle,
+    description: t.interests.music.description,
+    Icon: Headphones,
+  },
+  {
+    image: profileImages.travel,
+    title: t.interests.travel.title,
+    subtitle: t.interests.travel.subtitle,
+    description: t.interests.travel.description,
+    Icon: MapPin,
+  },
+  {
+    image: profileImages.studio,
+    title: t.interests.hobbies.title,
+    subtitle: t.interests.hobbies.subtitle,
+    description: t.interests.hobbies.description,
+    Icon: Gamepad2,
+  },
+]
+---
+
+<section class="py-16 px-5 md:px-16 bg-base-200/30">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold mb-2">{t.landing.beyondCode}</h2>
+    <p class="text-base-content/60 mb-8">{t.landing.beyondCodeSubtitle}</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {cards.map(({ image, title, subtitle, description, Icon }) => (
+        <div class="relative h-[280px] md:h-[360px] rounded-xl border border-[#1E293B] overflow-hidden group">
+          <img
+            src={image}
+            alt={title}
+            class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            loading="lazy"
+          />
+          {/* Caption pill */}
+          <div class="absolute inset-x-0 bottom-0 p-4">
+            <div class="rounded-lg backdrop-blur-xl bg-[#0A0F1C]/[0.73] p-3.5 px-4 flex items-start gap-2.5">
+              <div class="shrink-0 mt-0.5 w-4">
+                <Icon class="h-4 w-4 text-indigo-300" />
+              </div>
+              <div class="min-w-0">
+                <p class="text-xs leading-tight">
+                  <span class="font-bold text-slate-100">{title}</span>
+                  {subtitle && <span class="text-[#94A3B8]"> · {subtitle}</span>}
+                </p>
+                <p class="text-[13px] leading-relaxed text-slate-300 mt-1 line-clamp-2">{description}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -2,6 +2,7 @@ export type LocaleCode = 'en' | 'uk'
 
 export type InterestLocale = {
   title: string
+  subtitle?: string
   description: string
   tldr?: string
   text?: string[]

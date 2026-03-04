@@ -14,6 +14,7 @@
       "!**/next-env.d.ts",
       "!data/test",
       "!node_modules",
+      "!**/.astro",
       "!!**/.next",
       "!!**/dist",
       "!!**/next-env.d.ts",
@@ -83,11 +84,32 @@
         "useNumberNamespace": "error",
         "noInferrableTypes": "error",
         "noUselessElse": "error",
-        "noHeadElement": "error"
+        "noHeadElement": "error",
+        "noNonNullAssertion": "off"
       },
       "performance": {
         "noImgElement": "info"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.astro"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedImports": "off",
+            "noUnusedVariables": "off"
+          }
+        }
+      },
+      "assist": {
+        "actions": {
+          "source": {
+            "organizeImports": "off"
+          }
+        }
+      }
+    }
+  ]
 }
