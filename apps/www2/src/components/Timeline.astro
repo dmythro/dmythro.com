@@ -17,9 +17,9 @@ const { title, items } = Astro.props
       {title}
     </h2>
   )}
-  <ul class="timeline timeline-vertical timeline-compact">
+  <ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
     {items.map((item, i) => (
-      <TimelineBlock item={item} isLast={i === items.length - 1} />
+      <TimelineBlock item={item} index={i} isLast={i === items.length - 1} />
     ))}
   </ul>
 </section>

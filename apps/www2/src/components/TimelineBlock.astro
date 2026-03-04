@@ -1,51 +1,73 @@
 ---
+import { CircleCheck } from '@lucide/astro'
 import type { TimelineItem } from '@dmythro/locales'
 
 interface Props {
   item: TimelineItem
+  index: number
   isLast?: boolean
 }
 
-const { item, isLast = false } = Astro.props
+const { item, index, isLast = false } = Astro.props
 const { title, subtitle, description, when, till, where, isHighlighted } = item
-
-if ((!when && !till) || (!title && !subtitle && !description)) {
-  return
-}
+const isEven = index % 2 === 0
+const skip = (!when && !till) || (!title && !subtitle && !description)
+const timeStr = when && till ? `${when} – ${till}` : (when || till)
 ---
 
-<li>
-  <hr class="bg-primary/30" />
-  <div class="timeline-start text-sm font-semibold text-base-content/60 min-w-20 text-right print:break-after-avoid">
-    {when && till ? (
-      <span>{when} – {till}</span>
+{!skip && (
+  <li>
+    {index > 0 && <hr class:list={[isHighlighted ? 'bg-primary' : 'bg-primary/30']} />}
+    <div class="timeline-middle">
+      <CircleCheck class:list={['h-5 w-5', isHighlighted ? 'text-primary' : 'text-base-content/30']} />
+    </div>
+    {isEven ? (
+      <div class="timeline-start mb-10 md:text-end print:break-after-avoid">
+        <time class="font-mono italic text-sm text-base-content/60">{timeStr}</time>
+        {title && (
+          <div class:list={['text-lg print:break-after-avoid', isHighlighted ? 'font-black text-primary' : 'font-bold']}>
+            {title}
+          </div>
+        )}
+        {subtitle && (
+          <div class="text-sm font-medium text-base-content/80 print:break-after-avoid">
+            {subtitle}
+            {where && <span class="font-light"> – {where}</span>}
+          </div>
+        )}
+        {description && (
+          <div class="text-sm text-base-content/60 mt-1">
+            {Array.isArray(description)
+              ? description.map((line) => <p class="my-1">{line}</p>)
+              : description
+            }
+          </div>
+        )}
+      </div>
     ) : (
-      when || till
-    )}
-  </div>
-  <div class="timeline-middle">
-    <div class:list={['w-3 h-3 rounded-full', isHighlighted ? 'bg-primary' : 'bg-base-300']}></div>
-  </div>
-  <div class="timeline-end timeline-box border-base-300 bg-base-200/50">
-    {title && (
-      <h3 class:list={['text-base mb-0.5 print:break-after-avoid', isHighlighted ? 'font-bold text-primary' : 'font-medium']}>
-        {title}
-      </h3>
-    )}
-    {subtitle && (
-      <h4 class="text-sm font-medium text-base-content/80 print:break-after-avoid">
-        {subtitle}
-        {where && <span class="font-light"> – {where}</span>}
-      </h4>
-    )}
-    {description && (
-      <div class="text-sm text-base-content/60 mt-1">
-        {Array.isArray(description)
-          ? description.map((line) => <p class="my-1">{line}</p>)
-          : description
-        }
+      <div class="timeline-end md:mb-10 print:break-after-avoid">
+        <time class="font-mono italic text-sm text-base-content/60">{timeStr}</time>
+        {title && (
+          <div class:list={['text-lg print:break-after-avoid', isHighlighted ? 'font-black text-primary' : 'font-bold']}>
+            {title}
+          </div>
+        )}
+        {subtitle && (
+          <div class="text-sm font-medium text-base-content/80 print:break-after-avoid">
+            {subtitle}
+            {where && <span class="font-light"> – {where}</span>}
+          </div>
+        )}
+        {description && (
+          <div class="text-sm text-base-content/60 mt-1">
+            {Array.isArray(description)
+              ? description.map((line) => <p class="my-1">{line}</p>)
+              : description
+            }
+          </div>
+        )}
       </div>
     )}
-  </div>
-  {!isLast && <hr class="bg-primary/30" />}
-</li>
+    {!isLast && <hr class:list={[isHighlighted ? 'bg-primary' : 'bg-primary/30']} />}
+  </li>
+)}
