@@ -27,13 +27,13 @@ const iconMap: Record<string, typeof Github> = {
   id="hero-section"
   class="h-[calc(100dvh-4rem)] flex flex-col items-center justify-center relative bg-gradient-to-br from-base-300 via-base-100 to-base-200 px-4"
 >
-  <div class="flex flex-col items-center text-center gap-6 max-w-2xl w-full">
+  <div class="flex flex-col items-center text-center gap-8 max-w-2xl w-full">
     {/* Avatar with glow effect */}
     <div class="relative" id="hero-avatar">
       {/* Glow */}
       <div class="absolute inset-0 scale-[1.4] rounded-full bg-[radial-gradient(circle,rgba(99,102,241,0.25)_0%,rgba(139,92,246,0.15)_40%,transparent_70%)] blur-2xl"></div>
-      {/* Avatar ring */}
-      <div class="relative w-40 h-40 md:w-[180px] md:h-[180px] rounded-full p-[3px] bg-gradient-to-br from-[#6366F1] via-[#8B5CF6] to-[#22D3EE]">
+      {/* Avatar ring — slow spinning conic gradient */}
+      <div class="avatar-ring relative w-40 h-40 md:w-[180px] md:h-[180px] rounded-full p-[3px]">
         <div class="w-full h-full rounded-full overflow-hidden">
           <img
             src="/avatar@400px.jpg"
@@ -82,6 +82,38 @@ const iconMap: Record<string, typeof Github> = {
     </div>
   </div>
 </section>
+
+<style>
+  @property --ring-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  .avatar-ring {
+    background: conic-gradient(
+      from var(--ring-angle),
+      #6366F1,
+      #8B5CF6,
+      #22D3EE,
+      #6366F1
+    );
+    animation: ring-spin 6s linear infinite;
+  }
+
+  @keyframes ring-spin {
+    to {
+      --ring-angle: 360deg;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .avatar-ring {
+      animation: none;
+      background: conic-gradient(from 0deg, #6366F1, #8B5CF6, #22D3EE, #6366F1);
+    }
+  }
+</style>
 
 {/* Navbar — right after hero, sticky so it sticks when scrolled to top */}
 <TopNavbar locale={locale} />

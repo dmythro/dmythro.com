@@ -97,10 +97,10 @@ export const en = {
     featuredProjects: 'Projects',
     viewAll: 'view all →',
     stats: {
-      years: 'Years of experience',
-      projects: 'Projects built',
-      downloads: 'NPM downloads/mo',
-      stars: 'GitHub stars',
+      years: 'years of experience',
+      projects: 'projects built',
+      downloads: 'downloads/mo',
+      stars: 'stars',
     },
   },
   guitars: {
