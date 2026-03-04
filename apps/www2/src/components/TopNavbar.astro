@@ -1,6 +1,9 @@
 ---
+import { Image } from 'astro:assets'
 import { ArrowDown, ChevronRight, CircleQuestionMark, FileText, FolderOpen, House, Mail, Menu } from '@lucide/astro'
 import { ELocaleNames, USERNAME } from '@dmythro/constants'
+
+import avatarSmall from '@/assets/avatar@40px.webp'
 
 import { getT } from '@/utils/getT'
 import { availableLocales, type LocaleCode } from '@/utils/i18n'
@@ -14,10 +17,10 @@ interface Props {
 const { locale } = Astro.props
 const t = getT(locale)
 const currentPath = Astro.url.pathname
-const localePathSuffix = currentPath.replace(`/${locale}`, '') || '/'
+const localePathSuffix = currentPath.replace(`/${locale}`, '') || ''
 
 const navItems = [
-  { id: 'home', label: t.nav.home, href: `/${locale}/`, Icon: House },
+  { id: 'home', label: t.nav.home, href: `/${locale}`, Icon: House },
   { id: 'projects', label: t.nav.projects, href: `/${locale}/projects`, Icon: FolderOpen },
   { id: 'cv', label: t.nav.cv, href: `/${locale}/cv`, Icon: FileText },
   { id: 'faq', label: t.nav.faq, href: `/${locale}/faq`, Icon: CircleQuestionMark },
@@ -25,8 +28,8 @@ const navItems = [
 ]
 
 function isActive(href: string): boolean {
-  if (href.endsWith('/')) {
-    return currentPath === href
+  if (href === `/${locale}`) {
+    return currentPath === href || currentPath === `${href}/`
   }
   return currentPath.startsWith(href)
 }
@@ -48,13 +51,13 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
 
   <div class="flex items-center justify-between h-16 px-4 md:px-16">
     {/* Identity — left */}
-    <a href={`/${locale}/`} class="flex items-center gap-3 shrink-0 overflow-hidden">
+    <a href={`/${locale}`} class="flex items-center gap-3 shrink-0 overflow-hidden">
       {/* Avatar — collapses when hero avatar is visible */}
       <div
         id="navbar-avatar-wrap"
         class="w-11 h-11 rounded-full overflow-hidden border-2 border-indigo-300 shrink-0 transition-all duration-300 ease-out"
       >
-        <img src="/avatar@40px.webp" alt={USERNAME} width="44" height="44" class="w-full h-full object-cover" />
+        <Image src={avatarSmall} alt={USERNAME} width={44} height={44} class="w-full h-full object-cover" />
       </div>
       <div class="flex flex-col gap-0.5">
         <span class="text-lg font-semibold lowercase leading-tight">
@@ -133,8 +136,8 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
 <div
   id="burger-menu"
   popover="manual"
-  class="dropdown w-[280px] rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.375)] backdrop-blur-2xl border border-[oklch(0.35_0.04_260/0.5)] p-0 m-0"
-  style="position-anchor:--burger-btn; background: oklch(0.12 0.02 260 / 0.55);"
+  class="dropdown w-[280px] rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.15)] backdrop-blur-2xl border border-base-300 bg-base-200/90 p-0 m-0"
+  style="position-anchor:--burger-btn;"
 >
   {/* Nav links */}
   <nav class="p-2">
@@ -146,8 +149,8 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
           class:list={[
             'flex items-center gap-3 px-3 h-12 rounded-lg transition-colors',
             active
-              ? 'bg-[#1E293B80] text-primary'
-              : 'text-base-content hover:bg-[#1E293B40]',
+              ? 'bg-base-300/50 text-primary'
+              : 'text-base-content hover:bg-base-300/25',
           ]}
         >
           <Icon class:list={['h-[18px] w-[18px]', active ? 'text-primary' : 'text-[var(--color-content-secondary)]']} />
@@ -159,7 +162,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
   </nav>
 
   {/* Divider */}
-  <div class="mx-3 border-t border-[oklch(0.4_0.02_260/0.4)]"></div>
+  <div class="mx-3 border-t border-base-300"></div>
 
   {/* Language section */}
   <div class="p-2">
@@ -174,7 +177,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
           hreflang={loc}
           class:list={[
             'flex items-center gap-3 px-3 h-10 rounded-lg transition-colors',
-            isCurrentLocale ? 'text-base-content' : 'text-[var(--color-content-secondary)] hover:bg-[#1E293B40]',
+            isCurrentLocale ? 'text-base-content' : 'text-[var(--color-content-secondary)] hover:bg-base-300/25',
           ]}
         >
           <span class:list={[
@@ -190,7 +193,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
   </div>
 
   {/* Divider */}
-  <div class="mx-3 border-t border-[oklch(0.4_0.02_260/0.4)]"></div>
+  <div class="mx-3 border-t border-base-300"></div>
 
   {/* Theme section */}
   <div class="p-2 pb-3" id="burger-theme-section">
@@ -207,7 +210,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
         <button
           type="button"
           data-theme-mode={mode}
-          class="burger-theme-btn flex items-center gap-3 px-3 h-10 rounded-lg transition-colors text-[var(--color-content-secondary)] hover:bg-[#1E293B40] w-full text-left"
+          class="burger-theme-btn flex items-center gap-3 px-3 h-10 rounded-lg transition-colors text-[var(--color-content-secondary)] hover:bg-base-300/25 w-full text-left"
         >
           <span class="burger-theme-dot w-4 h-4 rounded-full border-2 border-[var(--color-content-muted)] flex items-center justify-center shrink-0">
           </span>

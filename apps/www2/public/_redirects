@@ -1,0 +1,2 @@
+# Strip trailing slashes → canonical non-slash URLs
+/:splat/ /:splat 301

@@ -1,5 +1,9 @@
 import { ESocialLinks } from '@dmythro/constants'
 
+import musicImg from '@/assets/me-live.webp'
+import travelImg from '@/assets/road-trip.webp'
+import studioImg from '@/assets/my-studio.webp'
+
 export const socialLinks = [
   {
     id: 'github',
@@ -8,7 +12,7 @@ export const socialLinks = [
   },
   {
     id: 'twitter',
-    title: 'X',
+    title: 'X / Twitter',
     href: ESocialLinks.twitter,
   },
   {
@@ -24,17 +28,14 @@ export const socialLinks = [
 ] as const
 
 export const profileImages = {
-  avatar: '/avatar@400px.jpg',
-  avatarSmall: '/avatar@40px.webp',
-  avatarLarge: '/avatar@800px.jpg',
-  music: '/me-live.webp',
-  travel: '/road-trip.webp',
-  studio: '/my-studio.webp',
-} as const
+  music: musicImg,
+  travel: travelImg,
+  studio: studioImg,
+}
 
 export const footerLinks = [
   { id: 'github', title: 'GitHub', href: ESocialLinks.github },
-  { id: 'twitter', title: 'X', href: ESocialLinks.twitter },
+  { id: 'twitter', title: 'X / Twitter', href: ESocialLinks.twitter },
   { id: 'threads', title: 'Threads', href: ESocialLinks.threads },
   { id: 'linkedin', title: 'LinkedIn', href: ESocialLinks.linkedin },
 ] as const

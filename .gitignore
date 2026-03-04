@@ -33,6 +33,9 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# astro
+.astro/
+
 # tools & CLI
 .turbo
 .vercel

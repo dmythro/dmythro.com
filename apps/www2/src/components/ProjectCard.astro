@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets'
 import { Camera, Globe, Music, Package, Star, Terminal } from '@lucide/astro'
 
 import type { Project } from '@/data/projects'
@@ -28,7 +29,7 @@ const mainTags = project.tags.slice(0, 2)
 >
   {project.image && (
     <figure>
-      <img src={project.image} alt={title} class="w-full h-40 object-cover" loading="lazy" />
+      <Image src={project.image} alt={title} class="w-full h-40 object-cover" loading="lazy" inferSize />
     </figure>
   )}
   <div class="card-body p-4 gap-2">

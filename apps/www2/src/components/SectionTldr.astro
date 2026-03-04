@@ -21,8 +21,8 @@ const statItems = [
     label: t.landing.stats.years,
     icon: '' as const,
     href: `/${locale}/cv`,
-    gradient: 'from-indigo-500/20 to-violet-500/10',
-    border: 'border-indigo-500/30 hover:border-indigo-300/70',
+    gradient: 'from-primary/15 to-secondary/10',
+    border: 'border-primary/20 hover:border-primary/50',
     shadow: 'shadow-[0_0_20px_rgba(99,102,241,0.1)]',
   },
   {
@@ -30,8 +30,8 @@ const statItems = [
     label: t.landing.stats.projects,
     icon: '' as const,
     href: `/${locale}/projects`,
-    gradient: 'from-violet-500/20 to-indigo-500/10',
-    border: 'border-violet-500/30 hover:border-violet-300/70',
+    gradient: 'from-secondary/15 to-primary/10',
+    border: 'border-secondary/20 hover:border-secondary/50',
     shadow: 'shadow-[0_0_20px_rgba(139,92,246,0.1)]',
   },
   {
@@ -39,8 +39,8 @@ const statItems = [
     label: t.landing.stats.downloads,
     icon: 'npm' as const,
     href: 'https://www.npmjs.com/~dmythro',
-    gradient: 'from-cyan-500/20 to-indigo-500/10',
-    border: 'border-cyan-500/30 hover:border-cyan-300/70',
+    gradient: 'from-accent/15 to-primary/10',
+    border: 'border-accent/20 hover:border-accent/50',
     shadow: 'shadow-[0_0_20px_rgba(34,211,238,0.1)]',
   },
   {
@@ -48,8 +48,8 @@ const statItems = [
     label: t.landing.stats.stars,
     icon: 'github' as const,
     href: ESocialLinks.github,
-    gradient: 'from-indigo-500/20 to-cyan-500/10',
-    border: 'border-indigo-500/30 hover:border-indigo-300/70',
+    gradient: 'from-primary/15 to-accent/10',
+    border: 'border-primary/20 hover:border-primary/50',
     shadow: 'shadow-[0_0_20px_rgba(99,102,241,0.1)]',
   },
 ]
@@ -62,11 +62,11 @@ const statItems = [
       {/* Text content */}
       <div class="flex-1 space-y-4">
         {paragraphs.map((p, i) => (
-          <p class:list={['text-lg leading-relaxed', i === 0 ? 'text-slate-300' : 'text-slate-400']}>
+          <p class:list={['text-lg leading-relaxed', i === 0 ? 'text-base-content/80' : 'text-base-content/60']}>
             {p}
           </p>
         ))}
-        <a href={`/${locale}/cv`} class="inline-flex items-center gap-1.5 mt-2 text-indigo-300 font-semibold text-sm hover:text-indigo-200 transition-colors">
+        <a href={`/${locale}/cv`} class="inline-flex items-center gap-1.5 mt-2 text-primary font-semibold text-sm hover:text-primary/80 transition-colors">
           <FileText class="h-4 w-4" />
           {t.landing.cvLink}
         </a>
@@ -86,10 +86,10 @@ const statItems = [
             target={href.startsWith('http') ? '_blank' : undefined}
             rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
           >
-            <span class="block text-4xl font-extrabold bg-gradient-to-r from-cyan-300 to-indigo-300 bg-clip-text text-transparent">
+            <span class="block text-4xl font-extrabold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               {value}
             </span>
-            <span class="mt-2 text-xs text-indigo-300">
+            <span class="mt-2 text-xs text-primary/70">
               {icon === 'npm' && <Package class="h-3.5 w-3.5 inline align-[-0.1875rem]" aria-label="NPM" role="img" /> }
               {icon === 'github' && <Github class="h-3.5 w-3.5 inline align-[-0.1875rem]" aria-label="GitHub" role="img" /> }
               {icon && ' '}{label}&nbsp;<ArrowRight class="h-3 w-3 inline align-[-0.125rem]" />
