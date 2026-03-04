@@ -101,6 +101,22 @@
   margin-top: 0.25em;
 }
 
+/* Burger menu popover — position below anchor button, blurred backdrop */
+#burger-menu {
+  position-area: bottom span-left;
+  margin-top: 0.5rem;
+}
+
+#burger-menu::backdrop {
+  background: transparent;
+}
+
+#burger-backdrop {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
 /* Print styles */
 @media print {
   .no-print {

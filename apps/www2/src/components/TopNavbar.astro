@@ -1,10 +1,9 @@
 ---
-import { ArrowDown, FileText, FolderOpen, House, Mail, Menu, X } from '@lucide/astro'
-import { USERNAME } from '@dmythro/constants'
+import { ArrowDown, ChevronRight, CircleQuestionMark, FileText, FolderOpen, House, Mail, Menu } from '@lucide/astro'
+import { ELocaleNames, USERNAME } from '@dmythro/constants'
 
 import { getT } from '@/utils/getT'
 import { availableLocales, type LocaleCode } from '@/utils/i18n'
-import { ELocaleNames } from '@dmythro/constants'
 
 import ThemeToggle from './ThemeToggle.astro'
 
@@ -21,6 +20,7 @@ const navItems = [
   { id: 'home', label: t.nav.home, href: `/${locale}/`, Icon: House },
   { id: 'projects', label: t.nav.projects, href: `/${locale}/projects`, Icon: FolderOpen },
   { id: 'cv', label: t.nav.cv, href: `/${locale}/cv`, Icon: FileText },
+  { id: 'faq', label: t.nav.faq, href: `/${locale}/faq`, Icon: CircleQuestionMark },
   { id: 'contact', label: t.nav.contact, href: `/${locale}/contact`, Icon: Mail },
 ]
 
@@ -38,8 +38,6 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
   class="bg-base-200 backdrop-blur-xl border-b border-[var(--color-border,theme(colors.base-300))] z-50 no-print sticky top-0"
   id="main-navbar"
 >
-  <input id="nav-drawer" type="checkbox" class="hidden peer" />
-
   {/* Scroll hint — pulsing arrow, visible only when hero avatar is on screen */}
   <div
     id="navbar-scroll-hint"
@@ -116,47 +114,119 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
       </div>
     </div>
 
-    {/* Mobile: hamburger */}
-    <label for="nav-drawer" class="btn btn-ghost btn-square lg:hidden" aria-label={t.actions.openMenu}>
+    {/* Mobile: hamburger — uses Popover API for click-outside-to-close */}
+    <button
+      id="burger-toggle"
+      class="btn btn-ghost btn-square lg:hidden"
+      aria-label={t.actions.openMenu}
+      style="anchor-name:--burger-btn"
+    >
       <Menu class="h-5 w-5" />
-    </label>
-  </div>
-
-  {/* Mobile drawer */}
-  <div class="fixed inset-0 z-40 hidden peer-checked:block lg:hidden">
-    <label for="nav-drawer" class="fixed inset-0 bg-black/30"></label>
-    <div class="fixed right-0 top-0 h-full w-64 bg-base-100 shadow-xl p-4">
-      <label for="nav-drawer" class="btn btn-ghost btn-sm btn-square float-right mb-4" aria-label={t.actions.closeMenu}>
-        <X class="h-5 w-5" />
-      </label>
-      <ul class="menu w-full clear-both gap-1">
-        {navItems.map(({ label, href, Icon }) => (
-          <li>
-            <a href={href} class:list={['gap-1.5', isActive(href) && 'active']}>
-              <Icon class="h-4 w-4" />
-              {label}
-            </a>
-          </li>
-        ))}
-        <li class="mt-2 border-t border-base-300 pt-2">
-          <a href={`/${otherLocale}${localePathSuffix}`} hreflang={otherLocale}>
-            {ELocaleNames[otherLocale]}
-          </a>
-        </li>
-      </ul>
-    </div>
+    </button>
   </div>
 </header>
 
+{/* Backdrop — captures clicks so they don't pass through to page elements */}
+<div id="burger-backdrop" class="fixed inset-0 z-[999] hidden"></div>
+
+{/* Mobile menu — popover renders in top layer, no stacking context issues */}
+<div
+  id="burger-menu"
+  popover="manual"
+  class="dropdown w-[280px] rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.375)] backdrop-blur-2xl border border-[oklch(0.35_0.04_260/0.5)] p-0 m-0"
+  style="position-anchor:--burger-btn; background: oklch(0.12 0.02 260 / 0.55);"
+>
+  {/* Nav links */}
+  <nav class="p-2">
+    {navItems.filter(({ id }) => id !== 'home').map(({ label, href, Icon }) => {
+      const active = isActive(href)
+      return (
+        <a
+          href={href}
+          class:list={[
+            'flex items-center gap-3 px-3 h-12 rounded-lg transition-colors',
+            active
+              ? 'bg-[#1E293B80] text-primary'
+              : 'text-base-content hover:bg-[#1E293B40]',
+          ]}
+        >
+          <Icon class:list={['h-[18px] w-[18px]', active ? 'text-primary' : 'text-[var(--color-content-secondary)]']} />
+          <span class="flex-1 text-sm font-medium">{label}</span>
+          <ChevronRight class="h-4 w-4 text-[var(--color-content-muted)]" />
+        </a>
+      )
+    })}
+  </nav>
+
+  {/* Divider */}
+  <div class="mx-3 border-t border-[oklch(0.4_0.02_260/0.4)]"></div>
+
+  {/* Language section */}
+  <div class="p-2">
+    <div class="px-3 py-1.5 text-xs font-medium text-[var(--color-content-muted)] uppercase tracking-wider">
+      {t.actions.language}
+    </div>
+    {availableLocales.map((loc) => {
+      const isCurrentLocale = loc === locale
+      return (
+        <a
+          href={isCurrentLocale ? undefined : `/${loc}${localePathSuffix}`}
+          hreflang={loc}
+          class:list={[
+            'flex items-center gap-3 px-3 h-10 rounded-lg transition-colors',
+            isCurrentLocale ? 'text-base-content' : 'text-[var(--color-content-secondary)] hover:bg-[#1E293B40]',
+          ]}
+        >
+          <span class:list={[
+            'w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0',
+            isCurrentLocale ? 'border-primary' : 'border-[var(--color-content-muted)]',
+          ]}>
+            {isCurrentLocale && <span class="w-2 h-2 rounded-full bg-primary"></span>}
+          </span>
+          <span class="text-sm">{ELocaleNames[loc]}</span>
+        </a>
+      )
+    })}
+  </div>
+
+  {/* Divider */}
+  <div class="mx-3 border-t border-[oklch(0.4_0.02_260/0.4)]"></div>
+
+  {/* Theme section */}
+  <div class="p-2 pb-3" id="burger-theme-section">
+    <div class="px-3 py-1.5 text-xs font-medium text-[var(--color-content-muted)] uppercase tracking-wider">
+      {t.actions.theme}
+    </div>
+    {(['system', 'dark', 'light'] as const).map((mode) => {
+      const labels = {
+        system: t.actions.themeSystem,
+        dark: t.actions.themeDark,
+        light: t.actions.themeLight,
+      }
+      return (
+        <button
+          type="button"
+          data-theme-mode={mode}
+          class="burger-theme-btn flex items-center gap-3 px-3 h-10 rounded-lg transition-colors text-[var(--color-content-secondary)] hover:bg-[#1E293B40] w-full text-left"
+        >
+          <span class="burger-theme-dot w-4 h-4 rounded-full border-2 border-[var(--color-content-muted)] flex items-center justify-center shrink-0">
+          </span>
+          <span class="text-sm">{labels[mode]}</span>
+        </button>
+      )
+    })}
+  </div>
+</div>
+
 {/* Show/hide navbar avatar + scroll hint based on hero avatar visibility */}
 <script is:inline>
-  ;(function () {
-    var wrap = document.getElementById('navbar-avatar-wrap')
-    var hint = document.getElementById('navbar-scroll-hint')
-    var heroAvatar = document.getElementById('hero-avatar')
+  ;(() => {
+    const wrap = document.getElementById('navbar-avatar-wrap')
+    const hint = document.getElementById('navbar-scroll-hint')
+    const heroAvatar = document.getElementById('hero-avatar')
     if (!wrap) return
 
-    function hideAvatar() {
+    const hideAvatar = () => {
       wrap.style.width = '0'
       wrap.style.opacity = '0'
       wrap.style.borderWidth = '0'
@@ -164,7 +234,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
       if (hint) hint.style.opacity = '0.6'
     }
 
-    function showAvatar() {
+    const showAvatar = () => {
       wrap.style.width = ''
       wrap.style.opacity = ''
       wrap.style.borderWidth = ''
@@ -177,19 +247,112 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
       return
     }
 
-    // Start hidden (hero avatar is visible on load)
     hideAvatar()
 
-    var observer = new IntersectionObserver(
-      function (entries) {
-        if (entries[0].isIntersecting) {
-          hideAvatar()
-        } else {
-          showAvatar()
-        }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) hideAvatar()
+        else showAvatar()
       },
-      { threshold: 0 }
+      { threshold: 0 },
     )
     observer.observe(heroAvatar)
+  })()
+</script>
+
+{/* Burger menu — manual popover open/close with backdrop */}
+<script is:inline>
+  ;(() => {
+    const menu = document.getElementById('burger-menu')
+    const backdrop = document.getElementById('burger-backdrop')
+    const toggleBtn = document.getElementById('burger-toggle')
+    if (!menu || !backdrop || !toggleBtn) return
+
+    const open = () => {
+      backdrop.classList.remove('hidden')
+      menu.showPopover()
+    }
+
+    const close = () => {
+      backdrop.classList.add('hidden')
+      menu.hidePopover()
+    }
+
+    toggleBtn.addEventListener('click', (e) => {
+      e.preventDefault()
+      if (menu.matches(':popover-open')) close()
+      else open()
+    })
+
+    backdrop.addEventListener('click', (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      close()
+    })
+
+    menu.addEventListener('toggle', (e) => {
+      if (e.newState === 'closed') backdrop.classList.add('hidden')
+    })
+
+    for (const link of menu.querySelectorAll('a[href]')) {
+      link.addEventListener('click', () => close())
+    }
+  })()
+</script>
+
+{/* Burger menu theme switcher */}
+<script is:inline>
+  ;(() => {
+    const buttons = document.querySelectorAll('.burger-theme-btn')
+    if (!buttons.length) return
+
+    const getEffectiveTheme = (mode) =>
+      mode === 'system'
+        ? window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        : mode
+
+    const applyTheme = (mode) => {
+      const theme = getEffectiveTheme(mode)
+      document.documentElement.setAttribute('data-theme', theme)
+      document.documentElement.classList.toggle('dark', theme === 'dark')
+    }
+
+    const PRIMARY = 'oklch(0.5457 0.2124 264.05)'
+
+    const updateBurgerDots = (currentMode) => {
+      for (const btn of buttons) {
+        const mode = btn.getAttribute('data-theme-mode')
+        const dot = btn.querySelector('.burger-theme-dot')
+        if (mode === currentMode) {
+          dot.style.borderColor = PRIMARY
+          dot.innerHTML = `<span class="w-2 h-2 rounded-full" style="background:${PRIMARY}"></span>`
+        } else {
+          dot.style.borderColor = ''
+          dot.innerHTML = ''
+        }
+      }
+    }
+
+    const updateThemeToggleIcon = (mode) => {
+      const toggle = document.getElementById('theme-toggle')
+      if (!toggle) return
+      for (const icon of toggle.querySelectorAll('.theme-icon')) {
+        icon.classList.add('hidden')
+      }
+      toggle.querySelector(`.theme-icon-${mode}`)?.classList.remove('hidden')
+    }
+
+    const saved = localStorage.getItem('theme-mode') || 'system'
+    updateBurgerDots(saved)
+
+    for (const btn of buttons) {
+      btn.addEventListener('click', () => {
+        const mode = btn.getAttribute('data-theme-mode')
+        localStorage.setItem('theme-mode', mode)
+        applyTheme(mode)
+        updateBurgerDots(mode)
+        updateThemeToggleIcon(mode)
+      })
+    }
   })()
 </script>
