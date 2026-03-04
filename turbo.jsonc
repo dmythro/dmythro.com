@@ -18,6 +18,14 @@
       "dependsOn": ["my-constants#build", "my-locales#build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "!public/cv*.pdf"]
     },
+    "www2#build": {
+      "dependsOn": ["check", "my-constants#build", "my-locales#build"],
+      "outputs": ["dist/**", ".astro/**"]
+    },
+    "www2#dev": {
+      "cache": false,
+      "persistent": true
+    },
     "build": {
       "dependsOn": ["check", "^build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "!public/cv.*.pdf"]
