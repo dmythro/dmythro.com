@@ -3,6 +3,10 @@
   themes: light --default, dark --prefersdark;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @theme {
   /* Primary palette from .pen design tokens */
   --color-primary: oklch(0.5457 0.2124 264.05);       /* #6366F1 indigo-500 */
