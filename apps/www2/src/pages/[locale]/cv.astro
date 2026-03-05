@@ -1,7 +1,8 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro'
+import CvArticle from '@/components/CvArticle.astro'
+import CvToc from '@/components/CvToc.astro'
 import PhotoCard from '@/components/PhotoCard.astro'
-import SectionAccordion from '@/components/SectionAccordion.astro'
 import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
 import { getT } from '@/utils/getT'
 
@@ -17,12 +18,13 @@ const t = getT(locale)
   locale={locale}
   title={`CV — ${t.fullName}`}
   description={t.meta.description}
+  fullWidth
 >
-  <div class="flex flex-col sm:flex-row-reverse gap-6 md:gap-8 print:flex-col print:block">
-    {/* Sidebar: photo */}
-    <div class="basis-full sm:basis-5/12 sm:sticky sm:self-start sm:top-20 print:relative print:top-auto print:max-w-[60%] print:mx-auto print:mt-4">
+  <div class="flex gap-8 md:gap-10 print:block">
+    {/* Sticky sidebar: photo + ToC */}
+    <aside class="hidden md:block w-[250px] shrink-0 sticky top-20 self-start print:hidden" aria-label="CV sidebar">
       <PhotoCard locale={locale} />
-      <div class="mt-4 no-print">
+      <div class="mt-4">
         <a
           href={`/cv.${locale}.pdf`}
           class="btn btn-outline btn-sm w-full"
@@ -31,11 +33,22 @@ const t = getT(locale)
           {locale === 'uk' ? 'Завантажити PDF' : 'Download PDF'}
         </a>
       </div>
-    </div>
+      <div class="mt-6">
+        <CvToc locale={locale} />
+      </div>
+    </aside>
 
-    {/* Main: all sections expanded */}
-    <div class="basis-full sm:basis-7/12 print:block">
-      <SectionAccordion locale={locale} isExpanded={true} />
+    {/* Main content */}
+    <div class="flex-1 min-w-0 print:block">
+      {/* Print-only photo */}
+      <div class="hidden print:block print:max-w-[60%] print:mx-auto print:mb-6">
+        <PhotoCard locale={locale} />
+      </div>
+
+      <h1 class="text-3xl font-bold mb-2">{`CV — ${t.fullName}`}</h1>
+      <p class="text-base-content/60 mb-10">{t.meta.descriptionShort}</p>
+
+      <CvArticle locale={locale} />
     </div>
   </div>
 </PageLayout>

@@ -11,7 +11,7 @@ const { item, isExpanded } = Astro.props
 
 <div class="card bg-base-100 border border-base-300 hover:border-primary/40 shadow-sm print:break-inside-avoid-page print:shadow-none cursor-pointer">
   <div class="card-body p-4">
-    <h3 class="card-title text-base">{item.title}</h3>
+    <p class="card-title text-base">{item.title}</p>
     <p class="text-sm text-base-content/60">{item.subtitle}</p>
     {isExpanded && (
       <p class="text-sm print:text-sm mt-1">

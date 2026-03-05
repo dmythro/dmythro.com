@@ -20,6 +20,7 @@ const cards = [
     subtitle: t.interests.music.subtitle,
     description: t.interests.music.description,
     Icon: Headphones,
+    href: `/${locale}/cv#music`,
   },
   {
     image: profileImages.travel,
@@ -27,6 +28,7 @@ const cards = [
     subtitle: t.interests.travel.subtitle,
     description: t.interests.travel.description,
     Icon: MapPin,
+    href: `/${locale}/cv#travel`,
   },
   {
     image: profileImages.studio,
@@ -34,6 +36,7 @@ const cards = [
     subtitle: t.interests.hobbies.subtitle,
     description: t.interests.hobbies.description,
     Icon: Gamepad2,
+    href: `/${locale}/cv#hobbies`,
   },
 ]
 ---
@@ -43,8 +46,8 @@ const cards = [
     <h2 class="text-3xl font-bold mb-2">{t.landing.beyondCode}</h2>
     <p class="text-base-content/60 mb-8">{t.landing.beyondCodeSubtitle}</p>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {cards.map(({ image, title, subtitle, description, Icon }) => (
-        <div class="relative h-[280px] md:h-[360px] rounded-xl border border-base-300 overflow-hidden group">
+      {cards.map(({ image, title, subtitle, description, Icon, href }) => (
+        <a href={href} class="relative h-[280px] md:h-[360px] rounded-xl border border-base-300 overflow-hidden group block">
           <Image
             src={image}
             alt={title}
@@ -66,7 +69,7 @@ const cards = [
               </div>
             </div>
           </div>
-        </div>
+        </a>
       ))}
     </div>
   </div>
