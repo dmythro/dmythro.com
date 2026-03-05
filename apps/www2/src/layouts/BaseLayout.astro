@@ -31,6 +31,10 @@ const canonicalUrl = new URL(Astro.url.pathname, BASE_URL)
     <meta property="og:url" content={canonicalUrl.href} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content={`${BASE_URL}/avatar@og.jpg`} />
+    <meta property="og:locale" content={locale === 'uk' ? 'uk_UA' : 'en_US'} />
+    {availableLocales.filter((l) => l !== locale).map((l) => (
+      <meta property="og:locale:alternate" content={l === 'uk' ? 'uk_UA' : 'en_US'} />
+    ))}
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@dmythro" />
 
