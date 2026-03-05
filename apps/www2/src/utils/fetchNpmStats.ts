@@ -3,15 +3,25 @@ export interface NpmStats {
   package: string
 }
 
-export async function fetchNpmStats(packageName: string): Promise<NpmStats> {
-  try {
-    const res = await fetch(`https://api.npmjs.org/downloads/point/last-month/${packageName}`)
-    if (!res.ok) return { downloads: 0, package: packageName }
-    const data = await res.json()
-    return { downloads: data.downloads ?? 0, package: packageName }
-  } catch {
-    return { downloads: 0, package: packageName }
-  }
+const cache = new Map<string, Promise<NpmStats>>()
+
+export function fetchNpmStats(packageName: string): Promise<NpmStats> {
+  const cached = cache.get(packageName)
+  if (cached) return cached
+
+  const promise = (async () => {
+    try {
+      const res = await fetch(`https://api.npmjs.org/downloads/point/last-month/${packageName}`)
+      if (!res.ok) return { downloads: 0, package: packageName }
+      const data = await res.json()
+      return { downloads: data.downloads ?? 0, package: packageName }
+    } catch {
+      return { downloads: 0, package: packageName }
+    }
+  })()
+
+  cache.set(packageName, promise)
+  return promise
 }
 
 export function formatNumber(num: number): string {
