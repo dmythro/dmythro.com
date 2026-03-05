@@ -4,9 +4,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks'
 
 import { RichSelect } from './RichSelect'
 import {
+  BASS_TUNINGS,
   DEFAULT_BASS_GAUGES,
   DEFAULT_PRESETS,
   GAUGE_OPTIONS,
+  GUITAR_TUNINGS,
   type InstrumentType,
   NOTE_FREQUENCIES,
   PRESETS,
@@ -364,11 +366,11 @@ export const StringTensionCalculator: FunctionComponent<StringTensionCalculatorP
               value={tuning}
               onChange={handleTuningChange}
             >
-              <option value="e">{t.tunings.e}</option>
-              <option value="e-drop-d">{t.tunings['e-drop-d']}</option>
-              <option value="eb">{t.tunings.eb}</option>
-              <option value="d">{t.tunings.d}</option>
-              <option value="b">{t.tunings.b}</option>
+              {Object.keys(type === 'guitar' ? GUITAR_TUNINGS : BASS_TUNINGS).map((key) => (
+                <option key={key} value={key}>
+                  {t.tunings[key as keyof typeof t.tunings]}
+                </option>
+              ))}
             </select>
           </label>
 
