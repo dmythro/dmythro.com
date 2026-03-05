@@ -1,14 +1,13 @@
 ---
 import { Camera, ExternalLink, Github, Globe, Music, Package, Terminal } from '@lucide/astro'
-
-import PageLayout from '@/layouts/PageLayout.astro'
 import ProjectCard from '@/components/ProjectCard.astro'
 import ProjectStats from '@/components/ProjectStats.astro'
-import { projects, getHighlightedProjects } from '@/data/projects'
-import { availableLocales, type LocaleCode } from '@/utils/i18n'
-import { getT } from '@/utils/getT'
-import { fetchNpmStats } from '@/utils/fetchNpmStats'
+import { getHighlightedProjects, projects } from '@/data/projects'
+import PageLayout from '@/layouts/PageLayout.astro'
 import { fetchGithubStats } from '@/utils/fetchGithubStats'
+import { fetchNpmStats } from '@/utils/fetchNpmStats'
+import { getT } from '@/utils/getT'
+import { availableLocales, type LocaleCode } from '@/utils/i18n'
 
 export function getStaticPaths() {
   return projects.flatMap((project) =>

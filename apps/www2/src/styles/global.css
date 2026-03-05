@@ -1,6 +1,8 @@
 @import 'tailwindcss';
-@plugin "daisyui" {
-  themes: light --default, dark --prefersdark;
+@plugin 'daisyui' {
+  themes:
+    light --default,
+    dark --prefersdark;
 }
 
 html {
@@ -9,11 +11,11 @@ html {
 
 @theme inline {
   /* Primary palette from .pen design tokens */
-  --color-primary: oklch(0.5457 0.2124 264.05);       /* #6366F1 indigo-500 */
+  --color-primary: oklch(0.5457 0.2124 264.05); /* #6366F1 indigo-500 */
   --color-primary-content: oklch(0.98 0.01 265);
-  --color-secondary: oklch(0.5408 0.2222 285.75);      /* #8B5CF6 violet-500 */
+  --color-secondary: oklch(0.5408 0.2222 285.75); /* #8B5CF6 violet-500 */
   --color-secondary-content: oklch(0.98 0.01 285);
-  --color-accent: oklch(0.7896 0.1541 194.77);         /* #22D3EE cyan-400 */
+  --color-accent: oklch(0.7896 0.1541 194.77); /* #22D3EE cyan-400 */
   --color-accent-content: oklch(0.15 0.04 80);
 
   /* Content colors — values come from theme overrides below */
@@ -25,29 +27,29 @@ html {
 
 /* Dark theme overrides */
 [data-theme='dark'] {
-  --color-primary: oklch(0.65 0.19 264);                   /* ~#818CF8 indigo-400, ≥4.5:1 on #0A0F1C */
+  --color-primary: oklch(0.65 0.19 264); /* ~#818CF8 indigo-400, ≥4.5:1 on #0A0F1C */
   --color-warning: oklch(0.75 0.15 75);
   --color-warning-content: oklch(0.95 0.04 75);
-  --color-base-100: #0A0F1C;
-  --color-base-200: #0F172A;
-  --color-base-300: #1E293B;
-  --color-base-content: #FFFFFF;
-  --color-content-secondary: #94A3B8;
-  --color-content-muted: #64748B;
-  --color-border: #1E293B;
+  --color-base-100: #0a0f1c;
+  --color-base-200: #0f172a;
+  --color-base-300: #1e293b;
+  --color-base-content: #ffffff;
+  --color-content-secondary: #94a3b8;
+  --color-content-muted: #64748b;
+  --color-border: #1e293b;
 }
 
 /* Light theme overrides */
 [data-theme='light'] {
-  --color-warning: oklch(0.50 0.14 60);
+  --color-warning: oklch(0.5 0.14 60);
   --color-warning-content: oklch(0.98 0.02 80);
-  --color-base-100: #FFFFFF;
-  --color-base-200: #F8FAFC;
-  --color-base-300: #F1F5F9;
-  --color-base-content: #0F172A;
-  --color-content-secondary: #64748B;
-  --color-content-muted: #94A3B8;
-  --color-border: #E2E8F0;
+  --color-base-100: #ffffff;
+  --color-base-200: #f8fafc;
+  --color-base-300: #f1f5f9;
+  --color-base-content: #0f172a;
+  --color-content-secondary: #64748b;
+  --color-content-muted: #94a3b8;
+  --color-border: #e2e8f0;
 }
 
 /* Social pill — circle that expands to pill on hover/focus.
@@ -58,13 +60,14 @@ html {
   align-items: center;
   height: 44px;
   border-radius: 9999px;
-  background: linear-gradient(to bottom, #6366F1, #8B5CF6);
+  background: linear-gradient(to bottom, #6366f1, #8b5cf6);
   color: white;
   font-size: 13px;
   font-weight: 500;
   box-shadow: 0 2px 16px rgba(99, 102, 241, 0.25);
-  transition: grid-template-columns 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              box-shadow 300ms ease;
+  transition:
+    grid-template-columns 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 300ms ease;
   overflow: hidden;
 }
 
@@ -84,7 +87,9 @@ html {
   min-width: 0;
   padding-right: 0;
   opacity: 0;
-  transition: opacity 200ms ease, padding-right 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition:
+    opacity 200ms ease,
+    padding-right 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
   white-space: nowrap;
 }
 
@@ -100,8 +105,9 @@ html {
 }
 .card:not(.card-static):hover {
   scale: 1.02;
-  box-shadow: 0 10px 15px -3px oklch(0.5457 0.2124 264.05 / 0.1),
-              0 4px 6px -4px oklch(0.5457 0.2124 264.05 / 0.1);
+  box-shadow:
+    0 10px 15px -3px oklch(0.5457 0.2124 264.05 / 0.1),
+    0 4px 6px -4px oklch(0.5457 0.2124 264.05 / 0.1);
 }
 .card:not(.card-static):active {
   scale: 0.98;

@@ -1,6 +1,7 @@
 ---
-import type { InterestKey, InterestLocale } from '@dmythro/locales'
+import { Image } from 'astro:assets'
 import { ESocialLinks } from '@dmythro/constants'
+import type { InterestKey, InterestLocale } from '@dmythro/locales'
 import faqEn from '@dmythro/locales/mdx/faq.en.md?raw'
 import faqUk from '@dmythro/locales/mdx/faq.uk.md?raw'
 import hobbiesEn from '@dmythro/locales/mdx/hobbies.en.md?raw'
@@ -12,20 +13,18 @@ import {
   CircleQuestionMark,
   Cpu,
   Gamepad2,
+  Hash,
   Headphones,
   Link,
+  Linkedin as LucideLinkedin,
   MapPin,
 } from '@lucide/astro'
-import { Hash, Linkedin as LucideLinkedin } from '@lucide/astro'
 import { Bluesky, Facebook, Github, Instagram, Telegram, Threads, X } from 'simple-icons-astro'
-import { Image } from 'astro:assets'
-
 import studioImg from '@/assets/my-studio.webp'
 import { fetchGithubStats } from '@/utils/fetchGithubStats'
 import { fetchNpmStats, formatNumber } from '@/utils/fetchNpmStats'
 import { getT } from '@/utils/getT'
 import type { LocaleCode } from '@/utils/i18n'
-
 import Stats from './Stats.astro'
 import Timeline from './Timeline.astro'
 

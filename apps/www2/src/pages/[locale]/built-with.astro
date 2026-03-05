@@ -15,10 +15,9 @@ import {
   Typescript,
   Vercel,
 } from 'simple-icons-astro'
-
 import PageLayout from '@/layouts/PageLayout.astro'
-import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
 import { getT } from '@/utils/getT'
+import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
 
 export function getStaticPaths() {
   return getStaticLocalePaths()

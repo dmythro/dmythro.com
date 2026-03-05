@@ -1,13 +1,12 @@
 ---
 import { BASE_URL, ESocialLinks, USERNAME } from '@dmythro/constants'
 import type { Person, WithContext } from 'schema-dts'
-
+import Hero from '@/components/Hero.astro'
 import SectionBeyondCode from '@/components/SectionBeyondCode.astro'
 import SectionTldr from '@/components/SectionTldr.astro'
 import SectionWork from '@/components/SectionWork.astro'
-import Hero from '@/components/Hero.astro'
-import PageLayout from '@/layouts/PageLayout.astro'
 import { getHighlightedProjects } from '@/data/projects'
+import PageLayout from '@/layouts/PageLayout.astro'
 import { fetchAggregateStats } from '@/utils/fetchAggregateStats'
 import { fetchGithubStats } from '@/utils/fetchGithubStats'
 import { fetchNpmStats } from '@/utils/fetchNpmStats'

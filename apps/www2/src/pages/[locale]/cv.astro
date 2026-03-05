@@ -1,12 +1,11 @@
 ---
 import { BASE_URL, ESocialLinks } from '@dmythro/constants'
-
-import PageLayout from '@/layouts/PageLayout.astro'
 import CvArticle from '@/components/CvArticle.astro'
 import CvToc from '@/components/CvToc.astro'
 import PhotoCard from '@/components/PhotoCard.astro'
-import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
+import PageLayout from '@/layouts/PageLayout.astro'
 import { getT } from '@/utils/getT'
+import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
 
 export function getStaticPaths() {
   return getStaticLocalePaths()

@@ -1,13 +1,10 @@
 ---
 import { Image } from 'astro:assets'
-import { ArrowDown, ChevronRight, FileText, FolderOpen, House, Mail, Menu } from '@lucide/astro'
 import { ELocaleNames, USERNAME } from '@dmythro/constants'
-
+import { ArrowDown, ChevronRight, FileText, FolderOpen, House, Mail, Menu } from '@lucide/astro'
 import avatarImg from '@/assets/avatar@800px.jpg'
-
 import { getT } from '@/utils/getT'
 import { availableLocales, cleanPathname, type LocaleCode } from '@/utils/i18n'
-
 import ThemeToggle from './ThemeToggle.astro'
 
 interface Props {
