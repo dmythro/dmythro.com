@@ -25,7 +25,9 @@ const description = project.description[locale]
 
 // Fetch stats at build time
 const npmStats = project.npm ? await fetchNpmStats(project.npm) : null
-const githubStats = project.github ? await fetchGithubStats(project.github, project.fallbackStars) : null
+const githubStats = project.github
+  ? await fetchGithubStats(project.github, project.fallbackStars)
+  : null
 
 // Other highlighted projects for cross-linking
 const otherProjects = getHighlightedProjects()
