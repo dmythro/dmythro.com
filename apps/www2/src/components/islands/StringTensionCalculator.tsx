@@ -2,6 +2,7 @@ import type { Translation } from '@dmythro/locales'
 import type { FunctionComponent, JSX } from 'preact'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks'
 
+import { RichSelect } from './RichSelect'
 import {
   DEFAULT_BASS_GAUGES,
   DEFAULT_PRESETS,
@@ -21,7 +22,6 @@ import {
   getNotesForTuning,
   interpolateScale,
 } from './string-utils'
-import { RichSelect } from './RichSelect'
 import { TensionIndicator } from './TensionIndicator'
 
 const STORAGE_KEY = 'string-tension-calculator'
