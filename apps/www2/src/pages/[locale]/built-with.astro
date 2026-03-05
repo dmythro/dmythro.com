@@ -1,4 +1,5 @@
 ---
+import { USERNAME } from '@dmythro/constants'
 import { Globe, Languages } from '@lucide/astro'
 import {
   Astro as AstroIcon,
@@ -27,70 +28,71 @@ const { locale } = Astro.params as { locale: LocaleCode }
 const t = getT(locale)
 
 const iconClass = 'size-4 inline-block align-[-2px] mr-1.5 opacity-60'
+const tb = t.builtWithTable
 ---
 
-<PageLayout locale={locale} title={`${t.builtWithTitle} — ${t.name}`} description="Personal website and portfolio, open-sourced on GitHub.">
+<PageLayout locale={locale} title={`${t.builtWithTitle} — ${USERNAME}`} description={t.builtWithDescription}>
   <h1 class="text-3xl font-bold mb-2">{t.builtWithTitle}</h1>
-  <p class="text-base-content/60 mb-8">Personal website and portfolio, open-sourced on GitHub.</p>
+  <p class="text-base-content/60 mb-8">{t.builtWithDescription}</p>
 
   <div class="overflow-x-auto">
         <table class="table table-zebra">
           <thead>
             <tr>
-              <th>Category</th>
+              <th>{tb.category}</th>
               <th>v2 (2026)</th>
               <th>v1 (2024–2025)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Framework</td>
+              <td>{tb.framework}</td>
               <td><a href="https://astro.build" target="_blank" rel="noopener"><AstroIcon class={iconClass} />Astro 6</a></td>
               <td><Nextdotjs class={iconClass} />Next.js 16</td>
             </tr>
             <tr>
-              <td>UI Library</td>
+              <td>{tb.uiLibrary}</td>
               <td><a href="https://daisyui.com" target="_blank" rel="noopener"><Daisyui class={iconClass} />DaisyUI 5</a> (CSS-only)</td>
               <td><Heroui class={iconClass} />HeroUI 2.x (React)</td>
             </tr>
             <tr>
-              <td>Styling</td>
+              <td>{tb.styling}</td>
               <td colspan="2"><a href="https://tailwindcss.com" target="_blank" rel="noopener"><Tailwindcss class={iconClass} />Tailwind CSS 4</a></td>
             </tr>
             <tr>
-              <td>Language</td>
+              <td>{tb.language}</td>
               <td colspan="2"><a href="https://www.typescriptlang.org" target="_blank" rel="noopener"><Typescript class={iconClass} />TypeScript</a> (strict)</td>
             </tr>
             <tr>
-              <td>Interactivity</td>
+              <td>{tb.interactivity}</td>
               <td><a href="https://react.dev" target="_blank" rel="noopener"><React class={iconClass} />React</a> islands</td>
               <td><React class={iconClass} />Full React SPA</td>
             </tr>
             <tr>
-              <td>Transitions</td>
+              <td>{tb.transitions}</td>
               <td><a href="https://docs.astro.build/en/guides/view-transitions/" target="_blank" rel="noopener"><Globe class={iconClass} />View Transitions API</a></td>
-              <td>Not used</td>
+              <td>{tb.notUsed}</td>
             </tr>
             <tr>
-              <td>Runtime</td>
+              <td>{tb.runtime}</td>
               <td><a href="https://bun.sh" target="_blank" rel="noopener"><Bun class={iconClass} />Bun</a></td>
               <td><Nodedotjs class={iconClass} />Node.js</td>
             </tr>
             <tr>
-              <td>Deployment</td>
+              <td>{tb.deployment}</td>
               <td><a href="https://pages.cloudflare.com" target="_blank" rel="noopener"><Cloudflarepages class={iconClass} />Cloudflare Pages</a></td>
               <td><Vercel class={iconClass} />Vercel</td>
             </tr>
             <tr>
-              <td>Monorepo</td>
+              <td>{tb.monorepo}</td>
               <td colspan="2"><Bun class={iconClass} />Bun workspaces + <Turborepo class={iconClass} />Turborepo</td>
             </tr>
             <tr>
-              <td>Linting</td>
+              <td>{tb.linting}</td>
               <td colspan="2"><a href="https://biomejs.dev" target="_blank" rel="noopener"><Biome class={iconClass} />Biome</a></td>
             </tr>
             <tr>
-              <td>i18n</td>
+              <td>{tb.i18n}</td>
               <td colspan="2"><Languages class={iconClass} />English + Ukrainian</td>
             </tr>
           </tbody>
