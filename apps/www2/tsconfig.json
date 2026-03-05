@@ -8,5 +8,5 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react"
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.astro", "src/env.d.ts"]
+  "include": ["astro.config.ts", "src/**/*.ts", "src/**/*.tsx", "src/**/*.astro", "src/env.d.ts"]
 }
