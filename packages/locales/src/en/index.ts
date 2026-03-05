@@ -109,7 +109,7 @@ export const en = {
     beyondCode: 'Beyond Code',
     beyondCodeSubtitle: 'Music, travel, and everything else that keeps me going.',
     featuredProjects: 'Projects',
-    viewAll: 'view all →',
+    viewAll: 'all projects →',
     stats: {
       years: 'years of experience',
       projects: 'projects built',

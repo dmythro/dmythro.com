@@ -181,7 +181,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
       const isCurrentLocale = loc === locale
       return (
         <a
-          href={isCurrentLocale ? undefined : `/${loc}${localePathSuffix}`}
+          href={`/${loc}${localePathSuffix}`}
           hreflang={loc}
           class:list={[
             'flex items-center gap-3 px-3 h-10 rounded-lg transition-colors',
