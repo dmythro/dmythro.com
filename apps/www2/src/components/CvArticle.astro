@@ -1,0 +1,249 @@
+---
+import type { InterestKey, InterestLocale } from '@dmythro/locales'
+import { ESocialLinks } from '@dmythro/constants'
+import faqEn from '@dmythro/locales/mdx/faq.en.md?raw'
+import faqUk from '@dmythro/locales/mdx/faq.uk.md?raw'
+import { Briefcase, CircleHelp, Gamepad2, Headphones, Link, MapPin } from '@lucide/astro'
+import { Hash, Linkedin as LucideLinkedin } from '@lucide/astro'
+import {
+  Bluesky,
+  Facebook,
+  Github,
+  Instagram,
+  Telegram,
+  Threads,
+  X,
+} from 'simple-icons-astro'
+import { Image } from 'astro:assets'
+
+import studioImg from '@/assets/my-studio.webp'
+import { fetchGithubStats } from '@/utils/fetchGithubStats'
+import { fetchNpmStats, formatNumber } from '@/utils/fetchNpmStats'
+import { getT } from '@/utils/getT'
+import type { LocaleCode } from '@/utils/i18n'
+
+import Stats from './Stats.astro'
+import Timeline from './Timeline.astro'
+
+interface Props {
+  locale: LocaleCode
+}
+
+const { locale } = Astro.props
+const t = getT(locale)
+const interestList = Object.keys(t.interests) as InterestKey[]
+
+const sectionIcons: Record<string, typeof Briefcase> = {
+  webDev: Briefcase,
+  music: Headphones,
+  travel: MapPin,
+  hobbies: Gamepad2,
+  faq: CircleHelp,
+  links: Link,
+}
+
+const mdxKeyMap: Record<string, string> = {
+  webDev: 'web-dev',
+  music: 'music',
+  travel: 'travel',
+  hobbies: 'hobbies',
+}
+
+// Load MDX content
+const mdxFiles = import.meta.glob('../../../../packages/locales/mdx/*.md', { eager: true }) as Record<
+  string,
+  { compiledContent(): string }
+>
+
+// Fetch live stats at build time
+const [npmStats, ghStats] = await Promise.all([
+  fetchNpmStats('countries-list'),
+  fetchGithubStats('annexare/Countries', 1300),
+])
+
+const starsFormatted = `~${formatNumber(ghStats.stars)}`
+const downloadsFormatted = `${formatNumber(npmStats.downloads)}+/mo`
+
+function replaceStats(html: string): string {
+  return html
+    .replace(/~1\.3[kк]\s*/gi, starsFormatted + ' ')
+    .replace(/1\.5M\+\/mo/gi, downloadsFormatted)
+    .replace(/1\.5M\+\s*зкачувань на місяць/gi, `${downloadsFormatted} завантажень на місяць`)
+}
+
+// Pre-resolve all MDX content (compiledContent is async)
+const mdxContent: Partial<Record<string, string>> = {}
+for (const [interestKey, fileName] of Object.entries(mdxKeyMap)) {
+  const key = Object.keys(mdxFiles).find((k) => k.endsWith(`/${fileName}.${locale}.md`))
+  if (!key) continue
+  const html = await mdxFiles[key].compiledContent()
+  mdxContent[interestKey] = replaceStats(html)
+}
+
+// FAQ parsing
+const rawFaq = locale === 'uk' ? faqUk : faqEn
+type FaqItem = { question: string; answer: string }
+
+const faqItems: FaqItem[] = rawFaq
+  .split(/^## /m)
+  .filter(Boolean)
+  .map((block) => {
+    const [question, ...rest] = block.split('\n')
+    const answer = rest.join('\n').trim()
+    return { question: question.trim(), answer }
+  })
+
+// Social links (contact-style with icons)
+const socialLinks = [
+  { title: 'GitHub', href: ESocialLinks.github, description: t.socialMedia[ESocialLinks.github], Icon: Github, color: 'currentColor' },
+  { title: 'LinkedIn', href: ESocialLinks.linkedin, description: t.socialMedia[ESocialLinks.linkedin], Icon: LucideLinkedin, color: '#0A66C2' },
+  { title: 'Telegram', href: ESocialLinks.telegram, description: t.socialMedia[ESocialLinks.telegram], Icon: Telegram, color: '#26A5E4' },
+  { title: 'BlueSky', href: ESocialLinks.bluesky, description: t.socialMedia[ESocialLinks.bluesky], Icon: Bluesky, color: '#0285FF' },
+  { title: 'Threads', href: ESocialLinks.threads, description: t.socialMedia[ESocialLinks.threads], Icon: Threads, color: 'currentColor' },
+  { title: 'Instagram', href: ESocialLinks.instagram, description: t.socialMedia[ESocialLinks.instagram], Icon: Instagram, color: '#E4405F' },
+  { title: 'Facebook', href: ESocialLinks.facebook, description: t.socialMedia[ESocialLinks.facebook], Icon: Facebook, color: '#0866FF' },
+  { title: 'X / Twitter', href: ESocialLinks.twitter, description: t.socialMedia[ESocialLinks.twitter], Icon: X, color: 'currentColor' },
+  { title: 'Nostr', href: ESocialLinks.nostr, description: t.socialMedia[ESocialLinks.nostr], Icon: Hash, color: '#8B5CF6' },
+]
+
+const sections = interestList.map((key) => {
+  const interest = t.interests[key] as InterestLocale
+  const Icon = sectionIcons[key]
+  return { key, interest, Icon, mdxHtml: mdxContent[key] }
+})
+
+const lastKey = interestList[interestList.length - 1]
+---
+
+<article class="flex flex-col gap-16 print:gap-6">
+  {sections.map(({ key, interest, Icon, mdxHtml }) => (
+    <section id={key} class="scroll-mt-24 print:break-before-page">
+      <div class="flex items-start gap-3 mb-4">
+        <div class="flex-1">
+          <h2 class="text-xl font-bold">{interest.title}</h2>
+          {interest.description && (
+            <p class="text-sm text-base-content/60">{interest.description}</p>
+          )}
+        </div>
+        {Icon && <Icon class="h-6 w-6 text-primary shrink-0 mt-1" />}
+      </div>
+
+      {/* MDX prose content */}
+      {mdxHtml && (
+        <div class="prose prose-sm max-w-none" set:html={mdxHtml} />
+      )}
+
+      {/* webDev extras */}
+      {key === 'webDev' && (
+        <>
+          <figure class="my-4 rounded-lg overflow-hidden">
+            <Image
+              src={studioImg}
+              alt={t.myStudio}
+              class="w-full h-auto rounded-lg"
+              loading="lazy"
+            />
+            <figcaption class="text-xs text-base-content/50 text-center py-1">
+              {t.myStudio}
+            </figcaption>
+          </figure>
+
+          <Stats id="skills" title={t.skillsTitle} items={t.skills} isExpanded={true} />
+          <Timeline id="general-timeline" title={t.generalTitle} items={t.generalTimeline} />
+          <Timeline id="career" title={t.careerTitle} items={t.careerTimeline} />
+        </>
+      )}
+
+      {/* FAQ section */}
+      {key === 'faq' && (
+        <div class="flex flex-col gap-2">
+          {faqItems.map(({ question, answer }, i) => (
+            <div class="collapse collapse-arrow bg-base-100 border border-base-300 print:collapse-open">
+              <input type="radio" name="faq-cv" checked={i === 0} />
+              <div class="collapse-title font-medium">{question}</div>
+              <div class="collapse-content">
+                <div class="prose prose-sm max-w-none" set:html={answer.replace(/\n\n/g, '<br><br>').replace(/`([^`]+)`/g, '<code>$1</code>')} />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Links section — contact-style cards with icons */}
+      {key === 'links' && (
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+          {socialLinks.map(({ title, href, description, Icon: SIcon, color }) => (
+            <a
+              href={href}
+              target="_blank"
+              rel="me noopener noreferrer"
+              class="group flex items-center gap-4 p-4 rounded-xl border border-base-300 bg-base-100 hover:bg-base-200 transition-colors print:p-2 print:border-0"
+            >
+              <div class="shrink-0">
+                <SIcon class="h-10 w-10 print:h-6 print:w-6" style={`color: ${color}`} />
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="font-medium">{title}</div>
+                <div class="text-sm text-[var(--color-content-secondary)] truncate">{description}</div>
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+
+      {/* Section divider (not on last) */}
+      {key !== lastKey && (
+        <hr class="mt-16 border-base-300/50 no-print" />
+      )}
+    </section>
+  ))}
+</article>
+
+<style is:global>
+  .prose a[href^="http"] {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: color-mix(in oklch, var(--color-primary) 30%, transparent);
+    transition: text-decoration-color 0.15s;
+  }
+  .prose a[href^="http"]:hover {
+    text-decoration-color: var(--color-primary);
+  }
+  .prose a[href^="http"] .link-icon {
+    display: inline-block;
+    width: 0.85em;
+    height: 0.85em;
+    vertical-align: -0.05em;
+    margin-left: 0.15em;
+    opacity: 0.7;
+  }
+</style>
+
+<script is:inline>
+  ;(() => {
+    const svgs = {
+      github: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>',
+      npm: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323l13.837.019-.009 13.836h-3.464l.01-10.382h-3.456L12.04 19.17H5.113z"/></svg>',
+      youtube: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814"/><path fill="#fff" d="m9.545 15.568 6.272-3.568-6.272-3.568z"/></svg>',
+      external: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>',
+    }
+
+    function getIcon(href) {
+      if (href.includes('github.com')) return svgs.github
+      if (href.includes('npmjs.com')) return svgs.npm
+      if (href.includes('youtu.be') || href.includes('youtube.com')) return svgs.youtube
+      return svgs.external
+    }
+
+    for (const a of document.querySelectorAll('.prose a[href^="http"]')) {
+      if (a.querySelector('.link-icon')) continue
+      const icon = document.createElement('span')
+      icon.className = 'link-icon'
+      icon.innerHTML = getIcon(a.href)
+      a.appendChild(icon)
+      a.setAttribute('target', '_blank')
+      a.setAttribute('rel', 'noopener noreferrer')
+    }
+  })()
+</script>

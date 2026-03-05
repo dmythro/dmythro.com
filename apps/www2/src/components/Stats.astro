@@ -4,26 +4,27 @@ import type { SkillTime } from '@dmythro/locales'
 import StatCard from './StatCard.astro'
 
 interface Props {
+  id?: string
   title?: string
   items: SkillTime[]
   isExpanded?: boolean
 }
 
-const { title, items, isExpanded = false } = Astro.props
+const { id, title, items, isExpanded = false } = Astro.props
 ---
 
-<section>
+<div>
   {title && (
-    <h2 class="font-semibold my-6 text-2xl print:break-before-page print:break-after-avoid">
+    <h3 id={id} class:list={['font-semibold my-6 text-2xl print:break-before-page print:break-after-avoid', id && 'scroll-mt-24']}>
       {title}
-    </h2>
+    </h3>
   )}
   <div class:list={[
     'clear-both grid gap-4 rounded print:grid-cols-3',
-    isExpanded ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-2 sm:grid-cols-3',
+    isExpanded ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-2 sm:grid-cols-3',
   ]}>
     {items.map((item) => (
       <StatCard item={item} isExpanded={isExpanded} />
     ))}
   </div>
-</section>
+</div>

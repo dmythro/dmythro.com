@@ -1,0 +1,116 @@
+---
+import type { InterestKey, InterestLocale } from '@dmythro/locales'
+import { Briefcase, CircleHelp, Gamepad2, Headphones, Link, MapPin } from '@lucide/astro'
+
+import { getT } from '@/utils/getT'
+import type { LocaleCode } from '@/utils/i18n'
+
+interface Props {
+  locale: LocaleCode
+}
+
+const { locale } = Astro.props
+const t = getT(locale)
+const interestList = Object.keys(t.interests) as InterestKey[]
+
+const sectionIcons: Record<string, typeof Briefcase> = {
+  webDev: Briefcase,
+  music: Headphones,
+  travel: MapPin,
+  hobbies: Gamepad2,
+  faq: CircleHelp,
+  links: Link,
+}
+
+type TocSubItem = { id: string; title: string }
+
+const subItems: Partial<Record<InterestKey, TocSubItem[]>> = {
+  webDev: [
+    { id: 'skills', title: t.skillsTitle },
+    { id: 'general-timeline', title: t.generalTitle },
+    { id: 'career', title: t.careerTitle },
+  ],
+}
+
+const sections = interestList.map((key) => {
+  const interest = t.interests[key] as InterestLocale
+  return { key, title: interest.title, description: interest.description, Icon: sectionIcons[key], children: subItems[key] }
+})
+---
+
+<nav class="no-print" aria-label="Table of contents">
+  <ul class="flex flex-col gap-0.5">
+    {sections.map(({ key, title, description, Icon, children }) => (
+      <li>
+        <a
+          href={`#${key}`}
+          class="flex items-start gap-2 px-3 py-2 text-sm rounded-lg text-base-content/70 hover:text-base-content hover:bg-base-300/40 transition-colors"
+          data-toc-link={key}
+        >
+          {Icon && <Icon class="h-4 w-4 shrink-0 mt-0.5" />}
+          <span class="min-w-0">
+            <span class="block truncate font-medium">{title}</span>
+            {description && (
+              <span class="block text-xs text-base-content/50 truncate">{description}</span>
+            )}
+          </span>
+        </a>
+        {children && (
+          <ul class="ml-6 flex flex-col gap-0.5 mt-0.5">
+            {children.map(({ id, title: subTitle }) => (
+              <li>
+                <a
+                  href={`#${id}`}
+                  class="block px-3 py-1 text-xs rounded-lg text-base-content/50 hover:text-base-content hover:bg-base-300/40 transition-colors truncate"
+                  data-toc-link={id}
+                >
+                  {subTitle}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  [data-toc-link].active {
+    color: var(--color-primary);
+    background: color-mix(in oklch, var(--color-primary) 8%, transparent);
+  }
+  [data-toc-link].active span span:first-child {
+    font-weight: 600;
+  }
+</style>
+
+<script is:inline>
+  ;(() => {
+    const links = document.querySelectorAll('[data-toc-link]')
+    if (!links.length) return
+
+    const sections = []
+    for (const link of links) {
+      const id = link.getAttribute('data-toc-link')
+      const section = document.getElementById(id)
+      if (section) sections.push({ id, section, link })
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const item = sections.find((s) => s.section === entry.target)
+          if (item) item.isVisible = entry.isIntersecting
+        }
+        const visible = sections.find((s) => s.isVisible)
+        if (visible) {
+          for (const s of sections) s.link.classList.toggle('active', s === visible)
+        }
+      },
+      { rootMargin: '-80px 0px -60% 0px' },
+    )
+
+    for (const { section } of sections) observer.observe(section)
+  })()
+</script>

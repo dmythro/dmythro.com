@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets'
-import { ArrowDown, ChevronRight, CircleQuestionMark, FileText, FolderOpen, House, Mail, Menu } from '@lucide/astro'
+import { ArrowDown, ChevronRight, FileText, FolderOpen, House, Mail, Menu } from '@lucide/astro'
 import { ELocaleNames, USERNAME } from '@dmythro/constants'
 
 import avatarSmall from '@/assets/avatar@40px.webp'
@@ -23,7 +23,6 @@ const navItems = [
   { id: 'home', label: t.nav.home, href: `/${locale}`, Icon: House },
   { id: 'projects', label: t.nav.projects, href: `/${locale}/projects`, Icon: FolderOpen },
   { id: 'cv', label: t.nav.cv, href: `/${locale}/cv`, Icon: FileText },
-  { id: 'faq', label: t.nav.faq, href: `/${locale}/faq`, Icon: CircleQuestionMark },
   { id: 'contact', label: t.nav.contact, href: `/${locale}/contact`, Icon: Mail },
 ]
 
