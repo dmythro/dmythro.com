@@ -1,6 +1,5 @@
-import type { APIRoute } from 'astro'
-
 import { BASE_URL } from '@dmythro/constants'
+import type { APIRoute } from 'astro'
 
 import { projects } from '@/data/projects'
 
