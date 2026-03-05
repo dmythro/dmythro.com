@@ -26,6 +26,7 @@ export const uk: Translation = {
     themeSystem: 'Системна',
     themeDark: 'Темна',
     themeLight: 'Світла',
+    downloadPdf: 'Завантажити PDF',
   },
   builtWithTitle: 'Технічні деталі проекту',
   builtWith: 'Розроблено з',
@@ -78,6 +79,17 @@ export const uk: Translation = {
     message: (day: number) =>
       `Я народився і живу в Україні. І зараз моя країна захищається від повномасштабного вторгнення росії. Сьогодні день ${day} боротьби за демократію, наше існування та свободу 🇺🇦`,
     linkTitle: 'Дізнатись як я можу допомогти',
+  },
+  projects: {
+    title: 'Проєкти',
+    description: 'Проєкти, якими можу поділитися.',
+    otherProjects: 'Інші проєкти',
+    categories: {
+      all: 'Всі',
+      dev: 'Розробка',
+      music: 'Музика',
+      photos: 'Фото',
+    },
   },
   nav: {
     home: 'Головна',

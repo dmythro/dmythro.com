@@ -33,5 +33,5 @@ const { locale, title, description, jsonLd, isHeroPage = false, fullWidth = fals
     </>
   )}
 
-  <Footer locale={locale} />
+  <Footer locale={locale} fullWidth={fullWidth || isHeroPage} />
 </BaseLayout>

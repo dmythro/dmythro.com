@@ -13,33 +13,38 @@ const { locale } = Astro.params as { locale: LocaleCode }
 const t = getT(locale)
 const allProjects = getProjectsByCategory()
 const categories: (ProjectCategory | undefined)[] = [undefined, 'dev', 'music', 'photos']
-const categoryLabels = {
-  undefined: locale === 'uk' ? 'Всі' : 'All',
-  dev: locale === 'uk' ? 'Розробка' : 'Dev',
-  music: locale === 'uk' ? 'Музика' : 'Music',
-  photos: locale === 'uk' ? 'Фото' : 'Photos',
+const categoryLabels: Record<string, string> = {
+  undefined: t.projects.categories.all,
+  dev: t.projects.categories.dev,
+  music: t.projects.categories.music,
+  photos: t.projects.categories.photos,
 }
+const uniqueCategories = new Set(allProjects.map((p) => p.category))
+const showCategoryTabs = uniqueCategories.size > 1
 ---
 
 <PageLayout
   locale={locale}
-  title={`${locale === 'uk' ? 'Проєкти' : 'Projects'} — ${t.name}`}
-  description={locale === 'uk' ? 'Мої проєкти' : 'My projects'}
+  title={`${t.projects.title} — ${t.name}`}
+  description={t.projects.description}
 >
-  <h1 class="text-3xl font-bold mb-6">{locale === 'uk' ? 'Проєкти' : 'Projects'}</h1>
+  <h1 class="text-3xl font-bold mb-2">{t.projects.title}</h1>
+  <p class="text-base-content/60 mb-8">{t.projects.description}</p>
 
-  {/* Category tabs */}
-  <div role="tablist" class="tabs tabs-box mb-6">
-    {categories.map((cat) => (
-      <button
-        role="tab"
-        class:list={['tab', { 'tab-active': cat === undefined }]}
-        data-category={cat || 'all'}
-      >
-        {categoryLabels[String(cat)]}
-      </button>
-    ))}
-  </div>
+  {/* Category tabs — only show when multiple categories exist */}
+  {showCategoryTabs && (
+    <div role="tablist" class="tabs tabs-box mb-6">
+      {categories.map((cat) => (
+        <button
+          role="tab"
+          class:list={['tab', { 'tab-active': cat === undefined }]}
+          data-category={cat || 'all'}
+        >
+          {categoryLabels[String(cat)]}
+        </button>
+      ))}
+    </div>
+  )}
 
   {/* Project grid */}
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="projects-grid">

@@ -26,6 +26,7 @@ export const en = {
     themeSystem: 'System',
     themeDark: 'Dark',
     themeLight: 'Light',
+    downloadPdf: 'Download PDF',
   },
   builtWithTitle: 'Details of This Project',
   builtWith: 'Built with',
@@ -78,6 +79,17 @@ export const en = {
     message: (day: number) =>
       `I was born and live in Ukraine. Now, my country is under a full-scale invasion by russia. Today is Day ${day} of fight for democracy, our existense and freedom 🇺🇦`,
     linkTitle: 'Find out how you can help',
+  },
+  projects: {
+    title: 'Projects',
+    description: 'The projects I can share and showcase.',
+    otherProjects: 'Other projects',
+    categories: {
+      all: 'All',
+      dev: 'Dev',
+      music: 'Music',
+      photos: 'Photos',
+    },
   },
   nav: {
     home: 'Home',

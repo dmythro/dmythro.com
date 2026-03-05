@@ -12,12 +12,12 @@ const t = getT(locale)
 ---
 
 <PageLayout locale={locale} title={`${t.builtWithTitle} — ${t.name}`} description={t.builtWithTitle}>
-  <div class="max-w-3xl mx-auto">
-    <h1 class="text-3xl font-bold mb-6">{t.builtWithTitle}</h1>
-
+  <div>
     <a href={`/${locale}`} class="btn btn-ghost btn-sm mb-4 no-print">
       ← {t.actions.backHome}
     </a>
+
+    <h1 class="text-3xl font-bold mb-2">{t.builtWithTitle}</h1>
 
     <div class="prose max-w-none">
       <h2>v2 (2026)</h2>

@@ -34,10 +34,13 @@ const otherProjects = getHighlightedProjects()
 ---
 
 <PageLayout locale={locale} title={`${title} — ${t.name}`} description={description}>
-  <article class="max-w-3xl mx-auto">
+  <a href={`/${locale}/projects`} class="btn btn-ghost btn-sm mb-4 no-print">
+    ← {t.projects.title}
+  </a>
+
+  <article>
     <div class="mb-6">
       <div class="flex items-center gap-2 mb-2">
-        <span class="badge badge-soft badge-primary">{project.category}</span>
         {project.tags.map((tag) => (
           <span class="badge badge-sm badge-soft">{tag}</span>
         ))}
@@ -81,7 +84,7 @@ const otherProjects = getHighlightedProjects()
   {otherProjects.length > 0 && (
     <section class="mt-12">
       <h2 class="text-2xl font-semibold mb-4">
-        {locale === 'uk' ? 'Інші проєкти' : 'Other projects'}
+        {t.projects.otherProjects}
       </h2>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {otherProjects.map((p) => (
