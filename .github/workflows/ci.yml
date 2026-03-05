@@ -18,14 +18,16 @@ jobs:
       - uses: actions/checkout@v5
 
       - uses: oven-sh/setup-bun@v2
-        with:
-          cache: true
 
       - uses: actions/cache@v4
         with:
-          path: .turbo
-          key: turbo-${{ runner.os }}-${{ github.sha }}
-          restore-keys: turbo-${{ runner.os }}-
+          path: |
+            ~/.bun/install/cache
+            .turbo
+          key: ci-${{ runner.os }}-${{ hashFiles('bun.lock') }}-${{ github.sha }}
+          restore-keys: |
+            ci-${{ runner.os }}-${{ hashFiles('bun.lock') }}-
+            ci-${{ runner.os }}-
 
       - run: bun install --frozen-lockfile
       - run: bun run ci
@@ -41,14 +43,16 @@ jobs:
       - uses: actions/checkout@v5
 
       - uses: oven-sh/setup-bun@v2
-        with:
-          cache: true
 
       - uses: actions/cache@v4
         with:
-          path: .turbo
-          key: turbo-${{ runner.os }}-${{ github.sha }}
-          restore-keys: turbo-${{ runner.os }}-
+          path: |
+            ~/.bun/install/cache
+            .turbo
+          key: ci-${{ runner.os }}-${{ hashFiles('bun.lock') }}-${{ github.sha }}
+          restore-keys: |
+            ci-${{ runner.os }}-${{ hashFiles('bun.lock') }}-
+            ci-${{ runner.os }}-
 
       - run: bun install --frozen-lockfile
       - run: bun run build --filter=www2
