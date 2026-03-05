@@ -111,7 +111,7 @@ export const uk: Translation = {
     viewAll: 'всі проєкти →',
     stats: {
       years: 'років досвіду',
-      projects: 'проєктів створено',
+      products: 'продуктів створено',
       downloads: 'завантажень/міс',
       stars: 'зірок',
     },
