@@ -14,6 +14,8 @@ export function getStaticPaths() {
 
 const { locale } = Astro.params as { locale: LocaleCode }
 const t = getT(locale)
+const years = new Date().getFullYear() - 2006
+const cvDescription = t.cv.description(years).join(' ')
 
 const cvJsonLd = {
   '@context': 'https://schema.org',
@@ -37,7 +39,7 @@ const cvJsonLd = {
 <PageLayout
   locale={locale}
   title={`CV — ${t.fullName}`}
-  description={t.meta.description}
+  description={cvDescription}
   jsonLd={cvJsonLd}
   fullWidth
 >
