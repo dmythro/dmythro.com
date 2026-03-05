@@ -105,14 +105,21 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
 
       {/* Utilities */}
       <div class="flex items-center gap-4 pl-4 pr-1">
-        <ThemeToggle />
-        <a
-          href={`/${otherLocale}${localePathSuffix}`}
-          hreflang={otherLocale}
-          class="text-[13px] font-semibold text-[var(--color-content-secondary)] hover:text-base-content transition-colors"
-        >
-          {ELocaleNames[locale].slice(0, 2).toUpperCase()}
-        </a>
+        <ThemeToggle labels={{
+          system: t.actions.themeSystem,
+          dark: t.actions.themeDark,
+          light: t.actions.themeLight,
+        }} />
+        <div class="tooltip tooltip-left tooltip-primary" data-tip={t.actions.switchLang}>
+          <a
+            href={`/${otherLocale}${localePathSuffix}`}
+            hreflang={otherLocale}
+            aria-label={t.actions.switchLang}
+            class="text-[13px] font-semibold text-[var(--color-content-secondary)] hover:text-base-content transition-colors"
+          >
+            {ELocaleNames[locale].slice(0, 2).toUpperCase()}
+          </a>
+        </div>
       </div>
     </div>
 
