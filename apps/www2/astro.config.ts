@@ -5,6 +5,9 @@ import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'astro/config'
 
+import rehypeExternalLinks from './src/plugins/rehype-external-links'
+import rehypeLocalImageSize from './src/plugins/rehype-local-image-size'
+
 export default defineConfig({
   site: 'https://dmythro.com',
   output: 'static',
@@ -25,6 +28,10 @@ export default defineConfig({
       },
     }),
   ],
+
+  markdown: {
+    rehypePlugins: [rehypeLocalImageSize, rehypeExternalLinks],
+  },
 
   i18n: {
     defaultLocale: 'en',
