@@ -27,6 +27,7 @@ export const uk: Translation = {
     themeDark: 'Темна',
     themeLight: 'Світла',
     downloadPdf: 'Завантажити PDF',
+    switchLang: 'Українська (click to switch to English)',
   },
   builtWithTitle: 'Технічні деталі проекту',
   builtWith: 'Розроблено з',

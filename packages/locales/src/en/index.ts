@@ -27,6 +27,7 @@ export const en = {
     themeDark: 'Dark',
     themeLight: 'Light',
     downloadPdf: 'Download PDF',
+    switchLang: 'English (натисніть щоб була Українська)',
   },
   builtWithTitle: 'Details of This Project',
   builtWith: 'Built with',
