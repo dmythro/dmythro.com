@@ -7,7 +7,7 @@
 - **Build www2 directly**: `cd apps/www2 && bun run astro build`
 - **Lint/Format**: `bun run check` (lint), `bun run check-apply` (auto-fix)
 - **Type check**: `bun run check-types`
-- **Test all**: `bun test` (in `/packages/my-locales`)
+- **Test all**: `bun test` (in `packages/locales` / `@dmythro/locales`)
 - **Test single**: `bun test tests/skills.test.ts` (from package dir)
 - **Clean**: `bun run clean` or `bun run clean-up` (deep clean)
 
