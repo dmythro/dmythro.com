@@ -1,4 +1,6 @@
 ---
+import { ExternalLink, Github, Package } from '@lucide/astro'
+
 import PageLayout from '@/layouts/PageLayout.astro'
 import ProjectCard from '@/components/ProjectCard.astro'
 import ProjectStats from '@/components/ProjectStats.astro'
@@ -42,43 +44,35 @@ const otherProjects = getHighlightedProjects()
 
   <article>
     <div class="mb-6">
-      <div class="flex items-center gap-2 mb-2">
+      <h1 class="text-3xl font-bold mb-2 flex items-center gap-2">
+        <span class="mr-2">{title}</span>
+        {project.url && (
+          <a href={project.url} class="tooltip tooltip-bottom" data-tip="Visit site" aria-label="Visit site" target="_blank" rel="noopener noreferrer">
+            <ExternalLink class="h-5 w-5 opacity-50 hover:opacity-100 transition-opacity" />
+          </a>
+        )}
+        {project.github && (
+          <a href={`https://github.com/${project.github}`} class="tooltip tooltip-bottom" data-tip="GitHub" aria-label="GitHub repository" target="_blank" rel="noopener noreferrer">
+            <Github class="h-5 w-5 opacity-50 hover:opacity-100 transition-opacity" />
+          </a>
+        )}
+        {project.npm && (
+          <a href={`https://www.npmjs.com/package/${project.npm}`} class="tooltip tooltip-bottom" data-tip="NPM" aria-label="NPM package" target="_blank" rel="noopener noreferrer">
+            <Package class="h-5 w-5 opacity-50 hover:opacity-100 transition-opacity" />
+          </a>
+        )}
+      </h1>
+      <p class="text-lg text-base-content/70 mb-4">{description}</p>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <ProjectStats
+          npmDownloads={npmStats?.downloads}
+          githubStars={githubStats?.stars}
+        />
         {project.tags.map((tag) => (
           <span class="badge badge-sm badge-soft">{tag}</span>
         ))}
       </div>
-      <h1 class="text-3xl font-bold mb-2">{title}</h1>
-      <p class="text-lg text-base-content/70 mb-4">{description}</p>
-
-      <ProjectStats
-        npmDownloads={npmStats?.downloads}
-        githubStars={githubStats?.stars}
-      />
-
-      <div class="flex gap-2 mt-4">
-        {project.url && (
-          <a href={project.url} class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">
-            Visit site&nbsp;<span class="inline-block">↗</span>
-          </a>
-        )}
-        {project.github && (
-          <a href={`https://github.com/${project.github}`} class="btn btn-outline btn-sm" target="_blank" rel="noopener noreferrer">
-            GitHub&nbsp;<span class="inline-block">↗</span>
-          </a>
-        )}
-        {project.npm && (
-          <a href={`https://www.npmjs.com/package/${project.npm}`} class="btn btn-outline btn-sm" target="_blank" rel="noopener noreferrer">
-            NPM&nbsp;<span class="inline-block">↗</span>
-          </a>
-        )}
-      </div>
-    </div>
-
-    <div class="divider" />
-
-    {/* Content area — MDX content collection will go here later */}
-    <div class="prose max-w-none mb-8">
-      <p>{description}</p>
     </div>
   </article>
 
