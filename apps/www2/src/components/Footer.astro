@@ -1,5 +1,4 @@
 ---
-import { USERNAME } from '@dmythro/constants'
 import { Linkedin } from '@lucide/astro'
 import { Github, Threads, X } from 'simple-icons-astro'
 import { footerLinks } from '@/data/profile'
@@ -29,7 +28,7 @@ const iconMap: Record<string, typeof Github> = {
 ]}>
   <div class="w-full flex flex-col md:flex-row md:justify-between md:items-center gap-4">
     <div class="text-sm">
-      &copy; {year} {USERNAME.replace('@', '')} &middot;
+      &copy; {year} Dmythro &middot;
       <a href={`/${locale}/built-with`} class="link link-hover">{t.builtWith}</a>
     </div>
     <div class="flex items-center gap-4">
