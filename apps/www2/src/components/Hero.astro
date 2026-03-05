@@ -3,7 +3,7 @@ import { Image } from 'astro:assets'
 import { ExternalLink, Info, Linkedin } from '@lucide/astro'
 import { Github, Threads, X } from 'simple-icons-astro'
 
-import avatarImg from '@/assets/avatar@400px.jpg'
+import avatarImg from '@/assets/avatar@800px.jpg'
 import { socialLinks } from '@/data/profile'
 import { getT } from '@/utils/getT'
 import type { LocaleCode } from '@/utils/i18n'
@@ -40,7 +40,7 @@ const iconMap: Record<string, typeof Github> = {
       {/* Glow */}
       <div class="absolute inset-0 scale-[1.4] rounded-full bg-[radial-gradient(circle,rgba(99,102,241,0.25)_0%,rgba(139,92,246,0.15)_40%,transparent_70%)] blur-2xl"></div>
       {/* Avatar ring — slow spinning conic gradient */}
-      <div class="avatar-ring relative w-48 h-48 md:w-[256px] md:h-[256px] rounded-full p-[3px]">
+      <div class="avatar-ring relative size-52 md:size-[256px] rounded-full p-[3px]">
         <div class="w-full h-full rounded-full overflow-hidden">
           <Image
             src={avatarImg}
@@ -55,7 +55,7 @@ const iconMap: Record<string, typeof Github> = {
     </div>
 
     {/* Name — gradient text */}
-    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter bg-gradient-to-b from-base-content via-base-content/80 to-primary/60 bg-clip-text text-transparent px-1">
+    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter bg-gradient-to-b from-primary/60 via-base-content/80 to-base-content bg-clip-text text-transparent px-1">
       {t.fullName}
     </h1>
 
