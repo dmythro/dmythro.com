@@ -9,6 +9,7 @@ export default defineConfig({
   site: 'https://dmythro.com',
   output: 'static',
   trailingSlash: 'never',
+  build: { format: 'file' },
   adapter: cloudflare(),
 
   integrations: [
