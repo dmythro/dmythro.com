@@ -29,8 +29,8 @@ export const uk: Translation = {
     downloadPdf: 'Завантажити PDF',
     switchLang: 'Українська (click to switch to English)',
   },
-  builtWithTitle: 'Технічні деталі проекту',
-  builtWith: 'Розроблено з',
+  builtWithTitle: 'Технології',
+  builtWith: 'Технології',
   cv: {
     title: 'Вітаю 👋',
     description: (years: number) => [

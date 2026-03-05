@@ -29,8 +29,8 @@ export const en = {
     downloadPdf: 'Download PDF',
     switchLang: 'English (натисніть щоб була Українська)',
   },
-  builtWithTitle: 'Details of This Project',
-  builtWith: 'Built with',
+  builtWithTitle: 'Tech Stack',
+  builtWith: 'Tech Stack',
   cv: {
     title: 'Hi 👋',
     description: (years: number) => [
