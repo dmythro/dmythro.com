@@ -12,7 +12,7 @@ const { item, index, isLast = false } = Astro.props
 const { title, subtitle, description, when, till, where, isHighlighted } = item
 const isEven = index % 2 === 0
 const skip = (!when && !till) || (!title && !subtitle && !description)
-const timeStr = when && till ? `${when} – ${till}` : (when || till)
+const timeStr = when && till ? `${when} – ${till}` : when || till
 ---
 
 {!skip && (

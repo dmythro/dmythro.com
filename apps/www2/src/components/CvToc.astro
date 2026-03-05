@@ -34,7 +34,13 @@ const subItems: Partial<Record<InterestKey, TocSubItem[]>> = {
 
 const sections = interestList.map((key) => {
   const interest = t.interests[key] as InterestLocale
-  return { key, title: interest.title, description: interest.description, Icon: sectionIcons[key], children: subItems[key] }
+  return {
+    key,
+    title: interest.title,
+    description: interest.description,
+    Icon: sectionIcons[key],
+    children: subItems[key],
+  }
 })
 ---
 

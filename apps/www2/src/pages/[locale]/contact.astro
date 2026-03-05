@@ -1,15 +1,7 @@
 ---
 import { ESocialLinks } from '@dmythro/constants'
 import { Hash, Linkedin as LucideLinkedin } from '@lucide/astro'
-import {
-  Bluesky,
-  Facebook,
-  Github,
-  Instagram,
-  Telegram,
-  Threads,
-  X,
-} from 'simple-icons-astro'
+import { Bluesky, Facebook, Github, Instagram, Telegram, Threads, X } from 'simple-icons-astro'
 
 import PageLayout from '@/layouts/PageLayout.astro'
 import { getT } from '@/utils/getT'
@@ -23,24 +15,84 @@ const { locale } = Astro.params as { locale: LocaleCode }
 const t = getT(locale)
 
 const workLinks = [
-  { title: 'GitHub', href: ESocialLinks.github, description: t.socialMedia[ESocialLinks.github], Icon: Github, color: 'currentColor' },
-  { title: 'LinkedIn', href: ESocialLinks.linkedin, description: t.socialMedia[ESocialLinks.linkedin], Icon: LucideLinkedin, color: '#0A66C2' },
+  {
+    title: 'GitHub',
+    href: ESocialLinks.github,
+    description: t.socialMedia[ESocialLinks.github],
+    Icon: Github,
+    color: 'currentColor',
+  },
+  {
+    title: 'LinkedIn',
+    href: ESocialLinks.linkedin,
+    description: t.socialMedia[ESocialLinks.linkedin],
+    Icon: LucideLinkedin,
+    color: '#0A66C2',
+  },
 ]
 
 const directLinks = [
-  { title: 'Telegram', href: ESocialLinks.telegram, description: t.socialMedia[ESocialLinks.telegram], Icon: Telegram, color: '#26A5E4' },
+  {
+    title: 'Telegram',
+    href: ESocialLinks.telegram,
+    description: t.socialMedia[ESocialLinks.telegram],
+    Icon: Telegram,
+    color: '#26A5E4',
+  },
 ]
 
 const personalLinks = [
-  { title: 'BlueSky', href: ESocialLinks.bluesky, description: t.socialMedia[ESocialLinks.bluesky], Icon: Bluesky, color: '#0285FF' },
-  { title: 'Threads', href: ESocialLinks.threads, description: t.socialMedia[ESocialLinks.threads], Icon: Threads, color: 'currentColor' },
-  { title: 'Instagram', href: ESocialLinks.instagram, description: t.socialMedia[ESocialLinks.instagram], Icon: Instagram, color: '#E4405F' },
-  { title: 'Facebook', href: ESocialLinks.facebook, description: t.socialMedia[ESocialLinks.facebook], Icon: Facebook, color: '#0866FF' },
-  { title: 'X / Twitter', href: ESocialLinks.twitter, description: t.socialMedia[ESocialLinks.twitter], Icon: X, color: 'currentColor' },
-  { title: 'Nostr', href: ESocialLinks.nostr, description: t.socialMedia[ESocialLinks.nostr], Icon: Hash, color: '#8B5CF6' },
+  {
+    title: 'BlueSky',
+    href: ESocialLinks.bluesky,
+    description: t.socialMedia[ESocialLinks.bluesky],
+    Icon: Bluesky,
+    color: '#0285FF',
+  },
+  {
+    title: 'Threads',
+    href: ESocialLinks.threads,
+    description: t.socialMedia[ESocialLinks.threads],
+    Icon: Threads,
+    color: 'currentColor',
+  },
+  {
+    title: 'Instagram',
+    href: ESocialLinks.instagram,
+    description: t.socialMedia[ESocialLinks.instagram],
+    Icon: Instagram,
+    color: '#E4405F',
+  },
+  {
+    title: 'Facebook',
+    href: ESocialLinks.facebook,
+    description: t.socialMedia[ESocialLinks.facebook],
+    Icon: Facebook,
+    color: '#0866FF',
+  },
+  {
+    title: 'X / Twitter',
+    href: ESocialLinks.twitter,
+    description: t.socialMedia[ESocialLinks.twitter],
+    Icon: X,
+    color: 'currentColor',
+  },
+  {
+    title: 'Nostr',
+    href: ESocialLinks.nostr,
+    description: t.socialMedia[ESocialLinks.nostr],
+    Icon: Hash,
+    color: '#8B5CF6',
+  },
 ]
 
-type LinkItem = { title: string; href: string; description: string; Icon: typeof Github; color: string }
+type LinkItem = {
+  title: string
+  href: string
+  description: string
+  Icon: typeof Github
+  color: string
+}
 
 const sections: { heading: string; links: LinkItem[] }[] = [
   { heading: t.socialMedia.work, links: workLinks },

@@ -5,17 +5,19 @@ import faqEn from '@dmythro/locales/mdx/faq.en.md?raw'
 import faqUk from '@dmythro/locales/mdx/faq.uk.md?raw'
 import hobbiesEn from '@dmythro/locales/mdx/hobbies.en.md?raw'
 import hobbiesUk from '@dmythro/locales/mdx/hobbies.uk.md?raw'
-import { Bike, Book, Briefcase, CircleHelp, Cpu, Gamepad2, Headphones, Link, MapPin } from '@lucide/astro'
-import { Hash, Linkedin as LucideLinkedin } from '@lucide/astro'
 import {
-  Bluesky,
-  Facebook,
-  Github,
-  Instagram,
-  Telegram,
-  Threads,
-  X,
-} from 'simple-icons-astro'
+  Bike,
+  Book,
+  Briefcase,
+  CircleHelp,
+  Cpu,
+  Gamepad2,
+  Headphones,
+  Link,
+  MapPin,
+} from '@lucide/astro'
+import { Hash, Linkedin as LucideLinkedin } from '@lucide/astro'
+import { Bluesky, Facebook, Github, Instagram, Telegram, Threads, X } from 'simple-icons-astro'
 import { Image } from 'astro:assets'
 
 import studioImg from '@/assets/my-studio.webp'
@@ -52,10 +54,9 @@ const mdxKeyMap: Record<string, string> = {
 }
 
 // Load MDX content
-const mdxFiles = import.meta.glob('../../../../packages/locales/mdx/*.md', { eager: true }) as Record<
-  string,
-  { compiledContent(): string }
->
+const mdxFiles = import.meta.glob('../../../../packages/locales/mdx/*.md', {
+  eager: true,
+}) as Record<string, { compiledContent(): string }>
 
 // Fetch live stats at build time
 const [npmStats, ghStats] = await Promise.all([
@@ -68,7 +69,7 @@ const downloadsFormatted = `${formatNumber(npmStats.downloads)}+/mo`
 
 function replaceStats(html: string): string {
   return html
-    .replace(/~1\.3[kк]\s*/gi, starsFormatted + ' ')
+    .replace(/~1\.3[kк]\s*/gi, `${starsFormatted} `)
     .replace(/1\.5M\+\/mo/gi, downloadsFormatted)
     .replace(/1\.5M\+\s*зкачувань на місяць/gi, `${downloadsFormatted} завантажень на місяць`)
 }
@@ -112,15 +113,69 @@ const hobbyCards = hobbiesParts.slice(1).map((block, i) => {
 
 // Social links (contact-style with icons)
 const socialLinks = [
-  { title: 'GitHub', href: ESocialLinks.github, description: t.socialMedia[ESocialLinks.github], Icon: Github, color: 'currentColor' },
-  { title: 'LinkedIn', href: ESocialLinks.linkedin, description: t.socialMedia[ESocialLinks.linkedin], Icon: LucideLinkedin, color: '#0A66C2' },
-  { title: 'X / Twitter', href: ESocialLinks.twitter, description: t.socialMedia[ESocialLinks.twitter], Icon: X, color: 'currentColor' },
-  { title: 'Threads', href: ESocialLinks.threads, description: t.socialMedia[ESocialLinks.threads], Icon: Threads, color: 'currentColor' },
-  { title: 'Instagram', href: ESocialLinks.instagram, description: t.socialMedia[ESocialLinks.instagram], Icon: Instagram, color: '#E4405F' },
-  { title: 'Facebook', href: ESocialLinks.facebook, description: t.socialMedia[ESocialLinks.facebook], Icon: Facebook, color: '#0866FF' },
-  { title: 'Telegram', href: ESocialLinks.telegram, description: t.socialMedia[ESocialLinks.telegram], Icon: Telegram, color: '#26A5E4' },
-  { title: 'BlueSky', href: ESocialLinks.bluesky, description: t.socialMedia[ESocialLinks.bluesky], Icon: Bluesky, color: '#0285FF' },
-  { title: 'Nostr', href: ESocialLinks.nostr, description: t.socialMedia[ESocialLinks.nostr], Icon: Hash, color: '#8B5CF6' },
+  {
+    title: 'GitHub',
+    href: ESocialLinks.github,
+    description: t.socialMedia[ESocialLinks.github],
+    Icon: Github,
+    color: 'currentColor',
+  },
+  {
+    title: 'LinkedIn',
+    href: ESocialLinks.linkedin,
+    description: t.socialMedia[ESocialLinks.linkedin],
+    Icon: LucideLinkedin,
+    color: '#0A66C2',
+  },
+  {
+    title: 'X / Twitter',
+    href: ESocialLinks.twitter,
+    description: t.socialMedia[ESocialLinks.twitter],
+    Icon: X,
+    color: 'currentColor',
+  },
+  {
+    title: 'Threads',
+    href: ESocialLinks.threads,
+    description: t.socialMedia[ESocialLinks.threads],
+    Icon: Threads,
+    color: 'currentColor',
+  },
+  {
+    title: 'Instagram',
+    href: ESocialLinks.instagram,
+    description: t.socialMedia[ESocialLinks.instagram],
+    Icon: Instagram,
+    color: '#E4405F',
+  },
+  {
+    title: 'Facebook',
+    href: ESocialLinks.facebook,
+    description: t.socialMedia[ESocialLinks.facebook],
+    Icon: Facebook,
+    color: '#0866FF',
+  },
+  {
+    title: 'Telegram',
+    href: ESocialLinks.telegram,
+    description: t.socialMedia[ESocialLinks.telegram],
+    Icon: Telegram,
+    color: '#26A5E4',
+  },
+  {
+    title: 'BlueSky',
+    href: ESocialLinks.bluesky,
+    description: t.socialMedia[ESocialLinks.bluesky],
+    Icon: Bluesky,
+    color: '#0285FF',
+  },
+  {
+    title: 'Nostr',
+    href: ESocialLinks.nostr,
+    description: t.socialMedia[ESocialLinks.nostr],
+    Icon: Hash,
+    color: '#8B5CF6',
+  },
 ]
 
 const sections = interestList.map((key) => {

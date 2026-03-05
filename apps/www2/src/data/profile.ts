@@ -1,8 +1,8 @@
 import { ESocialLinks } from '@dmythro/constants'
 
 import musicImg from '@/assets/me-live.webp'
-import travelImg from '@/assets/road-trip.webp'
 import studioImg from '@/assets/my-studio.webp'
+import travelImg from '@/assets/road-trip.webp'
 
 export const socialLinks = [
   {

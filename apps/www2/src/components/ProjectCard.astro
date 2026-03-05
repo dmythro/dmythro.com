@@ -15,7 +15,13 @@ interface Props {
   github?: GithubStats | null
 }
 
-const iconMap = { package: Package, globe: Globe, terminal: Terminal, music: Music, camera: Camera } as const
+const iconMap = {
+  package: Package,
+  globe: Globe,
+  terminal: Terminal,
+  music: Music,
+  camera: Camera,
+} as const
 const { project, locale, npm, github } = Astro.props
 const title = project.title[locale]
 const IconComponent = iconMap[project.icon as keyof typeof iconMap]

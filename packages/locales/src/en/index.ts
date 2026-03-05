@@ -101,7 +101,8 @@ export const en = {
     contact: 'Contacts',
   },
   landing: {
-    heroDescription: 'Passionate about tech, web development, music, AI, traveling, photography and more. Kyiv, Ukraine.',
+    heroDescription:
+      'Passionate about tech, web development, music, AI, traveling, photography and more. Kyiv, Ukraine.',
 
     tldr: 'TL;DR',
     cvLink: 'Read full CV →',
