@@ -20,6 +20,11 @@ import { Hash, Linkedin as LucideLinkedin } from '@lucide/astro'
 import { Bluesky, Facebook, Github, Instagram, Telegram, Threads, X } from 'simple-icons-astro'
 import { Image } from 'astro:assets'
 
+import { getImage } from 'astro:assets'
+
+import meInStudioImg from '@/assets/me-in-studio.webp'
+import meLiveImg from '@/assets/me-live.webp'
+import roadTripImg from '@/assets/road-trip.webp'
 import studioImg from '@/assets/my-studio.webp'
 import { fetchGithubStats } from '@/utils/fetchGithubStats'
 import { fetchNpmStats, formatNumber } from '@/utils/fetchNpmStats'
@@ -101,13 +106,44 @@ function replaceStats(html: string): string {
     .replace(/1\.5M\+\s*зкачувань на місяць/gi, `${downloadsFormatted} завантажень на місяць`)
 }
 
+// Optimize prose images via Astro's image pipeline
+const proseImageMap = new Map(
+  await Promise.all(
+    [
+      { publicPath: '/me-in-studio.webp', src: meInStudioImg },
+      { publicPath: '/me-live.webp', src: meLiveImg },
+      { publicPath: '/road-trip.webp', src: roadTripImg },
+    ].map(async ({ publicPath, src }) => {
+      const optimized = await getImage({ src, width: src.width, loading: 'lazy' })
+      return [publicPath, optimized] as const
+    }),
+  ),
+)
+
+function processProseImages(html: string): string {
+  return html.replace(
+    /<img\s+src="([^"]+)"([^>]*)>/g,
+    (original, src, rest) => {
+      const optimized = proseImageMap.get(src)
+      if (!optimized) return original
+      const altMatch = rest.match(/alt="([^"]*)"/)
+      const alt = altMatch ? altMatch[1] : ''
+      const attrs = Object.entries(optimized.attributes)
+        .filter(([, v]) => v != null && v !== 'undefined')
+        .map(([k, v]) => `${k}="${v}"`)
+        .join(' ')
+      return `<img src="${optimized.src}" alt="${alt}" ${attrs}>`
+    },
+  )
+}
+
 // Pre-resolve all MDX content (compiledContent is async)
 const mdxContent: Partial<Record<string, string>> = {}
 for (const [interestKey, fileName] of Object.entries(mdxKeyMap)) {
   const key = Object.keys(mdxFiles).find((k) => k.endsWith(`/${fileName}.${locale}.md`))
   if (!key) continue
   const html = await mdxFiles[key].compiledContent()
-  mdxContent[interestKey] = processProseLinks(replaceStats(html))
+  mdxContent[interestKey] = processProseImages(processProseLinks(replaceStats(html)))
 }
 
 // FAQ parsing
@@ -262,7 +298,7 @@ const lastKey = interestList[interestList.length - 1]
               class="w-full h-auto rounded-lg"
               loading="lazy"
             />
-            <figcaption class="text-xs text-base-content/50 text-center py-1">
+            <figcaption class="text-xs text-base-content/65 text-center py-1">
               {t.myStudio}
             </figcaption>
           </figure>
@@ -278,7 +314,7 @@ const lastKey = interestList[interestList.length - 1]
         <div class="flex flex-col gap-2">
           {faqItems.map(({ question, answer }, i) => (
             <div class="collapse collapse-arrow bg-base-100 border border-base-300 print:collapse-open">
-              <input type="radio" name="faq-cv" checked={i === 0} />
+              <input type="radio" name="faq-cv" checked={i === 0} aria-label={question} />
               <div class="collapse-title font-medium">{question}</div>
               <div class="collapse-content">
                 <div class="prose prose-sm max-w-none" set:html={answer.replace(/\n\n/g, '<br><br>').replace(/`([^`]+)`/g, '<code>$1</code>')} />
