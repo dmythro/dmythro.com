@@ -1,5 +1,5 @@
 ---
-import { ESocialLinks } from '@dmythro/constants'
+import { BASE_URL, ESocialLinks } from '@dmythro/constants'
 import { Hash, Linkedin as LucideLinkedin } from '@lucide/astro'
 import { Bluesky, Facebook, Github, Instagram, Telegram, Threads, X } from 'simple-icons-astro'
 
@@ -99,9 +99,26 @@ const sections: { heading: string; links: LinkItem[] }[] = [
   { heading: t.contact.directContact, links: directLinks },
   { heading: t.socialMedia.personal, links: personalLinks },
 ]
+
+const contactJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: t.fullName,
+  url: BASE_URL,
+  sameAs: [
+    ESocialLinks.github,
+    ESocialLinks.linkedin,
+    ESocialLinks.bluesky,
+    ESocialLinks.threads,
+    ESocialLinks.instagram,
+    ESocialLinks.facebook,
+    ESocialLinks.twitter,
+    ESocialLinks.telegram,
+  ],
+}
 ---
 
-<PageLayout locale={locale} title={t.contact.title} description={t.contact.subtitle}>
+<PageLayout locale={locale} title={t.contact.title} description={t.contact.subtitle} jsonLd={contactJsonLd}>
   <div>
     <h1 class="text-3xl font-bold mb-2">{t.contact.title}</h1>
     <p class="text-content-secondary mb-8">{t.contact.subtitle}</p>

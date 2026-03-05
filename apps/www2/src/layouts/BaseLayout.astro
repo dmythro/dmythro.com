@@ -14,7 +14,8 @@ interface Props {
 }
 
 const { locale, title, description, jsonLd } = Astro.props
-const canonicalUrl = new URL(Astro.url.pathname, BASE_URL)
+const pathname = Astro.url.pathname.replace(/\.html$/, '')
+const canonicalUrl = new URL(pathname, BASE_URL)
 ---
 
 <html lang={locale} data-theme="light">
@@ -32,21 +33,27 @@ const canonicalUrl = new URL(Astro.url.pathname, BASE_URL)
     <meta property="og:url" content={canonicalUrl.href} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content={`${BASE_URL}/avatar@og.jpg`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:locale" content={locale === 'uk' ? 'uk_UA' : 'en_US'} />
     {availableLocales.filter((l) => l !== locale).map((l) => (
       <meta property="og:locale:alternate" content={l === 'uk' ? 'uk_UA' : 'en_US'} />
     ))}
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@dmythro" />
+    <meta name="twitter:creator" content="@dmythro" />
+    <meta name="twitter:image" content={`${BASE_URL}/avatar@og.jpg`} />
 
     <link rel="canonical" href={canonicalUrl.href} />
     {availableLocales.map((l) => (
       <link
         rel="alternate"
         hreflang={l}
-        href={`${BASE_URL}/${l}${Astro.url.pathname.replace(`/${locale}`, '')}`}
+        href={`${BASE_URL}/${l}${pathname.replace(`/${locale}`, '')}`}
       />
     ))}
+    <link rel="alternate" hreflang="x-default" href={`${BASE_URL}/en${pathname.replace(`/${locale}`, '')}`} />
 
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />

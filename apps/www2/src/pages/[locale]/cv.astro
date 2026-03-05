@@ -1,4 +1,6 @@
 ---
+import { BASE_URL, ESocialLinks } from '@dmythro/constants'
+
 import PageLayout from '@/layouts/PageLayout.astro'
 import CvArticle from '@/components/CvArticle.astro'
 import CvToc from '@/components/CvToc.astro'
@@ -12,12 +14,31 @@ export function getStaticPaths() {
 
 const { locale } = Astro.params as { locale: LocaleCode }
 const t = getT(locale)
+
+const cvJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  mainEntity: {
+    '@type': 'Person',
+    name: t.fullName,
+    url: BASE_URL,
+    jobTitle: 'Principal Engineer / Tech Lead',
+    sameAs: [
+      ESocialLinks.github,
+      ESocialLinks.linkedin,
+      ESocialLinks.bluesky,
+      ESocialLinks.threads,
+      ESocialLinks.twitter,
+    ],
+  },
+}
 ---
 
 <PageLayout
   locale={locale}
   title={`CV — ${t.fullName}`}
   description={t.meta.description}
+  jsonLd={cvJsonLd}
   fullWidth
 >
   <div class="flex gap-8 md:gap-10 print:block">
