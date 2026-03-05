@@ -20,7 +20,7 @@ const { labels } = Astro.props
     data-label-light={labels.light}
   >
     {/* System icon */}
-    <span class="theme-icon theme-icon-system">
+    <span class="theme-icon theme-icon-system invisible">
       <Monitor class="h-5 w-5" />
     </span>
     {/* Sun icon (light) */}
@@ -61,7 +61,7 @@ const { labels } = Astro.props
       for (const icon of btn.querySelectorAll('.theme-icon')) {
         icon.classList.add('hidden')
       }
-      btn.querySelector(`.theme-icon-${mode}`)?.classList.remove('hidden')
+      btn.querySelector(`.theme-icon-${mode}`)?.classList.remove('hidden', 'invisible')
       if (tipEl) tipEl.setAttribute('data-tip', labelMap[mode])
       btn.setAttribute('aria-label', labelMap[mode])
     }
