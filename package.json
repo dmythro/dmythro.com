@@ -21,10 +21,12 @@
     "check": "biome check .",
     "check-apply": "biome check --write --unsafe .",
     "lint": "biome lint .",
-    "start": "turbo start"
+    "start": "turbo start",
+    "postinstall": "lefthook install"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.6",
+    "lefthook": "2.1.2",
     "turbo": "2.8.13"
   },
   "dependencies": {
