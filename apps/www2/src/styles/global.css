@@ -17,6 +17,8 @@
 
 /* Dark theme overrides */
 [data-theme='dark'] {
+  --color-warning: oklch(0.75 0.15 75);
+  --color-warning-content: oklch(0.95 0.04 75);
   --color-base-100: #0A0F1C;
   --color-base-200: #0F172A;
   --color-base-300: #1E293B;
@@ -28,6 +30,8 @@
 
 /* Light theme overrides */
 [data-theme='light'] {
+  --color-warning: oklch(0.50 0.14 60);
+  --color-warning-content: oklch(0.98 0.02 80);
   --color-base-100: #FFFFFF;
   --color-base-200: #F8FAFC;
   --color-base-300: #F1F5F9;

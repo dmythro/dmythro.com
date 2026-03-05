@@ -108,7 +108,7 @@ export const uk: Translation = {
     beyondCode: 'Не тільки код',
     beyondCodeSubtitle: 'Музика, подорожі та все, що тримає в тонусі.',
     featuredProjects: 'Проєкти',
-    viewAll: 'всі →',
+    viewAll: 'всі проєкти →',
     stats: {
       years: 'років досвіду',
       projects: 'проєктів створено',

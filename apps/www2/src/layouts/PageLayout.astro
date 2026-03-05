@@ -20,9 +20,7 @@ const { locale, title, description, jsonLd, isHeroPage = false, fullWidth = fals
   <slot name="head" slot="head" />
 
   {isHeroPage ? (
-    <div transition:animate="fade">
-      <slot name="hero" />
-    </div>
+    <slot name="hero" />
     <main transition:animate="fade">
       <slot />
     </main>
