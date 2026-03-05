@@ -1,5 +1,2 @@
-# Strip trailing slashes → canonical non-slash URLs
-/:splat/ /:splat 301
-
 # Sitemap alias
 /sitemap.xml /sitemap-index.xml 200
