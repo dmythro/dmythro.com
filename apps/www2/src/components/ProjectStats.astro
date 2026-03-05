@@ -11,15 +11,13 @@ interface Props {
 const { npmDownloads, githubStars } = Astro.props
 ---
 
-<div class="flex flex-wrap gap-2">
-  {npmDownloads !== undefined && npmDownloads > 0 && (
-    <span class="badge badge-soft badge-primary">
-      <Package class="h-3.5 w-3.5 inline align-[-0.125rem]" />&nbsp;{formatNumber(npmDownloads)}/mo
-    </span>
-  )}
-  {githubStars !== undefined && githubStars > 0 && (
-    <span class="badge badge-soft badge-warning">
-      <Star class="h-3.5 w-3.5 inline align-[-0.125rem]" />&nbsp;{formatNumber(githubStars)}
-    </span>
-  )}
-</div>
+{npmDownloads !== undefined && npmDownloads > 0 && (
+  <span class="badge badge-sm badge-soft badge-primary">
+    <Package class="h-3.5 w-3.5 inline align-[-0.125rem]" />&nbsp;{formatNumber(npmDownloads)}/mo
+  </span>
+)}
+{githubStars !== undefined && githubStars > 0 && (
+  <span class="badge badge-sm badge-soft badge-warning">
+    <Star class="h-3.5 w-3.5 inline align-[-0.125rem]" />&nbsp;{formatNumber(githubStars)}
+  </span>
+)}
