@@ -51,6 +51,8 @@ const cards = [
           <Image
             src={image}
             alt={title}
+            widths={[400, 800]}
+            sizes="(min-width: 768px) 33vw, 100vw"
             class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
           />

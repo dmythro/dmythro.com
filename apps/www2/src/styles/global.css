@@ -25,6 +25,7 @@ html {
 
 /* Dark theme overrides */
 [data-theme='dark'] {
+  --color-primary: oklch(0.65 0.19 264);                   /* ~#818CF8 indigo-400, ≥4.5:1 on #0A0F1C */
   --color-warning: oklch(0.75 0.15 75);
   --color-warning-content: oklch(0.95 0.04 75);
   --color-base-100: #0A0F1C;
