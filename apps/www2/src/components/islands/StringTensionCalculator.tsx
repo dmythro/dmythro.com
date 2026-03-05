@@ -1,10 +1,6 @@
 import type { Translation } from '@dmythro/locales'
-import { Card, CardBody } from '@heroui/card'
-import { Divider } from '@heroui/divider'
-import { Input } from '@heroui/input'
-import { Select, SelectItem } from '@heroui/select'
-import { Tab, Tabs } from '@heroui/tabs'
-import { type FC, type Key, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import type { FunctionComponent, JSX } from 'preact'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks'
 
 import {
   DEFAULT_BASS_GAUGES,
@@ -25,6 +21,7 @@ import {
   getNotesForTuning,
   interpolateScale,
 } from './string-utils'
+import { RichSelect } from './RichSelect'
 import { TensionIndicator } from './TensionIndicator'
 
 const STORAGE_KEY = 'string-tension-calculator'
@@ -94,7 +91,9 @@ const saveToStorage = (state: StoredState): void => {
   }
 }
 
-export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ translations: t }) => {
+export const StringTensionCalculator: FunctionComponent<StringTensionCalculatorProps> = ({
+  translations: t,
+}) => {
   const [form, setForm] = useState<FormState>(getDefaultForm)
   const [stringsData, setStringsData] = useState<StringData[]>([])
   const [isHydrated, setIsHydrated] = useState(false)
@@ -120,7 +119,6 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
 
   // Initialize/update strings data when form changes
   useEffect(() => {
-    // Skip if we just restored from storage
     if (skipNextFormEffect.current) {
       skipNextFormEffect.current = false
       return
@@ -153,7 +151,6 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
     setStringsData(newStringsData)
   }, [form])
 
-  // Update individual string and recalculate tension
   const updateString = useCallback(
     (index: number, field: keyof StringData, value: string) => {
       setStringsData((prev) => {
@@ -182,8 +179,7 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
     [form.stringMaterial, form.stringBrand],
   )
 
-  const handleTypeChange = useCallback((key: Key) => {
-    const type = key as InstrumentType
+  const handleTypeChange = useCallback((type: InstrumentType) => {
     const preset = PRESETS[type].find((p) => p.key === DEFAULT_PRESETS[type])
     setForm((prev) => ({
       ...prev,
@@ -196,9 +192,7 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
     }))
   }, [])
 
-  const handlePresetChange = useCallback((keys: 'all' | Set<Key>) => {
-    if (keys === 'all' || keys.size === 0) return
-    const presetKey = Array.from(keys)[0] as string
+  const handlePresetChange = useCallback((presetKey: string) => {
     setForm((prev) => {
       const preset = PRESETS[prev.type].find((p) => p.key === presetKey)
       if (!preset) return prev
@@ -213,9 +207,7 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
     })
   }, [])
 
-  const handleBrandChange = useCallback((keys: 'all' | Set<Key>) => {
-    if (keys === 'all' || keys.size === 0) return
-    const brandKey = Array.from(keys)[0] as string
+  const handleBrandChange = useCallback((brandKey: string) => {
     const brand = getBrandPreset(brandKey)
     setForm((prev) => ({
       ...prev,
@@ -224,39 +216,30 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
     }))
   }, [])
 
-  const handleMaterialChange = useCallback((keys: 'all' | Set<Key>) => {
-    if (keys === 'all' || keys.size === 0) return
-    const value = Array.from(keys)[0] as StringMaterial
-    setForm((prev) => ({ ...prev, stringMaterial: value }))
+  const handleMaterialChange = useCallback((e: JSX.TargetedEvent<HTMLSelectElement>) => {
+    setForm((prev) => ({ ...prev, stringMaterial: e.currentTarget.value as StringMaterial }))
   }, [])
 
-  const handleStringsChange = useCallback((keys: 'all' | Set<Key>) => {
-    if (keys === 'all' || keys.size === 0) return
-    const value = Number(Array.from(keys)[0])
-    setForm((prev) => ({ ...prev, strings: value }))
+  const handleStringsChange = useCallback((e: JSX.TargetedEvent<HTMLSelectElement>) => {
+    setForm((prev) => ({ ...prev, strings: Number(e.currentTarget.value) }))
   }, [])
 
-  const handleTuningChange = useCallback((keys: 'all' | Set<Key>) => {
-    if (keys === 'all' || keys.size === 0) return
-    const value = Array.from(keys)[0] as string
-    setForm((prev) => ({ ...prev, tuning: value }))
+  const handleTuningChange = useCallback((e: JSX.TargetedEvent<HTMLSelectElement>) => {
+    setForm((prev) => ({ ...prev, tuning: e.currentTarget.value }))
   }, [])
 
-  // Allow free typing, just update the value
-  const handleScaleFromChange = useCallback((value: string) => {
-    setForm((prev) => ({ ...prev, scaleFrom: value }))
+  const handleScaleFromChange = useCallback((e: JSX.TargetedEvent<HTMLInputElement>) => {
+    setForm((prev) => ({ ...prev, scaleFrom: e.currentTarget.value }))
   }, [])
 
-  const handleScaleToChange = useCallback((value: string) => {
-    setForm((prev) => ({ ...prev, scaleTo: value }))
+  const handleScaleToChange = useCallback((e: JSX.TargetedEvent<HTMLInputElement>) => {
+    setForm((prev) => ({ ...prev, scaleTo: e.currentTarget.value }))
   }, [])
 
-  // Validate and constrain on blur
   const handleScaleFromBlur = useCallback(() => {
     setForm((prev) => {
       const fromValue = Number.parseFloat(prev.scaleFrom) || 0
       const toValue = Number.parseFloat(prev.scaleTo) || 0
-      // If "from" (1st string) is now larger than "to" (last string), update "to"
       if (fromValue > toValue) {
         return { ...prev, scaleTo: prev.scaleFrom }
       }
@@ -268,7 +251,6 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
     setForm((prev) => {
       const fromValue = Number.parseFloat(prev.scaleFrom) || 0
       const toValue = Number.parseFloat(prev.scaleTo) || 0
-      // If "to" (last string) is now smaller than "from" (1st string), update "to" to match "from"
       if (toValue < fromValue) {
         return { ...prev, scaleTo: prev.scaleFrom }
       }
@@ -281,9 +263,6 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
   const scaleRange = SCALE_RANGES[type]
   const presets = PRESETS[type]
   const presetLabel = type === 'guitar' ? t.guitarPreset : t.bassPreset
-  // const selectedPreset = presets.find((p) => p.key === preset)
-  const selectedStringPreset = STRING_BRAND_PRESETS.find((b) => b.key === stringBrand)
-
   const stringOptions = useMemo(
     () => Array.from({ length: range.max - range.min + 1 }, (_, i) => range.min + i),
     [range],
@@ -294,7 +273,7 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
       Object.keys(NOTE_FREQUENCIES).sort((a, b) => {
         const freqA = NOTE_FREQUENCIES[a]
         const freqB = NOTE_FREQUENCIES[b]
-        return freqB - freqA // High to low
+        return freqB - freqA
       }),
     [],
   )
@@ -305,177 +284,206 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
   )
 
   return (
-    <Card>
-      <CardBody className="gap-4 p-2 sm:p-3">
-        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:items-end sm:justify-between">
-          <Tabs
-            aria-label={t.instrumentType}
-            selectedKey={type}
-            onSelectionChange={handleTypeChange}
-            variant="bordered"
-            fullWidth
-            classNames={{ base: 'sm:w-auto self-start' }}
-          >
-            <Tab key="guitar" title={t.guitar} />
-            <Tab key="bass" title={t.bass} />
-          </Tabs>
+    <div class="card card-static bg-base-100 shadow-sm border border-base-300">
+      <div class="card-body gap-4 p-2 sm:p-3">
+        {/* Instrument type tabs + presets row */}
+        <div class="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:items-end sm:justify-between">
+          <div role="tablist" class="tabs tabs-box self-start">
+            <button
+              type="button"
+              role="tab"
+              class={`tab${type === 'guitar' ? ' tab-active' : ''}`}
+              onClick={() => handleTypeChange('guitar')}
+            >
+              {t.guitar}
+            </button>
+            <button
+              type="button"
+              role="tab"
+              class={`tab${type === 'bass' ? ' tab-active' : ''}`}
+              onClick={() => handleTypeChange('bass')}
+            >
+              {t.bass}
+            </button>
+          </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:flex sm:gap-4">
-            <Select
+          <div class="grid grid-cols-1 gap-4 sm:flex sm:gap-4">
+            <RichSelect
               label={presetLabel}
-              // description={selectedPreset?.description}
-              items={presets}
-              selectedKeys={[preset]}
-              onSelectionChange={handlePresetChange}
-              className="sm:w-56"
-            >
-              {(item) => (
-                <SelectItem key={item.key} description={item.description}>
-                  {item.label}
-                </SelectItem>
-              )}
-            </Select>
+              items={presets.map((p) => ({
+                key: p.key,
+                label: p.label,
+                description: p.description,
+              }))}
+              value={preset}
+              onChange={handlePresetChange}
+              class="sm:w-56"
+            />
 
-            <Select
+            <RichSelect
               label={t.stringPreset}
-              description={selectedStringPreset?.description}
-              items={STRING_BRAND_PRESETS}
-              selectedKeys={[stringBrand]}
-              onSelectionChange={handleBrandChange}
-              className="sm:w-48"
-              classNames={{ popoverContent: 'min-w-72' }}
-            >
-              {(item) => (
-                <SelectItem key={item.key} description={item.description}>
-                  {item.label}
-                </SelectItem>
-              )}
-            </Select>
+              items={STRING_BRAND_PRESETS.map((b) => ({
+                key: b.key,
+                label: b.label,
+                description: b.description,
+              }))}
+              value={stringBrand}
+              onChange={handleBrandChange}
+              class="sm:w-56"
+            />
           </div>
         </div>
 
-        <Divider className="opacity-30" />
+        <div class="divider my-0 opacity-30" />
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-          <Select
-            label={t.strings}
-            items={stringOptions.map((n) => ({ key: String(n), label: String(n) }))}
-            selectedKeys={[String(strings)]}
-            onSelectionChange={handleStringsChange}
-          >
-            {(item) => <SelectItem key={item.key}>{item.label}</SelectItem>}
-          </Select>
+        {/* Controls row */}
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+          <label class="form-control">
+            <div class="label">
+              <span class="label-text">{t.strings}</span>
+            </div>
+            <select
+              class="select select-bordered select-sm"
+              value={String(strings)}
+              onChange={handleStringsChange}
+            >
+              {stringOptions.map((n) => (
+                <option key={n} value={String(n)}>
+                  {n}
+                </option>
+              ))}
+            </select>
+          </label>
 
-          <Select label={t.tuning} selectedKeys={[tuning]} onSelectionChange={handleTuningChange}>
-            <SelectItem key="e">{t.tunings.e}</SelectItem>
-            <SelectItem key="e-drop-d">{t.tunings['e-drop-d']}</SelectItem>
-            <SelectItem key="eb">{t.tunings.eb}</SelectItem>
-            <SelectItem key="d">{t.tunings.d}</SelectItem>
-            <SelectItem key="b">{t.tunings.b}</SelectItem>
-          </Select>
+          <label class="form-control">
+            <div class="label">
+              <span class="label-text">{t.tuning}</span>
+            </div>
+            <select
+              class="select select-bordered select-sm"
+              value={tuning}
+              onChange={handleTuningChange}
+            >
+              <option value="e">{t.tunings.e}</option>
+              <option value="e-drop-d">{t.tunings['e-drop-d']}</option>
+              <option value="eb">{t.tunings.eb}</option>
+              <option value="d">{t.tunings.d}</option>
+              <option value="b">{t.tunings.b}</option>
+            </select>
+          </label>
 
-          <Input
-            type="number"
-            classNames={{ input: 'text-right' }}
-            label={t.scaleLast}
-            aria-label="Scale length for last string"
-            min={scaleRange.min}
-            max={scaleRange.max}
-            step={0.25}
-            value={scaleTo}
-            onValueChange={handleScaleToChange}
-            onBlur={handleScaleToBlur}
-            endContent={<span className="text-default-400 text-sm">"</span>}
-          />
+          <label class="form-control">
+            <div class="label">
+              <span class="label-text">{t.scaleLast}</span>
+            </div>
+            <label class="input input-bordered input-sm">
+              <input
+                type="number"
+                class="grow text-right"
+                min={scaleRange.min}
+                max={scaleRange.max}
+                step={0.25}
+                value={scaleTo}
+                onInput={handleScaleToChange}
+                onBlur={handleScaleToBlur}
+              />
+              <span class="text-base-content/40 text-sm">"</span>
+            </label>
+          </label>
 
-          <Input
-            type="number"
-            classNames={{ input: 'text-right' }}
-            label={t.scaleFirst}
-            aria-label="Scale length for first string"
-            min={scaleRange.min}
-            max={scaleRange.max}
-            step={0.25}
-            value={scaleFrom}
-            onValueChange={handleScaleFromChange}
-            onBlur={handleScaleFromBlur}
-            endContent={<span className="text-default-400 text-sm">"</span>}
-          />
+          <label class="form-control">
+            <div class="label">
+              <span class="label-text">{t.scaleFirst}</span>
+            </div>
+            <label class="input input-bordered input-sm">
+              <input
+                type="number"
+                class="grow text-right"
+                min={scaleRange.min}
+                max={scaleRange.max}
+                step={0.25}
+                value={scaleFrom}
+                onInput={handleScaleFromChange}
+                onBlur={handleScaleFromBlur}
+              />
+              <span class="text-base-content/40 text-sm">"</span>
+            </label>
+          </label>
 
-          <Select
-            className="col-span-2 sm:col-span-1"
-            label={t.material}
-            selectedKeys={[stringMaterial]}
-            onSelectionChange={handleMaterialChange}
-          >
-            <SelectItem key="nickel-wound">{t.materials['nickel-wound']}</SelectItem>
-            <SelectItem key="stainless-wound">{t.materials['stainless-wound']}</SelectItem>
-            <SelectItem key="pure-nickel">{t.materials['pure-nickel']}</SelectItem>
-          </Select>
+          <label class="form-control col-span-2 sm:col-span-1">
+            <div class="label">
+              <span class="label-text">{t.material}</span>
+            </div>
+            <select
+              class="select select-bordered select-sm"
+              value={stringMaterial}
+              onChange={handleMaterialChange}
+            >
+              <option value="nickel-wound">{t.materials['nickel-wound']}</option>
+              <option value="stainless-wound">{t.materials['stainless-wound']}</option>
+              <option value="pure-nickel">{t.materials['pure-nickel']}</option>
+            </select>
+          </label>
         </div>
 
-        <Divider className="opacity-30" />
+        <div class="divider my-0 opacity-30" />
 
-        <div className="flex flex-col gap-2 mb-2">
+        {/* String rows */}
+        <div class="flex flex-col gap-2 mb-2">
           {/* Header row */}
-          <div className="grid gap-1 sm:gap-2 text-xs font-semibold text-default-500 uppercase px-1 grid-cols-[1.5rem_5rem_4.5rem_5rem_3.5rem] sm:grid-cols-[2rem_1fr_1fr_1fr_4.5rem]">
-            <div className="text-center">#</div>
+          <div class="grid gap-1 sm:gap-2 text-xs font-semibold text-base-content/50 uppercase px-1 grid-cols-[1.5rem_5rem_4.5rem_5rem_3.5rem] sm:grid-cols-[2rem_1fr_1fr_1fr_4.5rem]">
+            <div class="text-center">#</div>
             <div>{t.scale}</div>
             <div>{t.note}</div>
             <div>{t.gauge}</div>
-            <div className="text-right">{t.tension}</div>
+            <div class="text-right">{t.tension}</div>
           </div>
 
           {/* String rows */}
-          <div className="flex flex-col gap-1 sm:gap-2">
+          <div class="flex flex-col gap-1 sm:gap-2">
             {stringsData.map((row, index) => (
               <div
                 key={row.number}
-                className="grid gap-1 sm:gap-2 items-center grid-cols-[1.5rem_5rem_4.5rem_5rem_3.5rem] sm:grid-cols-[2rem_1fr_1fr_1fr_4.5rem]"
+                class="grid gap-1 sm:gap-2 items-center grid-cols-[1.5rem_5rem_4.5rem_5rem_3.5rem] sm:grid-cols-[2rem_1fr_1fr_1fr_4.5rem]"
               >
-                <div className="font-medium text-center text-sm">{row.number}</div>
-                <Input
-                  type="number"
-                  size="sm"
-                  aria-label={`Scale length for string ${row.number}`}
-                  min={scaleRange.min}
-                  max={scaleRange.max}
-                  step={0.25}
-                  value={row.scale}
-                  onValueChange={(value) => updateString(index, 'scale', value)}
-                  endContent={<span className="text-default-400 text-xs">"</span>}
-                  classNames={{ input: 'text-right' }}
-                />
-                <Select
-                  size="sm"
-                  selectedKeys={[row.note]}
-                  onSelectionChange={(keys) => {
-                    if (keys !== 'all' && keys.size > 0) {
-                      updateString(index, 'note', Array.from(keys)[0] as string)
-                    }
-                  }}
+                <div class="font-medium text-center text-sm">{row.number}</div>
+                <label class="input input-bordered input-xs">
+                  <input
+                    type="number"
+                    class="grow text-right"
+                    aria-label={`Scale length for string ${row.number}`}
+                    min={scaleRange.min}
+                    max={scaleRange.max}
+                    step={0.25}
+                    value={row.scale}
+                    onInput={(e) => updateString(index, 'scale', e.currentTarget.value)}
+                  />
+                  <span class="text-base-content/40 text-xs">"</span>
+                </label>
+                <select
+                  class="select select-bordered select-xs min-w-0"
+                  value={row.note}
+                  onChange={(e) => updateString(index, 'note', e.currentTarget.value)}
                   aria-label={`Note for string ${row.number}`}
-                  classNames={{ popoverContent: 'min-w-24' }}
                 >
                   {noteOptions.map((note) => (
-                    <SelectItem key={note}>{note}</SelectItem>
+                    <option key={note} value={note}>
+                      {note}
+                    </option>
                   ))}
-                </Select>
-                <Select
-                  size="sm"
-                  selectedKeys={[row.gauge]}
-                  onSelectionChange={(keys) => {
-                    if (keys !== 'all' && keys.size > 0) {
-                      updateString(index, 'gauge', Array.from(keys)[0] as string)
-                    }
-                  }}
+                </select>
+                <select
+                  class="select select-bordered select-xs min-w-[85px]"
+                  value={row.gauge}
+                  onChange={(e) => updateString(index, 'gauge', e.currentTarget.value)}
                   aria-label={`Gauge for string ${row.number}`}
-                  classNames={{ base: 'min-w-[85px]', popoverContent: 'min-w-24' }}
                 >
                   {GAUGE_OPTIONS.map((gauge) => (
-                    <SelectItem key={gauge}>{gauge}</SelectItem>
+                    <option key={gauge} value={gauge}>
+                      {gauge}
+                    </option>
                   ))}
-                </Select>
+                </select>
                 <TensionIndicator
                   tension={row.tension}
                   stringNumber={row.number}
@@ -487,13 +495,14 @@ export const StringTensionCalculator: FC<StringTensionCalculatorProps> = ({ tran
           </div>
         </div>
 
-        <Divider className="opacity-30" />
+        <div class="divider my-0 opacity-30" />
 
-        <div className="flex justify-end pb-2 pr-2">
-          <span className="text-default-600">{t.totalTension}:</span>
-          <span className="font-mono font-semibold ml-2">{totalTension.toFixed(1)} lbs</span>
+        {/* Total tension */}
+        <div class="flex justify-end pb-2 pr-2">
+          <span class="text-base-content/60">{t.totalTension}:</span>
+          <span class="font-mono font-semibold ml-2">{totalTension.toFixed(1)} lbs</span>
         </div>
-      </CardBody>
-    </Card>
+      </div>
+    </div>
   )
 }

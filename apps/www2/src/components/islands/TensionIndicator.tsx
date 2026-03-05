@@ -1,6 +1,6 @@
 import type { Translation } from '@dmythro/locales'
-import { Tooltip } from '@heroui/tooltip'
-import { type FC, useState } from 'react'
+import type { FunctionComponent } from 'preact'
+import { useCallback, useState } from 'preact/hooks'
 
 import type { InstrumentType } from './string-constants'
 
@@ -77,7 +77,7 @@ interface TensionIndicatorProps {
   translations: IndicatorTranslations
 }
 
-export const TensionIndicator: FC<TensionIndicatorProps> = ({
+export const TensionIndicator: FunctionComponent<TensionIndicatorProps> = ({
   tension,
   stringNumber,
   instrumentType,
@@ -85,9 +85,14 @@ export const TensionIndicator: FC<TensionIndicatorProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false)
 
+  const handleClick = useCallback(() => {
+    setIsOpen(true)
+    setTimeout(() => setIsOpen(false), 2000)
+  }, [])
+
   if (tension <= 0) {
     return (
-      <span className="inline-flex items-center justify-end gap-1 font-mono text-xs sm:text-sm tabular-nums text-default-300">
+      <span class="inline-flex items-center justify-end gap-1 font-mono text-xs sm:text-sm tabular-nums text-base-content/30">
         —
       </span>
     )
@@ -97,7 +102,6 @@ export const TensionIndicator: FC<TensionIndicatorProps> = ({
   const deviation = getDeviation(tension, baseline)
   const color = getIndicatorColor(deviation)
 
-  // Determine arrow direction and symbol
   let symbol: string
   let tooltipContent: string
 
@@ -115,33 +119,23 @@ export const TensionIndicator: FC<TensionIndicatorProps> = ({
     tooltipContent = `${deviation.toFixed(0)}% ${t.vsBaseline} ${baseline} lbs`
   }
 
-  const handleClick = () => {
-    setIsOpen(true)
-    // Auto-close after 2 seconds on mobile
-    setTimeout(() => setIsOpen(false), 2000)
-  }
-
   return (
-    <Tooltip
-      content={tooltipContent}
-      placement="bottom-end"
-      offset={4}
-      delay={0}
-      closeDelay={0}
-      isOpen={isOpen}
-      showArrow
-      onOpenChange={setIsOpen}
+    <div
+      class={`tooltip tooltip-left${isOpen ? ' tooltip-open' : ''}`}
+      data-tip={tooltipContent}
     >
       <button
         type="button"
-        className="inline-flex items-center justify-end gap-1 font-mono text-xs sm:text-sm tabular-nums cursor-help"
+        class="inline-flex items-center justify-end gap-1 font-mono text-xs sm:text-sm tabular-nums cursor-help w-full"
         onClick={handleClick}
+        onMouseEnter={() => setIsOpen(true)}
+        onMouseLeave={() => setIsOpen(false)}
       >
-        <span role="img" className="text-xs" style={{ color }} aria-hidden="true">
+        <span class="text-xs" style={{ color }} aria-hidden="true">
           {symbol}
         </span>
         <span>{tension.toFixed(1)}</span>
       </button>
-    </Tooltip>
+    </div>
   )
 }
