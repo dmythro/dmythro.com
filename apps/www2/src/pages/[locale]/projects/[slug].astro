@@ -1,5 +1,5 @@
 ---
-import { ExternalLink, Github, Package } from '@lucide/astro'
+import { Camera, ExternalLink, Github, Globe, Music, Package, Star, Terminal } from '@lucide/astro'
 
 import PageLayout from '@/layouts/PageLayout.astro'
 import ProjectCard from '@/components/ProjectCard.astro'
@@ -31,6 +31,23 @@ const githubStats = project.github
   ? await fetchGithubStats(project.github, project.fallbackStars)
   : null
 
+// Load project article content
+const mdxFiles = import.meta.glob('../../../../../../packages/locales/mdx/projects/*.md', {
+  eager: true,
+}) as Record<string, { compiledContent(): string }>
+
+const mdxKey = Object.keys(mdxFiles).find((k) => k.endsWith(`/${slug}.${locale}.md`))
+const articleHtml = mdxKey ? mdxFiles[mdxKey].compiledContent() : null
+
+const iconMap = {
+  package: Package,
+  globe: Globe,
+  terminal: Terminal,
+  music: Music,
+  camera: Camera,
+} as const
+const IconComponent = iconMap[project.icon as keyof typeof iconMap]
+
 // Other highlighted projects for cross-linking
 const otherProjects = getHighlightedProjects()
   .filter((p) => p.slug !== project.slug)
@@ -38,26 +55,23 @@ const otherProjects = getHighlightedProjects()
 ---
 
 <PageLayout locale={locale} title={`${title} — ${t.name}`} description={description}>
-  <a href={`/${locale}/projects`} class="btn btn-ghost btn-sm mb-4 no-print">
-    ← {t.projects.title}
-  </a>
-
   <article>
     <div class="mb-6">
       <h1 class="text-3xl font-bold mb-2 flex items-center gap-2">
+        {IconComponent && <IconComponent class="h-7 w-7 shrink-0 opacity-60" />}
         <span class="mr-2">{title}</span>
         {project.url && (
-          <a href={project.url} class="tooltip tooltip-bottom" data-tip="Visit site" aria-label="Visit site" target="_blank" rel="noopener noreferrer">
+          <a href={project.url} class="tooltip tooltip-bottom tooltip-primary" data-tip="Visit site" aria-label="Visit site" target="_blank" rel="noopener noreferrer">
             <ExternalLink class="h-5 w-5 opacity-50 hover:opacity-100 transition-opacity" />
           </a>
         )}
         {project.github && (
-          <a href={`https://github.com/${project.github}`} class="tooltip tooltip-bottom" data-tip="GitHub" aria-label="GitHub repository" target="_blank" rel="noopener noreferrer">
+          <a href={`https://github.com/${project.github}`} class="tooltip tooltip-bottom tooltip-primary" data-tip="GitHub" aria-label="GitHub repository" target="_blank" rel="noopener noreferrer">
             <Github class="h-5 w-5 opacity-50 hover:opacity-100 transition-opacity" />
           </a>
         )}
         {project.npm && (
-          <a href={`https://www.npmjs.com/package/${project.npm}`} class="tooltip tooltip-bottom" data-tip="NPM" aria-label="NPM package" target="_blank" rel="noopener noreferrer">
+          <a href={`https://www.npmjs.com/package/${project.npm}`} class="tooltip tooltip-bottom tooltip-primary" data-tip="NPM" aria-label="NPM package" target="_blank" rel="noopener noreferrer">
             <Package class="h-5 w-5 opacity-50 hover:opacity-100 transition-opacity" />
           </a>
         )}
@@ -74,6 +88,10 @@ const otherProjects = getHighlightedProjects()
         ))}
       </div>
     </div>
+
+    {articleHtml && (
+      <div class="prose max-w-none mt-6" set:html={articleHtml} />
+    )}
   </article>
 
   {/* Other projects */}

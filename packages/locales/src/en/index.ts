@@ -112,7 +112,7 @@ export const en = {
     viewAll: 'all projects →',
     stats: {
       years: 'years of experience',
-      projects: 'projects built',
+      products: 'products shipped',
       downloads: 'downloads/mo',
       stars: 'stars',
     },

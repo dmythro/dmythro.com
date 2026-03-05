@@ -1,0 +1,7 @@
+This website is a personal portfolio built with **[Astro](https://astro.build/)**, **[DaisyUI](https://daisyui.com/)**, and **[Tailwind CSS](https://tailwindcss.com/)**. It follows the **zero-JavaScript-by-default** philosophy — pages are server-rendered as static HTML with CSS-only interactive components, and **React** islands are used only where client-side interactivity is truly needed.
+
+The site is **bilingual** (English and Ukrainian) with full **i18n** support, including locale detection, translated content, and localized routes. A **three-state theme toggle** cycles between system, dark, and light modes. The design is fully responsive and optimized for print, with dedicated CSS that produces clean CV pages suitable for **PDF export**.
+
+Under the hood, the project is structured as a **monorepo** powered by **[Bun](https://bun.sh/)** and **[Turborepo](https://turbo.build/repo)**. Shared packages provide constants, translations, and markdown content that are consumed by the **Astro** app. Code quality is enforced by **[Biome](https://biomejs.dev/)** for formatting and linting, with strict **TypeScript** throughout.
+
+The site is deployed to **[Cloudflare Pages](https://pages.cloudflare.com/)** with automatic builds from **GitHub**. Performance is a priority — **Lighthouse** scores consistently hit high marks thanks to **static generation**, minimal JavaScript, and optimized assets.

@@ -9,7 +9,7 @@ export interface AggregateStats {
   totalDownloadsFormatted: string
   totalStarsFormatted: string
   yearsExperience: number
-  projectCount: number
+  productsShipped: number
 }
 
 export async function fetchAggregateStats(): Promise<AggregateStats> {
@@ -31,6 +31,6 @@ export async function fetchAggregateStats(): Promise<AggregateStats> {
     totalDownloadsFormatted: formatNumber(totalDownloads),
     totalStarsFormatted: formatNumber(totalStars),
     yearsExperience: new Date().getFullYear() - 2006,
-    projectCount: projects.filter((p) => p.isHighlighted).length,
+    productsShipped: 50,
   }
 }

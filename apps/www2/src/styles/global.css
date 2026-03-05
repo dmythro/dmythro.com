@@ -132,6 +132,12 @@ html {
   margin-top: 0.25em;
 }
 
+.prose pre {
+  padding: 1em 1.25em;
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+}
+
 /* Burger menu popover — position below anchor button, blurred backdrop */
 #burger-menu {
   position-area: bottom span-left;
