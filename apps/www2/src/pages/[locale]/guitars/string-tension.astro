@@ -17,7 +17,10 @@ const st = t.guitars.stringTension
   <p class="text-base-content/70 mb-6">{st.description}</p>
 
   {/* React island — loads with full interactivity */}
-  <div id="string-tension-calculator">
+  <div
+    id="string-tension-calculator"
+    data-translations={JSON.stringify(st)}
+  >
     <div class="loading loading-spinner loading-lg mx-auto block" />
   </div>
 
@@ -28,9 +31,9 @@ const st = t.guitars.stringTension
 
     const container = document.getElementById('string-tension-calculator')
     if (container) {
-      const lang = window.location.pathname.split('/')[1] || 'en'
+      const translations = JSON.parse(container.dataset.translations || '{}')
       const root = createRoot(container)
-      root.render(createElement(StringTensionCalculator, { lang }))
+      root.render(createElement(StringTensionCalculator, { translations }))
     }
   </script>
 </PageLayout>
