@@ -5,6 +5,7 @@ export const GET: APIRoute = () => {
 Allow: /
 
 Sitemap: https://dmythro.com/sitemap.xml
+LLMs-Txt: https://dmythro.com/llms.txt
 `
   return new Response(body, {
     headers: { 'Content-Type': 'text/plain' },
