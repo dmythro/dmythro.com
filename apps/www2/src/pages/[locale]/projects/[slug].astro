@@ -1,4 +1,5 @@
 ---
+import { USERNAME } from '@dmythro/constants'
 import { Camera, ExternalLink, Github, Globe, Music, Package, Terminal } from '@lucide/astro'
 import ProjectCard from '@/components/ProjectCard.astro'
 import ProjectStats from '@/components/ProjectStats.astro'
@@ -53,7 +54,7 @@ const otherProjects = getHighlightedProjects()
   .slice(0, 3)
 ---
 
-<PageLayout locale={locale} title={`${title} — ${t.name}`} description={description}>
+<PageLayout locale={locale} title={`${title} — ${USERNAME}`} description={description}>
   <article>
     <div class="mb-6">
       <h1 class="text-3xl font-bold mb-2 flex items-center gap-2">

@@ -1,5 +1,5 @@
 ---
-import { BASE_URL, ESocialLinks } from '@dmythro/constants'
+import { BASE_URL, ESocialLinks, USERNAME } from '@dmythro/constants'
 import CvArticle from '@/components/CvArticle.astro'
 import CvToc from '@/components/CvToc.astro'
 import PhotoCard from '@/components/PhotoCard.astro'
@@ -37,7 +37,7 @@ const cvJsonLd = {
 
 <PageLayout
   locale={locale}
-  title={`CV — ${t.fullName}`}
+  title={`CV: ${t.fullName} — ${USERNAME}`}
   description={cvDescription}
   jsonLd={cvJsonLd}
   fullWidth

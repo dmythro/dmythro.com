@@ -1,5 +1,6 @@
 ---
 
+import { USERNAME } from '@dmythro/constants'
 import ProjectCard from '@/components/ProjectCard.astro'
 import { getProjectsByCategory } from '@/data/projects'
 import PageLayout from '@/layouts/PageLayout.astro'
@@ -25,7 +26,7 @@ const showCategoryTabs = categories.length > 2
 
 <PageLayout
   locale={locale}
-  title={`${t.projects.title} — ${t.name}`}
+  title={`${t.projects.title} — ${USERNAME}`}
   description={t.projects.description}
 >
   <h1 class="text-3xl font-bold mb-2">{t.projects.title}</h1>
