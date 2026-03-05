@@ -17,7 +17,7 @@ interface Props {
 const { locale } = Astro.props
 const t = getT(locale)
 const currentPath = Astro.url.pathname
-const localePathSuffix = currentPath.replace(`/${locale}`, '') || ''
+const localePathSuffix = currentPath.replace(`/${locale}`, '').replace(/\/$/, '') || ''
 
 const navItems = [
   { id: 'home', label: t.nav.home, href: `/${locale}`, Icon: House },
@@ -348,7 +348,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
       for (const icon of toggle.querySelectorAll('.theme-icon')) {
         icon.classList.add('hidden')
       }
-      toggle.querySelector(`.theme-icon-${mode}`)?.classList.remove('hidden')
+      toggle.querySelector(`.theme-icon-${mode}`)?.classList.remove('hidden', 'invisible')
     }
 
     const saved = localStorage.getItem('theme-mode') || 'system'
