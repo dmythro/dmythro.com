@@ -1,7 +1,7 @@
 ---
 import { Globe } from '@lucide/astro'
 
-import { availableLocales, type LocaleCode } from '@/utils/i18n'
+import { availableLocales, cleanPathname, type LocaleCode } from '@/utils/i18n'
 import { ELocaleNames } from '@dmythro/constants'
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { locale } = Astro.props
-const currentPath = Astro.url.pathname.replace(`/${locale}`, '') || '/'
+const currentPath = cleanPathname(Astro.url.pathname).replace(`/${locale}`, '') || '/'
 ---
 
 <div class="dropdown dropdown-end">

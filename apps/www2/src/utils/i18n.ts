@@ -17,3 +17,8 @@ export function getLocaleFromUrl(url: URL): LocaleCode {
   if (isValidLocale(locale)) return locale
   return 'en'
 }
+
+/** Strip `.html` suffix and trailing slash from a pathname (Astro static builds add `.html`) */
+export function cleanPathname(pathname: string): string {
+  return pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/'
+}

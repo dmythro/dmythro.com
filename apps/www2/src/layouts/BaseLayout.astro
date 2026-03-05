@@ -2,8 +2,7 @@
 import { ClientRouter } from 'astro:transitions'
 import { BASE_URL } from '@dmythro/constants'
 
-import type { LocaleCode } from '@/utils/i18n'
-import { availableLocales } from '@/utils/i18n'
+import { availableLocales, cleanPathname, type LocaleCode } from '@/utils/i18n'
 import '@/styles/global.css'
 
 interface Props {
@@ -14,7 +13,7 @@ interface Props {
 }
 
 const { locale, title, description, jsonLd } = Astro.props
-const pathname = Astro.url.pathname.replace(/\.html$/, '')
+const pathname = cleanPathname(Astro.url.pathname)
 const canonicalUrl = new URL(pathname, BASE_URL)
 ---
 

@@ -6,7 +6,7 @@ import { ELocaleNames, USERNAME } from '@dmythro/constants'
 import avatarImg from '@/assets/avatar@800px.jpg'
 
 import { getT } from '@/utils/getT'
-import { availableLocales, type LocaleCode } from '@/utils/i18n'
+import { availableLocales, cleanPathname, type LocaleCode } from '@/utils/i18n'
 
 import ThemeToggle from './ThemeToggle.astro'
 
@@ -16,7 +16,7 @@ interface Props {
 
 const { locale } = Astro.props
 const t = getT(locale)
-const currentPath = Astro.url.pathname
+const currentPath = cleanPathname(Astro.url.pathname)
 const localePathSuffix = currentPath.replace(`/${locale}`, '').replace(/\/$/, '') || ''
 
 const navItems = [
