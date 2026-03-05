@@ -25,11 +25,11 @@ const t = getT(locale)
 const title = project.title[locale]
 const description = project.description[locale]
 
-// Fetch stats at build time
-const npmStats = project.npm ? await fetchNpmStats(project.npm) : null
-const githubStats = project.github
-  ? await fetchGithubStats(project.github, project.fallbackStars)
-  : null
+// Fetch stats at build time (parallel)
+const [npmStats, githubStats] = await Promise.all([
+  project.npm ? fetchNpmStats(project.npm) : null,
+  project.github ? fetchGithubStats(project.github, project.fallbackStars) : null,
+])
 
 // Load project article content
 const mdxFiles = import.meta.glob('../../../../../../packages/locales/mdx/projects/*.md', {
