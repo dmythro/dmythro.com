@@ -32,9 +32,9 @@ const iconMap: Record<string, typeof Github> = {
 {/* Hero section — navbar height subtracted so hero + navbar = 100dvh */}
 <section
   id="hero-section"
-  class="h-[calc(100dvh-4rem)] flex flex-col items-center justify-center relative bg-gradient-to-br from-base-300 via-base-100 to-base-200 px-4"
+  class="min-h-[calc(100dvh-4rem)] flex flex-col items-center justify-center relative bg-linear-to-br from-base-300 via-base-100 to-base-200 px-4 py-8"
 >
-  <div class="flex flex-col items-center text-center gap-10 max-w-2xl w-full">
+  <div class="flex flex-col items-center text-center gap-6 md:gap-10 max-w-2xl w-full">
     {/* Avatar with glow effect */}
     <div class="relative" id="hero-avatar">
       {/* Glow */}
@@ -55,7 +55,7 @@ const iconMap: Record<string, typeof Github> = {
     </div>
 
     {/* Name — gradient text */}
-    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter bg-gradient-to-b from-primary/60 via-base-content/80 to-base-content bg-clip-text text-transparent px-1">
+    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter bg-linear-to-b from-primary/60 via-base-content/80 to-base-content bg-clip-text text-transparent px-1">
       {t.fullName}
     </h1>
 

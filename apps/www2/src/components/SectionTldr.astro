@@ -73,20 +73,20 @@ const statItems = [
       </div>
 
       {/* Stats grid */}
-      <div class="w-full md:w-[380px] md:shrink-0 grid grid-cols-2 gap-3">
+      <div class="w-full md:w-95 md:shrink-0 grid grid-cols-2 gap-3">
         {statItems.map(({ value, label, icon, href, gradient, border, shadow }) => (
           <a
             href={href}
             class:list={[
               'card p-5',
-              `bg-gradient-to-br ${gradient}`,
+              `bg-linear-to-br ${gradient}`,
               `border ${border}`,
               shadow,
             ]}
             target={href.startsWith('http') ? '_blank' : undefined}
             rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
           >
-            <span class="block text-4xl font-extrabold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <span class="block text-4xl font-extrabold bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
               {value}
             </span>
             <span class="mt-2 text-xs text-base-content/70">

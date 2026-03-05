@@ -104,7 +104,7 @@ const sections: { heading: string; links: LinkItem[] }[] = [
 <PageLayout locale={locale} title={t.contact.title} description={t.contact.subtitle}>
   <div>
     <h1 class="text-3xl font-bold mb-2">{t.contact.title}</h1>
-    <p class="text-[var(--color-content-secondary)] mb-8">{t.contact.subtitle}</p>
+    <p class="text-(-color-content-secondary) mb-8">{t.contact.subtitle}</p>
 
     {sections.map(({ heading, links }) => (
       <section class="mb-8">
@@ -124,7 +124,7 @@ const sections: { heading: string; links: LinkItem[] }[] = [
               </div>
               <div class="flex-1 min-w-0">
                 <div class="font-medium">{title}</div>
-                <div class="text-sm text-[var(--color-content-secondary)] truncate">{description}</div>
+                <div class="text-sm text-(-color-content-secondary) truncate">{description}</div>
               </div>
             </a>
           ))}

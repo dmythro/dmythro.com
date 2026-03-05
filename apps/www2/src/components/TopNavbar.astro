@@ -37,7 +37,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
 ---
 
 <header
-  class="bg-base-200 backdrop-blur-xl border-b border-[var(--color-border,theme(colors.base-300))] z-50 no-print sticky top-0"
+  class="bg-base-200 backdrop-blur-xl border-b border-base-300 z-50 no-print sticky top-0"
   id="main-navbar"
   transition:animate="none"
 >
@@ -46,10 +46,10 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
     id="navbar-scroll-hint"
     class="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 pointer-events-none opacity-0 transition-opacity duration-300 hidden lg:block"
   >
-    <ArrowDown class="h-6 w-6 text-[var(--color-content-secondary)] animate-pulse" />
+    <ArrowDown class="h-6 w-6 text-(-color-content-secondary) animate-pulse" />
   </div>
 
-  <div class="flex items-center justify-between h-16 px-4 md:px-16">
+  <div class="flex items-center justify-between h-16 px-4 lg:px-16">
     {/* Identity — left */}
     <a href={`/${locale}`} class="flex items-center gap-3 shrink-0 overflow-hidden">
       {/* Avatar — collapses when hero avatar is visible */}
@@ -63,7 +63,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
         <span class="text-lg font-semibold lowercase leading-tight">
           <span class="text-base-content/50 font-thin">@</span>{USERNAME.replace('@', '')}
         </span>
-        <span class="text-xs text-[var(--color-content-secondary)] hidden sm:inline leading-tight">{t.meta.descriptionShort}</span>
+        <span class="text-xs text-(-color-content-secondary) hidden sm:inline leading-tight">{t.meta.descriptionShort}</span>
       </div>
     </a>
 
@@ -77,12 +77,12 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
             class:list={[
               'flex items-center justify-center px-4 transition-colors border-b-2',
               active
-                ? 'bg-gradient-to-b from-[#6366F120] to-[#6366F108] border-primary'
+                ? 'bg-linear-to-b from-[#6366F120] to-[#6366F108] border-primary'
                 : 'border-transparent hover:bg-base-300/30',
             ]}
             aria-label={label}
           >
-            <Icon class:list={['h-[18px] w-[18px]', active ? 'text-primary' : 'text-[var(--color-content-secondary)]']} />
+            <Icon class:list={['h-4.5 w-4.5', active ? 'text-primary' : 'text-(-color-content-secondary)']} />
           </a>
         ) : (
           <a
@@ -90,8 +90,8 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
             class:list={[
               'flex items-center justify-center px-4 text-sm transition-colors border-b-2',
               active
-                ? 'bg-gradient-to-b from-[#6366F120] to-[#6366F108] border-primary text-primary font-semibold'
-                : 'border-transparent text-[var(--color-content-secondary)] font-medium hover:text-base-content hover:bg-base-300/30',
+                ? 'bg-linear-to-b from-[#6366F120] to-[#6366F108] border-primary text-primary font-semibold'
+                : 'border-transparent text-(-color-content-secondary) font-medium hover:text-base-content hover:bg-base-300/30',
             ]}
           >
             {label}
@@ -101,7 +101,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
 
       {/* Divider */}
       <div class="flex items-center pl-4">
-        <div class="w-px h-6 bg-[var(--color-border,theme(colors.base-300))]"></div>
+        <div class="w-px h-6 bg-base-300"></div>
       </div>
 
       {/* Utilities */}
@@ -116,7 +116,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
             href={`/${otherLocale}${localePathSuffix}`}
             hreflang={otherLocale}
             aria-label={t.actions.switchLang}
-            class="text-[13px] font-semibold text-[var(--color-content-secondary)] hover:text-base-content transition-colors"
+            class="text-[13px] font-semibold text-(-color-content-secondary) hover:text-base-content transition-colors"
           >
             {ELocaleNames[locale].slice(0, 2).toUpperCase()}
           </a>
@@ -143,7 +143,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
 <div
   id="burger-menu"
   popover="manual"
-  class="dropdown w-[280px] rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.15)] backdrop-blur-2xl border border-base-300 bg-base-200/90 p-0 m-0"
+  class="dropdown w-70 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.15)] backdrop-blur-2xl border border-base-300 bg-base-200/90 p-0 m-0"
   style="position-anchor:--burger-btn;"
   transition:animate="none"
 >
@@ -161,9 +161,9 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
               : 'text-base-content hover:bg-base-300/25',
           ]}
         >
-          <Icon class:list={['h-[18px] w-[18px]', active ? 'text-primary' : 'text-[var(--color-content-secondary)]']} />
+          <Icon class:list={['h-4.5 w-4.5', active ? 'text-primary' : 'text-(-color-content-secondary)']} />
           <span class="flex-1 text-sm font-medium">{label}</span>
-          <ChevronRight class="h-4 w-4 text-[var(--color-content-muted)]" />
+          <ChevronRight class="h-4 w-4 text-(-color-content-muted)" />
         </a>
       )
     })}
@@ -174,7 +174,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
 
   {/* Language section */}
   <div class="p-2">
-    <div class="px-3 py-1.5 text-xs font-medium text-[var(--color-content-muted)] uppercase tracking-wider">
+    <div class="px-3 py-1.5 text-xs font-medium text-(-color-content-muted) uppercase tracking-wider">
       {t.actions.language}
     </div>
     {availableLocales.map((loc) => {
@@ -185,12 +185,12 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
           hreflang={loc}
           class:list={[
             'flex items-center gap-3 px-3 h-10 rounded-lg transition-colors',
-            isCurrentLocale ? 'text-base-content' : 'text-[var(--color-content-secondary)] hover:bg-base-300/25',
+            isCurrentLocale ? 'text-base-content' : 'text-(-color-content-secondary) hover:bg-base-300/25',
           ]}
         >
           <span class:list={[
             'w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0',
-            isCurrentLocale ? 'border-primary' : 'border-[var(--color-content-muted)]',
+            isCurrentLocale ? 'border-primary' : 'border-(-color-content-muted)',
           ]}>
             {isCurrentLocale && <span class="w-2 h-2 rounded-full bg-primary"></span>}
           </span>
@@ -205,7 +205,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
 
   {/* Theme section */}
   <div class="p-2 pb-3" id="burger-theme-section">
-    <div class="px-3 py-1.5 text-xs font-medium text-[var(--color-content-muted)] uppercase tracking-wider">
+    <div class="px-3 py-1.5 text-xs font-medium text-(-color-content-muted) uppercase tracking-wider">
       {t.actions.theme}
     </div>
     {(['system', 'dark', 'light'] as const).map((mode) => {
@@ -218,9 +218,9 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
         <button
           type="button"
           data-theme-mode={mode}
-          class="burger-theme-btn flex items-center gap-3 px-3 h-10 rounded-lg transition-colors text-[var(--color-content-secondary)] hover:bg-base-300/25 w-full text-left"
+          class="burger-theme-btn flex items-center gap-3 px-3 h-10 rounded-lg transition-colors text-(-color-content-secondary) hover:bg-base-300/25 w-full text-left"
         >
-          <span class="burger-theme-dot w-4 h-4 rounded-full border-2 border-[var(--color-content-muted)] flex items-center justify-center shrink-0">
+          <span class="burger-theme-dot w-4 h-4 rounded-full border-2 border-(-color-content-muted) flex items-center justify-center shrink-0">
           </span>
           <span class="text-sm">{labels[mode]}</span>
         </button>
