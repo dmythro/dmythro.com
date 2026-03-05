@@ -7,7 +7,7 @@ html {
   scroll-behavior: smooth;
 }
 
-@theme {
+@theme inline {
   /* Primary palette from .pen design tokens */
   --color-primary: oklch(0.5457 0.2124 264.05);       /* #6366F1 indigo-500 */
   --color-primary-content: oklch(0.98 0.01 265);
@@ -15,6 +15,10 @@ html {
   --color-secondary-content: oklch(0.98 0.01 285);
   --color-accent: oklch(0.7896 0.1541 194.77);         /* #22D3EE cyan-400 */
   --color-accent-content: oklch(0.15 0.04 80);
+
+  /* Content colors — values come from theme overrides below */
+  --color-content-secondary: var(--color-content-secondary);
+  --color-content-muted: var(--color-content-muted);
 
   --font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
 }

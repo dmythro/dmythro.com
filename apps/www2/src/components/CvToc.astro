@@ -81,20 +81,12 @@ const sections = interestList.map((key) => {
   </ul>
 </nav>
 
-<style>
-  [data-toc-link].active {
-    color: var(--color-primary);
-    background: color-mix(in oklch, var(--color-primary) 8%, transparent);
-  }
-  [data-toc-link].active span span:first-child {
-    font-weight: 600;
-  }
-</style>
-
 <script is:inline>
-  ;(() => {
+  document.addEventListener('astro:page-load', () => {
     const links = document.querySelectorAll('[data-toc-link]')
     if (!links.length) return
+
+    const ACTIVE_CLASSES = ['!text-primary', 'bg-primary/8', 'font-semibold']
 
     const sections = []
     for (const link of links) {
@@ -111,12 +103,15 @@ const sections = interestList.map((key) => {
         }
         const visible = sections.find((s) => s.isVisible)
         if (visible) {
-          for (const s of sections) s.link.classList.toggle('active', s === visible)
+          for (const s of sections) {
+            const isActive = s === visible
+            for (const cls of ACTIVE_CLASSES) s.link.classList.toggle(cls, isActive)
+          }
         }
       },
       { rootMargin: '-80px 0px -60% 0px' },
     )
 
     for (const { section } of sections) observer.observe(section)
-  })()
+  })
 </script>

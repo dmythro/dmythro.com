@@ -56,13 +56,15 @@ const showCategoryTabs = categories.length > 2
 
   {/* Client-side filtering */}
   <script is:inline>
-    document.querySelectorAll('[role="tab"]').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('[role="tab"]').forEach(t => t.classList.remove('tab-active'))
-        tab.classList.add('tab-active')
-        const cat = tab.dataset.category
-        document.querySelectorAll('#projects-grid > div').forEach(card => {
-          card.style.display = (cat === 'all' || card.dataset.category === cat) ? '' : 'none'
+    document.addEventListener('astro:page-load', () => {
+      document.querySelectorAll('[role="tab"]').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('[role="tab"]').forEach(t => t.classList.remove('tab-active'))
+          tab.classList.add('tab-active')
+          const cat = tab.dataset.category
+          document.querySelectorAll('#projects-grid > div').forEach(card => {
+            card.style.display = (cat === 'all' || card.dataset.category === cat) ? '' : 'none'
+          })
         })
       })
     })
