@@ -8,6 +8,7 @@ import { defineConfig } from 'astro/config'
 export default defineConfig({
   site: 'https://dmythro.com',
   output: 'static',
+  trailingSlash: 'never',
   adapter: cloudflare(),
 
   integrations: [
@@ -33,6 +34,7 @@ export default defineConfig({
   },
 
   vite: {
+    // @ts-expect-error Vite version mismatch between @tailwindcss/vite and Astro's bundled Vite
     plugins: [tailwindcss()],
   },
 })

@@ -4,7 +4,7 @@ export const GET: APIRoute = () => {
   const body = `User-agent: *
 Allow: /
 
-Sitemap: https://dmythro.com/sitemap-index.xml
+Sitemap: https://dmythro.com/sitemap.xml
 `
   return new Response(body, {
     headers: { 'Content-Type': 'text/plain' },
