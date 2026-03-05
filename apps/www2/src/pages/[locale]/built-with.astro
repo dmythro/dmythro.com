@@ -1,4 +1,21 @@
 ---
+import { Globe, Languages } from '@lucide/astro'
+import {
+  Astro as AstroIcon,
+  Biome,
+  Bun,
+  Cloudflarepages,
+  Daisyui,
+  Heroui,
+  Nextdotjs,
+  Nodedotjs,
+  React,
+  Tailwindcss,
+  Turborepo,
+  Typescript,
+  Vercel,
+} from 'simple-icons-astro'
+
 import PageLayout from '@/layouts/PageLayout.astro'
 import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
 import { getT } from '@/utils/getT'
@@ -9,36 +26,75 @@ export function getStaticPaths() {
 
 const { locale } = Astro.params as { locale: LocaleCode }
 const t = getT(locale)
+
+const iconClass = 'size-4 inline-block align-[-2px] mr-1.5 opacity-60'
 ---
 
 <PageLayout locale={locale} title={`${t.builtWithTitle} — ${t.name}`} description={t.builtWithTitle}>
-  <div>
-    <a href={`/${locale}`} class="btn btn-ghost btn-sm mb-4 no-print">
-      ← {t.actions.backHome}
-    </a>
+  <h1 class="text-3xl font-bold mb-2">{t.builtWithTitle}</h1>
+  <p class="text-base-content/60 mb-8">Personal website and portfolio, open-sourced on GitHub.</p>
 
-    <h1 class="text-3xl font-bold mb-2">{t.builtWithTitle}</h1>
-
-    <div class="prose max-w-none">
-      <h2>v2 (2026)</h2>
-      <ul>
-        <li><strong>Framework:</strong> <a href="https://astro.build" target="_blank" rel="noopener">Astro 6</a> (beta) — zero JS by default</li>
-        <li><strong>UI:</strong> <a href="https://daisyui.com" target="_blank" rel="noopener">DaisyUI 5</a> — CSS-only components</li>
-        <li><strong>Styling:</strong> <a href="https://tailwindcss.com" target="_blank" rel="noopener">Tailwind CSS 4</a></li>
-        <li><strong>Runtime:</strong> <a href="https://bun.sh" target="_blank" rel="noopener">Bun</a></li>
-        <li><strong>Deployment:</strong> <a href="https://pages.cloudflare.com" target="_blank" rel="noopener">Cloudflare Pages</a></li>
-        <li><strong>Monorepo:</strong> Bun workspaces + Turborepo</li>
-        <li><strong>Linting:</strong> <a href="https://biomejs.dev" target="_blank" rel="noopener">Biome</a></li>
-        <li><strong>i18n:</strong> English + Ukrainian</li>
-      </ul>
-
-      <h2>v1 (2024–2025)</h2>
-      <ul>
-        <li><strong>Framework:</strong> Next.js 16 (App Router)</li>
-        <li><strong>UI:</strong> HeroUI 2.x (React component library)</li>
-        <li><strong>Styling:</strong> Tailwind CSS 4</li>
-        <li><strong>Deployment:</strong> Vercel</li>
-      </ul>
-    </div>
+  <div class="overflow-x-auto">
+        <table class="table table-zebra">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>v2 (2026)</th>
+              <th>v1 (2024–2025)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Framework</td>
+              <td><a href="https://astro.build" target="_blank" rel="noopener"><AstroIcon class={iconClass} />Astro 6</a></td>
+              <td><Nextdotjs class={iconClass} />Next.js 16</td>
+            </tr>
+            <tr>
+              <td>UI Library</td>
+              <td><a href="https://daisyui.com" target="_blank" rel="noopener"><Daisyui class={iconClass} />DaisyUI 5</a> (CSS-only)</td>
+              <td><Heroui class={iconClass} />HeroUI 2.x (React)</td>
+            </tr>
+            <tr>
+              <td>Styling</td>
+              <td colspan="2"><a href="https://tailwindcss.com" target="_blank" rel="noopener"><Tailwindcss class={iconClass} />Tailwind CSS 4</a></td>
+            </tr>
+            <tr>
+              <td>Language</td>
+              <td colspan="2"><a href="https://www.typescriptlang.org" target="_blank" rel="noopener"><Typescript class={iconClass} />TypeScript</a> (strict)</td>
+            </tr>
+            <tr>
+              <td>Interactivity</td>
+              <td><a href="https://react.dev" target="_blank" rel="noopener"><React class={iconClass} />React</a> islands</td>
+              <td><React class={iconClass} />Full React SPA</td>
+            </tr>
+            <tr>
+              <td>Transitions</td>
+              <td><a href="https://docs.astro.build/en/guides/view-transitions/" target="_blank" rel="noopener"><Globe class={iconClass} />View Transitions API</a></td>
+              <td>Not used</td>
+            </tr>
+            <tr>
+              <td>Runtime</td>
+              <td><a href="https://bun.sh" target="_blank" rel="noopener"><Bun class={iconClass} />Bun</a></td>
+              <td><Nodedotjs class={iconClass} />Node.js</td>
+            </tr>
+            <tr>
+              <td>Deployment</td>
+              <td><a href="https://pages.cloudflare.com" target="_blank" rel="noopener"><Cloudflarepages class={iconClass} />Cloudflare Pages</a></td>
+              <td><Vercel class={iconClass} />Vercel</td>
+            </tr>
+            <tr>
+              <td>Monorepo</td>
+              <td colspan="2"><Bun class={iconClass} />Bun workspaces + <Turborepo class={iconClass} />Turborepo</td>
+            </tr>
+            <tr>
+              <td>Linting</td>
+              <td colspan="2"><a href="https://biomejs.dev" target="_blank" rel="noopener"><Biome class={iconClass} />Biome</a></td>
+            </tr>
+            <tr>
+              <td>i18n</td>
+              <td colspan="2"><Languages class={iconClass} />English + Ukrainian</td>
+            </tr>
+          </tbody>
+        </table>
   </div>
 </PageLayout>

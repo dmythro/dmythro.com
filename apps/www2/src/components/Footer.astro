@@ -1,7 +1,11 @@
 ---
+import { Linkedin } from '@lucide/astro'
+import { Github, Threads, X } from 'simple-icons-astro'
+
 import { USERNAME } from '@dmythro/constants'
 
 import { footerLinks } from '@/data/profile'
+import { getT } from '@/utils/getT'
 import type { LocaleCode } from '@/utils/i18n'
 
 interface Props {
@@ -10,7 +14,15 @@ interface Props {
 }
 
 const { locale, fullWidth = false } = Astro.props
+const t = getT(locale)
 const year = new Date().getFullYear()
+
+const iconMap: Record<string, typeof Github> = {
+  github: Github,
+  twitter: X,
+  threads: Threads,
+  linkedin: Linkedin,
+}
 ---
 
 <footer class:list={[
@@ -19,19 +31,25 @@ const year = new Date().getFullYear()
 ]}>
   <div class="w-full flex flex-col md:flex-row md:justify-between md:items-center gap-4">
     <div class="text-sm">
-      &copy; {year} {USERNAME.replace('@', '')}
+      &copy; {year} {USERNAME.replace('@', '')} &middot;
+      <a href={`/${locale}/built-with`} class="link link-hover">{t.builtWith}</a>
     </div>
-    <div class="flex items-center gap-6">
-      {footerLinks.map(({ title, href }) => (
-        <a
-          href={href}
-          class="link link-hover text-sm"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {title}
-        </a>
-      ))}
+    <div class="flex items-center gap-4">
+      {footerLinks.map(({ id, title, href }) => {
+        const Icon = iconMap[id]
+        return Icon && (
+          <a
+            href={href}
+            class="opacity-80 hover:opacity-100 transition-opacity"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={title}
+            title={title}
+          >
+            <Icon class="size-4" />
+          </a>
+        )
+      })}
     </div>
   </div>
 </footer>
