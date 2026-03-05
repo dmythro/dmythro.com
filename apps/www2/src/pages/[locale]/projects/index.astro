@@ -1,7 +1,7 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro'
 import ProjectCard from '@/components/ProjectCard.astro'
-import { getProjectsByCategory, type ProjectCategory } from '@/data/projects'
+import { getProjectsByCategory } from '@/data/projects'
 import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
 import { getT } from '@/utils/getT'
 
@@ -11,16 +11,15 @@ export function getStaticPaths() {
 
 const { locale } = Astro.params as { locale: LocaleCode }
 const t = getT(locale)
+const ALL = 'all'
 const allProjects = getProjectsByCategory()
-const categories: (ProjectCategory | undefined)[] = [undefined, 'dev', 'music', 'photos']
-const categoryLabels: Record<string, string> = {
-  undefined: t.projects.categories.all,
-  dev: t.projects.categories.dev,
-  music: t.projects.categories.music,
-  photos: t.projects.categories.photos,
-}
-const uniqueCategories = new Set(allProjects.map((p) => p.category))
-const showCategoryTabs = uniqueCategories.size > 1
+const categories = [ALL, ...new Set(allProjects.map((p) => p.category))]
+const categoryLabels: Record<string, string> = Object.fromEntries(
+  categories
+    .filter((cat) => cat in t.projects.categories)
+    .map((cat) => [cat, t.projects.categories[cat as keyof typeof t.projects.categories]]),
+)
+const showCategoryTabs = categories.length > 2
 ---
 
 <PageLayout
@@ -37,10 +36,10 @@ const showCategoryTabs = uniqueCategories.size > 1
       {categories.map((cat) => (
         <button
           role="tab"
-          class:list={['tab', { 'tab-active': cat === undefined }]}
-          data-category={cat || 'all'}
+          class:list={['tab', { 'tab-active': cat === ALL }]}
+          data-category={cat}
         >
-          {categoryLabels[String(cat)]}
+          {categoryLabels[cat]}
         </button>
       ))}
     </div>
