@@ -1,4 +1,6 @@
 ---
+import type { fade } from 'astro:transitions'
+
 import type { LocaleCode } from '@/utils/i18n'
 import BaseLayout from './BaseLayout.astro'
 import TopNavbar from '@/components/TopNavbar.astro'
@@ -14,6 +16,33 @@ interface Props {
 }
 
 const { locale, title, description, jsonLd, isHeroPage = false, fullWidth = false } = Astro.props
+
+const contentFade: ReturnType<typeof fade> = {
+  forwards: {
+    old: [{ name: 'astroFadeOut', duration: '80ms', easing: 'ease-in', fillMode: 'both' }],
+    new: [
+      {
+        name: 'astroFadeIn',
+        duration: '120ms',
+        easing: 'ease-out',
+        fillMode: 'both',
+        delay: '30ms',
+      },
+    ],
+  },
+  backwards: {
+    old: [{ name: 'astroFadeOut', duration: '80ms', easing: 'ease-in', fillMode: 'both' }],
+    new: [
+      {
+        name: 'astroFadeIn',
+        duration: '120ms',
+        easing: 'ease-out',
+        fillMode: 'both',
+        delay: '30ms',
+      },
+    ],
+  },
+}
 ---
 
 <BaseLayout locale={locale} title={title} description={description} jsonLd={jsonLd}>
@@ -21,17 +50,27 @@ const { locale, title, description, jsonLd, isHeroPage = false, fullWidth = fals
 
   {isHeroPage ? (
     <slot name="hero" />
-    <main transition:animate="fade">
+    <main transition:name="main-content" transition:animate={contentFade}>
       <slot />
     </main>
   ) : (
     <>
       <TopNavbar locale={locale} />
-      <main class:list={[fullWidth ? 'px-5 md:px-16 py-6' : 'container mx-auto max-w-5xl px-4 py-6']} transition:animate="fade">
+      <main class:list={[fullWidth ? 'px-5 md:px-16 py-6' : 'container mx-auto max-w-5xl px-4 py-6']} transition:name="main-content" transition:animate={contentFade}>
         <slot />
       </main>
     </>
   )}
+
+  <style is:global>
+    ::view-transition-group(main-content) {
+      animation: none;
+    }
+    ::view-transition-old(main-content),
+    ::view-transition-new(main-content) {
+      will-change: opacity;
+    }
+  </style>
 
   <div transition:animate="none">
     <Footer locale={locale} fullWidth={fullWidth || isHeroPage} />
