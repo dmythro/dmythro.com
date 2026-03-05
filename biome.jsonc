@@ -9,7 +9,6 @@
     "ignoreUnknown": true,
     "includes": [
       "**",
-      "!**/*.css",
       "!.next",
       "!**/next-env.d.ts",
       "!data/test",
@@ -45,6 +44,14 @@
     "indentWidth": 2,
     "lineWidth": 100,
     "useEditorconfig": true
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    },
+    "formatter": {
+      "quoteStyle": "single"
+    }
   },
   "javascript": {
     "formatter": {
@@ -94,6 +101,16 @@
   },
   "overrides": [
     {
+      "includes": ["**/*.css"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "noImportantStyles": "off"
+          }
+        }
+      }
+    },
+    {
       "includes": ["**/*.astro"],
       "linter": {
         "rules": {
@@ -103,10 +120,22 @@
           }
         }
       },
+      /* Astro frontmatter: organizeImports with :BLANK_LINE: groups causes a
+         non-converging loop (Biome bug). Use flat groups without blank-line
+         separators for .astro files to keep sorting without the false positive. */
       "assist": {
         "actions": {
           "source": {
-            "organizeImports": "off"
+            "organizeImports": {
+              "level": "on",
+              "options": {
+                "groups": [
+                  [":PACKAGE_WITH_PROTOCOL:", ":PACKAGE:"],
+                  [":ALIAS:"],
+                  [":PATH:", ":URL:"]
+                ]
+              }
+            }
           }
         }
       }
