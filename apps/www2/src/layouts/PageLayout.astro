@@ -20,18 +20,22 @@ const { locale, title, description, jsonLd, isHeroPage = false, fullWidth = fals
   <slot name="head" slot="head" />
 
   {isHeroPage ? (
-    <slot name="hero" />
-    <main>
+    <div transition:animate="fade">
+      <slot name="hero" />
+    </div>
+    <main transition:animate="fade">
       <slot />
     </main>
   ) : (
     <>
       <TopNavbar locale={locale} />
-      <main class:list={[fullWidth ? 'px-5 md:px-16 py-6' : 'container mx-auto max-w-5xl px-4 py-6']}>
+      <main class:list={[fullWidth ? 'px-5 md:px-16 py-6' : 'container mx-auto max-w-5xl px-4 py-6']} transition:animate="fade">
         <slot />
       </main>
     </>
   )}
 
-  <Footer locale={locale} fullWidth={fullWidth || isHeroPage} />
+  <div transition:animate="none">
+    <Footer locale={locale} fullWidth={fullWidth || isHeroPage} />
+  </div>
 </BaseLayout>

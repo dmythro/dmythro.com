@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions'
 import { BASE_URL } from '@dmythro/constants'
 
 import type { LocaleCode } from '@/utils/i18n'
@@ -54,6 +55,8 @@ const canonicalUrl = new URL(Astro.url.pathname, BASE_URL)
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="sitemap" href="/sitemap.xml" />
 
+    <ClientRouter />
+
     {/* Theme init — prevent FOUC */}
     <script is:inline>
       ;(() => {
@@ -69,6 +72,18 @@ const canonicalUrl = new URL(Astro.url.pathname, BASE_URL)
         document.documentElement.setAttribute('data-theme', theme)
         if (theme === 'dark') document.documentElement.classList.add('dark')
       })()
+    </script>
+
+    {/* Re-apply theme after View Transition DOM swap */}
+    <script is:inline>
+      document.addEventListener('astro:after-swap', () => {
+        let mode = localStorage.getItem('theme-mode') || 'system'
+        const theme = mode === 'system'
+          ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : mode
+        document.documentElement.setAttribute('data-theme', theme)
+        document.documentElement.classList.toggle('dark', theme === 'dark')
+      })
     </script>
 
     <slot name="head" />

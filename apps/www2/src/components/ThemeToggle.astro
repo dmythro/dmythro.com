@@ -19,8 +19,8 @@ const { labels } = Astro.props
     data-label-dark={labels.dark}
     data-label-light={labels.light}
   >
-    {/* System icon */}
-    <span class="theme-icon theme-icon-system invisible">
+    {/* System icon — visible by default (no hidden), reserves grid cell */}
+    <span class="theme-icon theme-icon-system">
       <Monitor class="h-5 w-5" />
     </span>
     {/* Sun icon (light) */}
@@ -34,36 +34,46 @@ const { labels } = Astro.props
   </button>
 </div>
 
-<script is:inline>
-  ;(() => {
+<style>
+  #theme-toggle {
+    display: inline-grid !important;
+    place-items: center;
+  }
+  #theme-toggle .theme-icon {
+    grid-area: 1 / 1;
+  }
+</style>
+
+<script>
+  function initThemeToggle() {
     const btn = document.getElementById('theme-toggle')
     const tipEl = document.getElementById('theme-toggle-tip')
     if (!btn) return
 
-    const labelMap = {
+    const labelMap: Record<string, string | undefined> = {
       system: btn.dataset.labelSystem,
       dark: btn.dataset.labelDark,
       light: btn.dataset.labelLight,
     }
 
-    const getEffectiveTheme = (mode) =>
+    const getEffectiveTheme = (mode: string) =>
       mode === 'system'
         ? window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
         : mode
 
-    const applyTheme = (mode) => {
+    const applyTheme = (mode: string) => {
       const theme = getEffectiveTheme(mode)
       document.documentElement.setAttribute('data-theme', theme)
       document.documentElement.classList.toggle('dark', theme === 'dark')
     }
 
-    const updateIcon = (mode) => {
+    const updateIcon = (mode: string) => {
       for (const icon of btn.querySelectorAll('.theme-icon')) {
         icon.classList.add('hidden')
       }
-      btn.querySelector(`.theme-icon-${mode}`)?.classList.remove('hidden', 'invisible')
-      if (tipEl) tipEl.setAttribute('data-tip', labelMap[mode])
-      btn.setAttribute('aria-label', labelMap[mode])
+      btn.querySelector(`.theme-icon-${mode}`)?.classList.remove('hidden')
+      if (tipEl) tipEl.setAttribute('data-tip', labelMap[mode] ?? '')
+      btn.setAttribute('aria-label', labelMap[mode] ?? '')
     }
 
     let saved = localStorage.getItem('theme-mode') || 'system'
@@ -80,7 +90,7 @@ const { labels } = Astro.props
     applyTheme(saved)
     updateIcon(saved)
 
-    const cycle = { system: 'dark', dark: 'light', light: 'system' }
+    const cycle: Record<string, string> = { system: 'dark', dark: 'light', light: 'system' }
     btn.addEventListener('click', () => {
       saved = cycle[saved] || 'system'
       localStorage.setItem('theme-mode', saved)
@@ -88,8 +98,14 @@ const { labels } = Astro.props
       updateIcon(saved)
     })
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-      if (saved === 'system') applyTheme('system')
-    })
-  })()
+    if (!window.__themeMediaListenerAdded) {
+      window.__themeMediaListenerAdded = true
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        const current = localStorage.getItem('theme-mode') || 'system'
+        if (current === 'system') applyTheme('system')
+      })
+    }
+  }
+
+  document.addEventListener('astro:page-load', initThemeToggle)
 </script>

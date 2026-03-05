@@ -39,6 +39,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
 <header
   class="bg-base-200 backdrop-blur-xl border-b border-[var(--color-border,theme(colors.base-300))] z-50 no-print sticky top-0"
   id="main-navbar"
+  transition:animate="none"
 >
   {/* Scroll hint — pulsing arrow, visible only when hero avatar is on screen */}
   <div
@@ -136,7 +137,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
 </header>
 
 {/* Backdrop — captures clicks so they don't pass through to page elements */}
-<div id="burger-backdrop" class="fixed inset-0 z-[999] hidden"></div>
+<div id="burger-backdrop" class="fixed inset-0 z-[999] hidden" transition:animate="none"></div>
 
 {/* Mobile menu — popover renders in top layer, no stacking context issues */}
 <div
@@ -144,6 +145,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
   popover="manual"
   class="dropdown w-[280px] rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.15)] backdrop-blur-2xl border border-base-300 bg-base-200/90 p-0 m-0"
   style="position-anchor:--burger-btn;"
+  transition:animate="none"
 >
   {/* Nav links */}
   <nav class="p-2">
@@ -228,8 +230,8 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
 </div>
 
 {/* Show/hide navbar avatar + scroll hint based on hero avatar visibility */}
-<script is:inline>
-  ;(() => {
+<script>
+  function initNavbarAvatar() {
     const wrap = document.getElementById('navbar-avatar-wrap')
     const hint = document.getElementById('navbar-scroll-hint')
     const heroAvatar = document.getElementById('hero-avatar')
@@ -266,12 +268,14 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
       { threshold: 0 },
     )
     observer.observe(heroAvatar)
-  })()
+  }
+
+  document.addEventListener('astro:page-load', initNavbarAvatar)
 </script>
 
 {/* Burger menu — manual popover open/close with backdrop */}
-<script is:inline>
-  ;(() => {
+<script>
+  function initBurgerMenu() {
     const menu = document.getElementById('burger-menu')
     const backdrop = document.getElementById('burger-backdrop')
     const toggleBtn = document.getElementById('burger-toggle')
@@ -300,27 +304,39 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
     })
 
     menu.addEventListener('toggle', (e) => {
-      if (e.newState === 'closed') backdrop.classList.add('hidden')
+      if ((e as ToggleEvent).newState === 'closed') backdrop.classList.add('hidden')
     })
 
     for (const link of menu.querySelectorAll('a[href]')) {
       link.addEventListener('click', () => close())
     }
-  })()
+  }
+
+  // Close burger menu before View Transition swap
+  document.addEventListener('astro:before-swap', () => {
+    const menu = document.getElementById('burger-menu')
+    const backdrop = document.getElementById('burger-backdrop')
+    if (menu?.matches(':popover-open')) {
+      menu.hidePopover()
+    }
+    backdrop?.classList.add('hidden')
+  })
+
+  document.addEventListener('astro:page-load', initBurgerMenu)
 </script>
 
 {/* Burger menu theme switcher */}
-<script is:inline>
-  ;(() => {
+<script>
+  function initBurgerTheme() {
     const buttons = document.querySelectorAll('.burger-theme-btn')
     if (!buttons.length) return
 
-    const getEffectiveTheme = (mode) =>
+    const getEffectiveTheme = (mode: string) =>
       mode === 'system'
         ? window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
         : mode
 
-    const applyTheme = (mode) => {
+    const applyTheme = (mode: string) => {
       const theme = getEffectiveTheme(mode)
       document.documentElement.setAttribute('data-theme', theme)
       document.documentElement.classList.toggle('dark', theme === 'dark')
@@ -328,27 +344,28 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
 
     const PRIMARY = 'oklch(0.5457 0.2124 264.05)'
 
-    const updateBurgerDots = (currentMode) => {
+    const updateBurgerDots = (currentMode: string) => {
       for (const btn of buttons) {
         const mode = btn.getAttribute('data-theme-mode')
         const dot = btn.querySelector('.burger-theme-dot')
+        if (!dot) continue
         if (mode === currentMode) {
-          dot.style.borderColor = PRIMARY
+          ;(dot as HTMLElement).style.borderColor = PRIMARY
           dot.innerHTML = `<span class="w-2 h-2 rounded-full" style="background:${PRIMARY}"></span>`
         } else {
-          dot.style.borderColor = ''
+          ;(dot as HTMLElement).style.borderColor = ''
           dot.innerHTML = ''
         }
       }
     }
 
-    const updateThemeToggleIcon = (mode) => {
+    const updateThemeToggleIcon = (mode: string) => {
       const toggle = document.getElementById('theme-toggle')
       if (!toggle) return
       for (const icon of toggle.querySelectorAll('.theme-icon')) {
         icon.classList.add('hidden')
       }
-      toggle.querySelector(`.theme-icon-${mode}`)?.classList.remove('hidden', 'invisible')
+      toggle.querySelector(`.theme-icon-${mode}`)?.classList.remove('hidden')
     }
 
     const saved = localStorage.getItem('theme-mode') || 'system'
@@ -356,12 +373,14 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
 
     for (const btn of buttons) {
       btn.addEventListener('click', () => {
-        const mode = btn.getAttribute('data-theme-mode')
+        const mode = btn.getAttribute('data-theme-mode') ?? 'system'
         localStorage.setItem('theme-mode', mode)
         applyTheme(mode)
         updateBurgerDots(mode)
         updateThemeToggleIcon(mode)
       })
     }
-  })()
+  }
+
+  document.addEventListener('astro:page-load', initBurgerTheme)
 </script>
