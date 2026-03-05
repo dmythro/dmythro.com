@@ -120,10 +120,7 @@ export const TensionIndicator: FunctionComponent<TensionIndicatorProps> = ({
   }
 
   return (
-    <div
-      class={`tooltip tooltip-left${isOpen ? ' tooltip-open' : ''}`}
-      data-tip={tooltipContent}
-    >
+    <div class={`tooltip tooltip-left${isOpen ? ' tooltip-open' : ''}`} data-tip={tooltipContent}>
       <button
         type="button"
         class="inline-flex items-center justify-end gap-1 font-mono text-xs sm:text-sm tabular-nums cursor-help w-full"
