@@ -1,6 +1,6 @@
 import { ESocialLinks } from '@dmythro/constants'
-import type { Translation } from '..'
 
+import type { Translation } from '..'
 import { skillLevel } from './constants'
 import { interests } from './interests'
 import { skills } from './skills'
@@ -101,7 +101,8 @@ export const uk: Translation = {
     contact: 'Контакти',
   },
   landing: {
-    heroDescription: 'Цікавлюсь технологіями, веб розробкою, музикою, ШІ, подорожами, фотографією та іншим. Київ, Україна.',
+    heroDescription:
+      'Цікавлюсь технологіями, веб розробкою, музикою, ШІ, подорожами, фотографією та іншим. Київ, Україна.',
     tldr: 'TL;DR',
     cvLink: 'Переглянути повне CV →',
     beyondCode: 'Не тільки код',
