@@ -3,7 +3,9 @@ import type { InterestKey, InterestLocale } from '@dmythro/locales'
 import { ESocialLinks } from '@dmythro/constants'
 import faqEn from '@dmythro/locales/mdx/faq.en.md?raw'
 import faqUk from '@dmythro/locales/mdx/faq.uk.md?raw'
-import { Briefcase, CircleHelp, Gamepad2, Headphones, Link, MapPin } from '@lucide/astro'
+import hobbiesEn from '@dmythro/locales/mdx/hobbies.en.md?raw'
+import hobbiesUk from '@dmythro/locales/mdx/hobbies.uk.md?raw'
+import { Bike, Book, Briefcase, CircleHelp, Cpu, Gamepad2, Headphones, Link, MapPin } from '@lucide/astro'
 import { Hash, Linkedin as LucideLinkedin } from '@lucide/astro'
 import {
   Bluesky,
@@ -93,6 +95,21 @@ const faqItems: FaqItem[] = rawFaq
     return { question: question.trim(), answer }
   })
 
+// Hobbies parsing — intro + cards
+const rawHobbies = locale === 'uk' ? hobbiesUk : hobbiesEn
+const hobbiesParts = rawHobbies.split(/^## /m)
+const hobbiesIntro = hobbiesParts[0].trim()
+const hobbyIconMap: Record<string, typeof Cpu> = {
+  0: Cpu,
+  1: Bike,
+  2: Book,
+  3: Gamepad2,
+}
+const hobbyCards = hobbiesParts.slice(1).map((block, i) => {
+  const [title, ...rest] = block.split('\n')
+  return { title: title.trim(), body: rest.join('\n').trim(), Icon: hobbyIconMap[i] }
+})
+
 // Social links (contact-style with icons)
 const socialLinks = [
   { title: 'GitHub', href: ESocialLinks.github, description: t.socialMedia[ESocialLinks.github], Icon: Github, color: 'currentColor' },
@@ -128,9 +145,29 @@ const lastKey = interestList[interestList.length - 1]
         {Icon && <Icon class="h-6 w-6 text-primary shrink-0 mt-1" />}
       </div>
 
-      {/* MDX prose content */}
-      {mdxHtml && (
+      {/* MDX prose content (skip hobbies — rendered as cards below) */}
+      {mdxHtml && key !== 'hobbies' && (
         <div class="prose prose-sm max-w-none" set:html={mdxHtml} />
+      )}
+
+      {/* Hobbies — intro + cards */}
+      {key === 'hobbies' && (
+        <>
+          <p class="text-sm text-base-content/80 mb-4">{hobbiesIntro}</p>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {hobbyCards.map(({ title: cardTitle, body, Icon: CardIcon }) => (
+              <div class="card bg-base-100 border border-base-300 p-4">
+                <div class="flex items-start gap-3">
+                  {CardIcon && <CardIcon class="h-5 w-5 text-primary shrink-0 mt-0.5" />}
+                  <div>
+                    <h3 class="font-semibold mb-1">{cardTitle}</h3>
+                    <p class="text-sm text-base-content/70">{body.replace(/&mdash;/g, '—')}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       )}
 
       {/* webDev extras */}

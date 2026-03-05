@@ -50,7 +50,7 @@ const sections: { heading: string; links: LinkItem[] }[] = [
 ---
 
 <PageLayout locale={locale} title={t.contact.title} description={t.contact.subtitle}>
-  <div class="max-w-3xl mx-auto">
+  <div>
     <h1 class="text-3xl font-bold mb-2">{t.contact.title}</h1>
     <p class="text-[var(--color-content-secondary)] mb-8">{t.contact.subtitle}</p>
 
@@ -59,7 +59,7 @@ const sections: { heading: string; links: LinkItem[] }[] = [
         <h2 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-content-muted)] mb-3">
           {heading}
         </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {links.map(({ title, href, description, Icon, color }) => (
             <a
               href={href}
