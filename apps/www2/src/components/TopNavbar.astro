@@ -9,9 +9,10 @@ import ThemeToggle from './ThemeToggle.astro'
 
 interface Props {
   locale: LocaleCode
+  isHeroPage?: boolean
 }
 
-const { locale } = Astro.props
+const { locale, isHeroPage = false } = Astro.props
 const t = getT(locale)
 const currentPath = cleanPathname(Astro.url.pathname)
 const localePathSuffix = currentPath.replace(`/${locale}`, '').replace(/\/$/, '') || ''
@@ -53,6 +54,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
       <div
         id="navbar-avatar-wrap"
         class="size-11 rounded-full overflow-hidden border-2 border-indigo-300 shrink-0 transition-all duration-300 ease-out"
+        {...isHeroPage ? { 'data-hero-page': '' } : {}}
       >
         <Image src={avatarImg} alt={USERNAME} width={44} height={44} class="size-full object-cover" />
       </div>
@@ -226,12 +228,31 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
   </div>
 </div>
 
+{/* Hide navbar avatar by default on hero pages to prevent flash */}
+<style>
+  #navbar-avatar-wrap[data-hero-page] {
+    width: 0;
+    opacity: 0;
+    border-width: 0;
+    margin-right: -12px;
+  }
+
+  #burger-menu {
+    position-area: bottom end;
+  }
+
+  #burger-menu.menu-up {
+    position-area: top end;
+  }
+</style>
+
 {/* Show/hide navbar avatar + scroll hint based on hero avatar visibility */}
 <script>
   function initNavbarAvatar() {
     const wrap = document.getElementById('navbar-avatar-wrap')
     const hint = document.getElementById('navbar-scroll-hint')
     const heroAvatar = document.getElementById('hero-avatar')
+    const burgerMenu = document.getElementById('burger-menu')
     if (!wrap) return
 
     const hideAvatar = () => {
@@ -240,6 +261,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
       wrap.style.borderWidth = '0'
       wrap.style.marginRight = '-12px'
       if (hint) hint.style.opacity = '0.6'
+      burgerMenu?.classList.add('menu-up')
     }
 
     const showAvatar = () => {
@@ -248,6 +270,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
       wrap.style.borderWidth = ''
       wrap.style.marginRight = ''
       if (hint) hint.style.opacity = '0'
+      burgerMenu?.classList.remove('menu-up')
     }
 
     if (!heroAvatar) {
