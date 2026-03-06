@@ -63,6 +63,15 @@ const canonicalUrl = new URL(pathname, BASE_URL)
 
     <ClientRouter />
 
+    {/* Safari: skip view transition animations (snapshot step causes stutter) */}
+    <script is:inline>
+      if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
+        document.addEventListener('astro:before-swap', (e) => {
+          e.viewTransition.skipTransition()
+        })
+      }
+    </script>
+
     {/* Theme init — prevent FOUC */}
     <script is:inline>
       ;(() => {
