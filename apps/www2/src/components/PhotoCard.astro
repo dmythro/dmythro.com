@@ -22,6 +22,7 @@ const years = new Date().getFullYear() - 2006
       alt={t.fullName}
       class="w-full h-auto rounded-lg"
       loading="eager"
+      fetchpriority="high"
     />
     <figcaption class="text-xs text-base-content/50 text-center py-1.5">
       {t.fullName} — 📷 Alina Delyne
