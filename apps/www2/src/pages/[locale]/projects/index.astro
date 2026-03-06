@@ -1,6 +1,7 @@
 ---
 
 import { USERNAME } from '@dmythro/constants'
+import PageHeader from '@/components/PageHeader.astro'
 import ProjectCard from '@/components/ProjectCard.astro'
 import { getProjectsByCategory } from '@/data/projects'
 import PageLayout from '@/layouts/PageLayout.astro'
@@ -29,8 +30,7 @@ const showCategoryTabs = categories.length > 2
   title={`${t.projects.title} — ${USERNAME}`}
   description={t.projects.description}
 >
-  <h1 class="text-3xl font-bold mb-2">{t.projects.title}</h1>
-  <p class="text-base-content/60 mb-8">{t.projects.description}</p>
+  <PageHeader title={t.projects.title} subtitle={t.projects.description} />
 
   {/* Category tabs — only show when multiple categories exist */}
   {showCategoryTabs && (

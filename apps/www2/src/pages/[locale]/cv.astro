@@ -2,6 +2,7 @@
 import { BASE_URL, ESocialLinks, USERNAME } from '@dmythro/constants'
 import CvArticle from '@/components/CvArticle.astro'
 import CvToc from '@/components/CvToc.astro'
+import PageHeader from '@/components/PageHeader.astro'
 import PhotoCard from '@/components/PhotoCard.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { getT } from '@/utils/getT'
@@ -67,8 +68,7 @@ const cvJsonLd = {
         <PhotoCard locale={locale} />
       </div>
 
-      <h1 class="text-3xl font-bold mb-2">{`CV — ${t.fullName}`}</h1>
-      <p class="text-base-content/60 mb-10">{t.meta.descriptionShort}</p>
+      <PageHeader title={`CV — ${t.fullName}`} subtitle={t.meta.descriptionShort} />
 
       <CvArticle locale={locale} />
     </div>

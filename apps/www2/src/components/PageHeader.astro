@@ -1,0 +1,13 @@
+---
+interface Props {
+  title?: string
+  subtitle: string
+  class?: string
+}
+const { title, subtitle, class: className } = Astro.props
+---
+
+<h1 class:list={['text-3xl font-bold mb-2', className]} transition:name="page-title">
+  {title ?? <slot />}
+</h1>
+<p class="text-base-content/60 mb-8">{subtitle}</p>

@@ -2,6 +2,7 @@
 import { BASE_URL, ESocialLinks, USERNAME } from '@dmythro/constants'
 import { Hash, Linkedin as LucideLinkedin } from '@lucide/astro'
 import { Bluesky, Facebook, Github, Instagram, Telegram, Threads, X } from 'simple-icons-astro'
+import PageHeader from '@/components/PageHeader.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { getT } from '@/utils/getT'
 import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
@@ -119,8 +120,7 @@ const contactJsonLd = {
 
 <PageLayout locale={locale} title={`${t.contact.title} — ${USERNAME}`} description={t.contact.subtitle} jsonLd={contactJsonLd}>
   <div>
-    <h1 class="text-3xl font-bold mb-2">{t.contact.title}</h1>
-    <p class="text-content-secondary mb-8">{t.contact.subtitle}</p>
+    <PageHeader title={t.contact.title} subtitle={t.contact.subtitle} />
 
     {sections.map(({ heading, links }) => (
       <section class="mb-8">

@@ -1,6 +1,7 @@
 ---
 import { USERNAME } from '@dmythro/constants'
 import { Camera, ExternalLink, Github, Globe, Music, Package, Terminal } from '@lucide/astro'
+import PageHeader from '@/components/PageHeader.astro'
 import ProjectCard from '@/components/ProjectCard.astro'
 import ProjectStats from '@/components/ProjectStats.astro'
 import { getHighlightedProjects, projects } from '@/data/projects'
@@ -57,7 +58,7 @@ const otherProjects = getHighlightedProjects()
 <PageLayout locale={locale} title={`${title} — ${USERNAME}`} description={description}>
   <article>
     <div class="mb-6">
-      <h1 class="text-3xl font-bold mb-2 flex items-center gap-2">
+      <PageHeader subtitle={description} class="flex items-center gap-2">
         {IconComponent && <IconComponent class="h-7 w-7 shrink-0 opacity-60" />}
         <span class="mr-2">{title}</span>
         {project.url && (
@@ -75,8 +76,7 @@ const otherProjects = getHighlightedProjects()
             <Package class="h-5 w-5 opacity-50 hover:opacity-100 transition-opacity" />
           </a>
         )}
-      </h1>
-      <p class="text-lg text-base-content/70 mb-4">{description}</p>
+      </PageHeader>
 
       <div class="flex flex-wrap items-center gap-2">
         <ProjectStats

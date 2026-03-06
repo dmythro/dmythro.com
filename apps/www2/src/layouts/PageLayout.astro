@@ -69,6 +69,24 @@ const contentFade: ReturnType<typeof fade> = {
     ::view-transition-new(main-content) {
       will-change: opacity;
     }
+
+    ::view-transition-group(navbar) {
+      animation: none;
+      z-index: 50;
+    }
+
+    ::view-transition-group(navbar-avatar) {
+      animation: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      ::view-transition-group(*),
+      ::view-transition-old(*),
+      ::view-transition-new(*) {
+        animation: none !important;
+        animation-duration: 0s !important;
+      }
+    }
   </style>
 
   <div transition:animate="none">

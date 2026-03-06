@@ -38,6 +38,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
   class="bg-base-200 backdrop-blur-xl border-b border-base-300 z-50 no-print sticky top-0"
   id="main-navbar"
   transition:animate="none"
+  transition:name="navbar"
 >
   {/* Scroll hint — pulsing arrow, visible only when hero avatar is on screen */}
   <div
@@ -55,6 +56,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
         id="navbar-avatar-wrap"
         class="size-11 rounded-full overflow-hidden border-2 border-indigo-300 shrink-0 transition-all duration-300 ease-out"
         {...isHeroPage ? { 'data-hero-page': '' } : {}}
+        transition:name="navbar-avatar"
       >
         <Image src={avatarImg} alt={USERNAME} width={44} height={44} loading="eager" decoding="sync" fetchpriority="high" class="size-full object-cover" />
       </div>
@@ -343,8 +345,8 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
     }
   }
 
-  // Close burger menu before View Transition swap
-  document.addEventListener('astro:before-swap', () => {
+  // Close burger menu before View Transition snapshot
+  document.addEventListener('astro:before-preparation', () => {
     const menu = document.getElementById('burger-menu')
     const backdrop = document.getElementById('burger-backdrop')
     if (menu?.matches(':popover-open')) {

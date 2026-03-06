@@ -92,6 +92,16 @@ const canonicalUrl = new URL(pathname, BASE_URL)
       })
     </script>
 
+    {/* Disable smooth scroll during view transitions (JS fallback) */}
+    <script is:inline>
+      document.addEventListener('astro:before-swap', () => {
+        document.documentElement.style.scrollBehavior = 'auto'
+      })
+      document.addEventListener('astro:after-swap', () => {
+        document.documentElement.style.scrollBehavior = ''
+      })
+    </script>
+
     <slot name="head" />
 
     {jsonLd && (

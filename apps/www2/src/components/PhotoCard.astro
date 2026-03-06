@@ -13,7 +13,7 @@ const t = getT(locale)
 const years = new Date().getFullYear() - 2006
 ---
 
-<div>
+<div transition:name="cv-photo" transition:animate="none">
   <figure class="overflow-hidden">
     <Image
       src={avatarLarge}

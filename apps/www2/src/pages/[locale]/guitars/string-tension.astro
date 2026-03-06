@@ -2,6 +2,7 @@
 
 import { USERNAME } from '@dmythro/constants'
 import { StringTensionCalculator } from '@/components/islands/StringTensionCalculator'
+import PageHeader from '@/components/PageHeader.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { getT } from '@/utils/getT'
 import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
@@ -16,8 +17,7 @@ const st = t.guitars.stringTension
 ---
 
 <PageLayout locale={locale} title={`${st.title} — ${USERNAME}`} description={st.description}>
-  <h1 class="text-3xl font-bold mb-2">{st.title}</h1>
-  <p class="text-base-content/70 mb-6">{st.description}</p>
+  <PageHeader title={st.title} subtitle={st.description} />
 
   <StringTensionCalculator client:load translations={st} />
 </PageLayout>
