@@ -127,7 +127,7 @@ export const uk: Translation = {
     viewAll: 'всі проєкти →',
     stats: {
       years: 'років досвіду',
-      products: 'продуктів створено',
+      linesOfCode: 'рядків коду',
       downloads: 'завантажень/міс',
       stars: 'зірок',
     },

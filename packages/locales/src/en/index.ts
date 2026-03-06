@@ -128,7 +128,7 @@ export const en = {
     viewAll: 'all projects →',
     stats: {
       years: 'years of experience',
-      products: 'products shipped',
+      linesOfCode: 'lines of code',
       downloads: 'downloads/mo',
       stars: 'stars',
     },

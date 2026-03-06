@@ -1,6 +1,6 @@
 ---
 import { ESocialLinks } from '@dmythro/constants'
-import { ArrowRight, FileText, Github, Package } from '@lucide/astro'
+import { ArrowRight, FileText, Github, Infinity as InfinityIcon, Package } from '@lucide/astro'
 import type { AggregateStats } from '@/utils/fetchAggregateStats'
 import { getT } from '@/utils/getT'
 import type { LocaleCode } from '@/utils/i18n'
@@ -25,8 +25,8 @@ const statItems = [
     shadow: 'shadow-[0_0_20px_rgba(99,102,241,0.1)]',
   },
   {
-    value: `${stats.productsShipped}+`,
-    label: t.landing.stats.products,
+    value: '∞',
+    label: t.landing.stats.linesOfCode,
     icon: '' as const,
     href: `/${locale}/projects`,
     gradient: 'from-secondary/15 to-primary/10',
@@ -86,7 +86,9 @@ const statItems = [
             rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
           >
             <span class="block text-4xl font-extrabold bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
-              {value}
+              {value === '∞' ? (
+                <InfinityIcon class="h-12 w-12 -my-1 stroke-[2.5] stroke-primary" />
+              ) : value}
             </span>
             <span class="mt-2 text-xs text-base-content/70">
               {icon === 'npm' && <Package class="h-3.5 w-3.5 inline align-[-0.1875rem]" aria-label="NPM" role="img" /> }
