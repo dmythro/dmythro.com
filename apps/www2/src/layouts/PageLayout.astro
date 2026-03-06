@@ -75,10 +75,6 @@ const contentFade: ReturnType<typeof fade> = {
       z-index: 50;
     }
 
-    ::view-transition-group(navbar-avatar) {
-      animation: none;
-    }
-
     @media (prefers-reduced-motion: reduce) {
       ::view-transition-group(*),
       ::view-transition-old(*),
