@@ -17,7 +17,7 @@
     "ci": "biome ci .",
     "clean": "turbo clean",
     "cv": "turbo cv --force",
-    "dev": "turbo dev",
+    "dev": "turbo dev --filter=www2",
     "check": "biome check .",
     "check-apply": "biome check --write --unsafe .",
     "lint": "biome lint .",
