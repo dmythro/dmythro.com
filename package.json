@@ -25,6 +25,9 @@
     "postinstall": "lefthook install"
   },
   "catalog": {
+    "dayjs": "1.11.19",
+    "schema-dts": "1.1.5",
+    "tailwindcss": "4.2.1",
     "typescript": "6.0.1-rc"
   },
   "devDependencies": {

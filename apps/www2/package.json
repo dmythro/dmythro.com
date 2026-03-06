@@ -26,10 +26,10 @@
     "astro": "6.0.0-beta.17",
     "daisyui": "5.5.19",
     "preact": "10.28.4",
-    "dayjs": "1.11.19",
-    "schema-dts": "1.1.5",
+    "dayjs": "catalog:",
+    "schema-dts": "catalog:",
     "simple-icons-astro": "16.1.0",
-    "tailwindcss": "4.2.1"
+    "tailwindcss": "catalog:"
   },
   "devDependencies": {
     "typescript": "catalog:",
