@@ -136,7 +136,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
 </header>
 
 {/* Backdrop — captures clicks so they don't pass through to page elements */}
-<div id="burger-backdrop" class="fixed inset-0 z-[999] hidden" transition:animate="none"></div>
+<div id="burger-backdrop" class="fixed inset-0 z-999 hidden" transition:animate="none"></div>
 
 {/* Mobile menu — popover renders in top layer, no stacking context issues */}
 <div
