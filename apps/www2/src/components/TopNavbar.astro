@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets'
-import { ELocaleNames, USERNAME } from '@dmythro/constants'
+import { localeNames, USERNAME } from '@dmythro/constants'
 import { ArrowDown, ChevronRight, FileText, FolderOpen, House, Mail, Menu } from '@lucide/astro'
 import avatarImg from '@/assets/avatar@800px.jpg'
 import { getT } from '@/utils/getT'
@@ -118,7 +118,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
             aria-label={t.actions.switchLang}
             class="text-[13px] font-semibold text-content-secondary hover:text-base-content transition-colors"
           >
-            {ELocaleNames[locale].slice(0, 2).toUpperCase()}
+            {localeNames[locale].slice(0, 2).toUpperCase()}
           </a>
         </div>
       </div>
@@ -192,7 +192,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
           ]}>
             {isCurrentLocale && <span class="w-2 h-2 rounded-full bg-primary"></span>}
           </span>
-          <span class="text-sm">{ELocaleNames[loc]}</span>
+          <span class="text-sm">{localeNames[loc]}</span>
         </a>
       )
     })}

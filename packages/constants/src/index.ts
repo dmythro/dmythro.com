@@ -1,10 +1,12 @@
+import { languages } from 'countries-list'
+
 export const BASE_URL = 'https://dmythro.com'
 export const USERNAME = '@dmythro'
 
-export enum ELocaleNames {
-  en = 'English',
-  uk = 'Українська',
-}
+export const localeNames = {
+  en: languages.en.native,
+  uk: languages.uk.native,
+} as const
 
 export enum ESocialLinks {
   bluesky = 'https://bsky.app/profile/dmythro.bsky.social',

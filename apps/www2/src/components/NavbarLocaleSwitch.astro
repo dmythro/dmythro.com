@@ -1,5 +1,5 @@
 ---
-import { ELocaleNames } from '@dmythro/constants'
+import { localeNames } from '@dmythro/constants'
 import { Globe } from '@lucide/astro'
 import { availableLocales, cleanPathname, type LocaleCode } from '@/utils/i18n'
 
@@ -14,7 +14,7 @@ const currentPath = cleanPathname(Astro.url.pathname).replace(`/${locale}`, '') 
 <div class="dropdown dropdown-end">
   <div tabindex="0" role="button" class="btn btn-ghost btn-sm gap-1">
     <Globe class="h-4 w-4" />
-    <span class="hidden sm:inline">{ELocaleNames[locale]}</span>
+    <span class="hidden sm:inline">{localeNames[locale]}</span>
   </div>
   <ul tabindex="0" class="dropdown-content menu bg-base-200 rounded-box z-50 w-40 p-2 shadow">
     {availableLocales.map((l) => (
@@ -24,7 +24,7 @@ const currentPath = cleanPathname(Astro.url.pathname).replace(`/${locale}`, '') 
           hreflang={l}
           class:list={[{ active: l === locale }]}
         >
-          {ELocaleNames[l]}
+          {localeNames[l]}
         </a>
       </li>
     ))}

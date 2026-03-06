@@ -1,6 +1,6 @@
 'use client'
 
-import { ELocaleNames } from '@dmythro/constants'
+import { localeNames } from '@dmythro/constants'
 import { availableLocales } from '@dmythro/locales/constants'
 import { DropdownItem, DropdownMenu } from '@heroui/dropdown'
 import { Link } from '@heroui/link'
@@ -27,7 +27,7 @@ export const NavMenuLocaleLinks: FC<LangProp> = ({ lang }) => {
               hrefLang={l}
               isBlock
             >
-              {ELocaleNames[l]}
+              {localeNames[l]}
             </Link>
           </NavbarMenuItem>
         )
@@ -58,7 +58,7 @@ export const DropdownMenuLocaleLinks: FC<LangProp> = ({ lang }) => {
               isActive ? <CheckIcon className="fill-foreground" width={16} height={16} /> : null
             }
           >
-            {ELocaleNames[l]}
+            {localeNames[l]}
           </DropdownItem>
         )
       })}

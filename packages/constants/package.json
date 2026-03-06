@@ -10,6 +10,9 @@
   "scripts": {
     "check-types": "tsc --noEmit"
   },
+  "dependencies": {
+    "countries-list": "catalog:"
+  },
   "devDependencies": {
     "tsconfig": "workspace:*",
     "typescript": "catalog:"

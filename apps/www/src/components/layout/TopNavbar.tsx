@@ -1,6 +1,6 @@
 'use client'
 
-import { ELocaleNames, isOpenToWork, USERNAME } from '@dmythro/constants'
+import { isOpenToWork, localeNames, USERNAME } from '@dmythro/constants'
 import { Button } from '@heroui/button'
 import { Chip } from '@heroui/chip'
 import { Dropdown, DropdownTrigger } from '@heroui/dropdown'
@@ -30,7 +30,7 @@ const avatarImageProps = {
 export const TopNavbar: FC<LangProp> = ({ lang }) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean | undefined>()
   const t = getT(lang)
-  const localeName = ELocaleNames[lang]
+  const localeName = localeNames[lang]
 
   return (
     <Navbar
