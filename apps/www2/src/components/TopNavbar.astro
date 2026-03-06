@@ -237,12 +237,15 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
     margin-right: -12px;
   }
 
-  #burger-menu {
-    position-area: bottom end;
+  :global(#burger-menu) {
+    inset: auto;
+    right: anchor(--burger-btn right);
+    top: anchor(--burger-btn bottom);
   }
 
-  #burger-menu.menu-up {
-    position-area: top end;
+  :global(#burger-menu.menu-up) {
+    top: auto;
+    bottom: anchor(--burger-btn top);
   }
 </style>
 
