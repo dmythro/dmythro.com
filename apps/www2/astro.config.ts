@@ -13,6 +13,7 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'never',
   build: { format: 'file' },
+  devToolbar: { enabled: false },
   adapter: cloudflare(),
 
   integrations: [
