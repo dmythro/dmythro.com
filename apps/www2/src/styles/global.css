@@ -145,12 +145,6 @@ html {
   margin-bottom: 1.25em;
 }
 
-/* Burger menu popover — position below anchor button, blurred backdrop */
-#burger-menu {
-  position-area: bottom span-left;
-  margin-top: 0.5rem;
-}
-
 #burger-menu::backdrop {
   background: transparent;
 }

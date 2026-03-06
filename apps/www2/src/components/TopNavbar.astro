@@ -128,7 +128,6 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
       id="burger-toggle"
       class="btn btn-ghost btn-square lg:hidden"
       aria-label={t.actions.openMenu}
-      style="anchor-name:--burger-btn"
     >
       <Menu class="h-5 w-5" />
     </button>
@@ -143,7 +142,6 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
   id="burger-menu"
   popover="manual"
   class="dropdown w-70 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.15)] backdrop-blur-2xl border border-base-300 bg-base-200/90 p-0 m-0"
-  style="position-anchor:--burger-btn;"
   transition:animate="none"
 >
   {/* Nav links */}
@@ -238,14 +236,9 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
   }
 
   :global(#burger-menu) {
+    position-area: none;
     inset: auto;
-    right: anchor(--burger-btn right);
-    top: anchor(--burger-btn bottom);
-  }
-
-  :global(#burger-menu.menu-up) {
-    top: auto;
-    bottom: anchor(--burger-btn top);
+    overflow-y: auto;
   }
 </style>
 
@@ -255,19 +248,16 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
     const wrap = document.getElementById('navbar-avatar-wrap')
     const hint = document.getElementById('navbar-scroll-hint')
     const heroAvatar = document.getElementById('hero-avatar')
-    const burgerMenu = document.getElementById('burger-menu')
     if (!wrap) return
 
     const hideAvatar = () => {
       wrap.setAttribute('data-hero-page', '')
       if (hint) hint.style.opacity = '0.6'
-      burgerMenu?.classList.add('menu-up')
     }
 
     const showAvatar = () => {
       wrap.removeAttribute('data-hero-page')
       if (hint) hint.style.opacity = '0'
-      burgerMenu?.classList.remove('menu-up')
     }
 
     if (!heroAvatar) {
@@ -296,9 +286,33 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
     const menu = document.getElementById('burger-menu')
     const backdrop = document.getElementById('burger-backdrop')
     const toggleBtn = document.getElementById('burger-toggle')
-    if (!menu || !backdrop || !toggleBtn) return
+    const navbar = document.getElementById('main-navbar')
+    if (!menu || !backdrop || !toggleBtn || !navbar) return
+
+    const GAP = 8 // px gap between menu and navbar
 
     const open = () => {
+      const navRect = navbar.getBoundingClientRect()
+      const btnRect = toggleBtn.getBoundingClientRect()
+      const EDGE = 16 // px margin from viewport edge
+      const spaceBelow = window.innerHeight - navRect.bottom - GAP - EDGE
+      const spaceAbove = navRect.top - GAP - EDGE
+
+      // Pick direction: prefer below unless on hero page AND more space above
+      const isHero = document.getElementById('navbar-avatar-wrap')?.hasAttribute('data-hero-page')
+      const goUp = isHero && spaceAbove > spaceBelow
+
+      menu.style.right = `${window.innerWidth - btnRect.right}px`
+      if (goUp) {
+        menu.style.top = 'auto'
+        menu.style.bottom = `${window.innerHeight - navRect.top + GAP}px`
+        menu.style.maxHeight = `${spaceAbove}px`
+      } else {
+        menu.style.top = `${navRect.bottom + GAP}px`
+        menu.style.bottom = 'auto'
+        menu.style.maxHeight = `${spaceBelow}px`
+      }
+
       backdrop.classList.remove('hidden')
       menu.showPopover()
     }
