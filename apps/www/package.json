@@ -65,6 +65,6 @@
     "postcss": "8.5.8",
     "tailwindcss": "4.2.1",
     "tsconfig": "workspace:*",
-    "typescript": "5.9.3"
+    "typescript": "catalog:"
   }
 }
