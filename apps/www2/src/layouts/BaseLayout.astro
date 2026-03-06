@@ -67,7 +67,7 @@ const canonicalUrl = new URL(pathname, BASE_URL)
     <script is:inline>
       if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
         document.addEventListener('astro:before-swap', (e) => {
-          e.viewTransition.skipTransition()
+          e.viewTransition?.skipTransition()
         })
       }
     </script>
