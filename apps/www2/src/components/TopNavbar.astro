@@ -259,19 +259,13 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
     if (!wrap) return
 
     const hideAvatar = () => {
-      wrap.style.width = '0'
-      wrap.style.opacity = '0'
-      wrap.style.borderWidth = '0'
-      wrap.style.marginRight = '-12px'
+      wrap.setAttribute('data-hero-page', '')
       if (hint) hint.style.opacity = '0.6'
       burgerMenu?.classList.add('menu-up')
     }
 
     const showAvatar = () => {
-      wrap.style.width = ''
-      wrap.style.opacity = ''
-      wrap.style.borderWidth = ''
-      wrap.style.marginRight = ''
+      wrap.removeAttribute('data-hero-page')
       if (hint) hint.style.opacity = '0'
       burgerMenu?.classList.remove('menu-up')
     }
