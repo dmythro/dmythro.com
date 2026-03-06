@@ -1,0 +1,9 @@
+# Content-hashed Astro assets — immutable forever (1 year)
+# Filenames change when content changes, so this is always safe
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML pages — short browser cache for snappy re-navigation
+# ClientRouter fetches HTML on every click; caching prevents network round trips
+/*
+  Cache-Control: public, max-age=120
