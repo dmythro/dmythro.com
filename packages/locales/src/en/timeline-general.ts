@@ -10,6 +10,17 @@ export const generalTimeline: TimelineItem[] = [
       'My preferred role for now is something around Principal Engineer / Tech Lead, where I still can concentrate on bigger tasks without much of a management work distraction.',
   },
   {
+    isHighlighted: true,
+    when: '2025',
+    where: 'UA',
+    title: "Education: Master's Degree in Professional Education",
+    subtitle: 'KNUCA, FAIT',
+    description: [
+      'Graduate of Kyiv National University of Construction and Architecture, Faculty of Automation and Information Technologies.',
+      'Specialty: Professional Education — Computer Technologies. Combining tech expertise with pedagogy to build better career guidance tools for students.',
+    ],
+  },
+  {
     when: '2014',
     title: 'Lead Developer',
     description:
