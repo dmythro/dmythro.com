@@ -32,7 +32,7 @@ export const SupportUkraineCard: FC<LangProp> = ({ lang }) => {
           <CardFooter>
             <Link
               className="print:bg-transparent print:text-foreground dark:text-blue-300"
-              href="https://war.ukraine.ua/support-ukraine/"
+              href="https://u24.gov.ua/"
               isExternal
               showAnchorIcon
               target="_blank"

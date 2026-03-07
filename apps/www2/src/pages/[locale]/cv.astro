@@ -52,6 +52,7 @@ const cvJsonLd = {
           href={`/cv.${locale}.pdf`}
           class="btn btn-outline btn-sm w-full"
           download
+          data-cv-download={locale}
         >
           {t.actions.downloadPdf}
         </a>
@@ -73,4 +74,20 @@ const cvJsonLd = {
       <CvArticle locale={locale} />
     </div>
   </div>
+  <script>
+    function setupCvTracking() {
+      const downloadLink = document.querySelector<HTMLAnchorElement>('[data-cv-download]')
+      if (downloadLink) {
+        downloadLink.addEventListener('click', () => {
+          window.zaraz?.track('cv_download', { locale: downloadLink.dataset.cvDownload })
+        })
+      }
+
+      window.addEventListener('beforeprint', () => {
+        window.zaraz?.track('cv_print')
+      })
+    }
+
+    document.addEventListener('astro:page-load', setupCvTracking)
+  </script>
 </PageLayout>
