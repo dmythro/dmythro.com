@@ -120,4 +120,13 @@ const canonicalUrl = new URL(pathname, BASE_URL)
   <body class="min-h-screen bg-base-100 text-base-content">
     <slot />
   </body>
+
+  {/* Global Zaraz event: social link clicks */}
+  <script>
+    document.addEventListener('click', (e) => {
+      const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('[data-social]')
+      if (!link) return
+      window.zaraz?.track('social_click', { platform: link.dataset.social })
+    })
+  </script>
 </html>

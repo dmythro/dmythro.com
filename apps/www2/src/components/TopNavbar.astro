@@ -316,6 +316,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
 
       backdrop.classList.remove('hidden')
       menu.showPopover()
+      window.zaraz?.track('menu_open')
     }
 
     const close = () => {
@@ -410,6 +411,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
         applyTheme(mode)
         updateBurgerDots(mode)
         updateThemeToggleIcon(mode)
+        window.zaraz?.track('theme_change', { mode })
       })
     }
   }

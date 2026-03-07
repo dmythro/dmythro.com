@@ -87,6 +87,7 @@ const iconMap: Record<string, typeof Github> = {
           target="_blank"
           rel="noopener noreferrer"
           class="inline-flex items-center gap-1 text-sm text-primary hover:text-primary/80 transition-colors"
+          data-ukraine-link
         >
           {t.supportUkraine.linkTitle}
           <ExternalLink class="h-3.5 w-3.5" />
@@ -105,6 +106,7 @@ const iconMap: Record<string, typeof Github> = {
             target="_blank"
             rel="me noopener noreferrer"
             aria-label={title}
+            data-social={id}
           >
             {Icon && <Icon class="h-6 w-6 shrink-0" />}
             <span class="social-pill-label">{title}</span>
@@ -136,6 +138,9 @@ const iconMap: Record<string, typeof Github> = {
     dropdown.addEventListener('focusin', () => {
       updateDaysCounter()
       window.zaraz?.track('stand_with_ukraine', { day: getDaysSinceInvasion() })
+    })
+    dropdown.querySelector('[data-ukraine-link]')?.addEventListener('click', () => {
+      window.zaraz?.track('support_ukraine_click', { day: getDaysSinceInvasion() })
     })
     updateDaysCounter()
   }

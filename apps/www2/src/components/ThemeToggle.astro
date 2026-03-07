@@ -96,6 +96,7 @@ const { labels } = Astro.props
       localStorage.setItem('theme-mode', saved)
       applyTheme(saved)
       updateIcon(saved)
+      window.zaraz?.track('theme_change', { mode: saved })
     })
 
     if (!window.__themeMediaListenerAdded) {
