@@ -69,7 +69,7 @@ const iconMap: Record<string, typeof Github> = {
     </p>
 
     {/* Stand with Ukraine — dropdown opening upward */}
-    <div class="dropdown dropdown-top -mt-4">
+    <div class="dropdown dropdown-top -mt-4" data-ukraine-dropdown>
       <div tabindex="0" role="button" class="btn btn-soft btn-primary gap-2 px-5 py-2">
         <Info class="h-4 w-4" />
         #StandWithUkraine
@@ -79,7 +79,7 @@ const iconMap: Record<string, typeof Github> = {
         </svg>
       </div>
       <div tabindex="0" class="dropdown-content bg-base-200 border border-base-300 rounded-xl shadow-lg p-4 w-80 mb-2 -translate-x-1/2 left-1/2">
-        <p class="text-sm text-base-content/70 mb-3">
+        <p class="text-sm text-base-content/70 mb-3" data-days-counter>
           {t.supportUkraine.message(daysSinceInvasion)}
         </p>
         <a
@@ -114,6 +114,34 @@ const iconMap: Record<string, typeof Github> = {
     </div>
   </div>
 </section>
+
+<script>
+  function getDaysSinceInvasion(): number {
+    const now = new Date()
+    const start = new Date(2022, 1, 24) // Feb 24, 2022 in local TZ
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    return Math.round((today.getTime() - start.getTime()) / 86_400_000) + 1
+  }
+
+  function updateDaysCounter() {
+    const el = document.querySelector('[data-days-counter]')
+    if (!el) return
+    const current = el.textContent ?? ''
+    el.textContent = current.replace(/\d+/, String(getDaysSinceInvasion()))
+  }
+
+  function setupUkraineDropdown() {
+    const dropdown = document.querySelector('[data-ukraine-dropdown]')
+    if (!dropdown) return
+    dropdown.addEventListener('focusin', () => {
+      updateDaysCounter()
+      window.zaraz?.track('stand_with_ukraine', { day: getDaysSinceInvasion() })
+    })
+    updateDaysCounter()
+  }
+
+  document.addEventListener('astro:page-load', setupUkraineDropdown)
+</script>
 
 <style>
   @property --ring-angle {

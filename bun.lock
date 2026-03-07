@@ -90,7 +90,6 @@
         "astro": "6.0.0-beta.17",
         "countries-list": "catalog:",
         "daisyui": "5.5.19",
-        "dayjs": "catalog:",
         "preact": "10.28.4",
         "schema-dts": "catalog:",
         "simple-icons-astro": "16.1.0",
