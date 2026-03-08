@@ -290,27 +290,3 @@ const lastKey = interestList[interestList.length - 1]
   ))}
 </article>
 
-<style is:global>
-  .prose a[href^="http"] {
-    color: color-mix(in oklch, var(--color-primary) 85%, black);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    text-decoration-color: color-mix(in oklch, var(--color-primary) 30%, transparent);
-    transition: color 0.15s, text-decoration-color 0.15s;
-  }
-  [data-theme='dark'] .prose a[href^="http"] {
-    color: color-mix(in oklch, var(--color-primary) 75%, white);
-  }
-  .prose a[href^="http"]:hover {
-    text-decoration-color: var(--color-primary);
-  }
-  .prose a[href^="http"] .link-icon {
-    display: inline-block;
-    width: 0.85em;
-    height: 0.85em;
-    vertical-align: -0.05em;
-    margin-left: 0.25em;
-    opacity: 0.7;
-  }
-</style>
-
