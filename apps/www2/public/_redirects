@@ -1,2 +1,6 @@
 # Sitemap alias
 /sitemap.xml /sitemap-index.xml 200
+
+# Renamed pages
+/en/built-with /en/open-source 301
+/uk/built-with /uk/open-source 301

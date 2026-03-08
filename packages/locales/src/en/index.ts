@@ -29,8 +29,8 @@ export const en = {
     downloadPdf: 'Download PDF',
     switchLang: 'English (натисніть щоб була Українська)',
   },
-  builtWithTitle: 'Tech Stack',
-  builtWithDescription: 'Personal website and portfolio, open-sourced on GitHub.',
+  builtWithTitle: 'Open Source',
+  builtWithDescription: 'This site is open source — built entirely with open-source technologies.',
   builtWithTable: {
     category: 'Category',
     framework: 'Framework',
@@ -45,8 +45,13 @@ export const en = {
     linting: 'Linting',
     i18n: 'i18n',
     notUsed: 'Not used',
+    v1: 'v1 (before 2026)',
   },
-  builtWith: 'Tech Stack',
+  builtWith: 'Open Source',
+  builtWithIntro: 'This website is fully open source and available on',
+  builtWithIntroAfter:
+    'It is built entirely with open-source technologies — from the framework to the deployment platform.',
+  builtWithProjectsCta: 'See my other open-source projects →',
   cv: {
     title: 'Hi 👋',
     description: (years: number) => [

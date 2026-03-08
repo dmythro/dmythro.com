@@ -29,8 +29,9 @@ export const uk: Translation = {
     downloadPdf: 'Завантажити PDF',
     switchLang: 'Українська (click to switch to English)',
   },
-  builtWithTitle: 'Технології',
-  builtWithDescription: 'Персональний вебсайт та портфоліо, відкритий код на GitHub.',
+  builtWithTitle: 'Відкритий код',
+  builtWithDescription:
+    'Цей сайт з відкритим кодом — побудований повністю на відкритих технологіях.',
   builtWithTable: {
     category: 'Категорія',
     framework: 'Фреймворк',
@@ -45,8 +46,13 @@ export const uk: Translation = {
     linting: 'Лінтинг',
     i18n: 'i18n',
     notUsed: 'Не використовувалось',
+    v1: 'v1 (до 2026)',
   },
-  builtWith: 'Технології',
+  builtWith: 'Відкритий код',
+  builtWithIntro: 'Цей вебсайт повністю з відкритим кодом і доступний на',
+  builtWithIntroAfter:
+    'Він побудований виключно на відкритих технологіях — від фреймворку до платформи розгортання.',
+  builtWithProjectsCta: 'Переглянути інші мої проєкти з відкритим кодом →',
   cv: {
     title: 'Вітаю 👋',
     description: (years: number) => [

@@ -1,0 +1,15 @@
+---
+import { ArrowLeft } from '@lucide/astro'
+
+interface Props {
+  href: string
+  label: string
+}
+
+const { href, label } = Astro.props
+---
+
+<a href={href} class="opacity-50 hover:opacity-80 transition-opacity" aria-label={label} title={label}>
+  <ArrowLeft class="size-5" />
+</a>
+<span class="text-3xl font-light mx-2 opacity-25">/</span>

@@ -1,5 +1,5 @@
 ---
-import { USERNAME } from '@dmythro/constants'
+import { ESocialLinks, USERNAME } from '@dmythro/constants'
 import { Globe, Languages } from '@lucide/astro'
 import {
   Astro as AstroIcon,
@@ -7,6 +7,7 @@ import {
   Bun,
   Cloudflarepages,
   Daisyui,
+  Github,
   Heroui,
   Nextdotjs,
   Nodedotjs,
@@ -16,7 +17,7 @@ import {
   Typescript,
   Vercel,
 } from 'simple-icons-astro'
-import PageHeader from '@/components/PageHeader.astro'
+import BackLink from '@/components/BackLink.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { getT } from '@/utils/getT'
 import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
@@ -33,7 +34,19 @@ const tb = t.builtWithTable
 ---
 
 <PageLayout locale={locale} title={`${t.builtWithTitle} — ${USERNAME}`} description={t.builtWithDescription}>
-  <PageHeader title={t.builtWithTitle} subtitle={t.builtWithDescription} />
+  <div class="flex items-center gap-1 mb-6">
+    <BackLink href={`/${locale}`} label={t.nav.home} />
+    <h1 class="text-3xl font-bold" transition:name="page-title">{t.builtWithTitle}</h1>
+  </div>
+
+  <p class="prose max-w-none mb-8">
+    {t.builtWithIntro}{' '}
+    <a href={`${ESocialLinks.github}/dmythro.com`} target="_blank" rel="noopener" class="inline-flex items-center gap-1">
+      GitHub <Github class="h-3.5 w-3.5" />
+    </a>.{' '}
+    {t.builtWithIntroAfter}{' '}
+    <a href={`/${locale}/projects`} class="link">{t.builtWithProjectsCta}</a>
+  </p>
 
   <div class="overflow-x-auto">
         <table class="table table-zebra">
@@ -41,7 +54,7 @@ const tb = t.builtWithTable
             <tr>
               <th>{tb.category}</th>
               <th>v2 (2026)</th>
-              <th>v1 (2024–2025)</th>
+              <th>{tb.v1}</th>
             </tr>
           </thead>
           <tbody>
@@ -98,4 +111,5 @@ const tb = t.builtWithTable
           </tbody>
         </table>
   </div>
+
 </PageLayout>

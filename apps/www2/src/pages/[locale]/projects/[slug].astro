@@ -1,7 +1,7 @@
 ---
 import { USERNAME } from '@dmythro/constants'
 import { Camera, ExternalLink, Github, Globe, Music, Package, Terminal } from '@lucide/astro'
-import PageHeader from '@/components/PageHeader.astro'
+import BackLink from '@/components/BackLink.astro'
 import ProjectCard from '@/components/ProjectCard.astro'
 import ProjectStats from '@/components/ProjectStats.astro'
 import { getHighlightedProjects, projects } from '@/data/projects'
@@ -58,25 +58,29 @@ const otherProjects = getHighlightedProjects()
 <PageLayout locale={locale} title={`${title} — ${USERNAME}`} description={description}>
   <article>
     <div class="mb-6">
-      <PageHeader subtitle={description} class="flex items-center gap-2">
-        {IconComponent && <IconComponent class="h-7 w-7 shrink-0 opacity-60" />}
-        <span class="mr-2">{title}</span>
-        {project.url && (
-          <a href={project.url} class="tooltip tooltip-bottom tooltip-primary" data-tip="Visit site" aria-label="Visit site" target="_blank" rel="noopener noreferrer">
-            <ExternalLink class="h-5 w-5 opacity-50 hover:opacity-100 transition-opacity" />
-          </a>
-        )}
-        {project.github && (
-          <a href={`https://github.com/${project.github}`} class="tooltip tooltip-bottom tooltip-primary" data-tip="GitHub" aria-label="GitHub repository" target="_blank" rel="noopener noreferrer">
-            <Github class="h-5 w-5 opacity-50 hover:opacity-100 transition-opacity" />
-          </a>
-        )}
-        {project.npm && (
-          <a href={`https://www.npmjs.com/package/${project.npm}`} class="tooltip tooltip-bottom tooltip-primary" data-tip="NPM" aria-label="NPM package" target="_blank" rel="noopener noreferrer">
-            <Package class="h-5 w-5 opacity-50 hover:opacity-100 transition-opacity" />
-          </a>
-        )}
-      </PageHeader>
+      <div class="flex items-center gap-1 mb-2">
+        <BackLink href={`/${locale}/projects`} label={t.nav.projects} />
+        <h1 class="text-3xl font-bold flex items-center gap-2" transition:name="page-title">
+          {IconComponent && <IconComponent class="h-7 w-7 shrink-0 opacity-60" />}
+          <span class="mr-2">{title}</span>
+          {project.url && (
+            <a href={project.url} class="tooltip tooltip-bottom tooltip-primary" data-tip="Visit site" aria-label="Visit site" target="_blank" rel="noopener noreferrer">
+              <ExternalLink class="h-5 w-5 opacity-50 hover:opacity-100 transition-opacity" />
+            </a>
+          )}
+          {project.github && (
+            <a href={`https://github.com/${project.github}`} class="tooltip tooltip-bottom tooltip-primary" data-tip="GitHub" aria-label="GitHub repository" target="_blank" rel="noopener noreferrer">
+              <Github class="h-5 w-5 opacity-50 hover:opacity-100 transition-opacity" />
+            </a>
+          )}
+          {project.npm && (
+            <a href={`https://www.npmjs.com/package/${project.npm}`} class="tooltip tooltip-bottom tooltip-primary" data-tip="NPM" aria-label="NPM package" target="_blank" rel="noopener noreferrer">
+              <Package class="h-5 w-5 opacity-50 hover:opacity-100 transition-opacity" />
+            </a>
+          )}
+        </h1>
+      </div>
+      <p class="text-base-content/60 mb-8">{description}</p>
 
       <div class="flex flex-wrap items-center gap-2">
         <ProjectStats

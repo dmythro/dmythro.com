@@ -147,6 +147,7 @@ html:has(::view-transition) {
   padding: 1em 1.25em;
   margin-top: 1.25em;
   margin-bottom: 1.25em;
+  border-radius: var(--rounded-box);
 }
 
 /* External link styles for .prose content */
