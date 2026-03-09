@@ -24,7 +24,7 @@ In recent years, I have primarily worked remotely. In general, I truly value rea
 
 ## Any fun facts about yourself?
 
-- Quit smoking at age 7
+- Quit smoking at age 7 — after my very first cigarette (my father let me try it, knowing I'd hate it!)
 - Been collecting Pink Floyd since age 6
 - Built my first commercial software project at 17 (end of 2003)
 - Candidate for master of sports in swimming
