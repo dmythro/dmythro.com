@@ -25,6 +25,7 @@ import { fetchGithubStats } from '@/utils/fetchGithubStats'
 import { fetchNpmStats, formatNumber } from '@/utils/fetchNpmStats'
 import { getT } from '@/utils/getT'
 import type { LocaleCode } from '@/utils/i18n'
+import { renderMarkdown } from '@/utils/renderMarkdown'
 import Stats from './Stats.astro'
 import Timeline from './Timeline.astro'
 
@@ -73,20 +74,9 @@ function replaceStats(html: string): string {
     .replace(/1\.5M\+\s*зкачувань на місяць/gi, `${downloadsFormatted} завантажень на місяць`)
 }
 
-function faqAnswerToHtml(answer: string): string {
-  return replaceStats(
-    answer
-      .replace(/^(- .+(?:\n- .+)*)/gm, (list) => {
-        const items = list
-          .split('\n')
-          .map((line) => `<li>${line.slice(2)}</li>`)
-          .join('')
-        return `<ul>${items}</ul>`
-      })
-      .replace(/\n\n/g, '<br><br>')
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
-      .replace(/`([^`]+)`/g, '<code>$1</code>'),
-  )
+/** Render a markdown snippet through the unified pipeline, then replace stats placeholders. */
+async function render(md: string): Promise<string> {
+  return replaceStats(await renderMarkdown(md))
 }
 
 // Pre-resolve all MDX content (compiledContent is async)
@@ -98,33 +88,38 @@ for (const [interestKey, fileName] of Object.entries(mdxKeyMap)) {
   mdxContent[interestKey] = replaceStats(html)
 }
 
-// FAQ parsing
+// FAQ parsing — structural split, then render each answer through the markdown pipeline
 const rawFaq = locale === 'uk' ? faqUk : faqEn
-type FaqItem = { question: string; answer: string }
+type FaqItem = { question: string; answerHtml: string }
 
-const faqItems: FaqItem[] = rawFaq
-  .split(/^## /m)
-  .filter(Boolean)
-  .map((block) => {
-    const [question, ...rest] = block.split('\n')
-    const answer = rest.join('\n').trim()
-    return { question: question.trim(), answer }
-  })
+const faqItems: FaqItem[] = await Promise.all(
+  rawFaq
+    .split(/^## /m)
+    .filter(Boolean)
+    .map(async (block) => {
+      const [question, ...rest] = block.split('\n')
+      const answerHtml = await render(rest.join('\n').trim())
+      return { question: question.trim(), answerHtml }
+    }),
+)
 
-// Hobbies parsing — intro + cards
+// Hobbies parsing — structural split, then render each card body through the markdown pipeline
 const rawHobbies = locale === 'uk' ? hobbiesUk : hobbiesEn
 const hobbiesParts = rawHobbies.split(/^## /m)
-const hobbiesIntro = hobbiesParts[0].trim()
+const hobbiesIntroHtml = await render(hobbiesParts[0].trim())
 const hobbyIconMap: Record<string, typeof Cpu> = {
   0: Cpu,
   1: Bike,
   2: Book,
   3: Gamepad2,
 }
-const hobbyCards = hobbiesParts.slice(1).map((block, i) => {
-  const [title, ...rest] = block.split('\n')
-  return { title: title.trim(), body: rest.join('\n').trim(), Icon: hobbyIconMap[i] }
-})
+const hobbyCards = await Promise.all(
+  hobbiesParts.slice(1).map(async (block, i) => {
+    const [title, ...rest] = block.split('\n')
+    const bodyHtml = await render(rest.join('\n').trim())
+    return { title: title.trim(), bodyHtml, Icon: hobbyIconMap[i] }
+  }),
+)
 
 // Social links (contact-style with icons)
 const socialLinks = [
@@ -223,15 +218,15 @@ const lastKey = interestList[interestList.length - 1]
       {/* Hobbies — intro + cards */}
       {key === 'hobbies' && (
         <>
-          <p class="text-sm text-base-content/80 mb-4">{hobbiesIntro}</p>
+          <div class="prose prose-sm max-w-none mb-4" set:html={hobbiesIntroHtml} />
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {hobbyCards.map(({ title: cardTitle, body, Icon: CardIcon }) => (
+            {hobbyCards.map(({ title: cardTitle, bodyHtml, Icon: CardIcon }) => (
               <div class="card bg-base-100 border border-base-300 p-4">
                 <div class="flex items-start gap-3">
                   {CardIcon && <CardIcon class="h-5 w-5 text-primary shrink-0 mt-0.5" />}
                   <div>
                     <h3 class="font-semibold mb-1">{cardTitle}</h3>
-                    <p class="text-sm text-base-content/70">{body.replace(/&mdash;/g, '—')}</p>
+                    <div class="text-sm text-base-content/70 prose prose-sm max-w-none" set:html={bodyHtml} />
                   </div>
                 </div>
               </div>
@@ -264,12 +259,12 @@ const lastKey = interestList[interestList.length - 1]
       {/* FAQ section */}
       {key === 'faq' && (
         <div class="flex flex-col gap-2">
-          {faqItems.map(({ question, answer }, i) => (
+          {faqItems.map(({ question, answerHtml }, i) => (
             <div class="collapse collapse-arrow bg-base-100 border border-base-300 print:collapse-open">
               <input type="radio" name="faq-cv" checked={i === 0} aria-label={question} />
               <div class="collapse-title font-medium">{question}</div>
               <div class="collapse-content">
-                <div class="prose prose-sm max-w-none" set:html={faqAnswerToHtml(answer)} />
+                <div class="prose prose-sm max-w-none" set:html={answerHtml} />
               </div>
             </div>
           ))}

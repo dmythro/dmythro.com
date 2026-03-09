@@ -143,15 +143,25 @@ html:has(::view-transition) {
   margin-top: 0.25em;
 }
 
-.prose pre {
+.prose pre,
+pre.astro-code {
   padding: 1em 1.25em;
   margin-top: 1.25em;
   margin-bottom: 1.25em;
-  border-radius: var(--rounded-box);
+  border-radius: var(--radius-box);
+  border: 1px solid var(--color-base-300);
+  overflow-x: auto;
 }
 
-/* External link styles for .prose content */
-.prose a[href^='http'] {
+.prose :where(code):not(pre code) {
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-field);
+  background-color: var(--color-base-200);
+  font-size: 0.875em;
+}
+
+/* External link styles — applied globally in main content, excluded for UI elements */
+main a[href^='http']:not(.group, .btn, .tooltip, .no-ext-link) {
   color: color-mix(in oklch, var(--color-primary) 85%, black);
   text-decoration: underline;
   text-underline-offset: 2px;
@@ -160,13 +170,13 @@ html:has(::view-transition) {
     color 0.15s,
     text-decoration-color 0.15s;
 }
-[data-theme='dark'] .prose a[href^='http'] {
+[data-theme='dark'] main a[href^='http']:not(.group, .btn, .tooltip, .no-ext-link) {
   color: color-mix(in oklch, var(--color-primary) 75%, white);
 }
-.prose a[href^='http']:hover {
+main a[href^='http']:not(.group, .btn, .tooltip, .no-ext-link):hover {
   text-decoration-color: var(--color-primary);
 }
-.prose a[href^='http'] .link-icon {
+main a[href^='http'] .link-icon {
   display: inline-block;
   width: 0.85em;
   height: 0.85em;

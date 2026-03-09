@@ -45,7 +45,7 @@ export const en = {
     linting: 'Linting',
     i18n: 'i18n',
     notUsed: 'Not used',
-    v1: 'v1 (before 2026)',
+    v1: 'v1 (before March 2026)',
   },
   builtWith: 'Open Source',
   builtWithIntro: 'This website is fully open source and available on',

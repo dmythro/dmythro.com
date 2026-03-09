@@ -1,6 +1,6 @@
 ---
 import { ESocialLinks, USERNAME } from '@dmythro/constants'
-import { Globe, Languages } from '@lucide/astro'
+import { CodeXml, Globe, Languages } from '@lucide/astro'
 import {
   Astro as AstroIcon,
   Biome,
@@ -11,6 +11,7 @@ import {
   Heroui,
   Nextdotjs,
   Nodedotjs,
+  Preact,
   React,
   Tailwindcss,
   Turborepo,
@@ -41,7 +42,7 @@ const tb = t.builtWithTable
 
   <p class="prose max-w-none mb-8">
     {t.builtWithIntro}{' '}
-    <a href={`${ESocialLinks.github}/dmythro.com`} target="_blank" rel="noopener" class="inline-flex items-center gap-1">
+    <a href={`${ESocialLinks.github}/dmythro.com`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1">
       GitHub <Github class="h-3.5 w-3.5" />
     </a>.{' '}
     {t.builtWithIntroAfter}{' '}
@@ -60,49 +61,49 @@ const tb = t.builtWithTable
           <tbody>
             <tr>
               <td>{tb.framework}</td>
-              <td><a href="https://astro.build" target="_blank" rel="noopener"><AstroIcon class={iconClass} />Astro 6</a></td>
-              <td><Nextdotjs class={iconClass} />Next.js 16</td>
+              <td><a href="https://astro.build" target="_blank" rel="noopener noreferrer"><AstroIcon class={iconClass} />Astro 6</a></td>
+              <td><a href="https://nextjs.org" target="_blank" rel="noopener noreferrer"><Nextdotjs class={iconClass} />Next.js 16</a></td>
             </tr>
             <tr>
               <td>{tb.uiLibrary}</td>
-              <td><a href="https://daisyui.com" target="_blank" rel="noopener"><Daisyui class={iconClass} />DaisyUI 5</a> (CSS-only)</td>
-              <td><Heroui class={iconClass} />HeroUI 2.x (React)</td>
+              <td><a href="https://daisyui.com" target="_blank" rel="noopener noreferrer"><Daisyui class={iconClass} />DaisyUI 5</a> (CSS-only)</td>
+              <td><a href="https://heroui.com" target="_blank" rel="noopener noreferrer"><Heroui class={iconClass} />HeroUI 2.x</a> (React)</td>
             </tr>
             <tr>
               <td>{tb.styling}</td>
-              <td colspan="2"><a href="https://tailwindcss.com" target="_blank" rel="noopener"><Tailwindcss class={iconClass} />Tailwind CSS 4</a></td>
+              <td colspan="2"><a href="https://tailwindcss.com" target="_blank" rel="noopener noreferrer"><Tailwindcss class={iconClass} />Tailwind CSS 4</a></td>
             </tr>
             <tr>
               <td>{tb.language}</td>
-              <td colspan="2"><a href="https://www.typescriptlang.org" target="_blank" rel="noopener"><Typescript class={iconClass} />TypeScript</a> (strict)</td>
+              <td colspan="2"><a href="https://www.typescriptlang.org" target="_blank" rel="noopener noreferrer"><Typescript class={iconClass} />TypeScript</a> (strict)</td>
             </tr>
             <tr>
               <td>{tb.interactivity}</td>
-              <td><a href="https://react.dev" target="_blank" rel="noopener"><React class={iconClass} />React</a> islands</td>
-              <td><React class={iconClass} />Full React SPA</td>
+              <td><a href="https://preactjs.com" target="_blank" rel="noopener noreferrer"><Preact class={iconClass} />Preact</a> islands + <CodeXml class={iconClass} />vanilla JS</td>
+              <td><a href="https://react.dev" target="_blank" rel="noopener noreferrer"><React class={iconClass} />React</a> SPA</td>
             </tr>
             <tr>
               <td>{tb.transitions}</td>
-              <td><a href="https://docs.astro.build/en/guides/view-transitions/" target="_blank" rel="noopener"><Globe class={iconClass} />View Transitions API</a></td>
+              <td><a href="https://docs.astro.build/en/guides/view-transitions/" target="_blank" rel="noopener noreferrer"><Globe class={iconClass} />View Transitions API</a></td>
               <td>{tb.notUsed}</td>
             </tr>
             <tr>
               <td>{tb.runtime}</td>
-              <td><a href="https://bun.sh" target="_blank" rel="noopener"><Bun class={iconClass} />Bun</a></td>
-              <td><Nodedotjs class={iconClass} />Node.js</td>
+              <td><a href="https://bun.sh" target="_blank" rel="noopener noreferrer"><Bun class={iconClass} />Bun</a></td>
+              <td><a href="https://nodejs.org" target="_blank" rel="noopener noreferrer"><Nodedotjs class={iconClass} />Node.js</a></td>
             </tr>
             <tr>
               <td>{tb.deployment}</td>
-              <td><a href="https://pages.cloudflare.com" target="_blank" rel="noopener"><Cloudflarepages class={iconClass} />Cloudflare Pages</a></td>
-              <td><Vercel class={iconClass} />Vercel</td>
+              <td><a href="https://pages.cloudflare.com" target="_blank" rel="noopener noreferrer"><Cloudflarepages class={iconClass} />Cloudflare Pages</a></td>
+              <td><a href="https://vercel.com" target="_blank" rel="noopener noreferrer"><Vercel class={iconClass} />Vercel</a></td>
             </tr>
             <tr>
               <td>{tb.monorepo}</td>
-              <td colspan="2"><Bun class={iconClass} />Bun workspaces + <Turborepo class={iconClass} />Turborepo</td>
+              <td colspan="2"><Bun class={iconClass} />Bun workspaces + <a href="https://turbo.build/repo" target="_blank" rel="noopener noreferrer"><Turborepo class={iconClass} />Turborepo</a></td>
             </tr>
             <tr>
               <td>{tb.linting}</td>
-              <td colspan="2"><a href="https://biomejs.dev" target="_blank" rel="noopener"><Biome class={iconClass} />Biome</a></td>
+              <td colspan="2"><a href="https://biomejs.dev" target="_blank" rel="noopener noreferrer"><Biome class={iconClass} />Biome</a></td>
             </tr>
             <tr>
               <td>{tb.i18n}</td>
