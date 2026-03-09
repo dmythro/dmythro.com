@@ -6,4 +6,6 @@ I enjoy complex tasks and good teamwork; always aim to deliver quality solutions
 
 Also, I work on some **open-source** projects. Like [current website](https://github.com/dmythro/dmythro.com) or my `countries-list` module with [~1.3k stars on GitHub](https://github.com/annexare/Countries) and [1.5M+/mo downloads on NPM](https://www.npmjs.com/package/countries-list).
 
+**Languages:** Ukrainian (native), English (fluent), German (basic).
+
 The **FAQ** section contains a bit more details on the current situation.

@@ -73,6 +73,22 @@ function replaceStats(html: string): string {
     .replace(/1\.5M\+\s*зкачувань на місяць/gi, `${downloadsFormatted} завантажень на місяць`)
 }
 
+function faqAnswerToHtml(answer: string): string {
+  return replaceStats(
+    answer
+      .replace(/^(- .+(?:\n- .+)*)/gm, (list) => {
+        const items = list
+          .split('\n')
+          .map((line) => `<li>${line.slice(2)}</li>`)
+          .join('')
+        return `<ul>${items}</ul>`
+      })
+      .replace(/\n\n/g, '<br><br>')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+      .replace(/`([^`]+)`/g, '<code>$1</code>'),
+  )
+}
+
 // Pre-resolve all MDX content (compiledContent is async)
 const mdxContent: Partial<Record<string, string>> = {}
 for (const [interestKey, fileName] of Object.entries(mdxKeyMap)) {
@@ -253,7 +269,7 @@ const lastKey = interestList[interestList.length - 1]
               <input type="radio" name="faq-cv" checked={i === 0} aria-label={question} />
               <div class="collapse-title font-medium">{question}</div>
               <div class="collapse-content">
-                <div class="prose prose-sm max-w-none" set:html={answer.replace(/\n\n/g, '<br><br>').replace(/`([^`]+)`/g, '<code>$1</code>')} />
+                <div class="prose prose-sm max-w-none" set:html={faqAnswerToHtml(answer)} />
               </div>
             </div>
           ))}

@@ -10,7 +10,7 @@ export const interests = {
     title: 'Music',
     subtitle: 'Live show with Nabaath',
     description:
-      'I love both listening and playing music, have a small record label and record collection.',
+      'Graduated music school with honors. I love both listening and playing music, have a small record label and record collection.',
   },
   travel: {
     title: 'Travel',
@@ -25,7 +25,7 @@ export const interests = {
     description:
       'Tech, gear, design, games.' +
       ' Smart home (HomeKit, Zigbee), automations.' +
-      ' Snowboarding, surfing, cycling, scooters, longboards etc.',
+      ' Snowboarding, surfing, swimming, cycling, longboards etc.',
   },
   faq: {
     title: 'FAQ',

@@ -6,7 +6,7 @@ This is something I really like to get into and try for areas I'm involved. New 
 
 ## Active Lifestyle
 
-I really enjoy snowboarding, surfing, kayaks, cycling. Some of that happens not really often, but when I feel I miss it I'll definitely go for it. Driving on sands in the desert, huge aqua parks, rollercoasters, parachute jump &mdash; I did it all as well.
+I really enjoy snowboarding, surfing, swimming, kayaks, cycling. I was a competitive swimmer for years (candidate for master of sports). Some of that happens not really often, but when I feel I miss it I'll definitely go for it. Driving on sands in the desert, huge aqua parks, rollercoasters, parachute jump &mdash; I did it all as well.
 
 ## Art Books
 

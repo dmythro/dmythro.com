@@ -16,8 +16,16 @@ No, I don't have plans like that now. I chose to stay in Ukraine and support fam
 
 ## Do you have open-source projects?
 
-Sure, I love open source community and contribute where I can. My biggest NPM module `countries-list` has 800k+ downloads/month. You can check them, or the source code of the current website on GitHub.
+Sure, I love open source community and contribute where I can. My biggest NPM module `countries-list` has [~1.3k stars on GitHub](https://github.com/annexare/Countries) and [1.5M+/mo downloads on NPM](https://www.npmjs.com/package/countries-list). You can check them and my other projects on the [Projects](/en/projects) page.
 
 ## Do you prefer remote work, office or hybrid?
 
 In recent years, I have primarily worked remotely. In general, I truly value real-life communication and am happy to have periodical in-person meetings. But not on a day-to-day basis right now, not until the end of the war. I try to be highly available during a working day, so video calls are possible whenever it is required.
+
+## Any fun facts about yourself?
+
+- Quit smoking at age 7
+- Been collecting Pink Floyd since age 6
+- Built my first commercial software project at 17 (end of 2003)
+- Candidate for master of sports in swimming
+- Graduated three schools simultaneously: secondary, music, and sports

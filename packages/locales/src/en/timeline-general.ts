@@ -45,10 +45,14 @@ export const generalTimeline: TimelineItem[] = [
     ],
   },
   {
+    isHighlighted: true,
     when: '2003',
     where: 'UA',
     title: 'Education: Graduate of Secondary School',
-    description:
-      'During secondary school time I also graduated from Music school (accordion and folk instruments) and attended Sports swimming school all the time (candidate for master of sports).',
+    description: [
+      'Graduated secondary school with honors. Also graduated from Music school with honors (accordion and folk instruments) and attended Sports swimming school all the time (candidate for master of sports).',
+      'Won prize places in mathematics and physics competitions, published papers in the Small Academy of Sciences, participated in drawing exhibitions.',
+      'Built my first commercial project at 17 — a Win32 application for CD/DVD authoring.',
+    ],
   },
 ]
