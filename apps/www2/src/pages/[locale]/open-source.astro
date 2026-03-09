@@ -1,5 +1,5 @@
 ---
-import { ESocialLinks, USERNAME } from '@dmythro/constants'
+import { BASE_URL, ESocialLinks, USERNAME } from '@dmythro/constants'
 import { CodeXml, Globe, Languages } from '@lucide/astro'
 import {
   Astro as AstroIcon,
@@ -30,11 +30,20 @@ export function getStaticPaths() {
 const { locale } = Astro.params as { locale: LocaleCode }
 const t = getT(locale)
 
+const openSourceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: t.builtWithTitle,
+  description: t.builtWithDescription,
+  url: `${BASE_URL}/${locale}/open-source`,
+  author: { '@type': 'Person', name: 'Dmytro Klymenko', url: BASE_URL },
+}
+
 const iconClass = 'size-4 inline-block align-[-2px] mr-1.5 opacity-60'
 const tb = t.builtWithTable
 ---
 
-<PageLayout locale={locale} title={`${t.builtWithTitle} — ${USERNAME}`} description={t.builtWithDescription}>
+<PageLayout locale={locale} title={`${t.builtWithTitle} — ${USERNAME}`} description={t.builtWithDescription} jsonLd={openSourceJsonLd}>
   <div class="flex items-center gap-1 mb-6">
     <BackLink href={`/${locale}`} label={t.nav.home} />
     <h1 class="text-3xl font-bold" transition:name="page-title">{t.builtWithTitle}</h1>

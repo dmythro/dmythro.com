@@ -1,6 +1,6 @@
 ---
 
-import { USERNAME } from '@dmythro/constants'
+import { BASE_URL, USERNAME } from '@dmythro/constants'
 import { StringTensionCalculator } from '@/components/islands/StringTensionCalculator'
 import PageHeader from '@/components/PageHeader.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
@@ -14,9 +14,19 @@ export function getStaticPaths() {
 const { locale } = Astro.params as { locale: LocaleCode }
 const t = getT(locale)
 const st = t.guitars.stringTension
+
+const calcJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: st.title,
+  description: st.description,
+  url: `${BASE_URL}/${locale}/guitars/string-tension`,
+  applicationCategory: 'UtilityApplication',
+  author: { '@type': 'Person', name: 'Dmytro Klymenko', url: BASE_URL },
+}
 ---
 
-<PageLayout locale={locale} title={`${st.title} — ${USERNAME}`} description={st.description}>
+<PageLayout locale={locale} title={`${st.title} — ${USERNAME}`} description={st.description} jsonLd={calcJsonLd}>
   <PageHeader title={st.title} subtitle={st.description} />
 
   <StringTensionCalculator client:load translations={st} />

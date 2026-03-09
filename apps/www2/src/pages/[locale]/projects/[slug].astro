@@ -1,5 +1,5 @@
 ---
-import { USERNAME } from '@dmythro/constants'
+import { BASE_URL, USERNAME } from '@dmythro/constants'
 import { Camera, ExternalLink, Github, Globe, Music, Package, Terminal } from '@lucide/astro'
 import BackLink from '@/components/BackLink.astro'
 import ProjectCard from '@/components/ProjectCard.astro'
@@ -49,13 +49,24 @@ const iconMap = {
 } as const
 const IconComponent = iconMap[project.icon as keyof typeof iconMap]
 
+const projectJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareSourceCode',
+  name: project.title.en,
+  description: project.description.en,
+  author: { '@type': 'Person', name: 'Dmytro Klymenko', url: BASE_URL },
+  ...(project.github && { codeRepository: `https://github.com/${project.github}` }),
+  ...(project.url && { url: project.url }),
+  programmingLanguage: 'TypeScript',
+}
+
 // Other highlighted projects for cross-linking
 const otherProjects = getHighlightedProjects()
   .filter((p) => p.slug !== project.slug)
   .slice(0, 3)
 ---
 
-<PageLayout locale={locale} title={`${title} — ${USERNAME}`} description={description}>
+<PageLayout locale={locale} title={`${title} — ${USERNAME}`} description={description} jsonLd={projectJsonLd}>
   <article>
     <div class="mb-6">
       <div class="flex items-center gap-1 mb-2">
