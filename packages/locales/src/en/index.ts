@@ -51,6 +51,8 @@ export const en = {
   builtWithIntro: 'This website is fully open source and available on',
   builtWithIntroAfter:
     'It is built entirely with open-source technologies — from the framework to the deployment platform.',
+  builtWithVersions:
+    'The repository contains two versions of this website, both scoring perfect PageSpeed/Lighthouse results. I keep both because each stack has its own strengths — for a simple site like this, either works great. For more complex projects, the choice should be driven by specific requirements and the strengths of each framework.',
   builtWithProjectsCta: 'See my other open-source projects →',
   cv: {
     title: 'Hi 👋',

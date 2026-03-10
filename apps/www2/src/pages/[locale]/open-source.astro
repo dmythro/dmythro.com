@@ -49,14 +49,17 @@ const tb = t.builtWithTable
     <h1 class="text-3xl font-bold" transition:name="page-title">{t.builtWithTitle}</h1>
   </div>
 
-  <p class="prose max-w-none mb-8">
-    {t.builtWithIntro}{' '}
-    <a href={`${ESocialLinks.github}/dmythro.com`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1">
-      GitHub <Github class="h-3.5 w-3.5" />
-    </a>.{' '}
-    {t.builtWithIntroAfter}{' '}
-    <a href={`/${locale}/projects`} class="link">{t.builtWithProjectsCta}</a>
-  </p>
+  <div class="prose max-w-none mb-8 space-y-4">
+    <p>
+      {t.builtWithIntro}{' '}
+      <a href={`${ESocialLinks.github}/dmythro.com`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1">
+        GitHub <Github class="h-3.5 w-3.5" />
+      </a>.{' '}
+      {t.builtWithIntroAfter}{' '}
+      <a href={`/${locale}/projects`} class="link">{t.builtWithProjectsCta}</a>
+    </p>
+    <p>{t.builtWithVersions}</p>
+  </div>
 
   <div class="overflow-x-auto">
         <table class="table table-zebra">
