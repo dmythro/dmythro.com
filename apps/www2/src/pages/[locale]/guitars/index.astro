@@ -1,12 +1,10 @@
 ---
 
-import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
+import { getStaticLocalePaths } from '@/utils/i18n'
 
 export function getStaticPaths() {
   return getStaticLocalePaths()
 }
 
-const { locale } = Astro.params as { locale: LocaleCode }
-
-return Astro.redirect(`/${locale}/guitars/string-tension`)
+return Astro.redirect(`/${Astro.params.locale}/guitars/string-tension`)
 ---

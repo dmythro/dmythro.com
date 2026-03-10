@@ -16,11 +16,11 @@ import {
   Hash,
   Headphones,
   Link,
-  Linkedin as LucideLinkedin,
   MapPin,
 } from '@lucide/astro'
 import { Bluesky, Facebook, Github, Instagram, Telegram, Threads, X } from 'simple-icons-astro'
 import studioImg from '@/assets/my-studio.webp'
+import Linkedin from '@/icons/Linkedin.astro'
 import { fetchGithubStats } from '@/utils/fetchGithubStats'
 import { fetchNpmStats, formatNumber } from '@/utils/fetchNpmStats'
 import { getT } from '@/utils/getT'
@@ -56,7 +56,7 @@ const mdxKeyMap: Record<string, string> = {
 // Load MDX content
 const mdxFiles = import.meta.glob('../../../../packages/locales/mdx/*.md', {
   eager: true,
-}) as Record<string, { compiledContent(): string }>
+}) as Record<string, { compiledContent(): Promise<string> }>
 
 // Fetch live stats at build time
 const [npmStats, ghStats] = await Promise.all([
@@ -134,7 +134,7 @@ const socialLinks = [
     title: 'LinkedIn',
     href: ESocialLinks.linkedin,
     description: t.socialMedia[ESocialLinks.linkedin],
-    Icon: LucideLinkedin,
+    Icon: Linkedin,
     color: '#0A66C2',
   },
   {

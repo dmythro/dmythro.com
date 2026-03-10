@@ -114,7 +114,7 @@ const canonicalUrl = new URL(pathname, BASE_URL)
     <slot name="head" />
 
     {jsonLd && (
-      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     )}
   </head>
   <body class="min-h-screen bg-base-100 text-base-content">

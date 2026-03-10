@@ -161,7 +161,7 @@ pre.astro-code {
 }
 
 /* External link styles — applied globally in main content, excluded for UI elements */
-main a[href^='http']:not(.group, .btn, .tooltip, .no-ext-link) {
+main a[href^='http']:not(.group, .btn, .card, .tooltip, .no-ext-link) {
   color: color-mix(in oklch, var(--color-primary) 85%, black);
   text-decoration: underline;
   text-underline-offset: 2px;
@@ -170,10 +170,10 @@ main a[href^='http']:not(.group, .btn, .tooltip, .no-ext-link) {
     color 0.15s,
     text-decoration-color 0.15s;
 }
-[data-theme='dark'] main a[href^='http']:not(.group, .btn, .tooltip, .no-ext-link) {
+[data-theme='dark'] main a[href^='http']:not(.group, .btn, .card, .tooltip, .no-ext-link) {
   color: color-mix(in oklch, var(--color-primary) 75%, white);
 }
-main a[href^='http']:not(.group, .btn, .tooltip, .no-ext-link):hover {
+main a[href^='http']:not(.group, .btn, .card, .tooltip, .no-ext-link):hover {
   text-decoration-color: var(--color-primary);
 }
 main a[href^='http'] .link-icon {

@@ -1,5 +1,5 @@
 import type { Translation } from '@dmythro/locales'
-import type { FunctionComponent, JSX } from 'preact'
+import type { FunctionComponent } from 'preact'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks'
 
 import { RichSelect } from './RichSelect'
@@ -218,23 +218,23 @@ export const StringTensionCalculator: FunctionComponent<StringTensionCalculatorP
     }))
   }, [])
 
-  const handleMaterialChange = useCallback((e: JSX.TargetedEvent<HTMLSelectElement>) => {
+  const handleMaterialChange = useCallback((e: Event & { currentTarget: HTMLSelectElement }) => {
     setForm((prev) => ({ ...prev, stringMaterial: e.currentTarget.value as StringMaterial }))
   }, [])
 
-  const handleStringsChange = useCallback((e: JSX.TargetedEvent<HTMLSelectElement>) => {
+  const handleStringsChange = useCallback((e: Event & { currentTarget: HTMLSelectElement }) => {
     setForm((prev) => ({ ...prev, strings: Number(e.currentTarget.value) }))
   }, [])
 
-  const handleTuningChange = useCallback((e: JSX.TargetedEvent<HTMLSelectElement>) => {
+  const handleTuningChange = useCallback((e: Event & { currentTarget: HTMLSelectElement }) => {
     setForm((prev) => ({ ...prev, tuning: e.currentTarget.value }))
   }, [])
 
-  const handleScaleFromChange = useCallback((e: JSX.TargetedEvent<HTMLInputElement>) => {
+  const handleScaleFromChange = useCallback((e: Event & { currentTarget: HTMLInputElement }) => {
     setForm((prev) => ({ ...prev, scaleFrom: e.currentTarget.value }))
   }, [])
 
-  const handleScaleToChange = useCallback((e: JSX.TargetedEvent<HTMLInputElement>) => {
+  const handleScaleToChange = useCallback((e: Event & { currentTarget: HTMLInputElement }) => {
     setForm((prev) => ({ ...prev, scaleTo: e.currentTarget.value }))
   }, [])
 
