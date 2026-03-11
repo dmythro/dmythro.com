@@ -12,7 +12,7 @@ export default defineConfig({
   site: 'https://dmythro.com',
   output: 'static',
   trailingSlash: 'never',
-  build: { format: 'file' },
+  build: { format: 'file', inlineStylesheets: 'always' },
   devToolbar: { enabled: false },
   adapter: cloudflare(),
 
