@@ -3,6 +3,9 @@
   themes:
     light --default,
     dark --prefersdark;
+  include:
+    avatar, badge, button, card, collapse, divider, dropdown, input, label, link, menu, select, tab,
+    table, timeline, tooltip;
 }
 
 html {
