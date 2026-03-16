@@ -1,8 +1,8 @@
 import type { LocaleCode } from '@dmythro/locales'
 import { availableLocales } from '@dmythro/locales/constants'
 
-export { availableLocales }
 export type { LocaleCode }
+export { availableLocales }
 
 export function getStaticLocalePaths() {
   return availableLocales.map((locale) => ({ params: { locale } }))
