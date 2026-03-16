@@ -14,7 +14,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@formatjs/intl-localematcher": "0.8.1",
+    "@formatjs/intl-localematcher": "0.8.2",
     "@heroui/accordion": "2.2.29",
     "@heroui/avatar": "2.2.26",
     "@heroui/button": "2.2.32",
@@ -39,11 +39,11 @@
     "@mdx-js/react": "3.1.1",
     "@next/mdx": "16.1.6",
     "@next/third-parties": "16.1.6",
-    "@vercel/analytics": "2.0.0",
+    "@vercel/analytics": "2.0.1",
     "@vercel/postgres": "0.10.0",
     "@vercel/speed-insights": "2.0.0",
     "dayjs": "catalog:",
-    "framer-motion": "12.35.2",
+    "framer-motion": "12.37.0",
     "@dmythro/constants": "workspace:*",
     "@dmythro/locales": "workspace:*",
     "negotiator": "1.0.0",

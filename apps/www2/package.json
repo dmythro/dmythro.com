@@ -14,25 +14,23 @@
     "deploy": "astro build && wrangler pages deploy dist --project-name=dmythro-com --branch=main"
   },
   "dependencies": {
-    "@astrojs/check": "0.9.7",
-    "@astrojs/cloudflare": "12.6.13",
-    "@astrojs/mdx": "4.3.14",
-    "@astrojs/preact": "5.0.0",
+    "@astrojs/check": "0.9.8",
+    "@astrojs/preact": "5.0.1",
     "@astrojs/sitemap": "3.7.1",
     "@dmythro/constants": "workspace:*",
     "@dmythro/locales": "workspace:*",
     "@lucide/astro": "0.577.0",
     "@tailwindcss/vite": "4.2.1",
-    "astro": "6.0.1",
+    "astro": "6.0.5",
     "countries-list": "catalog:",
     "daisyui": "5.5.19",
-    "preact": "10.28.4",
+    "preact": "10.29.0",
     "schema-dts": "catalog:",
     "simple-icons-astro": "16.1.0",
     "tailwindcss": "catalog:"
   },
   "devDependencies": {
     "typescript": "catalog:",
-    "wrangler": "4.71.0"
+    "wrangler": "4.74.0"
   }
 }
