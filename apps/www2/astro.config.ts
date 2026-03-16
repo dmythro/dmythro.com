@@ -1,5 +1,3 @@
-import cloudflare from '@astrojs/cloudflare'
-import mdx from '@astrojs/mdx'
 import preact from '@astrojs/preact'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
@@ -14,11 +12,9 @@ export default defineConfig({
   trailingSlash: 'never',
   build: { format: 'file', inlineStylesheets: 'always' },
   devToolbar: { enabled: false },
-  adapter: cloudflare(),
 
   integrations: [
     preact(),
-    mdx(),
     sitemap({
       i18n: {
         defaultLocale: 'en',
@@ -43,7 +39,6 @@ export default defineConfig({
   },
 
   vite: {
-    // @ts-expect-error Vite version mismatch between @tailwindcss/vite and Astro's bundled Vite
     plugins: [tailwindcss()],
   },
 })
