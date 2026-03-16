@@ -16,8 +16,8 @@ const urlIcons = {
 export const mdxComponents = {
   img: (props) => <ResponsiveImage {...props} shadow="none" />,
   a: (props) => {
-    const url = new URL(props.href || '')
-    const isExternal = !url.href.startsWith(BASE_URL)
+    const url = new URL(props.href || '', BASE_URL)
+    const isExternal = url.origin !== new URL(BASE_URL).origin
     const anchorIcon = urlIcons[url.hostname]
 
     return (
