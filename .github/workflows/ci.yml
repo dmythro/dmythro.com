@@ -15,11 +15,11 @@ jobs:
     name: Lint, Types & Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - uses: oven-sh/setup-bun@v2
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: |
             ~/.bun/install/cache
@@ -40,11 +40,11 @@ jobs:
     needs: ci
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - uses: oven-sh/setup-bun@v2
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: |
             ~/.bun/install/cache
@@ -57,7 +57,7 @@ jobs:
       - run: bun install --frozen-lockfile
       - run: bun run build --filter=www2
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: www2-dist
           path: apps/www2/dist
@@ -71,7 +71,7 @@ jobs:
       deployments: write
       pull-requests: write
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: www2-dist
           path: apps/www2/dist
