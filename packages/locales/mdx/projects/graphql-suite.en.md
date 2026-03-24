@@ -1,10 +1,10 @@
-The **`drizzle-graphql-suite`** generates a full **GraphQL CRUD** layer directly from your **Drizzle ORM** PostgreSQL schemas. Instead of writing resolvers, type definitions, and client code by hand, you define your database schema once and get a complete, **type-safe API stack**.
+**`graphql-suite`** generates a full **GraphQL CRUD** layer directly from your **Drizzle ORM** PostgreSQL schemas. Instead of writing resolvers, type definitions, and client code by hand, you define your database schema once and get a complete, **type-safe API stack**.
 
 The suite is organized into three packages. The **schema** package reads your Drizzle schema and produces GraphQL type definitions and resolvers with **filtering**, **pagination**, and **sorting** built in. The **client** package generates a type-safe GraphQL client with **zero codegen** — types flow directly from your schema. The **React Query** package wraps the client into ready-to-use hooks for data fetching, mutations, and cache invalidation.
 
 ```ts
 // Server — auto-generate GraphQL schema from Drizzle tables
-import { buildSchema } from 'drizzle-graphql-suite/schema'
+import { buildSchema } from '@graphql-suite/schema'
 import { createYoga } from 'graphql-yoga'
 import { db } from './db'
 
@@ -17,8 +17,8 @@ const yoga = createYoga({ schema })
 
 ```ts
 // Client — type-safe hooks with zero codegen
-import { createDrizzleClient } from 'drizzle-graphql-suite/client'
-import { useEntityList } from 'drizzle-graphql-suite/query'
+import { createDrizzleClient } from '@graphql-suite/client'
+import { useEntityList } from '@graphql-suite/query'
 
 const client = createDrizzleClient({ schema, url: '/api/graphql' })
 

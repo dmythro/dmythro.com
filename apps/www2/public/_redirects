@@ -4,3 +4,7 @@
 # Renamed pages
 /en/built-with /en/open-source 301
 /uk/built-with /uk/open-source 301
+
+# Renamed projects
+/en/projects/drizzle-graphql-suite /en/projects/graphql-suite 301
+/uk/projects/drizzle-graphql-suite /uk/projects/graphql-suite 301
