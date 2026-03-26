@@ -18,7 +18,7 @@
     "@astrojs/sitemap": "3.7.1",
     "@dmythro/constants": "workspace:*",
     "@dmythro/locales": "workspace:*",
-    "@lucide/astro": "0.577.0",
+    "@lucide/astro": "1.7.0",
     "@tailwindcss/vite": "4.2.1",
     "astro": "6.0.5",
     "countries-list": "catalog:",
