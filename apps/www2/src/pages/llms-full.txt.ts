@@ -1,11 +1,15 @@
+import { getCollection } from 'astro:content'
 import { BASE_URL } from '@dmythro/constants'
 import type { APIRoute } from 'astro'
 
 import { projects } from '@/data/projects'
 
-const mdxFiles = import.meta.glob('../../../../packages/locales/mdx/projects/*.en.md', {
-  eager: true,
-}) as Record<string, { rawContent(): string }>
+const articleEntries = await getCollection('projectArticles', ({ id }: { id: string }) =>
+  id.endsWith('.en'),
+)
+const articleMap = new Map<string, string>(
+  articleEntries.map((e: { id: string; body?: string }) => [e.id.replace('.en', ''), e.body ?? '']),
+)
 
 export const GET: APIRoute = () => {
   const devProjects = projects.filter((p) => p.category === 'dev')
@@ -22,9 +26,7 @@ export const GET: APIRoute = () => {
         .join('\n')
 
       const tags = p.tags.join(', ')
-
-      const mdxKey = Object.keys(mdxFiles).find((k) => k.endsWith(`/${p.slug}.en.md`))
-      const content = mdxKey ? mdxFiles[mdxKey].rawContent().trim() : p.description.en
+      const content = articleMap.get(p.slug)?.trim() || p.description.en
 
       return `## ${p.title.en}
 

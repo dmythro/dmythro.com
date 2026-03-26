@@ -2,10 +2,6 @@
 import { Image } from 'astro:assets'
 import { ESocialLinks } from '@dmythro/constants'
 import type { InterestKey, InterestLocale } from '@dmythro/locales'
-import faqEn from '@dmythro/locales/mdx/faq.en.md?raw'
-import faqUk from '@dmythro/locales/mdx/faq.uk.md?raw'
-import hobbiesEn from '@dmythro/locales/mdx/hobbies.en.md?raw'
-import hobbiesUk from '@dmythro/locales/mdx/hobbies.uk.md?raw'
 import {
   Bike,
   Book,
@@ -46,17 +42,14 @@ const sectionIcons: Record<string, typeof Briefcase> = {
   links: Link,
 }
 
+import { getEntry } from 'astro:content'
+
 const mdxKeyMap: Record<string, string> = {
   webDev: 'web-dev',
   music: 'music',
   travel: 'travel',
   hobbies: 'hobbies',
 }
-
-// Load MDX content
-const mdxFiles = import.meta.glob('../../../../packages/locales/mdx/*.md', {
-  eager: true,
-}) as Record<string, { compiledContent(): Promise<string> }>
 
 // Fetch live stats at build time
 const [npmStats, ghStats] = await Promise.all([
@@ -79,24 +72,24 @@ async function render(md: string): Promise<string> {
   return replaceStats(await renderMarkdown(md))
 }
 
-// Pre-resolve all MDX content (compiledContent is async)
+// Pre-resolve all article content
 const mdxContent: Partial<Record<string, string>> = {}
 for (const [interestKey, fileName] of Object.entries(mdxKeyMap)) {
-  const key = Object.keys(mdxFiles).find((k) => k.endsWith(`/${fileName}.${locale}.md`))
-  if (!key) continue
-  const html = await mdxFiles[key].compiledContent()
-  mdxContent[interestKey] = replaceStats(html)
+  const entry = await getEntry('articles', `${fileName}.${locale}`)
+  if (!entry?.body) continue
+  mdxContent[interestKey] = replaceStats(await renderMarkdown(entry.body))
 }
 
 // FAQ parsing — structural split, then render each answer through the markdown pipeline
-const rawFaq = locale === 'uk' ? faqUk : faqEn
+const faqEntry = await getEntry('articles', `faq.${locale}`)
+const rawFaq = faqEntry?.body ?? ''
 type FaqItem = { question: string; answerHtml: string }
 
 const faqItems: FaqItem[] = await Promise.all(
   rawFaq
     .split(/^## /m)
     .filter(Boolean)
-    .map(async (block) => {
+    .map(async (block: string) => {
       const [question, ...rest] = block.split('\n')
       const answerHtml = await render(rest.join('\n').trim())
       return { question: question.trim(), answerHtml }
@@ -104,7 +97,8 @@ const faqItems: FaqItem[] = await Promise.all(
 )
 
 // Hobbies parsing — structural split, then render each card body through the markdown pipeline
-const rawHobbies = locale === 'uk' ? hobbiesUk : hobbiesEn
+const hobbiesEntry = await getEntry('articles', `hobbies.${locale}`)
+const rawHobbies = hobbiesEntry?.body ?? ''
 const hobbiesParts = rawHobbies.split(/^## /m)
 const hobbiesIntroHtml = await render(hobbiesParts[0].trim())
 const hobbyIconMap: Record<string, typeof Cpu> = {
@@ -114,7 +108,7 @@ const hobbyIconMap: Record<string, typeof Cpu> = {
   3: Gamepad2,
 }
 const hobbyCards = await Promise.all(
-  hobbiesParts.slice(1).map(async (block, i) => {
+  hobbiesParts.slice(1).map(async (block: string, i: number) => {
     const [title, ...rest] = block.split('\n')
     const bodyHtml = await render(rest.join('\n').trim())
     return { title: title.trim(), bodyHtml, Icon: hobbyIconMap[i] }
