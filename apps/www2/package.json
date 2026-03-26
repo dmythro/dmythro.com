@@ -29,6 +29,7 @@
     "tailwindcss": "catalog:"
   },
   "devDependencies": {
+    "@astrojs/mdx": "5.0.2",
     "typescript": "catalog:",
     "wrangler": "4.74.0"
   }

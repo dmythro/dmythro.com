@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets'
-import { ESocialLinks } from '@dmythro/constants'
+import { BASE_URL, ESocialLinks } from '@dmythro/constants'
 import type { InterestKey, InterestLocale } from '@dmythro/locales'
 import {
   Bike,
@@ -22,6 +22,7 @@ import { fetchNpmStats, formatNumber } from '@/utils/fetchNpmStats'
 import { getT } from '@/utils/getT'
 import type { LocaleCode } from '@/utils/i18n'
 import { renderMarkdown } from '@/utils/renderMarkdown'
+import * as mdxComponents from './mdx'
 import Stats from './Stats.astro'
 import Timeline from './Timeline.astro'
 
@@ -42,7 +43,7 @@ const sectionIcons: Record<string, typeof Briefcase> = {
   links: Link,
 }
 
-import { getEntry } from 'astro:content'
+import { getEntry, render as renderEntry } from 'astro:content'
 
 const mdxKeyMap: Record<string, string> = {
   webDev: 'web-dev',
@@ -74,10 +75,18 @@ async function render(md: string): Promise<string> {
 
 // Pre-resolve all article content
 const mdxContent: Partial<Record<string, string>> = {}
+// biome-ignore lint/suspicious/noExplicitAny: Astro Content component type
+const contentComponents: Partial<Record<string, any>> = {}
+
 for (const [interestKey, fileName] of Object.entries(mdxKeyMap)) {
   const entry = await getEntry('articles', `${fileName}.${locale}`)
-  if (!entry?.rendered?.html) continue
-  mdxContent[interestKey] = replaceStats(entry.rendered.html)
+  if (!entry) continue
+  const { Content } = await renderEntry(entry)
+  contentComponents[interestKey] = Content
+  // HTML string fallback for sections needing stat replacement
+  if (entry.rendered?.html) {
+    mdxContent[interestKey] = replaceStats(entry.rendered.html)
+  }
 }
 
 // FAQ parsing — structural split, then render each answer through the markdown pipeline
@@ -185,14 +194,14 @@ const socialLinks = [
 const sections = interestList.map((key) => {
   const interest = t.interests[key] as InterestLocale
   const Icon = sectionIcons[key]
-  return { key, interest, Icon, mdxHtml: mdxContent[key] }
+  return { key, interest, Icon, mdxHtml: mdxContent[key], MdxContent: contentComponents[key] }
 })
 
 const lastKey = interestList[interestList.length - 1]
 ---
 
 <article class="flex flex-col gap-16 print:gap-6">
-  {sections.map(({ key, interest, Icon, mdxHtml }) => (
+  {sections.map(({ key, interest, Icon, mdxHtml, MdxContent }) => (
     <section id={key} class="scroll-mt-24 print:break-before-page">
       <div class="flex items-start gap-3 mb-4">
         <div class="flex-1">
@@ -205,7 +214,10 @@ const lastKey = interestList[interestList.length - 1]
       </div>
 
       {/* MDX prose content (skip hobbies — rendered as cards below) */}
-      {mdxHtml && key !== 'hobbies' && (
+      {MdxContent && key !== 'hobbies' && key !== 'webDev' && (
+        <div class="prose prose-sm max-w-none"><MdxContent components={mdxComponents} /></div>
+      )}
+      {mdxHtml && key === 'webDev' && (
         <div class="prose prose-sm max-w-none" set:html={mdxHtml} />
       )}
 
@@ -254,7 +266,7 @@ const lastKey = interestList[interestList.length - 1]
       {key === 'faq' && (
         <div class="flex flex-col gap-2" id="faq-list">
           {faqItems.map(({ question, answerHtml }) => (
-            <details class="collapse collapse-arrow bg-base-100 border border-base-300 print:collapse-open" open>
+            <details class="collapse collapse-arrow border border-base-300 bg-base-100" open>
               <summary class="collapse-title font-medium">{question}</summary>
               <div class="collapse-content">
                 <div class="prose prose-sm max-w-none" set:html={answerHtml} />

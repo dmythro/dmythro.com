@@ -3,15 +3,15 @@ import { glob } from 'astro/loaders'
 
 /** Preserve the full filename (minus .md) as the entry ID, e.g. `web-dev.en` */
 function generateId({ entry }: { entry: string }) {
-  return entry.replace(/\.md$/, '')
+  return entry.replace(/\.mdx$/, '')
 }
 
 const projectArticles = defineCollection({
-  loader: glob({ pattern: 'projects/*.md', base: '../../packages/locales/mdx', generateId }),
+  loader: glob({ pattern: 'projects/*.mdx', base: '../../packages/locales/mdx', generateId }),
 })
 
 const articles = defineCollection({
-  loader: glob({ pattern: '*.md', base: '../../packages/locales/mdx', generateId }),
+  loader: glob({ pattern: '*.mdx', base: '../../packages/locales/mdx', generateId }),
 })
 
 export const collections = { projectArticles, articles }

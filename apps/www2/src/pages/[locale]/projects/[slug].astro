@@ -3,6 +3,7 @@ import { BASE_URL, USERNAME } from '@dmythro/constants'
 import { Camera, ExternalLink, Globe, Music, Package, Terminal } from '@lucide/astro'
 import { Github } from 'simple-icons-astro'
 import BackLink from '@/components/BackLink.astro'
+import * as mdxComponents from '@/components/mdx'
 import ProjectCard from '@/components/ProjectCard.astro'
 import StatBadge from '@/components/StatBadge.astro'
 import TagBadge from '@/components/TagBadge.astro'
@@ -35,10 +36,10 @@ const [npmStats, githubStats] = await Promise.all([
 ])
 
 // Load project article content
-import { getEntry } from 'astro:content'
+import { getEntry, render } from 'astro:content'
 
 const articleEntry = await getEntry('projectArticles', `${slug}.${locale}`)
-const ArticleContent = articleEntry ? (await articleEntry.render()).Content : null
+const ArticleContent = articleEntry ? (await render(articleEntry)).Content : null
 
 const iconMap = {
   package: Package,
@@ -109,7 +110,7 @@ const otherProjectsWithStats = await Promise.all(
 
     {ArticleContent && (
       <div class="prose max-w-none mt-6">
-        <ArticleContent />
+        <ArticleContent components={mdxComponents} />
       </div>
     )}
   </article>

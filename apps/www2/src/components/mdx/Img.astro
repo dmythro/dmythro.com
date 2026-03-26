@@ -1,0 +1,30 @@
+---
+import { Image } from 'astro:assets'
+
+interface Props {
+  src: string
+  alt?: string
+  width?: number
+  height?: number
+  [key: string]: unknown
+}
+
+const { src, alt, width, height, ...rest } = Astro.props
+const hasCaption = alt && alt.length > 0
+---
+
+<figure class="my-4">
+  <Image
+    src={src}
+    alt={alt ?? ''}
+    width={width ?? 1440}
+    height={height ?? 960}
+    class="rounded-lg w-full h-auto"
+    loading="lazy"
+    decoding="async"
+    {...rest}
+  />
+  {hasCaption && (
+    <figcaption class="text-xs text-base-content/65 text-center py-1">{alt}</figcaption>
+  )}
+</figure>
