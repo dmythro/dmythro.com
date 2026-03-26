@@ -1,9 +1,9 @@
 import { defineCollection } from 'astro:content'
 import { glob } from 'astro/loaders'
 
-/** Preserve the full filename (minus .md) as the entry ID, e.g. `web-dev.en` */
+/** Preserve the filename (minus extension and path) as the entry ID, e.g. `web-dev.en` */
 function generateId({ entry }: { entry: string }) {
-  return entry.replace(/\.mdx$/, '')
+  return entry.replace(/^.*\//, '').replace(/\.mdx$/, '')
 }
 
 const projectArticles = defineCollection({
