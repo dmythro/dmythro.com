@@ -76,8 +76,8 @@ async function render(md: string): Promise<string> {
 const mdxContent: Partial<Record<string, string>> = {}
 for (const [interestKey, fileName] of Object.entries(mdxKeyMap)) {
   const entry = await getEntry('articles', `${fileName}.${locale}`)
-  if (!entry?.body) continue
-  mdxContent[interestKey] = replaceStats(await renderMarkdown(entry.body))
+  if (!entry?.rendered?.html) continue
+  mdxContent[interestKey] = replaceStats(entry.rendered.html)
 }
 
 // FAQ parsing — structural split, then render each answer through the markdown pipeline
@@ -252,17 +252,21 @@ const lastKey = interestList[interestList.length - 1]
 
       {/* FAQ section */}
       {key === 'faq' && (
-        <div class="flex flex-col gap-2">
-          {faqItems.map(({ question, answerHtml }, i) => (
-            <div class="collapse collapse-arrow bg-base-100 border border-base-300 print:collapse-open">
-              <input type="radio" name="faq-cv" checked={i === 0} aria-label={question} />
-              <div class="collapse-title font-medium">{question}</div>
+        <div class="flex flex-col gap-2" id="faq-list">
+          {faqItems.map(({ question, answerHtml }) => (
+            <details class="collapse collapse-arrow bg-base-100 border border-base-300 print:collapse-open" open>
+              <summary class="collapse-title font-medium">{question}</summary>
               <div class="collapse-content">
                 <div class="prose prose-sm max-w-none" set:html={answerHtml} />
               </div>
-            </div>
+            </details>
           ))}
         </div>
+        <script is:inline>
+          document.querySelectorAll('#faq-list details').forEach((d, i) => {
+            if (i > 0) d.removeAttribute('open')
+          })
+        </script>
       )}
 
       {/* Links section — contact-style cards with icons */}
