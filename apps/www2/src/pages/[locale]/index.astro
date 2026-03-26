@@ -25,7 +25,7 @@ const highlightedProjects = getHighlightedProjects()
 const projectStats = await Promise.all(
   highlightedProjects.map(async (project) => ({
     project,
-    npm: project.npm ? await fetchNpmStats(project.npm) : null,
+    npm: project.npm ? await fetchNpmStats(project.npmForDownloads ?? project.npm) : null,
     github: project.github ? await fetchGithubStats(project.github, project.fallbackStars) : null,
   })),
 )

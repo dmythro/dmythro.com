@@ -5,6 +5,8 @@ import PageHeader from '@/components/PageHeader.astro'
 import ProjectCard from '@/components/ProjectCard.astro'
 import { getProjectsByCategory } from '@/data/projects'
 import PageLayout from '@/layouts/PageLayout.astro'
+import { fetchGithubStats } from '@/utils/fetchGithubStats'
+import { fetchNpmStats } from '@/utils/fetchNpmStats'
 import { getT } from '@/utils/getT'
 import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
 
@@ -16,6 +18,13 @@ const { locale } = Astro.params as { locale: LocaleCode }
 const t = getT(locale)
 const ALL = 'all'
 const allProjects = getProjectsByCategory()
+const projectStats = await Promise.all(
+  allProjects.map(async (project) => ({
+    project,
+    npm: project.npm ? await fetchNpmStats(project.npmForDownloads ?? project.npm) : null,
+    github: project.github ? await fetchGithubStats(project.github, project.fallbackStars) : null,
+  })),
+)
 const categories = [ALL, ...new Set(allProjects.map((p) => p.category))]
 const categoryLabels: Record<string, string> = Object.fromEntries(
   categories
@@ -58,10 +67,10 @@ const projectsJsonLd = {
   )}
 
   {/* Project grid */}
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="projects-grid">
-    {allProjects.map((project) => (
-      <div data-category={project.category}>
-        <ProjectCard project={project} locale={locale} />
+  <div class="columns-1 sm:columns-2 lg:columns-3 gap-4 [&>div]:mb-4" id="projects-grid">
+    {projectStats.map(({ project, npm, github }) => (
+      <div class="break-inside-avoid" data-category={project.category}>
+        <ProjectCard project={project} locale={locale} npm={npm} github={github} />
       </div>
     ))}
   </div>

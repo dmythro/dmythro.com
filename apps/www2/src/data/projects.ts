@@ -10,6 +10,7 @@ export interface Project {
   tags: string[]
   icon: string
   npm?: string
+  npmForDownloads?: string
   github?: string
   image?: string
   url?: string
@@ -25,11 +26,11 @@ export const projects: Project[] = [
     slug: 'countries-list',
     title: { en: 'countries-list', uk: 'countries-list' },
     description: {
-      en: 'Countries, Languages & Continents data (capital and currency, native name, calling codes). 1.3K+ stars.',
-      uk: 'Дані країн, мов та континентів (столиці, валюти, назви рідною мовою, телефонні коди). 1.3K+ зірок.',
+      en: 'Countries, Languages & Continents data in ISO formats (capital and currency, native name, calling codes).',
+      uk: 'Дані країн, мов та континентів у форматах ISO (столиці, валюти, назви рідною мовою, телефонні коди).',
     },
     category: 'dev',
-    tags: ['typescript', 'i18n', 'open-source', 'npm'],
+    tags: ['typescript', 'i18n', 'iso', 'data', 'open-source', 'npm'],
     icon: 'package',
     npm: 'countries-list',
     github: 'annexare/Countries',
@@ -45,7 +46,18 @@ export const projects: Project[] = [
       uk: 'Легкий JSONL логер з форматерами для VictoriaLogs, Google Cloud Logging та інших.',
     },
     category: 'dev',
-    tags: ['typescript', 'logging', 'open-source', 'npm'],
+    tags: [
+      'typescript',
+      'logging',
+      'jsonl',
+      'bun',
+      'node',
+      'deno',
+      'open-source',
+      'npm',
+      'google-cloud',
+      'victorialogs',
+    ],
     icon: 'package',
     npm: 'jsonl-logger',
     github: 'annexare/jsonl-logger',
@@ -57,13 +69,14 @@ export const projects: Project[] = [
     slug: 'graphql-suite',
     title: { en: 'graphql-suite', uk: 'graphql-suite' },
     description: {
-      en: 'Auto-generated GraphQL CRUD, type-safe clients, and React Query hooks from Drizzle PostgreSQL schemas. Zero codegen.',
-      uk: 'Авто-генерація GraphQL CRUD, типобезпечні клієнти та React Query хуки з Drizzle PostgreSQL схем. Без кодогенерації.',
+      en: 'Auto-generated GraphQL CRUD, type-safe clients, and React Query hooks from Drizzle PostgreSQL schemas. Full type inference, zero codegen.',
+      uk: 'Авто-генерація GraphQL CRUD, типобезпечні клієнти та React Query хуки з Drizzle PostgreSQL схем. Повний вивід типів, без кодогенерації.',
     },
     category: 'dev',
     tags: ['typescript', 'graphql', 'drizzle', 'react-query', 'npm', 'open-source'],
     icon: 'package',
-    npm: '@graphql-suite/schema',
+    npm: 'graphql-suite',
+    npmForDownloads: '@graphql-suite/schema',
     github: 'annexare/graphql-suite',
     url: 'https://graphql-suite.annexare.com',
     fallbackStars: 3,
@@ -75,11 +88,11 @@ export const projects: Project[] = [
     slug: 'dmythro-com',
     title: { en: 'dmythro.com', uk: 'dmythro.com' },
     description: {
-      en: 'This website — a personal portfolio built with Astro, DaisyUI, and Tailwind CSS.',
-      uk: 'Цей вебсайт — персональне портфоліо побудоване на Astro, DaisyUI та Tailwind CSS.',
+      en: 'This website — a personal portfolio built with Astro, DaisyUI, Tailwind CSS, Bun workspaces, and Biome.',
+      uk: 'Цей вебсайт — персональне портфоліо побудоване на Astro, DaisyUI, Tailwind CSS, Bun workspaces та Biome.',
     },
     category: 'dev',
-    tags: ['astro', 'tailwind', 'daisyui', 'portfolio'],
+    tags: ['astro', 'tailwind', 'daisyui', 'bun', 'biome', 'portfolio'],
     icon: 'globe',
     github: 'dmythro/dmythro.com',
     fallbackStars: 6,
@@ -91,16 +104,31 @@ export const projects: Project[] = [
     slug: 'terminal-setup',
     title: { en: 'terminal-setup', uk: 'terminal-setup' },
     description: {
-      en: 'One-command macOS Terminal.app bootstrap — shell config, tools, and dotfiles.',
-      uk: 'Одна команда для налаштування macOS Terminal.app — конфігурація шелу, інструменти та дотфайли.',
+      en: 'One-command macOS Terminal.app bootstrap — Zsh, Starship, fzf, tmux, and dev tools for AI-assisted workflows.',
+      uk: 'Одна команда для налаштування macOS Terminal.app — Zsh, Starship, fzf, tmux та інструменти для AI-асистованих робочих процесів.',
     },
     category: 'dev',
-    tags: ['shell', 'macos', 'dotfiles', 'setup'],
+    tags: ['shell', 'macos', 'zsh', 'starship', 'fzf', 'tmux', 'setup'],
     icon: 'terminal',
     github: 'dmythro/terminal-setup',
     fallbackStars: 4,
     isHighlighted: true,
     sortOrder: 5,
+  },
+  {
+    slug: 'agent-skills',
+    title: { en: 'agent-skills', uk: 'agent-skills' },
+    description: {
+      en: 'A collection of agent skills for Claude Code, OpenCode, and other AI coding assistants — Bun, Git, CI/CD, and more.',
+      uk: 'Колекція навичок для Claude Code, OpenCode та інших AI-асистентів — Bun, Git, CI/CD та інше.',
+    },
+    category: 'dev',
+    tags: ['ai', 'claude-code', 'opencode', 'bun', 'git', 'skills'],
+    icon: 'terminal',
+    github: 'dmythro/agent-skills',
+    fallbackStars: 3,
+    isHighlighted: true,
+    sortOrder: 6,
   },
 ]
 

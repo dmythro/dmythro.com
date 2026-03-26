@@ -16,7 +16,7 @@ export async function fetchAggregateStats(): Promise<AggregateStats> {
   const ossProjects = projects.filter((p) => p.github)
 
   const [npmResults, ghResults] = await Promise.all([
-    Promise.all(npmProjects.map((p) => fetchNpmStats(p.npm!))),
+    Promise.all(npmProjects.map((p) => fetchNpmStats(p.npmForDownloads ?? p.npm!))),
     Promise.all(ossProjects.map((p) => fetchGithubStats(p.github!, p.fallbackStars))),
   ])
 

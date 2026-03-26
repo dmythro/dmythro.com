@@ -1,0 +1,18 @@
+---
+import { Download, Star } from '@lucide/astro'
+import { formatNumber } from '@/utils/fetchNpmStats'
+
+interface Props {
+  type: 'npm' | 'stars'
+  value: number
+}
+
+const { type, value } = Astro.props
+const Icon = type === 'npm' ? Download : Star
+const color = type === 'npm' ? 'badge-primary' : 'badge-warning'
+const label = type === 'npm' ? `${formatNumber(value)}/mo` : formatNumber(value)
+---
+
+<span class:list={['badge badge-sm badge-soft gap-0.5 px-1.5', color]}>
+  <Icon class="h-3 w-3" />{label}
+</span>

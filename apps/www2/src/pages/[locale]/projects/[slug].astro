@@ -4,7 +4,8 @@ import { Camera, ExternalLink, Globe, Music, Package, Terminal } from '@lucide/a
 import { Github } from 'simple-icons-astro'
 import BackLink from '@/components/BackLink.astro'
 import ProjectCard from '@/components/ProjectCard.astro'
-import ProjectStats from '@/components/ProjectStats.astro'
+import StatBadge from '@/components/StatBadge.astro'
+import TagBadge from '@/components/TagBadge.astro'
 import { getHighlightedProjects, projects } from '@/data/projects'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { fetchGithubStats } from '@/utils/fetchGithubStats'
@@ -29,7 +30,7 @@ const description = project.description[locale]
 
 // Fetch stats at build time (parallel)
 const [npmStats, githubStats] = await Promise.all([
-  project.npm ? fetchNpmStats(project.npm) : null,
+  project.npm ? fetchNpmStats(project.npmForDownloads ?? project.npm) : null,
   project.github ? fetchGithubStats(project.github, project.fallbackStars) : null,
 ])
 
@@ -62,9 +63,16 @@ const projectJsonLd = {
 }
 
 // Other highlighted projects for cross-linking
-const otherProjects = getHighlightedProjects()
-  .filter((p) => p.slug !== project.slug)
-  .slice(0, 3)
+const otherProjectsWithStats = await Promise.all(
+  getHighlightedProjects()
+    .filter((p) => p.slug !== project.slug)
+    .slice(0, 3)
+    .map(async (p) => ({
+      project: p,
+      npm: p.npm ? await fetchNpmStats(p.npmForDownloads ?? p.npm) : null,
+      github: p.github ? await fetchGithubStats(p.github, p.fallbackStars) : null,
+    })),
+)
 ---
 
 <PageLayout locale={locale} title={`${title} — ${USERNAME}`} description={description} jsonLd={projectJsonLd}>
@@ -94,14 +102,10 @@ const otherProjects = getHighlightedProjects()
       </div>
       <p class="text-base-content/60 mb-8">{description}</p>
 
-      <div class="flex flex-wrap items-center gap-2">
-        <ProjectStats
-          npmDownloads={npmStats?.downloads}
-          githubStars={githubStats?.stars}
-        />
-        {project.tags.map((tag) => (
-          <span class="badge badge-sm badge-soft">{tag}</span>
-        ))}
+      <div class="flex flex-wrap items-center gap-1">
+        {npmStats && npmStats.downloads > 0 && <StatBadge type="npm" value={npmStats.downloads} />}
+        {githubStats && githubStats.stars > 0 && <StatBadge type="stars" value={githubStats.stars} />}
+        {project.tags.map((tag) => <TagBadge tag={tag} />)}
       </div>
     </div>
 
@@ -111,14 +115,14 @@ const otherProjects = getHighlightedProjects()
   </article>
 
   {/* Other projects */}
-  {otherProjects.length > 0 && (
+  {otherProjectsWithStats.length > 0 && (
     <section class="mt-12">
       <h2 class="text-2xl font-semibold mb-4">
         {t.projects.otherProjects}
       </h2>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {otherProjects.map((p) => (
-          <ProjectCard project={p} locale={locale} />
+        {otherProjectsWithStats.map(({ project: p, npm, github }) => (
+          <ProjectCard project={p} locale={locale} npm={npm} github={github} />
         ))}
       </div>
     </section>

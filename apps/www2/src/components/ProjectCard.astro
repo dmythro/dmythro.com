@@ -1,11 +1,12 @@
 ---
 import { Image } from 'astro:assets'
-import { Camera, Globe, Music, Package, Star, Terminal } from '@lucide/astro'
+import { Camera, Globe, Music, Package, Terminal } from '@lucide/astro'
 import type { Project } from '@/data/projects'
 import type { GithubStats } from '@/utils/fetchGithubStats'
 import type { NpmStats } from '@/utils/fetchNpmStats'
-import { formatNumber } from '@/utils/fetchNpmStats'
 import type { LocaleCode } from '@/utils/i18n'
+import StatBadge from './StatBadge.astro'
+import TagBadge from './TagBadge.astro'
 
 interface Props {
   project: Project
@@ -25,7 +26,9 @@ const { project, locale, npm, github } = Astro.props
 const title = project.title[locale]
 const IconComponent = iconMap[project.icon as keyof typeof iconMap]
 const description = project.description[locale]
-const mainTags = project.tags.slice(0, 2)
+const statCount = (npm && npm.downloads > 0 ? 1 : 0) + (github && github.stars > 0 ? 1 : 0)
+const displayTags = project.tags.filter((t) => t !== 'npm' && t !== 'open-source')
+const mainTags = displayTags.slice(0, 5 - statCount)
 ---
 
 <a
@@ -44,21 +47,10 @@ const mainTags = project.tags.slice(0, 2)
     </h3>
     <p class="text-sm text-base-content/60 line-clamp-4">{description}</p>
 
-    {/* Badges — stats + tags in one line */}
-    <div class="flex flex-wrap gap-1.5 mt-1">
-      {npm && npm.downloads > 0 && (
-        <span class="badge badge-sm badge-soft badge-primary">
-          <Package class="h-3 w-3 inline align-[-0.125rem]" />&nbsp;{formatNumber(npm.downloads)}/mo
-        </span>
-      )}
-      {github && github.stars > 0 && (
-        <span class="badge badge-sm badge-soft badge-warning">
-          <Star class="h-3 w-3 inline align-[-0.125rem]" />&nbsp;{formatNumber(github.stars)}
-        </span>
-      )}
-      {mainTags.map((tag) => (
-        <span class="badge badge-sm badge-soft">{tag}</span>
-      ))}
+    <div class="flex flex-wrap gap-1 mt-1">
+      {npm && npm.downloads > 0 && <StatBadge type="npm" value={npm.downloads} />}
+      {github && github.stars > 0 && <StatBadge type="stars" value={github.stars} />}
+      {mainTags.map((tag) => <TagBadge tag={tag} />)}
     </div>
   </div>
 </a>
