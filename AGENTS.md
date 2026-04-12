@@ -12,7 +12,7 @@
 - **Clean**: `bun run clean` or `bun run clean-up` (deep clean)
 
 ## Apps
-- **www2** (apps/www2): Astro 6 beta + DaisyUI 5 + Tailwind 4 (current production site)
+- **www2** (apps/www2): Astro 6 + DaisyUI 5 + Tailwind 4 (current production site)
   - Zero JS by default, React islands only for interactivity
   - DaisyUI CSS-only components, no React for layout/nav/footer
   - i18n: `[locale]` dynamic param with `getStaticPaths`
