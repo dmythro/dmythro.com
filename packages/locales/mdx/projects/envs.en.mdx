@@ -1,0 +1,14 @@
+**`envs`** lets you switch between `.env` variants (local, staging, production) and sync them across machines — all with a single bash script. It encrypts files using [age](https://github.com/FiloSottile/age) with your existing SSH key and stores them in any shared folder — **iCloud Drive** by default, or any directory you point `ENVS_STORE_DIR` to (Syncthing, Dropbox, etc.).
+
+```sh
+envs push staging        # encrypt .env as "staging"
+envs use production      # decrypt "production" to .env
+envs diff staging        # compare local .env vs stored "staging"
+envs list                # show all variants for this repo
+```
+
+There is no setup ceremony — `envs` uses your `~/.ssh/id_ed25519` key, no separate key generation needed. There is no daemon or wrapper script — `.env` remains a regular file that all tools read normally. The script is **idempotent** and works the same way on macOS and Linux.
+
+Each project's variants are stored in a flat directory named by the normalized git remote URL, so the same repo on different machines maps to the same folder automatically. Before overwriting `.env`, the tool checks a sha256 hash to detect unpushed edits and warns you — use `--force` to override.
+
+Encryption uses **X25519 + ChaCha20-Poly1305 + HMAC-SHA256** via age. The encrypted `.age` files are opaque blobs that can only be decrypted with your private key, providing defense-in-depth regardless of the sync service's own encryption model.

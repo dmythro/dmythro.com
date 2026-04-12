@@ -130,6 +130,21 @@ export const projects: Project[] = [
     isHighlighted: true,
     sortOrder: 6,
   },
+  {
+    slug: 'envs',
+    title: { en: 'envs', uk: 'envs' },
+    description: {
+      en: 'Switch between .env variants (local, staging, production) and sync them across machines via age encryption.',
+      uk: 'Перемикання між варіантами .env (local, staging, production) та синхронізація між машинами через age-шифрування.',
+    },
+    category: 'dev',
+    tags: ['bash', 'env', 'encryption', 'age', 'security', 'cli'],
+    icon: 'terminal',
+    github: 'dmythro/envs',
+    fallbackStars: 0,
+    isHighlighted: true,
+    sortOrder: 7,
+  },
 ]
 
 export function getProjectsByCategory(category?: ProjectCategory): Project[] {
