@@ -1,3 +1,4 @@
+import { unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import preact from '@astrojs/preact'
 import sitemap from '@astrojs/sitemap'
@@ -10,6 +11,10 @@ export default defineConfig({
   site: 'https://dmythro.com',
   output: 'static',
   trailingSlash: 'never',
+  // Astro v7 defaults to `compressHTML: 'jsx'`, which strips significant
+  // whitespace between inline text and elements (e.g. the space after the
+  // footer middot). Keep the v6 HTML-aware behavior to preserve that spacing.
+  compressHTML: true,
   build: { format: 'file', inlineStylesheets: 'always' },
   devToolbar: { enabled: false },
 
@@ -27,8 +32,12 @@ export default defineConfig({
     }),
   ],
 
+  // Astro v7 defaults Markdown to the Sätteri processor; keep the unified
+  // (remark/rehype) processor so our local-image-size rehype plugin runs.
   markdown: {
-    rehypePlugins: [rehypeLocalImageSize],
+    processor: unified({
+      rehypePlugins: [rehypeLocalImageSize],
+    }),
   },
 
   i18n: {
