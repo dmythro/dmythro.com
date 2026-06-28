@@ -1,5 +1,6 @@
 declare module '*.svg' {
   import type { FC, SVGProps } from 'react'
+
   const content: FC<SVGProps<SVGSVGElement>>
   export default content
 }
@@ -19,8 +20,9 @@ declare module '*.css' {
   export default content
 }
 
-declare module '*.md' {
+declare module '*.mdx' {
   import type { ComponentType } from 'react'
+
   const MDXComponent: ComponentType
   export default MDXComponent
 }
