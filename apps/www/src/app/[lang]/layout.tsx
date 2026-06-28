@@ -141,6 +141,7 @@ export default async function LangLayout({
           strategy="afterInteractive"
         />
         <Script
+          id="gtag-init"
           strategy="afterInteractive"
           // biome-ignore lint/security/noDangerouslySetInnerHtml: this is a special case
           dangerouslySetInnerHTML={{

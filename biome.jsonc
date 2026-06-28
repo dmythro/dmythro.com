@@ -10,6 +10,10 @@
     "includes": [
       "**",
       "!.next",
+      "!.claude",
+      // SVGs are icon assets (Font Awesome, logos, @svgr imports), not source;
+      // Biome 2.5 began parsing/linting them, which only adds noise here.
+      "!**/*.svg",
       "!**/next-env.d.ts",
       "!data/test",
       "!node_modules",
@@ -63,7 +67,7 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
       "correctness": {
         "noInvalidPositionAtImportRule": "info"
       },
