@@ -27,21 +27,21 @@
   },
   "catalog": {
     "countries-list": "3.3.0",
-    "dayjs": "1.11.20",
+    "dayjs": "1.11.21",
     "schema-dts": "2.0.0",
-    "tailwindcss": "4.2.2",
-    "typescript": "6.0.2"
+    "tailwindcss": "4.3.1",
+    "typescript": "6.0.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.9",
-    "lefthook": "2.1.4",
-    "turbo": "2.8.20"
+    "@biomejs/biome": "2.5.1",
+    "lefthook": "2.1.9",
+    "turbo": "2.10.0"
   },
   "dependencies": {
-    "@types/bun": "1.3.11",
-    "baseline-browser-mapping": "2.10.10",
-    "caniuse-lite": "1.0.30001781",
-    "tailwindcss": "4.2.2"
+    "@types/bun": "1.3.14",
+    "baseline-browser-mapping": "2.10.40",
+    "caniuse-lite": "1.0.30001799",
+    "tailwindcss": "4.3.1"
   },
   "overrides": {
     "mdast-util-to-hast": ">=13.2.1",
