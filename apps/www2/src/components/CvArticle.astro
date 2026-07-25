@@ -73,25 +73,42 @@ async function render(md: string): Promise<string> {
   return replaceStats(await renderMarkdown(md))
 }
 
+/**
+ * Every article behind a CV section is required copy. Skipping a missing one leaves
+ * a section that renders nothing, which is indistinguishable from a healthy build —
+ * that is how the webDev copy went missing for four months. Fail the build instead.
+ */
+async function requireArticle(id: string) {
+  const entry = await getEntry('articles', id)
+  if (!entry?.body?.trim()) {
+    throw new Error(
+      `CV: article "${id}" is missing or empty, so its section would render nothing. ` +
+        `Expected content in packages/locales/mdx/${id}.mdx`,
+    )
+  }
+  return entry
+}
+
 // Pre-resolve all article content
 const mdxContent: Partial<Record<string, string>> = {}
 // biome-ignore lint/suspicious/noExplicitAny: Astro Content component type
 const contentComponents: Partial<Record<string, any>> = {}
 
 for (const [interestKey, fileName] of Object.entries(mdxKeyMap)) {
-  const entry = await getEntry('articles', `${fileName}.${locale}`)
-  if (!entry) continue
+  const entry = await requireArticle(`${fileName}.${locale}`)
   const { Content } = await renderEntry(entry)
   contentComponents[interestKey] = Content
-  // HTML string fallback for sections needing stat replacement
-  if (entry.rendered?.html) {
-    mdxContent[interestKey] = replaceStats(entry.rendered.html)
+  // An MDX entry compiles to a component and never populates `rendered.html`, so
+  // reading it silently yielded nothing. A section whose copy needs the live stats
+  // substituted goes through the markdown pipeline on the raw body instead.
+  if (interestKey === 'webDev') {
+    mdxContent[interestKey] = await render(entry.body)
   }
 }
 
 // FAQ parsing — structural split, then render each answer through the markdown pipeline
-const faqEntry = await getEntry('articles', `faq.${locale}`)
-const rawFaq = faqEntry?.body ?? ''
+const faqEntry = await requireArticle(`faq.${locale}`)
+const rawFaq = faqEntry.body
 type FaqItem = { question: string; answerHtml: string }
 
 const faqItems: FaqItem[] = await Promise.all(
