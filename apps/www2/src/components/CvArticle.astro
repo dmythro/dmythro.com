@@ -141,11 +141,11 @@ const socialLinks = [
     color: '#0A66C2',
   },
   {
-    title: 'X / Twitter',
-    href: ESocialLinks.twitter,
-    description: t.socialMedia[ESocialLinks.twitter],
-    Icon: X,
-    color: 'currentColor',
+    title: 'BlueSky',
+    href: ESocialLinks.bluesky,
+    description: t.socialMedia[ESocialLinks.bluesky],
+    Icon: Bluesky,
+    color: '#0285FF',
   },
   {
     title: 'Threads',
@@ -176,11 +176,11 @@ const socialLinks = [
     color: '#26A5E4',
   },
   {
-    title: 'BlueSky',
-    href: ESocialLinks.bluesky,
-    description: t.socialMedia[ESocialLinks.bluesky],
-    Icon: Bluesky,
-    color: '#0285FF',
+    title: 'X / Twitter',
+    href: ESocialLinks.twitter,
+    description: t.socialMedia[ESocialLinks.twitter],
+    Icon: X,
+    color: 'currentColor',
   },
   {
     title: 'Nostr',
@@ -283,7 +283,7 @@ const lastKey = interestList[interestList.length - 1]
 
       {/* Links section — contact-style cards with icons */}
       {key === 'links' && (
-        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {socialLinks.map(({ title, href, description, Icon: SIcon, color }) => (
             <a
               href={href}

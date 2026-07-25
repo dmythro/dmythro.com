@@ -27,9 +27,9 @@ const icon = isExternal ? getIcon(href!) : null
 ---
 
 {isExternal ? (
-  <a href={href} target="_blank" rel="noopener noreferrer" {...rest}>
-    <slot /><span class="link-icon" set:html={icon} />
-  </a>
+  <a href={href} target="_blank" rel="noopener noreferrer" {...rest}
+    ><slot /><span class="link-icon" set:html={icon} /></a
+  >
 ) : (
   <a href={href} {...rest}><slot /></a>
 )}

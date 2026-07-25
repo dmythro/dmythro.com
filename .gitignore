@@ -42,3 +42,6 @@ yarn-error.log*
 
 # ui
 dist/
+
+# Claude Code local worktrees
+.claude/worktrees/

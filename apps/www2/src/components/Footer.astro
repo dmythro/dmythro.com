@@ -4,13 +4,13 @@ import { footerLinks } from '@/data/profile'
 import Linkedin from '@/icons/Linkedin.astro'
 import { getT } from '@/utils/getT'
 import type { LocaleCode } from '@/utils/i18n'
+import { contentWidth, pagePadding } from '@/utils/layout'
 
 interface Props {
   locale: LocaleCode
-  fullWidth?: boolean
 }
 
-const { locale, fullWidth = false } = Astro.props
+const { locale } = Astro.props
 const t = getT(locale)
 const year = new Date().getFullYear()
 
@@ -22,11 +22,8 @@ const iconMap: Record<string, typeof Github> = {
 }
 ---
 
-<footer class:list={[
-  'footer py-8 text-base-content/60 no-print',
-  fullWidth ? 'px-5 md:px-16' : 'container mx-auto max-w-5xl px-4',
-]}>
-  <div class="w-full flex flex-row justify-between items-center gap-4">
+<footer class:list={['footer py-8 text-base-content/60 no-print', pagePadding]}>
+  <div class:list={['flex flex-row justify-between items-center gap-4', contentWidth]}>
     <div class="text-sm">
       &copy; {year} Dmythro &middot;
       <a href={`/${locale}/open-source`} class="link link-hover">{t.builtWith}</a>

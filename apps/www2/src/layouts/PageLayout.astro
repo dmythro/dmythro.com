@@ -2,6 +2,7 @@
 import Footer from '@/components/Footer.astro'
 import TopNavbar from '@/components/TopNavbar.astro'
 import type { LocaleCode } from '@/utils/i18n'
+import { contentWidth, pagePadding } from '@/utils/layout'
 import BaseLayout from './BaseLayout.astro'
 
 interface Props {
@@ -9,14 +10,36 @@ interface Props {
   title: string
   description: string
   jsonLd?: Record<string, unknown>
+  ogImage?: string
+  ogType?: 'website' | 'article'
+  publishedTime?: string
+  modifiedTime?: string
   isHeroPage?: boolean
-  fullWidth?: boolean
 }
 
-const { locale, title, description, jsonLd, isHeroPage = false, fullWidth = false } = Astro.props
+const {
+  locale,
+  title,
+  description,
+  jsonLd,
+  ogImage,
+  ogType,
+  publishedTime,
+  modifiedTime,
+  isHeroPage = false,
+} = Astro.props
 ---
 
-<BaseLayout locale={locale} title={title} description={description} jsonLd={jsonLd}>
+<BaseLayout
+  locale={locale}
+  title={title}
+  description={description}
+  jsonLd={jsonLd}
+  ogImage={ogImage}
+  ogType={ogType}
+  publishedTime={publishedTime}
+  modifiedTime={modifiedTime}
+>
   <slot name="head" slot="head" />
 
   {isHeroPage ? (
@@ -27,13 +50,23 @@ const { locale, title, description, jsonLd, isHeroPage = false, fullWidth = fals
   ) : (
     <>
       <TopNavbar locale={locale} />
-      <main class:list={[fullWidth ? 'px-5 md:px-16 py-6' : 'container mx-auto max-w-5xl px-4 py-6']} transition:animate="none">
-        <slot />
+      <main class:list={[pagePadding, 'py-6']} transition:animate="none">
+        <div class={contentWidth}>
+          <slot />
+        </div>
       </main>
     </>
   )}
 
   <style is:global>
+    /* Snappy by default. Project titles use a per-slug name (`project-title-*`)
+       that CSS cannot enumerate, so the wildcard covers them; the named rules
+       below are more specific and still win. */
+    ::view-transition-group(*) {
+      animation-duration: 150ms;
+      animation-timing-function: ease-out;
+    }
+
     ::view-transition-group(navbar) {
       animation: none;
       z-index: 50;
@@ -55,6 +88,6 @@ const { locale, title, description, jsonLd, isHeroPage = false, fullWidth = fals
   </style>
 
   <div transition:animate="none">
-    <Footer locale={locale} fullWidth={fullWidth || isHeroPage} />
+    <Footer locale={locale} />
   </div>
 </BaseLayout>

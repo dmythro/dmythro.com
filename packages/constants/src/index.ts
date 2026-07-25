@@ -9,7 +9,7 @@ export const localeNames = {
 } as const
 
 export enum ESocialLinks {
-  bluesky = 'https://bsky.app/profile/dmythro.bsky.social',
+  bluesky = 'https://bsky.app/profile/dmythro.viche.social',
   facebook = 'https://www.facebook.com/dmythro/',
   github = 'https://github.com/dmythro',
   instagram = 'https://instagram.com/dmythro',

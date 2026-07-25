@@ -23,9 +23,7 @@ const currentPath = cleanPathname(Astro.url.pathname).replace(`/${locale}`, '') 
           href={`/${l}${currentPath}`}
           hreflang={l}
           class:list={[{ active: l === locale }]}
-        >
-          {localeNames[l]}
-        </a>
+        >{localeNames[l]}</a>
       </li>
     ))}
   </ul>

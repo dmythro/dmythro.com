@@ -1,6 +1,11 @@
 # Sitemap alias
 /sitemap.xml /sitemap-index.xml 200
 
+# Feed aliases — bare paths serve the English feeds
+/rss.xml /en/rss.xml 200
+/feed /en/rss.xml 200
+/feed.json /en/feed.json 200
+
 # Renamed pages
 /en/built-with /en/open-source 301
 /uk/built-with /uk/open-source 301

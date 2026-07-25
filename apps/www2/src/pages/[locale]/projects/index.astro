@@ -66,14 +66,15 @@ const projectsJsonLd = {
     </div>
   )}
 
-  {/* Project grid */}
-  <div class="columns-1 sm:columns-2 lg:columns-3 gap-4 [&>div]:mb-4" id="projects-grid">
+  {/* Project grid — a real grid, not CSS columns. Columns reflowed cards between
+      tracks on hover and split them across column boundaries. */}
+  <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-start" id="projects-grid">
     {projectStats.map(({ project, npm, github }) => (
-      <div class="break-inside-avoid" data-category={project.category}>
+      <li class="h-full" data-category={project.category}>
         <ProjectCard project={project} locale={locale} npm={npm} github={github} />
-      </div>
+      </li>
     ))}
-  </div>
+  </ul>
 
   {/* Client-side filtering */}
   <script is:inline>
@@ -83,7 +84,7 @@ const projectsJsonLd = {
           document.querySelectorAll('[role="tab"]').forEach(t => t.classList.remove('tab-active'))
           tab.classList.add('tab-active')
           const cat = tab.dataset.category
-          document.querySelectorAll('#projects-grid > div').forEach(card => {
+          document.querySelectorAll('#projects-grid > li').forEach(card => {
             card.style.display = (cat === 'all' || card.dataset.category === cat) ? '' : 'none'
           })
         })

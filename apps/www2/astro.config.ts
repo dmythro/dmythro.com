@@ -2,10 +2,22 @@ import { unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import preact from '@astrojs/preact'
 import sitemap from '@astrojs/sitemap'
+import { availableLocales } from '@dmythro/locales/constants'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'astro/config'
 
+import { getProjectDate, projects } from './src/data/projects'
 import rehypeLocalImageSize from './src/plugins/rehype-local-image-size'
+
+/** `/{locale}/projects/{slug}` → the date that project last changed. */
+const projectLastmod = new Map(
+  projects.flatMap((project) =>
+    availableLocales.map((locale) => [
+      `/${locale}/projects/${project.slug}`,
+      getProjectDate(project).toISOString(),
+    ]),
+  ),
+)
 
 export default defineConfig({
   site: 'https://dmythro.com',
@@ -28,6 +40,11 @@ export default defineConfig({
           en: 'en',
           uk: 'uk',
         },
+      },
+      serialize(item) {
+        const path = new URL(item.url).pathname.replace(/\/$/, '')
+        const lastmod = projectLastmod.get(path)
+        return lastmod ? { ...item, lastmod } : item
       },
     }),
   ],

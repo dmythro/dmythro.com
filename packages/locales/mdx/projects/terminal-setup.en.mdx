@@ -1,11 +1,72 @@
-The **`terminal-setup`** project bootstraps a productive **macOS Terminal.app** environment with a single command. It installs and configures a modern shell setup — **fish-like autosuggestions**, **syntax highlighting**, **fzf** fuzzy finder, and a **[Starship](https://starship.rs/)** prompt — so you get a polished terminal experience without hours of manual dotfile tweaking.
+Every new Mac used to cost me an evening. Install Homebrew, remember which zsh plugins I liked, hunt down the `.zshrc` from the old machine, discover it references three things that are no longer installed, give up on tmux, and settle for something slightly worse than what I had.
+
+`terminal-setup` is that evening written down as one command — and, just as importantly, a second command that puts everything back.
+
+## Examples
+
+The setup command above does the whole thing. Changed your mind:
 
 ```sh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/dmythro/terminal-setup/main/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/dmythro/terminal-setup/main/reset-terminal.sh)"
 ```
 
-The install script is **idempotent**: running it again updates everything without duplicating configuration. It sets up a **50,000-line shell history** with smart search, configures **tmux** for session management, and applies a carefully tuned color scheme and font setup for Terminal.app.
+Both take `-- -y` to run unattended:
 
-Beyond the shell basics, the setup optionally installs development tools — **Bun**, **Node.js** via **fnm**, and common CLI utilities. Each optional component can be skipped, so you can use it as a full dev machine bootstrap or just grab the shell configuration.
+```sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/dmythro/terminal-setup/main/setup-terminal.sh)" -- -y
+```
 
-The project is designed for fresh **macOS** installs and pairs well with dotfile backup workflows. Everything is version-controlled and documented, making it easy to reproduce the same environment across multiple machines.
+## Why it exists
+
+The thing I actually wanted was not "a nice terminal" — it was *the same* terminal, reproducibly, on every machine I touch. Dotfile repos get you there but expect you to maintain a dotfile repo. Frameworks get you there but bring a plugin manager and a startup-time cost.
+
+What was missing was something in between: a script that installs a known-good set of tools, writes configs I actually reviewed, and can be re-run on a machine that is already half set up without making a mess.
+
+Despite the name, only the optional colour profile is Terminal.app-specific. The zsh config, prompt and plugins work in iTerm2, Ghostty, Alacritty, Kitty, WezTerm or the VS Code terminal.
+
+## How it's different
+
+| Approach | What you get |
+| --- | --- |
+| `terminal-setup` | one script, a fixed set of tools, reviewed configs, and a reset script |
+| oh-my-zsh, prezto | a plugin framework and ecosystem, plus its startup cost and its own update model |
+| A dotfiles repo | exactly your setup, provided you keep maintaining it |
+| Doing it by hand | a slightly different machine every time |
+
+Use oh-my-zsh if you want the plugin ecosystem and the community themes — that is a real advantage and this is not competing with it. Use a dotfiles repo if your setup is unusual enough that a curated list would fight you. This is for wanting a good default fast, then getting on with work.
+
+## What's inside
+
+### Always installed
+
+fzf for fuzzy history and file search, zsh-autosuggestions for fish-style ghost text, zsh-syntax-highlighting, zsh-completions, and [Starship](https://starship.rs/) for the prompt. Homebrew first if it is missing.
+
+The generated `~/.zshrc` adds 50K of deduplicated, cross-session history, prefix history search on `↑`, macOS-native word jumping with Option+Arrow, multiline editing with Option+Enter, smart tab titles, and the aliases I actually type — `ll`, `gs`, `gl`, `gd`, `..`.
+
+### Optional, because they change how the shell behaves
+
+tmux with mouse support, split panes, 50K scrollback and clipboard integration. It auto-starts per session, which is exactly the kind of thing that should be a deliberate choice, so it is off unless you ask.
+
+### Optional dev tools
+
+`gh`, `bun`, `ripgrep`, `fd`, `zoxide` and `delta`. Two of those are not just conveniences — `rg` and `fd` are what make the fzf file and directory search fast.
+
+### Optional AI agent CLIs
+
+OpenCode, Claude Code, Codex, Gemini CLI and Aider, each offered individually rather than as a bundle, since nobody uses all five. Each still needs its own key or login.
+
+### A fine-tuned theme for the native Terminal.app
+
+The part the project is named after: a dark profile (`Dmythro.terminal`) imported straight into Terminal.app and set as the default — MonaspiceNe Nerd Font at 14 pt, a 120×36 window, `Use Option as Meta key` already in the plist, and true color on macOS 26 Tahoe. Pure visual taste, which is exactly why it stays optional and is skipped in unattended runs.
+
+## Design notes
+
+**There is a reset script, and it is the reason the setup script can be bold.** A bootstrap you cannot undo is one you test cautiously on a machine you care about. Being able to run `reset-terminal.sh` and get your old profile back makes it reasonable to just try it.
+
+**Non-interactive mode deliberately skips things.** `-y` installs packages and dev tools but not tmux, the Nerd Font or the Terminal.app profile. Those either change how your shell behaves on every launch or are pure taste — defaulting them on in an unattended run would be a surprise, and surprises in a shell config are expensive.
+
+**Re-running is safe.** The script is idempotent, so it doubles as the update path: run it again on an existing machine and it converges rather than appending another block to your `.zshrc`.
+
+## Status
+
+Live and used on my own machines, which is also how it gets tested. Scoped to macOS — the shell config is portable, but the installer assumes Homebrew and the profile import is Terminal.app.

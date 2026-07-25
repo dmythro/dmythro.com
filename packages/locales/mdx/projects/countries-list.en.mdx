@@ -1,18 +1,100 @@
-The **`countries-list`** package provides comprehensive, structured data about the world's countries, languages, and continents. It covers **ISO 3166-1** country codes (alpha-2 and numeric), **ISO 639-1** language codes, **ISO 4217** currency codes, calling codes, capital cities, native names, and **emoji flags** — all in a single, **zero-dependency TypeScript** package.
+A country dropdown is the most boring thing you can build, and back in 2014 I could not find data to fill one properly. Every list I tried had English names but no native ones, or ISO codes but no calling codes, or all of it at once inside a multi-megabyte blob built for a different problem.
 
-The data ships in multiple formats — **JSON**, **CSV**, and **SQL** — making it easy to integrate into any stack, from a frontend dropdown to a database seed script. **TypeScript** types are included out of the box, so you get **autocompletion** and **compile-time safety** when accessing country properties.
+So I assembled my own, and the idea has not changed since: one typed record per country — code, name, native name, capital, currency, calling code, continent — and nothing you did not ask for.
+
+## Examples
 
 ```ts
-import { countries, languages, continents } from 'countries-list'
-import { getCountryCode, getCountryData, getEmojiFlag } from 'countries-list'
+import { continents, countries, getCountryCode, getEmojiFlag, languages } from 'countries-list'
 
-countries.UA // { name: 'Ukraine', native: 'Україна', capital: 'Kyiv', currency: 'UAH', … }
-languages.uk // { name: 'Ukrainian', native: 'Українська' }
-continents.EU // 'Europe'
+countries.UA
+// { name: 'Ukraine', native: 'Україна', phone: [380], continent: 'EU',
+//   capital: 'Kyiv', currency: ['UAH'], languages: ['uk'] }
 
-getCountryCode('Ukraine')  // 'UA'
-getCountryCode('Україна')  // 'UA' — native name lookup
-getEmojiFlag('UA')         // '🇺🇦'
+getCountryCode('Ukraine') // 'UA'
+getCountryCode('Україна') // 'UA' — native names resolve too
+getEmojiFlag('UA')        // '🇺🇦'
+continents.EU             // 'Europe'
+languages.uk              // { name: 'Ukrainian', native: 'Українська' }
 ```
 
-The package is **actively maintained** and **community-driven** — translations and corrections are contributed by developers worldwide. With **1,300+ GitHub stars** and **millions of npm downloads**, it has become one of the go-to datasets for **i18n** and **localization** work in the **JavaScript** ecosystem.
+Every ISO 3166-1 code and then some, zero dependencies, types included. `countries.` autocompletes in your editor, and a mistyped code is a compile error rather than an `undefined` at runtime — codes arriving from a form or an API still deserve a validation step.
+
+## Why it exists
+
+The gap was never country names — those are everywhere. It was that a country field needs four unrelated things at once: a code to store, a label to show, a flag to render, and a calling code for the phone field. Assembling those from three packages meant three sets of country keys that disagreed with each other, plus a mapping layer to reconcile them.
+
+Keeping the fields in one record makes that class of bug impossible. Not a clever idea, which is probably why it keeps being useful.
+
+## How it's different
+
+There are good datasets in this space, and they solve genuinely different problems:
+
+| Package | Optimised for |
+| --- | --- |
+| `countries-list` | one typed record per country — codes, native names, capital, currency, phone, continent |
+| `i18n-iso-countries` | country names translated into many languages |
+| `world-countries` | a large raw dataset — borders, coordinates, alternative spellings |
+| `iso-3166-1` | code conversion, and deliberately nothing else |
+
+Use `i18n-iso-countries` instead if you need "Germany" rendered in Japanese — translating names across locales is its whole job and it does it better. Use `world-countries` if you need geography. This package covers the fields a form or a settings screen asks for, and that's it.
+
+One thing the others don't do: the same data ships to PHP through Packagist, generated from the same source.
+
+```sh
+composer require annexare/countries-list
+```
+
+## What's inside
+
+### Currencies, as an opt-in import
+
+Full ISO 4217 — names, native names, symbols, numeric codes, minor units — lives behind its own subpath:
+
+```ts
+import { currencies, getCurrency, getCurrencyByNumeric } from 'countries-list/currencies'
+
+currencies.UAH
+// { name: 'Ukrainian Hryvnia', native: 'українська гривня', symbol: '₴',
+//   symbolNative: '₴', numeric: '980', decimals: 2 }
+
+getCurrency('JPY')          // decimals: 0 — the yen has no minor unit
+getCurrencyByNumeric('840') // USD, for banking payloads that carry numeric codes
+```
+
+The currencies dataset is regenerated from the official ISO 4217 list and CLDR by a script rather than edited by hand, so refreshing it after a currency change is a command instead of an afternoon.
+
+### Minimal maps for the small cases
+
+Sometimes you want two kilobytes, not a dataset:
+
+```ts
+import countries2to3 from 'countries-list/minimal/countries.2to3.min.json'
+import languageNames from 'countries-list/minimal/languages.native.min.json'
+```
+
+### Formats beyond JavaScript
+
+The same data is generated as JSON, CSV and SQL, so seeding a database doesn't require writing an import script first. The files ship inside the npm package — there is nothing extra to download:
+
+```sh
+mysql app_db < node_modules/countries-list/data.sql
+
+head -2 node_modules/countries-list/countries.csv
+# "Code","Name","Native","Phone","Continent","Capital","Currency","Languages"
+# "AC","Ascension Island","Ascension Island","247","Africa","Georgetown","SHP","en"
+```
+
+## Design notes
+
+**Currencies are opt-in for a reason.** The full ISO 4217 table with native names and symbols is a meaningful number of bytes, and most apps that need a country list never touch it. Putting it behind `countries-list/currencies` instead of the root export keeps the common case small — subpath exports are the cheapest bundle-size decision available, and the one most datasets skip.
+
+**ISO 4217 defines no symbols.** It standardises codes, numeric codes and minor units; the `₴` and `¥` come from Unicode CLDR, a separate source with its own update cadence. Where a currency has no distinct Latin glyph, `symbol` falls back to the ISO code and the local glyph goes in `symbolNative` — `CHF` stays `CHF`, while `JPY` gives you `¥` for a Latin UI and `￥` for a Japanese one. Collapsing `symbol` and `symbolNative` into one field would have been simpler — and wrong, because a UI needs both.
+
+**`getCountryCode` looks beyond the English name.** It resolves native names ('Україна' → `UA`) and common aliases like `USA` or `UK`. One extra index in the data, and the set becomes usable for forms in any language — quietly removing a whole category of workaround.
+
+**I fully rewrote version 3** in TypeScript, ESM and a Bun workspaces monorepo. Everything under `dist` is generated from typed source files, including the SQL, so a data fix is one edit in one place rather than four files kept in sync by hand.
+
+## Status
+
+The project is live, evolving, and maintained since 2014 — by its users too, since the code is open.

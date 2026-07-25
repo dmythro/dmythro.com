@@ -1,0 +1,55 @@
+---
+import { ArrowUp } from '@lucide/astro'
+import type { MarkdownHeading } from 'astro'
+import TocScrollSpy from './TocScrollSpy.astro'
+
+interface Props {
+  headings: MarkdownHeading[]
+  label: string
+  /** Unique id so `aria-labelledby` still works if two ToCs ever share a page. */
+  id?: string
+  /** Label for the entry that jumps back to the page header. */
+  topLabel: string
+  /** Element id the top entry targets. */
+  topId?: string
+}
+
+const { headings, label, id = 'toc-heading', topLabel, topId = 'top' } = Astro.props
+
+/** `##` sets the outline, `###` nests under it. Deeper levels would only add noise. */
+const items = headings.filter((heading) => heading.depth === 2 || heading.depth === 3)
+---
+
+<nav aria-labelledby={id}>
+  <h2 id={id} class="px-3 mb-1 text-xs font-semibold uppercase tracking-wide text-base-content/50">
+    {label}
+  </h2>
+  <ol class="flex flex-col gap-0.5">
+    <li>
+      <a
+        href={`#${topId}`}
+        data-toc-link={topId}
+        class="flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-lg text-base-content/70 transition-colors hover:bg-base-300/40 hover:text-base-content"
+      >
+        {topLabel}
+        <ArrowUp class="h-3.5 w-3.5 shrink-0" />
+      </a>
+    </li>
+    {items.map(({ slug, text, depth }) => (
+      <li>
+        <a
+          href={`#${slug}`}
+          data-toc-link={slug}
+          class:list={[
+            'block rounded-lg transition-colors hover:bg-base-300/40 hover:text-base-content',
+            depth === 2
+              ? 'px-3 py-2 text-sm font-medium text-base-content/70'
+              : 'ml-3 px-3 py-1 text-xs text-base-content/65',
+          ]}
+        >{text}</a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<TocScrollSpy />

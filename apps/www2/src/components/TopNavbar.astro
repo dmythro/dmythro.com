@@ -5,6 +5,7 @@ import { ArrowDown, ChevronRight, FileText, FolderOpen, House, Mail, Menu } from
 import avatarImg from '@/assets/avatar@800px.jpg'
 import { getT } from '@/utils/getT'
 import { availableLocales, cleanPathname, type LocaleCode } from '@/utils/i18n'
+import { navbarWidth, pagePadding } from '@/utils/layout'
 import ThemeToggle from './ThemeToggle.astro'
 
 interface Props {
@@ -48,7 +49,8 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
     <ArrowDown class="h-6 w-6 text-content-secondary animate-pulse" />
   </div>
 
-  <div class="flex items-center justify-between h-16 px-4 lg:px-16">
+  <div class={pagePadding}>
+  <div class:list={['flex items-center justify-between h-16', navbarWidth]}>
     {/* Identity — left */}
     <a href={`/${locale}`} class="flex items-center gap-3 shrink-0 overflow-hidden">
       {/* Avatar — collapses when hero avatar is visible */}
@@ -93,9 +95,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
                 ? 'bg-linear-to-b from-[#6366F120] to-[#6366F108] border-primary text-primary font-semibold'
                 : 'border-transparent text-content-secondary font-medium hover:text-base-content hover:bg-base-300/30',
             ]}
-          >
-            {label}
-          </a>
+          >{label}</a>
         )
       })}
 
@@ -117,9 +117,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
             hreflang={otherLocale}
             aria-label={t.actions.switchLang}
             class="text-[13px] font-semibold text-content-secondary hover:text-base-content transition-colors"
-          >
-            {localeNames[locale].slice(0, 2).toUpperCase()}
-          </a>
+          >{localeNames[locale].slice(0, 2).toUpperCase()}</a>
         </div>
       </div>
     </div>
@@ -132,6 +130,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
     >
       <Menu class="h-5 w-5" />
     </button>
+  </div>
   </div>
 </header>
 

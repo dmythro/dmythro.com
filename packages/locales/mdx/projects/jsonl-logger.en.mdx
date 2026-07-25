@@ -1,6 +1,8 @@
-The **`jsonl-logger`** package is a lightweight, structured logger that outputs **JSON Lines** — one JSON object per line. It works across **Bun**, **Node.js**, **Deno**, and browsers with **zero dependencies**, making it a portable choice for any **JavaScript** runtime.
+Structured logs are the right answer in production and the wrong one on my laptop. I want one JSON object per line when a log pipeline is reading, and a readable coloured line when I am. Keeping both usually means either two logging setups or a wrapper nobody enjoys maintaining.
 
-The core idea is simple: **structured logs** are easier to parse, query, and analyze than plain text. Each log entry is a valid JSON object with a timestamp, severity level, message, and arbitrary metadata. The logger supports standard severity levels (`debug`, `info`, `warn`, `error`) and can optionally intercept `console.*` calls to capture third-party output.
+`jsonl-logger` does it with one environment variable and no code changes.
+
+## Examples
 
 ```ts
 import { logger } from 'jsonl-logger'
@@ -10,6 +12,99 @@ logger.log('Neutral message', { note: 'no level icon' })
 logger.error('Request failed', { path: '/api' }, new Error('timeout'))
 ```
 
-What makes it flexible is the **pluggable formatter system**. Built-in formatters transform log output to match the expected schema of **Google Cloud Logging** (GCL), **VictoriaLogs**, or any custom format you define. There is also **OpenTelemetry** trace context support for correlating logs with distributed traces.
+Locally, that reads as text — coloured on a TTY, plain the moment you pipe it to a file or CI:
 
-The logger is designed to stay out of your way — no configuration is required for basic usage, but every aspect can be customized when needed.
+```ansi
+[32m18:42:05 ●[0m Server started {"port":3000}
+[32m18:42:05  [0m Neutral message {"note":"no level icon"}
+[0m[31m[31m18:42:05 ✖[0m Request failed {"path":"/api"}
+Error: timeout
+    at handler (/app/server.ts:12:9)[0m
+```
+
+Set `LOG_FORMAT` and the same calls emit JSONL shaped for your log platform:
+
+```sh
+LOG_FORMAT=google-cloud-logging bun run server.ts
+# {"message":"Server started","timestamp":"…","severity":"INFO",…}
+```
+
+## Why it exists
+
+Every logger I reached for made me choose. Pretty-printers are a separate dependency you must remember not to ship. Production loggers emit JSON everywhere, so local development becomes a wall of braces. The gap is not features — it is that the *destination* changes between environments while the *call sites* never should.
+
+So the shape of the output became a runtime concern rather than a code concern. `LOG_LEVEL` even picks a sensible default per mode: `debug` for text, `info` for JSON, because that is what you want in each case anyway.
+
+The other reason is annoyance-driven: frameworks that hardcode plain-text logs are painful in systems that require JSON-only ingestion. Routing those through a formatter fixes it without patching the framework.
+
+## How it's different
+
+| Package | Optimised for |
+| --- | --- |
+| `jsonl-logger` | one call site, text locally and JSONL in production, zero dependencies, ESM-only |
+| pino | throughput and a large transport/processor ecosystem |
+| winston | maximum configurability — transports, custom levels, formats |
+| consola | developer-facing CLI output and pretty reporters |
+
+Use pino instead if you need its transport ecosystem or its single-minded focus on throughput — and this project even emits pino's line shape, so you can pipe into `pino-pretty` and friends. Use winston if you genuinely need arbitrary transports. This one is deliberately small — and still enough for many typical projects: good local output, clean production JSON, and no logging stack to assemble.
+
+## What's inside
+
+### Predefined formatters for the usual destinations
+
+| `LOG_FORMAT` | Emits |
+| --- | --- |
+| `google-cloud-logging` | `severity`, `timestamp`, GCP-shaped payload |
+| `victoria-logs` | `_msg`, `_time`, `level` |
+| `ecs` | `@timestamp`, `log.level`, `ecs.version` for Elastic/Filebeat |
+| `datadog` | `status`, `dd.trace_id`, `dd.span_id` |
+| `pino` | numeric `level`, epoch `time`, `msg`, `err` |
+
+Trace context maps to whatever each destination expects — `trace.id`/`span.id` for ECS, `trace_id`/`span_id`/`trace_flags` for pino.
+
+### Labels and colour, when it is text
+
+```ts
+import { Logger } from 'jsonl-logger'
+
+const logger = new Logger({}, { labels: 'text', colors: false })
+```
+
+`LOG_LABELS` switches between icons (`◆ ● ▲ ✖ ‼`), text labels, or nothing at all. Colour follows `FORCE_COLOR` and `NO_COLOR` before falling back to TTY detection, so it behaves in CI without being told.
+
+### Custom formatters, because the list above is a head start, not a limit
+
+A formatter is a small object describing the key names and how to render an entry, so an in-house log schema is a few lines rather than a fork:
+
+```ts
+import type { Formatter } from 'jsonl-logger'
+
+const myFormatter: Formatter = {
+  messageKey: 'msg',
+  format: (record) => ({
+    msg: record.message,
+    ts: record.timestamp,
+    lvl: record.level,
+    ...record.context,
+  }),
+}
+```
+
+## Design notes
+
+**The switch is an environment variable, not an API.** Making it a constructor option would mean every service re-implements the same `process.env` check, and inevitably one of them gets it wrong in a Dockerfile. Moving it into the library means the decision lives where the environment already does.
+
+**No `node:os` import.** Pino's `pid` and `hostname` bindings are deliberately absent, because importing `node:os` would tie the package to Node-shaped runtimes. You can add them yourself as base context, and in exchange the logger stays portable across Bun, Node and Deno.
+
+```ts
+import os from 'node:os'
+import { Logger } from 'jsonl-logger'
+
+const logger = new Logger({ pid: process.pid, hostname: os.hostname() })
+```
+
+**Datadog trace IDs are passed through untouched.** Datadog's APM correlation expects IDs in its own format, and `dd-trace-js` already produces them. Silently converting OpenTelemetry's 128-bit hex IDs would look helpful and produce wrong correlations, so the library writes exactly what your `traceContext` getter returns and documents the mismatch instead.
+
+## Status
+
+Live and in use. ESM-only and Bun-first by design — it runs on Node and Deno, but it is not trying to support bundler setups that predate ESM.

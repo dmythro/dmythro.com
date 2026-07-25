@@ -1,7 +1,52 @@
-This website is a personal portfolio built with **[Astro](https://astro.build/)**, **[DaisyUI](https://daisyui.com/)**, and **[Tailwind CSS](https://tailwindcss.com/)**. It follows the **zero-JavaScript-by-default** philosophy — pages are server-rendered as static HTML with CSS-only interactive components, and **React** islands are used only where client-side interactivity is truly needed.
+The repository describes itself as "an unnecessarily complex project to showcase some of the things I do", which is accurate and the whole point. A personal site is one of the few places where the requirements are yours, nobody is waiting on the deploy, and you can find out what a stack is actually like to live with before you inflict it on a team.
 
-The site is **bilingual** (English and Ukrainian) with full **i18n** support, including locale detection, translated content, and localized routes. A **three-state theme toggle** cycles between system, dark, and light modes. The design is fully responsive and optimized for print, with dedicated CSS that produces clean CV pages suitable for **PDF export**.
+This one is a static bilingual site that ships almost no JavaScript, and a monorepo that is far larger than the site needs.
 
-Under the hood, the project is structured as a **monorepo** powered by **[Bun](https://bun.sh/)** and **[Turborepo](https://turbo.build/repo)**. Shared packages provide constants, translations, and markdown content that are consumed by the **Astro** app. Code quality is enforced by **[Biome](https://biomejs.dev/)** for formatting and linting, with strict **TypeScript** throughout.
+## Examples
 
-The site is deployed to **[Cloudflare Pages](https://pages.cloudflare.com/)** with automatic builds from **GitHub**. Performance is a priority — **Lighthouse** scores consistently hit high marks thanks to **static generation**, minimal JavaScript, and optimized assets.
+```sh
+git clone https://github.com/dmythro/dmythro.com
+cd dmythro.com
+bun install
+bun run dev
+```
+
+## Why it exists
+
+It started as a CV I did not want to keep as a Word document. It stayed because it turned into the place I try things.
+
+Every piece of infrastructure here exists because I wanted to know how it behaves rather than because the site demanded it: view transitions, build-time social cards, a print stylesheet that produces the downloadable CV, content collections fed from a shared workspace package. None of that is necessary for a few pages about one person. All of it taught me something I have since used in real work.
+
+The rule I hold myself to is that it has to stay fast anyway. Over-engineering the build is fine; over-engineering the page the reader gets is not.
+
+## What's inside
+
+### Zero JavaScript by default
+
+Pages are static HTML. Navigation, layout, the theme toggle and the project filters are CSS or a few lines of inline script. [Preact](https://preactjs.com/) islands appear only where interactivity is genuinely required — the guitar string-tension calculator is the one page that really needs a runtime.
+
+### Bilingual all the way down
+
+Every route is `[locale]`-prefixed and generated for both English and Ukrainian, including feeds, structured data and `hreflang`. Copy lives in a shared `@dmythro/locales` workspace package as typed objects and MDX, so a missing translation is a type error rather than an English string leaking into a Ukrainian page.
+
+### Social cards rendered at build
+
+Each project page gets its own Open Graph image, generated during the build by [takumi](https://takumi.kane.tw/) from an HTML template — no headless browser, no runtime service. Fonts are subset to the glyphs actually drawn, which is what lets the Ukrainian cards render Cyrillic without committing any font files.
+
+### Feeds and machine-readable output
+
+Per-locale RSS built from the same project data that renders the pages, plus `llms.txt` and `llms-full.txt` for anything reading the site rather than viewing it.
+
+## Design notes
+
+**The monorepo is the interesting part, not the site.** Content, constants and translations live in workspace packages that the app consumes. That is overkill for one site, and it is exactly why the CV, the PDF export, the feeds and the OG cards can all read the same data without a copy of it drifting.
+
+**The repo carries two versions of the site.** The current one is built with Astro; the previous one, with Next.js, stays alongside it. Right after the rewrite they served the same content, which made for an honest framework comparison — both are good in their own way, and both got the site to a 100% PageSpeed rating. Since then the content has kept evolving in the Astro build only; the Next.js app remains as a reference and is no longer maintained.
+
+**Print is a real target.** The downloadable CV is not a separately maintained document — it is this site with a print stylesheet, so the PDF cannot fall out of date relative to the page.
+
+**Static output, deliberately.** Everything is prerendered and deployed to Cloudflare Pages. Stats from GitHub and npm are fetched at build time rather than in the browser, so the page has no network work to do and no key to protect.
+
+## Status
+
+Live, and the thing you are reading it on. It changes whenever I want to try something — which is the only feature it really has.

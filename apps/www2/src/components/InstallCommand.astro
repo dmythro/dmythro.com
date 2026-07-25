@@ -1,0 +1,210 @@
+---
+import { Check, Copy } from '@lucide/astro'
+import { getT } from '@/utils/getT'
+import type { LocaleCode } from '@/utils/i18n'
+
+interface Props {
+  /** npm package name — renders `add` tabs for each package manager. */
+  package?: string
+  /** Command to run through a package runner, without the runner — renders `dlx` tabs. */
+  runner?: string
+  /** Raw shell command(s) — rendered as-is, no tabs. May be multi-line. */
+  command?: string
+  locale: LocaleCode
+}
+
+const { package: pkg, runner, command, locale } = Astro.props
+const t = getT(locale)
+
+/**
+ * Order matters: the first entry is the default before any preference is stored.
+ * Deno has no `dlx` equivalent worth showing, so it only appears for dependencies.
+ */
+const packageManagers = [
+  { id: 'bun', label: 'bun', add: (p: string) => `bun add ${p}`, exec: (c: string) => `bunx ${c}` },
+  {
+    id: 'npm',
+    label: 'npm',
+    add: (p: string) => `npm install ${p}`,
+    exec: (c: string) => `npx ${c}`,
+  },
+  {
+    id: 'pnpm',
+    label: 'pnpm',
+    add: (p: string) => `pnpm add ${p}`,
+    exec: (c: string) => `pnpm dlx ${c}`,
+  },
+  {
+    id: 'yarn',
+    label: 'yarn',
+    add: (p: string) => `yarn add ${p}`,
+    exec: (c: string) => `yarn dlx ${c}`,
+  },
+  { id: 'deno', label: 'deno', add: (p: string) => `deno add npm:${p}`, exec: null },
+]
+
+const variants = pkg
+  ? packageManagers.map(({ id, label, add }) => ({ id, label, command: add(pkg) }))
+  : runner
+    ? packageManagers
+        .filter(({ exec }) => exec !== null)
+        .map(({ id, label, exec }) => ({ id, label, command: exec!(runner) }))
+    : []
+
+/**
+ * Namespaces the tab/panel ids by package or runner. Pages render at most one
+ * block per command, so this is only about ids staying readable — two blocks
+ * for the same command on one page would need a real per-instance id.
+ */
+const uid = (pkg ?? runner ?? 'cmd').replace(/[^a-z0-9]/gi, '-')
+---
+
+<div class="not-prose" data-install>
+  {variants.length > 0 && (
+    <div role="tablist" class="tabs tabs-lift tabs-sm w-fit" aria-label={t.projects.install}>
+      {variants.map(({ id, label }, index) => (
+        <button
+          type="button"
+          role="tab"
+          id={`pm-tab-${uid}-${id}`}
+          class:list={['tab', index === 0 && 'tab-active']}
+          data-pm-tab={id}
+          aria-selected={index === 0 ? 'true' : 'false'}
+          aria-controls={`pm-panel-${uid}-${id}`}
+          tabindex={index === 0 ? 0 : -1}
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+  )}
+
+  {/* `rounded-tl-none` lets the lifted tab sit flush on the box it belongs to. */}
+  <div
+    class:list={[
+      'flex items-stretch gap-2 rounded-lg border border-base-300 bg-base-200/50 overflow-hidden',
+      variants.length > 0 && 'rounded-tl-none',
+    ]}
+  >
+    <div class="flex-1 min-w-0 overflow-x-auto">
+      {variants.length > 0 ? (
+        variants.map(({ id, command: cmd }, index) => (
+          <code
+            role="tabpanel"
+            id={`pm-panel-${uid}-${id}`}
+            aria-labelledby={`pm-tab-${uid}-${id}`}
+            class:list={[
+              'block px-3 py-2 font-mono text-sm whitespace-pre text-base-content/80',
+              index !== 0 && 'hidden',
+            ]}
+            data-pm-panel={id}>{cmd}</code>
+        ))
+      ) : (
+        <code
+          class="block px-3 py-2 font-mono text-sm whitespace-pre text-base-content/80"
+          data-pm-panel="static">{command}</code>
+      )}
+    </div>
+
+    <button
+      type="button"
+      class="shrink-0 px-3 border-l border-base-300 text-base-content/50 hover:text-base-content hover:bg-base-300/40 transition-colors"
+      data-copy-install
+      data-copied-label={t.projects.copied}
+      aria-label={t.projects.copy}
+      title={t.projects.copy}
+    >
+      <Check class="h-4 w-4 text-success hidden" data-copy-done />
+      <Copy class="h-4 w-4" data-copy-idle />
+    </button>
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = 'preferred-package-manager'
+
+  /** Applies a package manager to every install block on the page at once. */
+  function applyPackageManager(managerId: string) {
+    for (const block of document.querySelectorAll<HTMLElement>('[data-install]')) {
+      const tabs = block.querySelectorAll<HTMLElement>('[data-pm-tab]')
+      if (!tabs.length) continue
+      // A project may not offer every manager; ignore blocks that lack this one.
+      if (!block.querySelector(`[data-pm-panel="${managerId}"]`)) continue
+
+      for (const tab of tabs) {
+        const isActive = tab.dataset.pmTab === managerId
+        tab.classList.toggle('tab-active', isActive)
+        tab.setAttribute('aria-selected', String(isActive))
+        // Roving tabindex: only the active tab sits in the tab order; the rest
+        // are reached with the arrow keys, as the ARIA tabs pattern expects.
+        tab.tabIndex = isActive ? 0 : -1
+      }
+      for (const panel of block.querySelectorAll<HTMLElement>('[data-pm-panel]')) {
+        panel.classList.toggle('hidden', panel.dataset.pmPanel !== managerId)
+      }
+    }
+  }
+
+  function setupInstallBlocks() {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    if (stored) applyPackageManager(stored)
+
+    for (const tab of document.querySelectorAll<HTMLElement>('[data-pm-tab]')) {
+      tab.addEventListener('click', () => {
+        const managerId = tab.dataset.pmTab
+        if (!managerId) return
+        localStorage.setItem(STORAGE_KEY, managerId)
+        applyPackageManager(managerId)
+      })
+    }
+
+    for (const tablist of document.querySelectorAll<HTMLElement>('[data-install] [role="tablist"]')) {
+      tablist.addEventListener('keydown', (event) => {
+        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return
+        const tabs = [...tablist.querySelectorAll<HTMLElement>('[data-pm-tab]')]
+        const current = tabs.indexOf(document.activeElement as HTMLElement)
+        if (current === -1) return
+        event.preventDefault()
+
+        let next = current
+        if (event.key === 'ArrowLeft') next = (current - 1 + tabs.length) % tabs.length
+        if (event.key === 'ArrowRight') next = (current + 1) % tabs.length
+        if (event.key === 'Home') next = 0
+        if (event.key === 'End') next = tabs.length - 1
+
+        tabs[next].focus()
+        tabs[next].click()
+      })
+    }
+
+    for (const button of document.querySelectorAll<HTMLElement>('[data-copy-install]')) {
+      button.addEventListener('click', async () => {
+        const block = button.closest('[data-install]')
+        const visible = block?.querySelector<HTMLElement>('[data-pm-panel]:not(.hidden)')
+        const text = visible?.textContent
+        if (!text) return
+
+        try {
+          await navigator.clipboard.writeText(text)
+        } catch {
+          return
+        }
+
+        const idle = button.querySelector('[data-copy-idle]')
+        const done = button.querySelector('[data-copy-done]')
+        const previousLabel = button.getAttribute('aria-label') ?? ''
+        idle?.classList.add('hidden')
+        done?.classList.remove('hidden')
+        button.setAttribute('aria-label', button.dataset.copiedLabel ?? previousLabel)
+
+        setTimeout(() => {
+          idle?.classList.remove('hidden')
+          done?.classList.add('hidden')
+          button.setAttribute('aria-label', previousLabel)
+        }, 1600)
+      })
+    }
+  }
+
+  document.addEventListener('astro:page-load', setupInstallBlocks)
+</script>

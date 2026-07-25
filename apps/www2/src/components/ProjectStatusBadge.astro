@@ -1,0 +1,33 @@
+---
+import { Archive, CircleDashed, Hammer } from '@lucide/astro'
+import type { ProjectStatus } from '@/data/projects'
+import { getT } from '@/utils/getT'
+import type { LocaleCode } from '@/utils/i18n'
+
+interface Props {
+  status: ProjectStatus
+  locale: LocaleCode
+}
+
+const { status, locale } = Astro.props
+const t = getT(locale)
+
+/**
+ * `live` renders nothing — it is the default state for almost every project, so a
+ * badge saying so is noise. Badges are for when the status differs from expected.
+ */
+const styles: Record<ProjectStatus, { color: string; Icon: typeof Hammer } | null> = {
+  live: null,
+  wip: { color: 'badge-warning', Icon: Hammer },
+  planned: { color: 'badge-info', Icon: CircleDashed },
+  archived: { color: 'badge-neutral', Icon: Archive },
+}
+
+const style = styles[status]
+---
+
+{style && (
+  <span class:list={['badge badge-sm badge-soft gap-1 px-1.5', style.color]}>
+    <style.Icon class="h-3 w-3" />{t.projects.status[status]}
+  </span>
+)}
