@@ -37,7 +37,7 @@ const users = await client.entity('user').query({
 
 ## Why it exists
 
-I started from [`drizzle-graphql`](https://github.com/drizzle-team/drizzle-graphql), which proves the idea works. What I kept needing on top of it were the things that turn a generated API into one you can actually ship: filtering across relations rather than only top-level columns, hooks to run authorisation before a resolver, count queries for pagination UIs, and control over which tables get exposed at all.
+I started out using [`drizzle-graphql`](https://github.com/drizzle-team/drizzle-graphql), which nicely shows the idea works. But I kept missing the things that turn a generated API into one you can actually ship: filtering across relations rather than only top-level columns, hooks to run authorisation before a resolver, count queries for pagination UIs, and control over which tables get exposed at all.
 
 At some point the wrapper was larger than the thing it wrapped, so it became its own project.
 
