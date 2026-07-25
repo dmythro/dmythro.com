@@ -33,7 +33,7 @@ const mainTags = displayTags.slice(0, 5 - statCount)
 
 <a
   href={`/${locale}/projects/${project.slug}`}
-  class="card bg-base-100 border border-base-300 hover:border-primary/40 shadow-sm overflow-hidden"
+  class="card h-full bg-base-100 border border-base-300 hover:border-primary/40 shadow-sm overflow-hidden"
 >
   {project.image && (
     <figure>
@@ -43,11 +43,13 @@ const mainTags = displayTags.slice(0, 5 - statCount)
   <div class="card-body p-4 gap-2">
     <h3 class="card-title text-base">
       {IconComponent && <IconComponent class="h-4 w-4 shrink-0 opacity-60" />}
-      {title}
+      {/* Pairs with the <h1> title on the project page, so the card title is what
+          morphs into the heading. Per-slug so the names stay unique on this page. */}
+      <span transition:name={`project-title-${project.slug}`}>{title}</span>
     </h3>
     <p class="text-sm text-base-content/60 line-clamp-4">{description}</p>
 
-    <div class="flex flex-wrap gap-1 mt-1">
+    <div class="flex flex-wrap gap-1 mt-auto pt-1">
       {npm && npm.downloads > 0 && <StatBadge type="npm" value={npm.downloads} />}
       {github && github.stars > 0 && <StatBadge type="stars" value={github.stars} />}
       {mainTags.map((tag) => <TagBadge tag={tag} />)}

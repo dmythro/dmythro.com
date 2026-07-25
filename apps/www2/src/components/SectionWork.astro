@@ -5,6 +5,7 @@ import type { GithubStats } from '@/utils/fetchGithubStats'
 import type { NpmStats } from '@/utils/fetchNpmStats'
 import { getT } from '@/utils/getT'
 import type { LocaleCode } from '@/utils/i18n'
+import { contentWidth, pagePadding } from '@/utils/layout'
 import ProjectCard from './ProjectCard.astro'
 import Timeline from './Timeline.astro'
 
@@ -23,8 +24,8 @@ const { locale, projects } = Astro.props
 const t = getT(locale)
 ---
 
-<section class="py-16 px-5 md:px-16">
-  <div class="max-w-6xl mx-auto">
+<section class:list={["py-16", pagePadding]}>
+  <div class={contentWidth}>
     <div class="flex flex-col-reverse md:grid md:grid-cols-3 gap-8">
       {/* Timeline — spans 2 columns */}
       <div class="md:col-span-2">

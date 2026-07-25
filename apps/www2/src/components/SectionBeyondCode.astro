@@ -4,6 +4,7 @@ import { Gamepad2, Headphones, MapPin } from '@lucide/astro'
 import { profileImages } from '@/data/profile'
 import { getT } from '@/utils/getT'
 import type { LocaleCode } from '@/utils/i18n'
+import { contentWidth, pagePadding } from '@/utils/layout'
 
 interface Props {
   locale: LocaleCode
@@ -40,8 +41,8 @@ const cards = [
 ]
 ---
 
-<section class="py-16 px-5 md:px-16 bg-base-200/30">
-  <div class="max-w-6xl mx-auto">
+<section class:list={["py-16 bg-base-200/30", pagePadding]}>
+  <div class={contentWidth}>
     <h2 class="text-3xl font-bold mb-2">{t.landing.beyondCode}</h2>
     <p class="text-base-content/60 mb-8">{t.landing.beyondCodeSubtitle}</p>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
