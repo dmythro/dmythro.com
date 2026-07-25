@@ -10,8 +10,12 @@
   "globalEnv": ["NODE_ENV", "NEXT_GA_ID", "NEXT_RESEND_API_KEY"],
   "ui": "tui",
   "tasks": {
+    // Both apps read their copy from packages/locales, which these tasks do not
+    // depend on via ^build. Without naming it as an input, editing an article
+    // leaves the hash unchanged and Turbo replays a stale site from cache.
     "www#build": {
       "dependsOn": ["check"],
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/packages/locales/**"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "!public/cv*.pdf"]
     },
     "www#build-cv": {
@@ -20,6 +24,7 @@
     },
     "www2#build": {
       "dependsOn": ["check"],
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/packages/locales/**"],
       "outputs": ["dist/**", ".astro/**"]
     },
     "www2#dev": {
