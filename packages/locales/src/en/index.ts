@@ -107,7 +107,7 @@ export const en = {
   projects: {
     title: 'Projects',
     description: 'The projects I can share and showcase.',
-    relatedProjects: 'Other projects',
+    otherProjects: 'Other projects',
     onThisPage: 'On this page',
     visitSite: 'Visit site',
     backToTop: 'Top',

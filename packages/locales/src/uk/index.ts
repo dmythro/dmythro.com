@@ -108,7 +108,7 @@ export const uk: Translation = {
   projects: {
     title: 'Проєкти',
     description: 'Проєкти, якими можу поділитися.',
-    relatedProjects: 'Інші проєкти',
+    otherProjects: 'Інші проєкти',
     onThisPage: 'На цій сторінці',
     visitSite: 'Перейти на сайт',
     backToTop: 'Вгору',

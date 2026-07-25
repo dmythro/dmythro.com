@@ -207,7 +207,7 @@ const relatedWithStats = await Promise.all(
       {relatedWithStats.length > 0 && (
         <section class="mt-12">
           <h2 class="text-2xl font-semibold mb-4">
-            {t.projects.relatedProjects}
+            {t.projects.otherProjects}
           </h2>
           <ul class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-start">
             {relatedWithStats.map(({ project: p, npm, github }) => (
