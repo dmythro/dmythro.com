@@ -25,7 +25,7 @@
 - **Article structure & voice**: `packages/locales/mdx/projects/README.md` — the seven-beat template and voice rules. Read it before writing or editing any project article.
 - **Adding a project**: create data entry in `projects.ts` + two MDX files (en/uk)
 - **Key fields**: `slug`, `title`/`description` (Record<LocaleCode, string>), `category` (`dev`|`music`|`photos`|`other`), `status` (`live`|`wip`|`planned`|`archived`), `startedAt`, `publishedAt`, `updatedAt?`, `installPackage?`/`installRunner?`/`install?` (package tabs win over runner, runner over raw command), `tags`, `icon`, `github`, `npm?`, `url?`, `related?`, `sortOrder`, `isHighlighted`, `fallbackStars?`
-- **Credits**: `authors?` (defaults to `defaultAuthor`), `contributors?` (co-credits), `uses?` (open-source projects leaned on). All three render in the page's credits block and in JSON-LD (`author`/`contributor`/`isBasedOn`).
+- **Credits**: `authors?` (defaults to `defaultAuthor`), `contributors?` (co-credits), `uses?` (open-source projects leaned on). All three render in the page's credits block and in JSON-LD (`author`/`contributor`/`isBasedOn`). The "Published via" row shows `organization?` plus distribution links derived from `github`/`npm` (+ `publishedOn?` extras like Packagist) — only when the project is published beyond its own repo and website.
 - **Dates drive infrastructure**: `publishedAt` → JSON Feed `date_published`; `updatedAt` → RSS `pubDate` + JSON Feed `date_modified` (updates deliberately resurface in readers), sitemap `lastmod`, `article:modified_time`, and the "Updated" line on the page. Bump `updatedAt` whenever an article changes meaningfully.
 
 ## Feeds & social images

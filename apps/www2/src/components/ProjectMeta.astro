@@ -13,13 +13,28 @@ interface Props {
 const { project, locale } = Astro.props
 const t = getT(locale)
 
-const creditRows: { label: string; credits: ProjectCredit[] }[] = [
+/**
+ * Places the project is distributed through — in the "get it here" sense, not
+ * commercial publishing. Rendered only when it is published somewhere beyond
+ * its own website or repo, so registry-less projects skip the row entirely.
+ */
+const publishedVia: ProjectCredit[] =
+  project.npm || project.publishedOn?.length
+    ? [
+        ...(project.github
+          ? [{ name: 'GitHub', url: `https://github.com/${project.github}` }]
+          : []),
+        ...(project.npm
+          ? [{ name: 'NPM', url: `https://www.npmjs.com/package/${project.npm}` }]
+          : []),
+        ...(project.publishedOn ?? []),
+      ]
+    : []
+
+const creditRows: { label: string; credits: ProjectCredit[]; prefix?: ProjectCredit }[] = [
   { label: t.projects.meta.by, credits: getProjectAuthors(project) },
   { label: t.projects.meta.with, credits: project.contributors ?? [] },
-  {
-    label: t.projects.meta.publishedBy,
-    credits: project.organization ? [project.organization] : [],
-  },
+  { label: t.projects.meta.publishedBy, credits: publishedVia, prefix: project.organization },
   { label: t.projects.meta.builtWith, credits: project.uses ?? [] },
 ].filter(({ credits }) => credits.length > 0)
 
@@ -35,10 +50,27 @@ const updated = project.updatedAt ?? project.publishedAt
       column takes the rest, so long value lists wrap within their own column
       instead of dropping onto a second row. */}
   <dl class="grid gap-x-4 gap-y-2 text-sm sm:grid-cols-[max-content_1fr]">
-    {creditRows.map(({ label, credits }) => (
+    {creditRows.map(({ label, credits, prefix }) => (
       <>
         <dt class="text-base-content/50">{label}</dt>
         <dd class="flex flex-wrap items-baseline gap-x-1.5 gap-y-1">
+          {prefix && (
+            <span class="text-base-content/80">
+              {prefix.url ? (
+                <a
+                  href={prefix.url}
+                  class="link link-hover decoration-base-content/30 underline-offset-2"
+                  target={prefix.url.startsWith('http') ? '_blank' : undefined}
+                  rel={prefix.url.startsWith('http') ? 'noopener noreferrer' : undefined}
+                >
+                  {prefix.name}
+                </a>
+              ) : (
+                prefix.name
+              )}
+              <span class="text-base-content/45"> {t.projects.meta.on}</span>
+            </span>
+          )}
           {credits.map((credit, index) => (
             <span class="text-base-content/80">
               {credit.url ? (

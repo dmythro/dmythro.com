@@ -122,6 +122,7 @@ export const en = {
       by: 'By',
       with: 'With',
       publishedBy: 'Published via',
+      on: 'on',
       builtWith: 'Built with',
       started: 'Started',
       updated: 'Updated',

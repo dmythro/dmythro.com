@@ -68,6 +68,12 @@ export interface Project {
   /** Org the project is published under, e.g. the Annexare hub. */
   organization?: ProjectCredit
   /**
+   * Registries beyond the GitHub/npm links derived from `github`/`npm`, e.g.
+   * Packagist. The "Published via" credits row renders only when the project is
+   * distributed somewhere beyond its own repo and website.
+   */
+  publishedOn?: ProjectCredit[]
+  /**
    * Open-source projects this one leans on — shown on the page and in JSON-LD.
    * Ordered by impact, biggest first: the reader should see what carries the
    * project before what merely tidies it.
@@ -107,6 +113,9 @@ export const projects: Project[] = [
     github: 'annexare/Countries',
     related: ['graphql-suite', 'dmythro-com'],
     organization: { name: 'Annexare', url: 'https://annexare.com/' },
+    publishedOn: [
+      { name: 'Packagist', url: 'https://packagist.org/packages/annexare/countries-list' },
+    ],
     uses: [
       {
         name: 'Bun',
