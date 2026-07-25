@@ -363,16 +363,8 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
     const buttons = document.querySelectorAll('.burger-theme-btn')
     if (!buttons.length) return
 
-    const getEffectiveTheme = (mode: string) =>
-      mode === 'system'
-        ? window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-        : mode
-
-    const applyTheme = (mode: string) => {
-      const theme = getEffectiveTheme(mode)
-      document.documentElement.setAttribute('data-theme', theme)
-      document.documentElement.classList.toggle('dark', theme === 'dark')
-    }
+    // Defined by the theme init script in BaseLayout, same as ThemeToggle uses.
+    const applyTheme = (mode: string) => window.__applyTheme?.(mode)
 
     const PRIMARY = 'oklch(0.5457 0.2124 264.05)'
 

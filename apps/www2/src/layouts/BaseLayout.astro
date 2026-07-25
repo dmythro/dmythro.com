@@ -133,10 +133,7 @@ const ogImageType = ogImageUrl.endsWith('.png') ? 'image/png' : 'image/jpeg'
         const resolve = (mode) => mode === 'system'
           ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
           : mode
-        const paint = (root, theme) => {
-          root.setAttribute('data-theme', theme)
-          root.classList.toggle('dark', theme === 'dark')
-        }
+        const paint = (root, theme) => root.setAttribute('data-theme', theme)
 
         // `instant` mutes transitions across the change. A theme the reader chose is
         // allowed to animate; one that merely lands during a page swap must not.
