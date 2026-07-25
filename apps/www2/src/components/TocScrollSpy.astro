@@ -1,0 +1,71 @@
+---
+/**
+ * Highlights the `[data-toc-link]` whose section is currently being read.
+ * Shared by CvToc and ArticleToc — include once per page that renders a ToC.
+ */
+---
+
+<script is:inline>
+  ;(() => {
+    // Colour and background only — no weight change. Switching to a bolder face
+    // reflows the text a fraction wider, which made entries twitch on activation.
+    const ACTIVE_CLASSES = ['!text-primary', 'bg-primary/8']
+    /** Distance below the sticky navbar that counts as the reading line. */
+    const OFFSET = 100
+
+    function setup() {
+      window.__tocSpyCleanup?.()
+      window.__tocSpyCleanup = null
+
+      const links = document.querySelectorAll('[data-toc-link]')
+      if (!links.length) return
+
+      const sections = []
+      for (const link of links) {
+        const section = document.getElementById(link.getAttribute('data-toc-link'))
+        if (section) sections.push({ section, link })
+      }
+      if (!sections.length) return
+
+      let frame = 0
+
+      function update() {
+        frame = 0
+
+        // Sections are in document order, so the last one whose top has crossed the
+        // reading line is the one being read.
+        //
+        // This replaced an IntersectionObserver, which could not express it: the CV
+        // nests skills/timeline/career inside one wrapper section that stays
+        // intersecting the whole way down, and in the gaps between two children no
+        // child intersected at all — so the highlight kept snapping back to the
+        // parent. Position has no such gaps.
+        let active = sections[0]
+        for (const item of sections) {
+          if (item.section.getBoundingClientRect().top <= OFFSET) active = item
+        }
+
+        for (const item of sections) {
+          const isActive = item === active
+          for (const cls of ACTIVE_CLASSES) item.link.classList.toggle(cls, isActive)
+        }
+      }
+
+      function schedule() {
+        if (!frame) frame = requestAnimationFrame(update)
+      }
+
+      update()
+      window.addEventListener('scroll', schedule, { passive: true })
+      window.addEventListener('resize', schedule)
+
+      window.__tocSpyCleanup = () => {
+        if (frame) cancelAnimationFrame(frame)
+        window.removeEventListener('scroll', schedule)
+        window.removeEventListener('resize', schedule)
+      }
+    }
+
+    document.addEventListener('astro:page-load', setup)
+  })()
+</script>
