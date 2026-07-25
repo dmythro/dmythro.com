@@ -143,20 +143,6 @@ const relatedWithStats = await Promise.all(
   modifiedTime={modifiedTime}
 >
   <div class:list={[showToc && 'flex justify-center gap-8 lg:gap-10']}>
-    {/* ToC sits after the article in DOM order so screen readers reach the
-        content first; `order` places it on the right visually. */}
-    {showToc && (
-      <aside
-        class="hidden lg:block w-[230px] shrink-0 sticky top-20 self-start order-2 max-h-[calc(100dvh-6rem)] overflow-y-auto overscroll-contain"
-      >
-        <ArticleToc
-          headings={headings}
-          label={t.projects.onThisPage}
-          topLabel={t.projects.backToTop}
-        />
-      </aside>
-    )}
-
     <div class:list={['min-w-0 order-1', showToc ? 'w-full max-w-3xl' : 'w-full']}>
       <article class="max-w-3xl">
         <header id="top" class="mb-6 scroll-mt-20">
@@ -166,7 +152,7 @@ const relatedWithStats = await Promise.all(
               {IconComponent && <IconComponent class="h-7 w-7 shrink-0 opacity-60" />}
               <span class="mr-2" transition:name={`project-title-${project.slug}`}>{title}</span>
               {project.url && (
-                <a href={project.url} class="tooltip tooltip-bottom tooltip-primary" data-tip="Visit site" aria-label="Visit site" target="_blank" rel="noopener noreferrer">
+                <a href={project.url} class="tooltip tooltip-bottom tooltip-primary" data-tip={t.projects.visitSite} aria-label={t.projects.visitSite} target="_blank" rel="noopener noreferrer">
                   <ExternalLink class="h-5 w-5 opacity-50 hover:opacity-100 transition-opacity" />
                 </a>
               )}
@@ -228,5 +214,19 @@ const relatedWithStats = await Promise.all(
         </section>
       )}
     </div>
+
+    {/* After the article in DOM order so assistive tech and print reach the
+        content first; `order-2` places it on the right visually. */}
+    {showToc && (
+      <aside
+        class="hidden lg:block w-[230px] shrink-0 sticky top-20 self-start order-2 max-h-[calc(100dvh-6rem)] overflow-y-auto overscroll-contain"
+      >
+        <ArticleToc
+          headings={headings}
+          label={t.projects.onThisPage}
+          topLabel={t.projects.backToTop}
+        />
+      </aside>
+    )}
   </div>
 </PageLayout>

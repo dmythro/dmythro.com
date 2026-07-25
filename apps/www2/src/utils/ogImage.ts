@@ -111,7 +111,9 @@ export function buildProjectOgHtml(
     .slice(0, 5)
     .map(
       (tag) =>
-        `<div style="display:flex;padding:8px 18px;border-radius:999px;background:${palette.tagBg};color:${palette.tagText};font-size:24px">${sanitizeText(tag)}</div>`,
+        // `white-space:nowrap` matters: a hyphen is a break opportunity, so tags like
+        // `react-query` were measured as two lines and rendered a taller pill.
+        `<div style="display:flex;flex-shrink:0;white-space:nowrap;padding:8px 18px;border-radius:999px;background:${palette.tagBg};color:${palette.tagText};font-size:24px">${sanitizeText(tag)}</div>`,
     )
     .join('')
 
@@ -121,7 +123,7 @@ export function buildProjectOgHtml(
       <img src="${iconDataUri(project.icon, palette.accent)}" width="52" height="52" />
       ${
         statusLabel
-          ? `<div style="display:flex;padding:6px 16px;border-radius:999px;background:${palette.tagBg};color:${palette.accent};font-size:24px;font-weight:700;letter-spacing:1px">${sanitizeText(statusLabel)}</div>`
+          ? `<div style="display:flex;flex-shrink:0;white-space:nowrap;padding:6px 16px;border-radius:999px;background:${palette.tagBg};color:${palette.accent};font-size:24px;font-weight:700;letter-spacing:1px">${sanitizeText(statusLabel)}</div>`
           : ''
       }
     </div>

@@ -17,7 +17,7 @@ const creditRows: { label: string; credits: ProjectCredit[] }[] = [
   { label: t.projects.meta.by, credits: getProjectAuthors(project) },
   { label: t.projects.meta.with, credits: project.contributors ?? [] },
   {
-    label: t.projects.meta.publishedAt,
+    label: t.projects.meta.publishedBy,
     credits: project.organization ? [project.organization] : [],
   },
   { label: t.projects.meta.builtWith, credits: project.uses ?? [] },

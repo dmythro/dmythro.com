@@ -32,8 +32,9 @@ Good: *"I wanted one command that tells me which `.env` a repo is currently on. 
 
 ### 2. Try it
 
-Code goes **above the fold**, before any explanation. Install command first, then the smallest
-snippet that does something real. Show results in comments rather than describing them in prose:
+Code goes **above the fold**, before any explanation. The install command is rendered from
+`projects.ts`, so do not repeat it here — open with the smallest snippet that does something
+real. For projects with no install line at all (a website, say), show how to run it locally. Show results in comments rather than describing them in prose:
 
 ```ts
 getCountryCode('Україна') // 'UA'
@@ -91,8 +92,8 @@ anticipation, so be specific about what's landing rather than vague about ambiti
 
 Both locales ship together, always. Translate the *argument*, not the words — a literal
 translation of an English idiom usually reads worse than a fresh Ukrainian sentence making the
-same point. Code blocks, identifiers, and CLI output stay identical across locales; only prose
-and code comments get translated.
+same point. Executable code, identifiers and CLI output stay identical across locales; prose and
+explanatory code comments get translated.
 
 ## Checklist before committing
 

@@ -97,6 +97,8 @@ Roles are resolved into a schema per role, so an unauthorised field is absent fr
 ### React Query hooks
 
 ```tsx
+import { useEntity, useEntityList } from 'graphql-suite/query'
+
 const user = useEntity('user')
 const { data, isLoading } = useEntityList(user, {
   select: { id: true, name: true, email: true },

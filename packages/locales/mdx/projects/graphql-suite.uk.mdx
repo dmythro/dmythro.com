@@ -97,6 +97,8 @@ const schemas = {
 ### React Query хуки
 
 ```tsx
+import { useEntity, useEntityList } from 'graphql-suite/query'
+
 const user = useEntity('user')
 const { data, isLoading } = useEntityList(user, {
   select: { id: true, name: true, email: true },

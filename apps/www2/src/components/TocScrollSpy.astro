@@ -66,6 +66,12 @@
       }
     }
 
-    document.addEventListener('astro:page-load', setup)
+    // This inline script re-runs on every view-transition navigation, so guard the
+    // registration — otherwise each navigation stacks another `astro:page-load`
+    // listener and setup runs once per visited page.
+    if (!window.__tocSpyRegistered) {
+      window.__tocSpyRegistered = true
+      document.addEventListener('astro:page-load', setup)
+    }
   })()
 </script>

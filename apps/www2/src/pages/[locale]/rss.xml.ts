@@ -38,6 +38,9 @@ export const GET: APIRoute = (context) => {
         title,
         description,
         link: `/${locale}/projects/${project.slug}`,
+        // Deliberately the last-changed date, not `publishedAt`: the feed exists so
+        // people can follow updates to existing projects, and with a handful of
+        // long-lived entries a publish-only date would never resurface anything.
         pubDate: getProjectDate(project),
         categories: project.tags,
         // Readers that render item content get the card; the rest fall back to

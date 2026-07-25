@@ -1,6 +1,6 @@
 I kept telling coding agents the same things. Use Conventional Commits. Don't re-request a bot review over unresolved threads. `bun test`, not `npm test`. Every new repo meant pasting the same paragraphs into another instructions file, and every correction I made in one project stayed in that project.
 
-`agent-skills` is those paragraphs extracted into installable modules, so a fix lands once and every agent picks it up.
+`agent-skills` is a collection of those paragraphs, extracted into installable modules, so a fix lands once and every agent picks it up.
 
 ## Try it
 
@@ -51,7 +51,7 @@ MCP is the interesting comparison, and they solve different halves: MCP gives an
 
 ### Allowlists, so approval prompts stop
 
-Skills that drive a CLI ship a `references/allowlist.md` with tiered auto-approval patterns for Claude Code's `settings.json` or an OpenCode config — the read-only commands that are safe to approve once instead of every time. `bun info`, `gh pr view`, `glab ci status`, `coderabbit doctor` and friends.
+Skills that drive a CLI ship a `references/allowlist.md` with *tiered* auto-approval patterns for Claude Code's `settings.json` or an OpenCode config. Only the inspection tier is meant to be approved broadly — anything that executes or writes stays a per-repo decision. `bun info`, `gh pr view`, `glab ci status`, `coderabbit doctor` and friends.
 
 ## Design notes
 
@@ -59,7 +59,7 @@ Skills that drive a CLI ship a `references/allowlist.md` with tiered auto-approv
 
 **Scoped activation is what makes depth affordable.** Because a skill only loads when its signals appear, it can be long enough to be genuinely useful. A single always-on instructions file has to stay short to avoid crowding out the actual task, so it ends up as a list of assertions with no reasoning behind them.
 
-**Distribution is somebody else's problem.** [skills.sh](https://skills.sh) already handles installing, updating and locating skills per agent, so this repo is just well-structured markdown. If the format outlives the installer, the content is still fine.
+**Distribution is somebody else's problem.** The `skills` CLI (or `gh`) handles installing and updating per agent, with [skills.sh](https://skills.sh) as the directory to discover them through — so this repo is just well-structured markdown. If the format outlives the installer, the content is still fine.
 
 ## Status
 
