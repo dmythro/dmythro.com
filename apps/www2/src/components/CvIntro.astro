@@ -1,0 +1,24 @@
+---
+import { getT } from '@/utils/getT'
+import type { LocaleCode } from '@/utils/i18n'
+
+interface Props {
+  locale: LocaleCode
+  class?: string
+}
+
+const { locale, class: className } = Astro.props
+const t = getT(locale)
+const years = new Date().getFullYear() - 2006
+---
+
+{/* Shared by the CV page and the print-only photo block, so the greeting is
+    written once and cannot drift between screen and PDF. */}
+<div class:list={['card bg-base-100 border border-base-300 rounded-md shadow-none p-4', className]}>
+  <p class="text-xl font-bold mb-3">{t.cv.title}</p>
+  <div class="space-y-2">
+    {t.cv.description(years).map((text) => (
+      <p>{text}</p>
+    ))}
+  </div>
+</div>

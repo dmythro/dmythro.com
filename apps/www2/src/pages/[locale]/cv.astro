@@ -1,6 +1,8 @@
 ---
 import { BASE_URL, ESocialLinks, USERNAME } from '@dmythro/constants'
+import { FileDown } from '@lucide/astro'
 import CvArticle from '@/components/CvArticle.astro'
+import CvIntro from '@/components/CvIntro.astro'
 import CvToc from '@/components/CvToc.astro'
 import PageHeader from '@/components/PageHeader.astro'
 import PhotoCard from '@/components/PhotoCard.astro'
@@ -52,7 +54,22 @@ const cvJsonLd = {
         <PhotoCard locale={locale} />
       </div>
 
-      <PageHeader title={`CV — ${t.fullName}`} subtitle={t.meta.descriptionShort} />
+      <PageHeader title={`CV — ${t.fullName}`} subtitle={t.meta.descriptionShort}>
+        <a
+          slot="actions"
+          href={`/cv.${locale}.pdf`}
+          class="btn btn-ghost btn-sm btn-square print:hidden"
+          download
+          data-cv-download={locale}
+          aria-label={t.actions.downloadPdf}
+          title={t.actions.downloadPdf}
+        >
+          <FileDown class="h-5 w-5" />
+        </a>
+      </PageHeader>
+
+      {/* The printed copy carries this under the photo instead. */}
+      <CvIntro locale={locale} class="mb-8 print:hidden" />
 
       <CvArticle locale={locale} />
     </div>
@@ -66,14 +83,6 @@ const cvJsonLd = {
       aria-label="CV sidebar"
     >
       <PhotoCard locale={locale} />
-      <div class="mt-4">
-        <a
-          href={`/cv.${locale}.pdf`}
-          class="btn btn-outline btn-sm w-full"
-          download
-          data-cv-download={locale}
-        >{t.actions.downloadPdf}</a>
-      </div>
       <div class="mt-6">
         <CvToc locale={locale} />
       </div>

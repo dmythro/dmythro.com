@@ -3,6 +3,7 @@ import { Image } from 'astro:assets'
 import avatarLarge from '@/assets/avatar@800px.jpg'
 import { getT } from '@/utils/getT'
 import type { LocaleCode } from '@/utils/i18n'
+import CvIntro from './CvIntro.astro'
 
 interface Props {
   locale: LocaleCode
@@ -10,7 +11,6 @@ interface Props {
 
 const { locale } = Astro.props
 const t = getT(locale)
-const years = new Date().getFullYear() - 2006
 ---
 
 <div transition:name="cv-photo" transition:animate="none">
@@ -29,11 +29,7 @@ const years = new Date().getFullYear() - 2006
     </figcaption>
   </figure>
 
-  {/* CV description — print only */}
-  <div class="hidden print:block card bg-base-100 border border-base-300 rounded-md shadow-none mt-4 p-4">
-    <p class="text-xl font-bold mb-3">{t.cv.title}</p>
-    {t.cv.description(years).map((text) => (
-      <p>{text}</p>
-    ))}
-  </div>
+  {/* The CV page shows this on screen itself; here it is only for the printed
+      copy, where it belongs under the photo. */}
+  <CvIntro locale={locale} class="hidden print:block mt-4" />
 </div>
