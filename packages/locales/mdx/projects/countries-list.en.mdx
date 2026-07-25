@@ -5,8 +5,7 @@ So I assembled my own, and the idea has not changed since: one typed record per 
 ## Try it
 
 ```ts
-import { continents, countries, languages } from 'countries-list'
-import { getCountryCode, getEmojiFlag } from 'countries-list'
+import { continents, countries, getCountryCode, getEmojiFlag, languages } from 'countries-list'
 
 countries.UA
 // { name: 'Ukraine', native: 'Україна', phone: [380], continent: 'EU',
@@ -19,7 +18,7 @@ continents.EU             // 'Europe'
 languages.uk              // { name: 'Ukrainian', native: 'Українська' }
 ```
 
-252 territories, zero dependencies, types included. `countries.` autocompletes in your editor, and a wrong code is a compile error rather than an `undefined` at runtime.
+Every ISO 3166-1 code and then some, zero dependencies, types included. `countries.` autocompletes in your editor, and a wrong code is a compile error rather than an `undefined` at runtime.
 
 ## Why it exists
 
@@ -69,12 +68,20 @@ Sometimes you want two kilobytes, not a dataset:
 
 ```ts
 import countries2to3 from 'countries-list/minimal/countries.2to3.min.json'
-import languageNames from 'countries-list/minimal/languages.native.min'
+import languageNames from 'countries-list/minimal/languages.native.min.json'
 ```
 
 ### Formats beyond JavaScript
 
-The same data is generated as JSON, CSV and SQL, so seeding a database doesn't require writing an import script first.
+The same data is generated as JSON, CSV and SQL, so seeding a database doesn't require writing an import script first. The files ship inside the npm package — there is nothing extra to download:
+
+```sh
+mysql app_db < node_modules/countries-list/data.sql
+
+head -2 node_modules/countries-list/countries.csv
+# "Code","Name","Native","Phone","Continent","Capital","Currency","Languages"
+# "AC","Ascension Island","Ascension Island","247","Africa","Georgetown","SHP","en"
+```
 
 ## Design notes
 
@@ -88,6 +95,6 @@ The same data is generated as JSON, CSV and SQL, so seeding a database doesn't r
 
 ## Status
 
-Live and maintained since 2014, currently on v3. Corrections arrive as pull requests from people who live in the places being described — the only review process that reliably catches this class of error.
+Live and maintained since 2014. Corrections arrive as pull requests from people who live in the places being described — the only review process that reliably catches this class of error.
 
 The currencies dataset is regenerated from the official ISO 4217 list and CLDR by a script rather than edited by hand, so refreshing it after a currency change is a command instead of an afternoon.

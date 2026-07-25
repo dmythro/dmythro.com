@@ -1,6 +1,7 @@
 import type { LocaleCode } from './i18n'
 
-const localeTags: Record<LocaleCode, string> = {
+/** BCP 47 tags per locale — date formatting here, `<language>` in the feeds. */
+export const localeTags: Record<LocaleCode, string> = {
   en: 'en-GB',
   uk: 'uk-UA',
 }

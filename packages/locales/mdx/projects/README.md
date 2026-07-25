@@ -98,7 +98,7 @@ explanatory code comments get translated.
 ## Checklist before committing
 
 - [ ] Beats 1–3 present, in order
-- [ ] Install line matches `install` in `projects.ts`
+- [ ] The rendered install command is not repeated in the body; snippets fit the active install metadata (`installPackage`, `installRunner`, or `install`)
 - [ ] Every code block was actually run, and its comments show real output
 - [ ] No hardcoded star/download counts
 - [ ] `updatedAt` bumped in `projects.ts` for a meaningful revision

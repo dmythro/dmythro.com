@@ -50,7 +50,7 @@ const users = await client.entity('user').query({
 | Hasura, PostGraphile | окремий сервіс перед базою, зі своїми метаданими, деплоєм і моделлю дозволів |
 | Резолвери вручну | повний контроль і повна відповідальність за підтримку |
 
-Беріть Hasura чи PostGraphile, якщо хочете продукт над базою з консоллю та інтерфейсом дозволів — вони вміють значно більше й експлуатуються як інфраструктура. Пишіть резолвери руками, коли ваш API свідомо не повторює таблиці. Ця сюїта — для випадку, коли API **і є** здебільшого ваша схема, і потрібна наскрізна типобезпека без ще одного сервісу.
+Беріть Hasura чи PostGraphile, якщо хочете продукт над базою з консоллю та інтерфейсом дозволів — вони вміють значно більше й експлуатуються як інфраструктура. Пишіть резолвери руками, коли ваш API свідомо не повторює таблиці. Цей інструментарій — для випадку, коли API *і є* здебільшого ваша схема, і потрібна наскрізна типобезпека без ще одного сервісу.
 
 ## Що всередині
 
@@ -96,14 +96,30 @@ const schemas = {
 
 ### React Query хуки
 
-```tsx
-import { useEntity, useEntityList } from 'graphql-suite/query'
+Хуки очікують над собою обидва провайдери — від TanStack Query і від цього пакета, який несе клієнт, зібраний через `graphql-suite/client`:
 
-const user = useEntity('user')
-const { data, isLoading } = useEntityList(user, {
-  select: { id: true, name: true, email: true },
-  limit: 20,
-})
+```tsx
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { GraphQLProvider, useEntity, useEntityList } from 'graphql-suite/query'
+
+const queryClient = new QueryClient()
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <GraphQLProvider client={graphqlClient}>
+      <UserList />
+    </GraphQLProvider>
+  </QueryClientProvider>
+)
+
+const UserList = () => {
+  const user = useEntity('user')
+  const { data, isLoading } = useEntityList(user, {
+    select: { id: true, name: true, email: true },
+    limit: 20,
+  })
+  // рендеримо data…
+}
 ```
 
 Кешування, пагінація й інвалідація — від TanStack Query; цей шар лише дає типізовані ключі та функції завантаження.

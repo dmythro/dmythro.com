@@ -19,10 +19,10 @@ export const GET: APIRoute = async ({ params, props }) => {
 
   const png = await renderProjectOgImage(project, locale)
 
+  // Static build — this Response is written to disk, so response headers never
+  // reach the client. Caching for /og/* comes from `public/_headers`, which must
+  // not mark these immutable: the URL stays stable while the image changes.
   return new Response(png, {
-    headers: {
-      'Content-Type': 'image/png',
-      'Cache-Control': 'public, max-age=31536000, immutable',
-    },
+    headers: { 'Content-Type': 'image/png' },
   })
 }

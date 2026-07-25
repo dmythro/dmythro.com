@@ -20,8 +20,3 @@ export const feedPages: FeedPage[] = [
   { path: '/contact', key: 'contact', publishedAt: '2026-03-10' },
   { path: '/open-source', key: 'openSource', publishedAt: '2026-03-10' },
 ]
-
-/** Date the page last meaningfully changed. */
-export function getFeedPageDate(page: FeedPage): Date {
-  return new Date(page.updatedAt ?? page.publishedAt)
-}

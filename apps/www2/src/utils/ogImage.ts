@@ -157,7 +157,7 @@ export async function renderProjectOgImage(
   return bytes
 }
 
-/** Absolute URL of a project's generated OG image. */
+/** Site-root-relative path of a project's generated OG image. */
 export function projectOgImagePath(slug: string, locale: LocaleCode): string {
   return `/og/${locale}/projects/${slug}.png`
 }

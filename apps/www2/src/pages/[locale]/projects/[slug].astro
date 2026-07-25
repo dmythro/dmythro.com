@@ -104,7 +104,12 @@ const projectJsonLd = {
       keywords: project.tags.join(', '),
       ...(project.github && { codeRepository: `https://github.com/${project.github}` }),
       ...(project.url && { sameAs: project.url }),
-      programmingLanguage: 'TypeScript',
+      ...(project.programmingLanguages?.length && {
+        programmingLanguage:
+          project.programmingLanguages.length === 1
+            ? project.programmingLanguages[0]
+            : project.programmingLanguages,
+      }),
     },
     {
       '@type': 'BreadcrumbList',

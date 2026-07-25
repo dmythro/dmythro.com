@@ -107,7 +107,6 @@ export const en = {
   projects: {
     title: 'Projects',
     description: 'The projects I can share and showcase.',
-    otherProjects: 'Other projects',
     relatedProjects: 'Related projects',
     onThisPage: 'On this page',
     visitSite: 'Visit site',
@@ -118,12 +117,11 @@ export const en = {
     feedTitle: 'dmythro.com',
     feedDescription:
       'New projects, notable updates to my open-source work, and changes to my CV and contacts.',
-    subscribe: 'Subscribe via RSS',
     meta: {
       title: 'Details',
       by: 'By',
       with: 'With',
-      publishedBy: 'Published at',
+      publishedBy: 'Published via',
       builtWith: 'Built with',
       started: 'Started',
       updated: 'Updated',

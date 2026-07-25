@@ -1,7 +1,8 @@
 import { BASE_URL } from '@dmythro/constants'
 import type { APIRoute } from 'astro'
 
-import { feedItemHtml, feedLanguageTags, getFeedItems } from '@/utils/feed'
+import { feedItemHtml, getFeedItems } from '@/utils/feed'
+import { localeTags } from '@/utils/formatDate'
 import { getT } from '@/utils/getT'
 import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
 
@@ -20,7 +21,7 @@ export const GET: APIRoute = (context) => {
     description: t.projects.feedDescription,
     home_page_url: `${BASE_URL}/${locale}`,
     feed_url: `${BASE_URL}/${locale}/feed.json`,
-    language: feedLanguageTags[locale],
+    language: localeTags[locale],
     authors: [{ name: t.fullName, url: BASE_URL, avatar: `${BASE_URL}/avatar@400px.jpg` }],
     items: getFeedItems(locale).map((item) => {
       const url = `${BASE_URL}${item.path}`
@@ -31,7 +32,8 @@ export const GET: APIRoute = (context) => {
         summary: item.description,
         content_html: feedItemHtml(item),
         ...(item.image && { image: item.image }),
-        date_published: item.date.toISOString(),
+        date_published: item.published.toISOString(),
+        ...(item.updated && { date_modified: item.updated.toISOString() }),
         ...(item.tags?.length && { tags: item.tags }),
       }
     }),

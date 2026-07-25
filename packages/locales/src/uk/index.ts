@@ -108,7 +108,6 @@ export const uk: Translation = {
   projects: {
     title: 'Проєкти',
     description: 'Проєкти, якими можу поділитися.',
-    otherProjects: 'Інші проєкти',
     relatedProjects: 'Схожі проєкти',
     onThisPage: 'На цій сторінці',
     visitSite: 'Перейти на сайт',
@@ -119,12 +118,11 @@ export const uk: Translation = {
     feedTitle: 'dmythro.com',
     feedDescription:
       'Нові проєкти, важливі оновлення моїх open-source робіт, а також зміни в CV і контактах.',
-    subscribe: 'Підписатися через RSS',
     meta: {
       title: 'Деталі',
       by: 'Автор',
       with: 'Разом з',
-      publishedBy: 'Опубліковано в',
+      publishedBy: 'Опубліковано через',
       builtWith: 'Зроблено на',
       started: 'Початок',
       updated: 'Оновлено',

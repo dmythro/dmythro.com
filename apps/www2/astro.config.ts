@@ -2,6 +2,7 @@ import { unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import preact from '@astrojs/preact'
 import sitemap from '@astrojs/sitemap'
+import { availableLocales } from '@dmythro/locales/constants'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'astro/config'
 
@@ -11,7 +12,7 @@ import rehypeLocalImageSize from './src/plugins/rehype-local-image-size'
 /** `/{locale}/projects/{slug}` → the date that project last changed. */
 const projectLastmod = new Map(
   projects.flatMap((project) =>
-    ['en', 'uk'].map((locale) => [
+    availableLocales.map((locale) => [
       `/${locale}/projects/${project.slug}`,
       getProjectDate(project).toISOString(),
     ]),

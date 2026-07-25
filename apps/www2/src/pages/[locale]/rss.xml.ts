@@ -2,7 +2,8 @@ import rss from '@astrojs/rss'
 import { BASE_URL } from '@dmythro/constants'
 import type { APIRoute } from 'astro'
 
-import { feedItemHtml, feedLanguageTags, getFeedItems } from '@/utils/feed'
+import { feedItemDate, feedItemHtml, getFeedItems } from '@/utils/feed'
+import { localeTags } from '@/utils/formatDate'
 import { getT } from '@/utils/getT'
 import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
 
@@ -25,12 +26,13 @@ export const GET: APIRoute = (context) => {
     // than digging one out of the item body. The namespace URI is Yahoo-hosted
     // for historical reasons — it is just an identifier, nothing is fetched.
     xmlns: { media: 'http://search.yahoo.com/mrss/' },
-    customData: `<language>${feedLanguageTags[locale]}</language>`,
+    customData: `<language>${localeTags[locale]}</language>`,
     items: getFeedItems(locale).map((item) => ({
       title: item.title,
       description: item.description,
       link: item.path,
-      pubDate: item.date,
+      // RSS has no modified-date field, so updates deliberately republish.
+      pubDate: feedItemDate(item),
       categories: item.tags,
       content: feedItemHtml(item),
       ...(item.image && {

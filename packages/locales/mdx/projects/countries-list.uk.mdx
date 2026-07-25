@@ -5,8 +5,7 @@
 ## Спробувати
 
 ```ts
-import { continents, countries, languages } from 'countries-list'
-import { getCountryCode, getEmojiFlag } from 'countries-list'
+import { continents, countries, getCountryCode, getEmojiFlag, languages } from 'countries-list'
 
 countries.UA
 // { name: 'Ukraine', native: 'Україна', phone: [380], continent: 'EU',
@@ -19,7 +18,7 @@ continents.EU             // 'Europe'
 languages.uk              // { name: 'Ukrainian', native: 'Українська' }
 ```
 
-252 території, жодних залежностей, типи в комплекті. `countries.` автодоповнюється в редакторі, а помилковий код стає помилкою компіляції, а не `undefined` під час виконання.
+Кожен код ISO 3166-1 і навіть трохи більше, жодних залежностей, типи в комплекті. `countries.` автодоповнюється в редакторі, а помилковий код стає помилкою компіляції, а не `undefined` під час виконання.
 
 ## Навіщо це
 
@@ -69,12 +68,20 @@ getCurrencyByNumeric('840') // USD, для банківських запитів
 
 ```ts
 import countries2to3 from 'countries-list/minimal/countries.2to3.min.json'
-import languageNames from 'countries-list/minimal/languages.native.min'
+import languageNames from 'countries-list/minimal/languages.native.min.json'
 ```
 
 ### Формати поза JavaScript
 
-Ті самі дані генеруються як JSON, CSV і SQL, тож щоб заповнити базу, не треба спершу писати скрипт імпорту.
+Ті самі дані генеруються як JSON, CSV і SQL, тож щоб заповнити базу, не треба спершу писати скрипт імпорту. Файли лежать усередині npm-пакета — нічого додатково завантажувати не треба:
+
+```sh
+mysql app_db < node_modules/countries-list/data.sql
+
+head -2 node_modules/countries-list/countries.csv
+# "Code","Name","Native","Phone","Continent","Capital","Currency","Languages"
+# "AC","Ascension Island","Ascension Island","247","Africa","Georgetown","SHP","en"
+```
 
 ## Нотатки про рішення
 
@@ -88,6 +95,6 @@ import languageNames from 'countries-list/minimal/languages.native.min'
 
 ## Статус
 
-Живий і підтримується з 2014-го, зараз актуальна v3. Виправлення приходять пулреквестами від людей, які живуть у тих місцях, про які йдеться, — єдиний спосіб рев'ю, що надійно ловить помилки такого роду.
+Живий і підтримується з 2014-го. Виправлення приходять пулреквестами від людей, які живуть у тих місцях, про які йдеться, — єдиний спосіб рев'ю, що надійно ловить помилки такого роду.
 
 Набір валют перегенеровується з офіційного списку ISO 4217 та CLDR скриптом, а не правиться руками, тож оновити його після зміни валюти — це команда, а не вечір роботи.

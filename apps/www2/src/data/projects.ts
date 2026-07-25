@@ -26,9 +26,13 @@ export interface Project {
   status: ProjectStatus
   /** ISO date (YYYY-MM-DD) the project itself started — usually repo creation. */
   startedAt: string
-  /** ISO date this article first went live here. Drives RSS `pubDate`. */
+  /** ISO date this article first went live here. Drives JSON Feed `date_published`. */
   publishedAt: string
-  /** ISO date of the last meaningful article revision. Drives sitemap `lastmod`. */
+  /**
+   * ISO date of the last meaningful article revision. Drives sitemap `lastmod`,
+   * JSON Feed `date_modified`, and RSS `pubDate` — RSS has no modified-date
+   * field, so bumping this deliberately resurfaces the item in readers.
+   */
   updatedAt?: string
   /**
    * npm package name. Renders package-manager tabs (bun/npm/pnpm/yarn/deno) with
@@ -43,6 +47,11 @@ export interface Project {
   installRunner?: string
   /** Raw shell command(s) for projects that are not npm packages. May be multi-line. */
   install?: string
+  /**
+   * Languages for JSON-LD `programmingLanguage`. Omit when none fits — e.g. a
+   * collection of Markdown skill files is not meaningfully "in" a language.
+   */
+  programmingLanguages?: string[]
   tags: string[]
   icon: string
   npm?: string
@@ -91,6 +100,7 @@ export const projects: Project[] = [
     publishedAt: '2026-03-26',
     updatedAt: '2026-07-25',
     installPackage: 'countries-list',
+    programmingLanguages: ['TypeScript', 'PHP'],
     tags: ['typescript', 'i18n', 'iso', 'data', 'open-source', 'npm', 'php'],
     icon: 'package',
     npm: 'countries-list',
@@ -126,6 +136,7 @@ export const projects: Project[] = [
     publishedAt: '2026-03-26',
     updatedAt: '2026-07-25',
     installPackage: 'jsonl-logger',
+    programmingLanguages: ['TypeScript'],
     tags: [
       'typescript',
       'logging',
@@ -160,6 +171,7 @@ export const projects: Project[] = [
     publishedAt: '2026-03-26',
     updatedAt: '2026-07-25',
     installPackage: 'graphql-suite',
+    programmingLanguages: ['TypeScript'],
     tags: ['typescript', 'graphql', 'drizzle', 'react-query', 'npm', 'open-source'],
     icon: 'package',
     npm: 'graphql-suite',
@@ -202,6 +214,7 @@ export const projects: Project[] = [
     startedAt: '2022-08-20',
     publishedAt: '2026-03-26',
     updatedAt: '2026-07-25',
+    programmingLanguages: ['TypeScript'],
     tags: ['astro', 'tailwind', 'daisyui', 'bun', 'biome', 'portfolio'],
     icon: 'globe',
     github: 'dmythro/dmythro.com',
@@ -256,6 +269,7 @@ export const projects: Project[] = [
     updatedAt: '2026-07-25',
     install:
       '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/dmythro/terminal-setup/main/setup-terminal.sh)"',
+    programmingLanguages: ['Shell'],
     tags: ['shell', 'macos', 'zsh', 'starship', 'fzf', 'tmux', 'setup'],
     icon: 'terminal',
     github: 'dmythro/terminal-setup',
@@ -316,6 +330,7 @@ export const projects: Project[] = [
     install: `curl -fsSL https://raw.githubusercontent.com/dmythro/envs/main/envs -o ~/.local/bin/envs
 chmod +x ~/.local/bin/envs
 envs setup`,
+    programmingLanguages: ['Shell'],
     tags: ['bash', 'env', 'encryption', 'age', 'security', 'cli'],
     icon: 'terminal',
     github: 'dmythro/envs',
@@ -379,11 +394,6 @@ export function getRelatedProjects(project: Project, limit = 3): Project[] {
 /** Authors of a project, falling back to the site owner. */
 export function getProjectAuthors(project: Project): ProjectCredit[] {
   return project.authors?.length ? project.authors : [defaultAuthor]
-}
-
-/** True when a project has anything worth rendering in a credits block. */
-export function hasCredits(project: Project): boolean {
-  return Boolean(project.contributors?.length || project.uses?.length)
 }
 
 /** Projects for the RSS feed, newest activity first. `planned` entries are excluded. */

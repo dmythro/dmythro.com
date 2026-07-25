@@ -96,14 +96,30 @@ Roles are resolved into a schema per role, so an unauthorised field is absent fr
 
 ### React Query hooks
 
-```tsx
-import { useEntity, useEntityList } from 'graphql-suite/query'
+The hooks expect both providers above them — TanStack Query's and this package's, which carries the client built with `graphql-suite/client`:
 
-const user = useEntity('user')
-const { data, isLoading } = useEntityList(user, {
-  select: { id: true, name: true, email: true },
-  limit: 20,
-})
+```tsx
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { GraphQLProvider, useEntity, useEntityList } from 'graphql-suite/query'
+
+const queryClient = new QueryClient()
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <GraphQLProvider client={graphqlClient}>
+      <UserList />
+    </GraphQLProvider>
+  </QueryClientProvider>
+)
+
+const UserList = () => {
+  const user = useEntity('user')
+  const { data, isLoading } = useEntityList(user, {
+    select: { id: true, name: true, email: true },
+    limit: 20,
+  })
+  // render data…
+}
 ```
 
 Caching, pagination and invalidation come from TanStack Query — this layer only supplies the typed keys and fetchers.

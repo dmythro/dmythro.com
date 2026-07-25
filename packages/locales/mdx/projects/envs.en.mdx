@@ -64,9 +64,9 @@ Point `ENVS_STORE_DIR` at Syncthing, Dropbox, a mounted share, or a git repo you
 
 **Your SSH key, not a new one.** `age` accepts SSH keys as recipients, so there is no keygen step, no new secret to back up, and no "where did I put the envs key" problem on the third machine. Setup is one command because there is genuinely nothing to set up.
 
-**Not the macOS Keychain.** The Keychain is the obvious place for this on a Mac, and it can't do it: it cannot create iCloud-synchronised items programmatically — still true as of macOS 26 — and synced items run into roughly a 4 KB ceiling, which a real `.env` exceeds. A synced folder is a plain filesystem with no size limit that also works on Linux.
+**Not the macOS Keychain.** The Keychain is the obvious place for this on a Mac, and it lost on practicalities rather than possibility: items live behind a security API instead of being files, syncing is tied to iCloud Keychain specifically, and none of it exists on Linux. A synced folder of `.age` blobs is a plain filesystem — you can `ls` it, point it at any sync provider, and it behaves the same on both systems.
 
-**Encrypted even though the sync service encrypts.** iCloud with Advanced Data Protection is end-to-end encrypted already, so this layer is redundant on paper. I want it anyway: it means the sync provider is not part of my threat model, and anyone who reaches that folder — a support session, a shared Mac, a future me being careless with permissions — sees opaque `.age` blobs. Defence in depth is cheap when it costs one `age` invocation.
+**Encrypted even though the sync service encrypts.** iCloud with Advanced Data Protection is end-to-end encrypted already, so this layer is redundant on paper. I want it anyway: the provider never holds readable secrets, and anyone who reaches that folder — a support session, a shared Mac, a future me being careless with permissions — sees opaque `.age` blobs. This buys confidentiality, not more: whoever controls the folder can still delete or swap ciphertext, so the sync provider stays trusted for keeping the files intact. Defence in depth is cheap when it costs one `age` invocation.
 
 ## Status
 

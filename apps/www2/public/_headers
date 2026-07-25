@@ -3,6 +3,11 @@
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
 
+# Social cards — stable URLs whose bytes change with project metadata,
+# so cacheable for a while but never immutable
+/og/*
+  Cache-Control: public, max-age=3600
+
 # HTML pages — short browser cache for snappy re-navigation
 # ClientRouter fetches HTML on every click; caching prevents network round trips
 /*
