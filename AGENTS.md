@@ -29,7 +29,7 @@
 - **Dates drive infrastructure**: `publishedAt` → RSS `pubDate`; `updatedAt` → sitemap `lastmod`, `article:modified_time`, and the "Updated" line on the page. Bump `updatedAt` whenever an article changes meaningfully.
 
 ## Feeds & social images
-- **RSS**: `src/pages/[locale]/rss.xml.ts` → `/en/rss.xml`, `/uk/rss.xml` (projects only, no blog). `/rss.xml` and `/feed` alias to EN via `public/_redirects`.
+- **RSS**: `src/pages/[locale]/rss.xml.ts` → `/en/rss.xml`, `/uk/rss.xml`. Site-wide: projects plus the standing pages listed in `src/data/feedPages.ts` (CV, contact, open-source), newest first. Bump a page's `updatedAt` there when its content changes. `/rss.xml` and `/feed` alias to EN via `public/_redirects`.
 - **OG images**: generated at build by `takumi-js` — `src/utils/ogImage.ts` + `src/pages/og/[locale]/projects/[slug].png.ts` → `/og/{locale}/projects/{slug}.png`. Fonts come from Google Fonts and are subset to the glyphs drawn, so Cyrillic works with no font files committed.
 - **Per-page meta**: pass `ogImage`/`ogType`/`publishedTime`/`modifiedTime` through `PageLayout` to `BaseLayout`.
 

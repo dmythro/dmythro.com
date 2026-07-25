@@ -116,9 +116,9 @@ export const uk: Translation = {
     install: 'Встановлення',
     copy: 'Копіювати',
     copied: 'Скопійовано',
-    feedTitle: 'Проєкти — Дмитро Клименко',
+    feedTitle: 'dmythro.com',
     feedDescription:
-      'Нові проєкти та важливі оновлення моїх open-source робіт — інструменти, бібліотеки та експерименти.',
+      'Нові проєкти, важливі оновлення моїх open-source робіт, а також зміни в CV і контактах.',
     subscribe: 'Підписатися через RSS',
     meta: {
       title: 'Деталі',

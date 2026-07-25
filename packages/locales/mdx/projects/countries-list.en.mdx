@@ -1,6 +1,4 @@
-Picking a country from a dropdown is the most boring feature in any signup form, and back in 2014 I could not find data to fill one properly. Every list I tried had English names but no native ones, or ISO codes but no calling codes, or all of it at once inside a multi-megabyte blob built for a different problem.
-
-{/* TODO(dmythro): verify the origin — was this a signup form, or something else? One true detail here is worth more than the whole paragraph. */}
+A country dropdown is the most boring thing you can build, and back in 2014 I could not find data to fill one properly. Every list I tried had English names but no native ones, or ISO codes but no calling codes, or all of it at once inside a multi-megabyte blob built for a different problem.
 
 So I assembled my own, and the idea has not changed since: one typed record per country — code, name, native name, capital, currency, calling code, continent — and nothing you did not ask for.
 
@@ -25,7 +23,7 @@ languages.uk              // { name: 'Ukrainian', native: 'Українська'
 
 ## Why it exists
 
-The gap was never country names — those are everywhere. It was that a signup form needs four unrelated things at once: a code to store, a label to show, a flag to render, and a calling code for the phone field. Assembling those from three packages meant three sets of country keys that disagreed with each other, plus a mapping layer to reconcile them.
+The gap was never country names — those are everywhere. It was that a country field needs four unrelated things at once: a code to store, a label to show, a flag to render, and a calling code for the phone field. Assembling those from three packages meant three sets of country keys that disagreed with each other, plus a mapping layer to reconcile them.
 
 Keeping the fields in one record makes that class of bug impossible. Not a clever idea, which is probably why it keeps being useful.
 
