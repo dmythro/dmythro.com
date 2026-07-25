@@ -51,7 +51,11 @@ const variants = pkg
         .map(({ id, label, exec }) => ({ id, label, command: exec!(runner) }))
     : []
 
-/** Unique per instance so tab/panel wiring stays valid with several blocks on a page. */
+/**
+ * Namespaces the tab/panel ids by package or runner. Pages render at most one
+ * block per command, so this is only about ids staying readable — two blocks
+ * for the same command on one page would need a real per-instance id.
+ */
 const uid = (pkg ?? runner ?? 'cmd').replace(/[^a-z0-9]/gi, '-')
 ---
 
@@ -67,6 +71,7 @@ const uid = (pkg ?? runner ?? 'cmd').replace(/[^a-z0-9]/gi, '-')
           data-pm-tab={id}
           aria-selected={index === 0 ? 'true' : 'false'}
           aria-controls={`pm-panel-${uid}-${id}`}
+          tabindex={index === 0 ? 0 : -1}
         >
           {label}
         </button>
@@ -130,6 +135,9 @@ const uid = (pkg ?? runner ?? 'cmd').replace(/[^a-z0-9]/gi, '-')
         const isActive = tab.dataset.pmTab === managerId
         tab.classList.toggle('tab-active', isActive)
         tab.setAttribute('aria-selected', String(isActive))
+        // Roving tabindex: only the active tab sits in the tab order; the rest
+        // are reached with the arrow keys, as the ARIA tabs pattern expects.
+        tab.tabIndex = isActive ? 0 : -1
       }
       for (const panel of block.querySelectorAll<HTMLElement>('[data-pm-panel]')) {
         panel.classList.toggle('hidden', panel.dataset.pmPanel !== managerId)
@@ -147,6 +155,25 @@ const uid = (pkg ?? runner ?? 'cmd').replace(/[^a-z0-9]/gi, '-')
         if (!managerId) return
         localStorage.setItem(STORAGE_KEY, managerId)
         applyPackageManager(managerId)
+      })
+    }
+
+    for (const tablist of document.querySelectorAll<HTMLElement>('[data-install] [role="tablist"]')) {
+      tablist.addEventListener('keydown', (event) => {
+        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return
+        const tabs = [...tablist.querySelectorAll<HTMLElement>('[data-pm-tab]')]
+        const current = tabs.indexOf(document.activeElement as HTMLElement)
+        if (current === -1) return
+        event.preventDefault()
+
+        let next = current
+        if (event.key === 'ArrowLeft') next = (current - 1 + tabs.length) % tabs.length
+        if (event.key === 'ArrowRight') next = (current + 1) % tabs.length
+        if (event.key === 'Home') next = 0
+        if (event.key === 'End') next = tabs.length - 1
+
+        tabs[next].focus()
+        tabs[next].click()
       })
     }
 
