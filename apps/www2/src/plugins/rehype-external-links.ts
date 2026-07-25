@@ -35,7 +35,32 @@ export default function rehypeExternalLinks() {
         children: [{ type: 'raw', value: getLinkIcon(href) }],
       }
 
-      node.children.push(iconSpan)
+      // The icon is an atomic inline, so a line can break right before it and
+      // strand it alone. A word joiner does not bind across one, so tie the
+      // trailing word and the icon together in a nowrap span: the word travels
+      // down with the icon and everything before it still wraps freely.
+      const tail: Element = {
+        type: 'element',
+        tagName: 'span',
+        properties: { className: ['link-icon-tail'] },
+        children: [],
+      }
+
+      const last = node.children.at(-1)
+      if (last?.type === 'text') {
+        const word = last.value.match(/\S+$/)
+        if (word) {
+          last.value = last.value.slice(0, word.index)
+          if (!last.value) node.children.pop()
+          tail.children.push({ type: 'text', value: word[0] })
+        }
+      } else if (last) {
+        node.children.pop()
+        tail.children.push(last)
+      }
+
+      tail.children.push(iconSpan)
+      node.children.push(tail)
     })
   }
 }

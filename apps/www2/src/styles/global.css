@@ -255,9 +255,14 @@ main a[href^='http']:not(.group, .btn, .card, .tooltip, .no-ext-link) {
 main a[href^='http']:not(.group, .btn, .card, .tooltip, .no-ext-link):hover {
   text-decoration-color: var(--color-primary);
 }
-/* The icon must never wrap onto its own line, away from the link text. The gap is
-   padding rather than margin so it belongs to the icon's own inline box, and the
-   markup keeps zero whitespace before it — together there is no break opportunity. */
+/* The icon must never wrap onto its own line, away from the link text. It is an
+   atomic inline, which a line may break before no matter how the gap is authored,
+   so the markup binds it to the trailing word and this keeps that pair together. */
+main a[href^='http'] .link-icon-tail {
+  white-space: nowrap;
+}
+
+/* The gap is padding rather than margin so it belongs to the icon's own inline box. */
 main a[href^='http'] .link-icon {
   display: inline-block;
   box-sizing: content-box;

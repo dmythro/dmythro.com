@@ -24,11 +24,25 @@ function getIcon(href: string): string {
 const { href, ...rest } = Astro.props
 const isExternal = href?.startsWith('http')
 const icon = isExternal ? getIcon(href!) : null
+
+// The icon is an atomic inline, so a line can break right before it and strand it
+// alone. Tie the trailing word to it in a nowrap span, matching what the markdown
+// pipeline does in rehype-external-links. Link text ending in an element is left
+// alone rather than risk splitting a tag across the wrapper.
+let body = isExternal ? await Astro.slots.render('default') : ''
+let tailWord = ''
+const word = body.match(/[^\s<>]+$/)
+if (word) {
+  tailWord = word[0]
+  body = body.slice(0, word.index)
+}
 ---
 
 {isExternal ? (
   <a href={href} target="_blank" rel="noopener noreferrer" {...rest}
-    ><slot /><span class="link-icon" set:html={icon} /></a
+    ><Fragment set:html={body} /><span class="link-icon-tail"
+      >{tailWord}<span class="link-icon" set:html={icon} /></span
+    ></a
   >
 ) : (
   <a href={href} {...rest}><slot /></a>
