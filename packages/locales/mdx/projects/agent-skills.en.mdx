@@ -1,19 +1,66 @@
-**`agent-skills`** is a collection of reusable skills for **AI coding assistants** like **Claude Code**, **OpenCode**, and other agents compatible with the [skills.sh](https://skills.sh) platform.
+I kept telling coding agents the same things. Use Conventional Commits. Don't re-request a bot review over unresolved threads. `bun test`, not `npm test`. Every new repo meant pasting the same paragraphs into another instructions file, and every correction I made in one project stayed in that project.
 
-Each skill is a focused knowledge module that gives an AI agent expertise in a specific area. The collection currently includes five skills:
+`agent-skills` is those paragraphs extracted into installable modules, so a fix lands once and every agent picks it up.
 
-- **bun-cli** — Bun CLI reference: package management, scripts, testing, bundling, and compilation
-- **bun-api** — Bun runtime API: file I/O, shell, SQLite, SQL client (PostgreSQL/MySQL), hashing, compression
-- **git-commit** — Conventional Commits format for git commits and PR/MR titles
-- **git-pr** — PR and MR workflows for GitHub (`gh`) and GitLab (`glab`): creation, review, comments, merging
-- **git-ci** — CI/CD status queries for GitHub Actions and GitLab CI
+## Try it
 
 ```sh
-# Install a single skill
-bunx skills add dmythro/agent-skills --skill bun-cli
-
-# Install all skills at once
 bunx skills add dmythro/agent-skills
 ```
 
-Skills are installed per-project or globally and are automatically activated when the agent detects a matching context — for example, the **bun-cli** skill activates when working in a project with `bun.lock` or `bunfig.toml`.
+Or take only what you need:
+
+```sh
+bunx skills add dmythro/agent-skills --skill git-pr
+```
+
+`npx` works identically. With a recent `gh`, the CLI can install them too and will auto-detect the agent host:
+
+```sh
+gh skill install dmythro/agent-skills git-pr
+```
+
+## Why it exists
+
+Repo instruction files — `AGENTS.md`, `CLAUDE.md` — solve the per-project case and nothing beyond it. They are loaded in full on every task, so they get shorter than they should be, and they cannot be shared: knowing how `gh pr` behaves is not a fact about my repository.
+
+Skills invert that. Each one is a self-contained module the agent loads when the context matches, which means it can afford to be detailed. The `bun-cli` skill activates when it sees `bun.lock`; nobody pays for it in a Python repo.
+
+## How it's different
+
+| Where knowledge lives | Scope |
+| --- | --- |
+| `agent-skills` | portable modules, loaded on demand when the context matches |
+| AGENTS.md, CLAUDE.md | one repository, loaded in full on every task |
+| System prompt / global config | every task in every repository, whether relevant or not |
+| MCP servers | tools and live data, rather than knowledge and procedure |
+
+MCP is the interesting comparison, and they solve different halves: MCP gives an agent new *capabilities*, a skill gives it *judgement* about capabilities it already has. `git-pr` does not add the `gh` command — it explains which invocations are safe, what a review round costs, and when not to trigger another one.
+
+## What's inside
+
+| Skill | Covers |
+| --- | --- |
+| `bun-cli` | package management, scripts, testing, bundling, compilation |
+| `bun-api` | file I/O, shell, SQLite, SQL, S3, Redis, hashing, compression |
+| `git-commit` | Conventional Commits for commits and PR/MR titles |
+| `git-pr` | PR/MR workflows on GitHub and GitLab, review handling, cost-aware bot loops |
+| `git-ci` | CI/CD status queries for GitHub Actions and GitLab CI |
+| `git-project` | GitHub Projects v2 — epics, sub-issues, board status, milestones |
+| `coderabbit` | local CodeRabbit CLI reviews and low-noise `.coderabbit.yaml` config |
+
+### Allowlists, so approval prompts stop
+
+Skills that drive a CLI ship a `references/allowlist.md` with tiered auto-approval patterns for Claude Code's `settings.json` or an OpenCode config — the read-only commands that are safe to approve once instead of every time. `bun info`, `gh pr view`, `glab ci status`, `coderabbit doctor` and friends.
+
+## Design notes
+
+**Skills describe cost, not just syntax.** The `git-pr` skill spends as much space on when *not* to run something as on how to run it — bot review rounds are billed, and an agent that helpfully re-requests a review over unresolved threads is spending money to make things worse. Documenting the price is what stops that, and it is the part a generic reference never contains.
+
+**Scoped activation is what makes depth affordable.** Because a skill only loads when its signals appear, it can be long enough to be genuinely useful. A single always-on instructions file has to stay short to avoid crowding out the actual task, so it ends up as a list of assertions with no reasoning behind them.
+
+**Distribution is somebody else's problem.** [skills.sh](https://skills.sh) already handles installing, updating and locating skills per agent, so this repo is just well-structured markdown. If the format outlives the installer, the content is still fine.
+
+## Status
+
+Live and growing as I hit new things worth writing down. The collection is opinionated by construction — it encodes how *I* work, so treat the git and review skills as a starting point rather than house rules.

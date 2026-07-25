@@ -1,14 +1,73 @@
-**`envs`** lets you switch between `.env` variants (local, staging, production) and sync them across machines — all with a single bash script. It encrypts files using [age](https://github.com/FiloSottile/age) with your existing SSH key and stores them in any shared folder — **iCloud Drive** by default, or any directory you point `ENVS_STORE_DIR` to (Syncthing, Dropbox, etc.).
+I keep the same project checked out on a laptop and a desktop, and every time I switched machines I lost ten minutes to `.env`. Which variant was this one on? Did the staging database URL ever make it across, or is it still sitting on the other machine? The one file every tool needs is the one file you can't commit — so it ends up existing in exactly one place, and never the one you're sitting at.
+
+`envs` is the bash script that ended that. It encrypts `.env` variants with your existing SSH key and drops them in a folder that already syncs.
+
+## Try it
 
 ```sh
-envs push staging        # encrypt .env as "staging"
-envs use production      # decrypt "production" to .env
-envs diff staging        # compare local .env vs stored "staging"
-envs list                # show all variants for this repo
+envs push staging    # encrypt the current .env, store it as "staging"
+envs use production  # decrypt "production" over .env
+envs diff staging    # compare local .env against the stored variant
+envs list            # every variant for this repo
+envs projects        # every repo that has variants
 ```
 
-There is no setup ceremony — `envs` uses your `~/.ssh/id_ed25519` key, no separate key generation needed. There is no daemon or wrapper script — `.env` remains a regular file that all tools read normally. The script is **idempotent** and works the same way on macOS and Linux.
+That's the whole tool. No daemon, no shell hook, no wrapper around your dev command — `.env` stays a plain file that everything reads the normal way.
 
-Each project's variants are stored in a flat directory named by the normalized git remote URL, so the same repo on different machines maps to the same folder automatically. Before overwriting `.env`, the tool checks a sha256 hash to detect unpushed edits and warns you — use `--force` to override.
+## Why it exists
 
-Encryption uses **X25519 + ChaCha20-Poly1305 + HMAC-SHA256** via age. The encrypted `.age` files are opaque blobs that can only be decrypted with your private key, providing defense-in-depth regardless of the sync service's own encryption model.
+The alternatives all wanted something I wasn't willing to give. Committing encrypted secrets to the repo means the ciphertext is in the history forever, and rotating anything means a commit. A secrets service means a subscription, a login, and a network round trip before my dev server starts. Both are the right answer for a team; both are absurd for one person moving between two machines they own.
+
+What I actually needed was a filing cabinet: named variants, per project, encrypted, in a folder my machines already sync. That's a hundred lines of bash, not a platform.
+
+## How it's different
+
+| Tool | Model |
+| --- | --- |
+| `envs` | named variants in synced storage, encrypted to your SSH key, outside the repo |
+| dotenvx | encrypt `.env` in place and commit the ciphertext with the code |
+| SOPS | encrypt structured files with KMS/age/PGP, usually committed alongside the code |
+| direnv | auto-load and unload variables per directory — activation, not storage |
+| 1Password CLI | inject secrets from a hosted vault at runtime |
+
+**Use something else if you're on a team.** This is the honest limitation: one SSH key means no revocation, no rotation workflow, and no audit trail. If someone leaves, there is nothing to turn off. For a team, SOPS with per-member age recipients or a real vault is the correct tool and I'd use it too. `envs` is scoped to secrets that are already only yours.
+
+`direnv` isn't a competitor at all — it answers "when is this loaded", not "where does it live". They compose fine.
+
+## What's inside
+
+### Projects identify themselves by git remote
+
+Variants are stored under a directory named after the normalised git remote URL, so the same repo cloned to a different path on a different machine resolves to the same folder without configuration. Change the remote and `envs mv <old-id>` re-points it.
+
+### Overwrite protection
+
+`envs use` will clobber your local `.env`, so it first hashes the file and compares it against what was last pushed. Local edits you never pushed produce a warning instead of silent data loss:
+
+```sh
+envs use staging
+# .env has unpushed changes — push them first, or re-run with --force
+```
+
+### Two knobs
+
+```sh
+ENVS_STORE_DIR   # default: ~/Library/Mobile Documents/com~apple~CloudDocs/envs
+ENVS_SSH_KEY     # default: ~/.ssh/id_ed25519
+```
+
+Point `ENVS_STORE_DIR` at Syncthing, Dropbox, a mounted share, or a git repo you keep private — the script does not care what provides the sync.
+
+## Design notes
+
+**age instead of GPG.** GPG can do this, and I tried. Its pinentry and agent model is unreliable in non-interactive contexts — passphrase prompts appear where you didn't expect them, and agent caching makes failures inconsistent between runs. `age` has no daemon, reads the key file directly, and fails with an error you can read. For a script that runs inside other scripts, boring beats powerful.
+
+**Your SSH key, not a new one.** `age` accepts SSH keys as recipients, so there is no keygen step, no new secret to back up, and no "where did I put the envs key" problem on the third machine. Setup is one command because there is genuinely nothing to set up.
+
+**Not the macOS Keychain.** The Keychain is the obvious place for this on a Mac, and it can't do it: it cannot create iCloud-synchronised items programmatically — still true as of macOS 26 — and synced items run into roughly a 4 KB ceiling, which a real `.env` exceeds. A synced folder is a plain filesystem with no size limit that also works on Linux.
+
+**Encrypted even though the sync service encrypts.** iCloud with Advanced Data Protection is end-to-end encrypted already, so this layer is redundant on paper. I want it anyway: it means the sync provider is not part of my threat model, and anyone who reaches that folder — a support session, a shared Mac, a future me being careless with permissions — sees opaque `.age` blobs. Defence in depth is cheap when it costs one `age` invocation.
+
+## Status
+
+Live and doing its job. It is deliberately finished software — a single bash script, portable across macOS and Linux, idempotent, with no roadmap I feel strongly about. The most likely future change is more storage backends, and only if the current one starts annoying me.

@@ -20,10 +20,18 @@
 - **www** (apps/www): Next.js 16 + HeroUI 2.x (legacy, previous production site)
 
 ## Projects
-- **Data**: `apps/www2/src/data/projects.ts` — `Project` interface, array, and helpers (`getProjectsByCategory`, `getHighlightedProjects`, `getProjectBySlug`)
+- **Data**: `apps/www2/src/data/projects.ts` — `Project` interface, array, and helpers (`getProjectsByCategory`, `getHighlightedProjects`, `getProjectBySlug`, `getRelatedProjects`, `getFeedProjects`, `getProjectDate`)
 - **Articles**: `packages/locales/mdx/projects/{slug}.{en,uk}.mdx` — bilingual MDX content per project
+- **Article structure & voice**: `packages/locales/mdx/projects/README.md` — the seven-beat template and voice rules. Read it before writing or editing any project article.
 - **Adding a project**: create data entry in `projects.ts` + two MDX files (en/uk)
-- **Key fields**: `slug`, `title`/`description` (Record<LocaleCode, string>), `category` (`dev`|`music`|`photos`|`other`), `tags`, `icon`, `github`, `npm?`, `url?`, `sortOrder`, `isHighlighted`, `fallbackStars?`
+- **Key fields**: `slug`, `title`/`description` (Record<LocaleCode, string>), `category` (`dev`|`music`|`photos`|`other`), `status` (`live`|`wip`|`planned`|`archived`), `startedAt`, `publishedAt`, `updatedAt?`, `install?`, `tags`, `icon`, `github`, `npm?`, `url?`, `related?`, `sortOrder`, `isHighlighted`, `fallbackStars?`
+- **Credits**: `authors?` (defaults to `defaultAuthor`), `contributors?` (co-credits), `uses?` (open-source projects leaned on). All three render in the page's credits block and in JSON-LD (`author`/`contributor`/`isBasedOn`).
+- **Dates drive infrastructure**: `publishedAt` → RSS `pubDate`; `updatedAt` → sitemap `lastmod`, `article:modified_time`, and the "Updated" line on the page. Bump `updatedAt` whenever an article changes meaningfully.
+
+## Feeds & social images
+- **RSS**: `src/pages/[locale]/rss.xml.ts` → `/en/rss.xml`, `/uk/rss.xml` (projects only, no blog). `/rss.xml` and `/feed` alias to EN via `public/_redirects`.
+- **OG images**: generated at build by `takumi-js` — `src/utils/ogImage.ts` + `src/pages/og/[locale]/projects/[slug].png.ts` → `/og/{locale}/projects/{slug}.png`. Fonts come from Google Fonts and are subset to the glyphs drawn, so Cyrillic works with no font files committed.
+- **Per-page meta**: pass `ogImage`/`ogType`/`publishedTime`/`modifiedTime` through `PageLayout` to `BaseLayout`.
 
 ## Code Style
 - **Stack**: Bun 1.3+, Turbo workspaces, Biome formatter/linter
