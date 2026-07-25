@@ -14,7 +14,7 @@ is what makes a small tool's page short and a large one's page long without eith
 | # | Beat | Heading | Length |
 | - | ---- | ------- | ------ |
 | 1 | **Lede** | *(none — opens the article)* | 2–3 sentences |
-| 2 | **Try it** | `## Try it` | Install line + smallest useful snippet |
+| 2 | **Examples** | `## Examples` | Smallest useful snippet(s), right below the rendered install command |
 | 3 | **Why it exists** | `## Why it exists` | 1 paragraph |
 | 4 | **How it's different** | `## How it's different` | Table or 3–4 bullets + one "use X instead if" line |
 | 5 | **What's inside** | `## What's inside` | One `###` sub-beat per real feature, each with a snippet |
@@ -30,7 +30,7 @@ like a person rather than a package registry.
 Bad: *"The `foo` package provides a comprehensive solution for bar management."*
 Good: *"I wanted one command that tells me which `.env` a repo is currently on. There wasn't one."*
 
-### 2. Try it
+### 2. Examples
 
 Code goes **above the fold**, before any explanation. The install command is rendered from
 `projects.ts`, so do not repeat it here — open with the smallest snippet that does something
