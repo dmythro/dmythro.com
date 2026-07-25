@@ -34,7 +34,9 @@ const ogImageUrl = `${BASE_URL}${ogImage ?? '/avatar@og.jpg'}`
 const ogImageType = ogImageUrl.endsWith('.png') ? 'image/png' : 'image/jpeg'
 ---
 
-<html lang={locale} data-theme="light">
+{/* Smooth scrolling is production-only: dev HMR re-renders restore the scroll
+    position, and animating that jump on every edit is maddening. */}
+<html lang={locale} data-theme="light" class:list={[import.meta.env.PROD && 'scroll-smooth']}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

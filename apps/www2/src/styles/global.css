@@ -9,6 +9,11 @@
     table, timeline, tooltip;
 }
 
+/* Without this, a view transition animates the scroll jump between pages. */
+html:has(::view-transition) {
+  scroll-behavior: auto;
+}
+
 @theme inline {
   /* Primary palette from .pen design tokens */
   --color-primary: oklch(0.5457 0.2124 264.05); /* #6366F1 indigo-500 */
