@@ -62,9 +62,7 @@ const updated = project.updatedAt ?? project.publishedAt
                   class="link link-hover decoration-base-content/30 underline-offset-2"
                   target={prefix.url.startsWith('http') ? '_blank' : undefined}
                   rel={prefix.url.startsWith('http') ? 'noopener noreferrer' : undefined}
-                >
-                  {prefix.name}
-                </a>
+                >{prefix.name}</a>
               ) : (
                 prefix.name
               )}
@@ -79,14 +77,12 @@ const updated = project.updatedAt ?? project.publishedAt
                   class="link link-hover decoration-base-content/30 underline-offset-2"
                   target={credit.url.startsWith('http') ? '_blank' : undefined}
                   rel={credit.url.startsWith('http') ? 'noopener noreferrer' : undefined}
-                >
-                  {credit.name}
-                </a>
+                >{credit.name}</a>
               ) : (
                 credit.name
-              )}
-              {credit.role && <span class="text-base-content/45"> — {credit.role[locale]}</span>}
-              {index < credits.length - 1 && <span class="text-base-content/30">,</span>}
+              )}{credit.role && (
+                <span class="text-base-content/45"> — {credit.role[locale]}</span>
+              )}{index < credits.length - 1 && <span class="text-base-content/30">,</span>}
             </span>
           ))}
         </dd>

@@ -95,9 +95,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
                 ? 'bg-linear-to-b from-[#6366F120] to-[#6366F108] border-primary text-primary font-semibold'
                 : 'border-transparent text-content-secondary font-medium hover:text-base-content hover:bg-base-300/30',
             ]}
-          >
-            {label}
-          </a>
+          >{label}</a>
         )
       })}
 
@@ -119,9 +117,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
             hreflang={otherLocale}
             aria-label={t.actions.switchLang}
             class="text-[13px] font-semibold text-content-secondary hover:text-base-content transition-colors"
-          >
-            {localeNames[locale].slice(0, 2).toUpperCase()}
-          </a>
+          >{localeNames[locale].slice(0, 2).toUpperCase()}</a>
         </div>
       </div>
     </div>
