@@ -14,12 +14,12 @@ logger.error('Request failed', { path: '/api' }, new Error('timeout'))
 
 Locally, that reads as text — coloured on a TTY, plain the moment you pipe it to a file or CI:
 
-```text
-18:42:05 ● Server started {"port":3000}
-18:42:05   Neutral message {"note":"no level icon"}
-18:42:05 ✖ Request failed {"path":"/api"}
+```ansi
+[32m18:42:05 ●[0m Server started {"port":3000}
+[32m18:42:05  [0m Neutral message {"note":"no level icon"}
+[0m[31m[31m18:42:05 ✖[0m Request failed {"path":"/api"}
 Error: timeout
-    at handler (/app/server.ts:12:9)
+    at handler (/app/server.ts:12:9)[0m
 ```
 
 Set `LOG_FORMAT` and the same calls emit JSONL shaped for your log platform:
@@ -46,11 +46,11 @@ The other reason is annoyance-driven: frameworks that hardcode plain-text logs a
 | winston | maximum configurability — transports, custom levels, formats |
 | consola | developer-facing CLI output and pretty reporters |
 
-Use pino instead if you need its ecosystem or its raw throughput at serious volume — it is faster and better supported, and this project even emits pino's line shape so you can pipe into `pino-pretty` and friends. Use winston if you genuinely need arbitrary transports. This one is for services that want good local output and clean production JSON without assembling a logging stack.
+Use pino instead if you need its transport ecosystem or its single-minded focus on throughput — and this project even emits pino's line shape, so you can pipe into `pino-pretty` and friends. Use winston if you genuinely need arbitrary transports. This one is deliberately small — and still enough for many typical projects: good local output, clean production JSON, and no logging stack to assemble.
 
 ## What's inside
 
-### Formatters for the usual destinations
+### Predefined formatters for the usual destinations
 
 | `LOG_FORMAT` | Emits |
 | --- | --- |
@@ -72,9 +72,23 @@ const logger = new Logger({}, { labels: 'text', colors: false })
 
 `LOG_LABELS` switches between icons (`◆ ● ▲ ✖ ‼`), text labels, or nothing at all. Colour follows `FORCE_COLOR` and `NO_COLOR` before falling back to TTY detection, so it behaves in CI without being told.
 
-### Custom formatters
+### Custom formatters, because the list above is a head start, not a limit
 
-A formatter is a small object describing the key names and how to render an entry, so an in-house log schema is a few lines rather than a fork.
+A formatter is a small object describing the key names and how to render an entry, so an in-house log schema is a few lines rather than a fork:
+
+```ts
+import type { Formatter } from 'jsonl-logger'
+
+const myFormatter: Formatter = {
+  messageKey: 'msg',
+  format: (record) => ({
+    msg: record.message,
+    ts: record.timestamp,
+    lvl: record.level,
+    ...record.context,
+  }),
+}
+```
 
 ## Design notes
 

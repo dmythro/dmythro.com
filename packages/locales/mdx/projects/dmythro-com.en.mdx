@@ -41,7 +41,7 @@ Per-locale RSS built from the same project data that renders the pages, plus `ll
 
 **The monorepo is the interesting part, not the site.** Content, constants and translations live in workspace packages that the app consumes. That is overkill for one site, and it is exactly why the CV, the PDF export, the feeds and the OG cards can all read the same data without a copy of it drifting.
 
-**Two versions lived here for a while.** The site was rebuilt in Astro after a Next.js version, and both stayed in the repo long enough to compare them honestly on the same content. The Astro build is what serves the site; the older app remains as a reference and is no longer maintained.
+**The repo carries two versions of the site.** The current one is built with Astro; the previous one, with Next.js, stays alongside it. Right after the rewrite they served the same content, which made for an honest framework comparison — both are good in their own way, and both got the site to a 100% PageSpeed rating. Since then the content has kept evolving in the Astro build only; the Next.js app remains as a reference and is no longer maintained.
 
 **Print is a real target.** The downloadable CV is not a separately maintained document — it is this site with a print stylesheet, so the PDF cannot fall out of date relative to the page.
 

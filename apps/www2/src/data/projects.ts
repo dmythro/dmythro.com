@@ -188,6 +188,15 @@ export const projects: Project[] = [
     github: 'annexare/graphql-suite',
     url: 'https://graphql-suite.annexare.com',
     related: ['jsonl-logger', 'countries-list'],
+    authors: [
+      {
+        ...defaultAuthor,
+        role: {
+          en: 'based on a package by Drizzle Team',
+          uk: 'на основі пакету від Drizzle Team',
+        },
+      },
+    ],
     organization: { name: 'Annexare', url: 'https://annexare.com/' },
     uses: [
       {
@@ -284,7 +293,7 @@ export const projects: Project[] = [
     github: 'dmythro/terminal-setup',
     related: ['envs', 'agent-skills'],
     uses: [
-      { name: 'Starship', url: 'https://starship.rs/', role: { en: 'prompt', uk: 'запрошення' } },
+      { name: 'Starship', url: 'https://starship.rs/', role: { en: 'prompt', uk: 'промпт' } },
       {
         name: 'fzf',
         url: 'https://github.com/junegunn/fzf',
