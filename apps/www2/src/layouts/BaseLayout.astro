@@ -86,13 +86,22 @@ const ogImageType = ogImageUrl.endsWith('.png') ? 'image/png' : 'image/jpeg'
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="sitemap" href="/sitemap.xml" />
     {availableLocales.map((l) => (
-      <link
-        rel="alternate"
-        type="application/rss+xml"
-        href={`${BASE_URL}/${l}/rss.xml`}
-        title={`dmythro.com — ${l.toUpperCase()}`}
-        hreflang={l}
-      />
+      <>
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          href={`${BASE_URL}/${l}/rss.xml`}
+          title={`dmythro.com — ${l.toUpperCase()}`}
+          hreflang={l}
+        />
+        <link
+          rel="alternate"
+          type="application/feed+json"
+          href={`${BASE_URL}/${l}/feed.json`}
+          title={`dmythro.com — ${l.toUpperCase()} (JSON Feed)`}
+          hreflang={l}
+        />
+      </>
     ))}
 
     <ClientRouter />

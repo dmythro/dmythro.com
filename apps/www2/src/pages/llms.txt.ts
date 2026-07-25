@@ -34,6 +34,8 @@ ${projectList}
 - [Projects page](${BASE_URL}/en/projects)
 - [RSS feed (EN)](${BASE_URL}/en/rss.xml)
 - [RSS feed (UK)](${BASE_URL}/uk/rss.xml)
+- [JSON Feed (EN)](${BASE_URL}/en/feed.json)
+- [JSON Feed (UK)](${BASE_URL}/uk/feed.json)
 - [GitHub profile](https://github.com/dmythro)
 - [GitHub organization](https://github.com/annexare)
 `
