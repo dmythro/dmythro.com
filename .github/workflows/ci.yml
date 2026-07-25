@@ -15,11 +15,11 @@ jobs:
     name: Lint, Types & Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: oven-sh/setup-bun@v2
 
-      - uses: actions/cache@v5
+      - uses: actions/cache@v6
         with:
           path: |
             ~/.bun/install/cache
@@ -40,11 +40,11 @@ jobs:
     needs: ci
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: oven-sh/setup-bun@v2
 
-      - uses: actions/cache@v5
+      - uses: actions/cache@v6
         with:
           path: |
             ~/.bun/install/cache
@@ -76,7 +76,13 @@ jobs:
           name: www2-dist
           path: apps/www2/dist
 
-      - uses: cloudflare/wrangler-action@v3
+      # Wrangler runs on the runner's Node — pin it to the active LTS instead
+      # of whatever ubuntu-latest happens to ship.
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+
+      - uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
