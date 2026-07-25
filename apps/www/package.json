@@ -51,7 +51,7 @@
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "schema-dts": "catalog:",
-    "sharp": "0.34.5"
+    "sharp": "0.35.2"
   },
   "devDependencies": {
     "@svgr/webpack": "8.1.0",
