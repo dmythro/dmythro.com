@@ -44,6 +44,17 @@ html:has(::view-transition) {
   --color-border: #1e293b;
 }
 
+/* A theme the reader picked may animate; one that merely lands while navigating
+   may not, or the few elements that carry a colour transition — card borders,
+   links — smear the old palette into the new one over a page change. Set around
+   such a switch and removed in the same frame. */
+[data-theme-switching],
+[data-theme-switching] *,
+[data-theme-switching] *::before,
+[data-theme-switching] *::after {
+  transition: none !important;
+}
+
 /* Light theme overrides */
 [data-theme='light'] {
   --color-warning: oklch(0.5 0.14 60);

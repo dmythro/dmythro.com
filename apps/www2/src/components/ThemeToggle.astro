@@ -56,16 +56,9 @@ const { labels } = Astro.props
       light: btn.dataset.labelLight,
     }
 
-    const getEffectiveTheme = (mode: string) =>
-      mode === 'system'
-        ? window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-        : mode
-
-    const applyTheme = (mode: string) => {
-      const theme = getEffectiveTheme(mode)
-      document.documentElement.setAttribute('data-theme', theme)
-      document.documentElement.classList.toggle('dark', theme === 'dark')
-    }
+    // Defined by the theme init script in BaseLayout. Deliberate switches animate;
+    // only the navigation-time re-apply over there asks for an instant one.
+    const applyTheme = (mode: string) => window.__applyTheme?.(mode)
 
     const updateIcon = (mode: string) => {
       for (const icon of btn.querySelectorAll('.theme-icon')) {
@@ -76,16 +69,8 @@ const { labels } = Astro.props
       btn.setAttribute('aria-label', labelMap[mode] ?? '')
     }
 
+    // The init script already ran, including the migration off the old 'theme' key.
     let saved = localStorage.getItem('theme-mode') || 'system'
-    // Migrate from old 'theme' key
-    if (!localStorage.getItem('theme-mode')) {
-      const old = localStorage.getItem('theme')
-      if (old) {
-        saved = old
-        localStorage.setItem('theme-mode', old)
-        localStorage.removeItem('theme')
-      }
-    }
 
     applyTheme(saved)
     updateIcon(saved)

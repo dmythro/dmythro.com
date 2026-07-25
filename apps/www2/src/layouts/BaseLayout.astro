@@ -117,33 +117,54 @@ const ogImageType = ogImageUrl.endsWith('.png') ? 'image/png' : 'image/jpeg'
       }
     </script>
 
-    {/* Theme init — prevent FOUC */}
+    {/* Theme init — resolves before first paint, then keeps the theme pinned
+        across View Transition swaps. `__applyTheme` is shared with ThemeToggle. */}
     <script is:inline>
       ;(() => {
-        let mode = localStorage.getItem('theme-mode')
-        if (!mode) {
-          const old = localStorage.getItem('theme')
-          if (old) { mode = old; localStorage.setItem('theme-mode', old); localStorage.removeItem('theme') }
-          else { mode = 'system' }
+        const readMode = () => {
+          let mode = localStorage.getItem('theme-mode')
+          if (!mode) {
+            const old = localStorage.getItem('theme')
+            if (old) { mode = old; localStorage.setItem('theme-mode', old); localStorage.removeItem('theme') }
+            else { mode = 'system' }
+          }
+          return mode
         }
-        const theme = mode === 'system'
+        const resolve = (mode) => mode === 'system'
           ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
           : mode
-        document.documentElement.setAttribute('data-theme', theme)
-        if (theme === 'dark') document.documentElement.classList.add('dark')
-      })()
-    </script>
+        const paint = (root, theme) => {
+          root.setAttribute('data-theme', theme)
+          root.classList.toggle('dark', theme === 'dark')
+        }
 
-    {/* Re-apply theme after View Transition DOM swap */}
-    <script is:inline>
-      document.addEventListener('astro:after-swap', () => {
-        let mode = localStorage.getItem('theme-mode') || 'system'
-        const theme = mode === 'system'
-          ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-          : mode
-        document.documentElement.setAttribute('data-theme', theme)
-        document.documentElement.classList.toggle('dark', theme === 'dark')
-      })
+        // `instant` mutes transitions across the change. A theme the reader chose is
+        // allowed to animate; one that merely lands during a page swap must not.
+        window.__applyTheme = (mode, instant) => {
+          const root = document.documentElement
+          const theme = resolve(mode || readMode())
+          const changed = root.getAttribute('data-theme') !== theme
+          if (changed && instant) root.setAttribute('data-theme-switching', '')
+          paint(root, theme)
+          if (changed && instant) {
+            void root.offsetHeight // commit the palette before transitions come back
+            root.removeAttribute('data-theme-switching')
+          }
+        }
+
+        // Nothing has painted yet, so no transition can exist to mute.
+        paint(document.documentElement, resolve(readMode()))
+
+        // Astro copies the incoming document's root attributes onto the live <html>,
+        // and every page is authored as data-theme="light". Writing the real theme
+        // into that document first keeps <html> from passing through the light
+        // palette mid-navigation — a style flush landing in that window is what
+        // made card borders animate from light to dark.
+        document.addEventListener('astro:before-swap', (e) => {
+          paint(e.newDocument.documentElement, resolve(readMode()))
+        })
+        document.addEventListener('astro:after-swap', () => window.__applyTheme(null, true))
+      })()
     </script>
 
     {/* Disable smooth scroll during view transitions (JS fallback) */}
