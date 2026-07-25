@@ -1,12 +1,48 @@
+import { BASE_URL } from '@dmythro/constants'
+
 import type { LocaleCode } from '@/utils/i18n'
 
 export type ProjectCategory = 'dev' | 'music' | 'photos' | 'other'
+
+/**
+ * `wip` and `planned` projects are listed and get a badge, so work in progress is
+ * visible before it ships. `planned` entries may omit `github`/`npm` entirely.
+ */
+export type ProjectStatus = 'live' | 'wip' | 'planned' | 'archived'
+
+/** A person, organisation, or open-source project credited on a project page. */
+export interface ProjectCredit {
+  name: string
+  url?: string
+  /** What they contributed, e.g. `{ en: 'PHP package', uk: 'PHP-пакет' }`. */
+  role?: Record<LocaleCode, string>
+}
 
 export interface Project {
   slug: string
   title: Record<LocaleCode, string>
   description: Record<LocaleCode, string>
   category: ProjectCategory
+  status: ProjectStatus
+  /** ISO date (YYYY-MM-DD) the project itself started — usually repo creation. */
+  startedAt: string
+  /** ISO date this article first went live here. Drives RSS `pubDate`. */
+  publishedAt: string
+  /** ISO date of the last meaningful article revision. Drives sitemap `lastmod`. */
+  updatedAt?: string
+  /**
+   * npm package name. Renders package-manager tabs (bun/npm/pnpm/yarn/deno) with
+   * the install command for each. Takes precedence over `install`.
+   */
+  installPackage?: string
+  /**
+   * A one-off command run through a package runner, given without the runner
+   * itself — e.g. `skills add dmythro/agent-skills` becomes `bunx …`, `npx …`,
+   * `pnpm dlx …`, `yarn dlx …`.
+   */
+  installRunner?: string
+  /** Raw shell command(s) for projects that are not npm packages. May be multi-line. */
+  install?: string
   tags: string[]
   icon: string
   npm?: string
@@ -14,10 +50,30 @@ export interface Project {
   github?: string
   image?: string
   url?: string
+  /** Curated cross-links. Falls back to shared-tag overlap when omitted. */
+  related?: string[]
+  /** Defaults to the site owner. Set explicitly only to add or replace authorship. */
+  authors?: ProjectCredit[]
+  /** Co-credited people. */
+  contributors?: ProjectCredit[]
+  /** Org the project is published under, e.g. the Annexare hub. */
+  organization?: ProjectCredit
+  /**
+   * Open-source projects this one leans on — shown on the page and in JSON-LD.
+   * Ordered by impact, biggest first: the reader should see what carries the
+   * project before what merely tidies it.
+   */
+  uses?: ProjectCredit[]
   isHighlighted: boolean
   sortOrder: number
   socialEmbeds?: string[]
   fallbackStars?: number
+}
+
+/** Author credited when a project does not override `authors`. */
+export const defaultAuthor: ProjectCredit = {
+  name: 'Dmytro Klymenko',
+  url: BASE_URL,
 }
 
 export const projects: Project[] = [
@@ -30,10 +86,29 @@ export const projects: Project[] = [
       uk: 'Дані країн, мов та континентів у форматах ISO (столиці, валюти, назви рідною мовою, телефонні коди).',
     },
     category: 'dev',
-    tags: ['typescript', 'i18n', 'iso', 'data', 'open-source', 'npm'],
+    status: 'live',
+    startedAt: '2014-07-06',
+    publishedAt: '2026-03-26',
+    updatedAt: '2026-07-25',
+    installPackage: 'countries-list',
+    tags: ['typescript', 'i18n', 'iso', 'data', 'open-source', 'npm', 'php'],
     icon: 'package',
     npm: 'countries-list',
     github: 'annexare/Countries',
+    related: ['graphql-suite', 'dmythro-com'],
+    organization: { name: 'Annexare', url: 'https://annexare.com/' },
+    uses: [
+      {
+        name: 'Bun',
+        url: 'https://bun.sh/',
+        role: { en: 'workspaces, build, tests', uk: 'workspaces, збірка, тести' },
+      },
+      {
+        name: 'Unicode CLDR',
+        url: 'https://cldr.unicode.org/',
+        role: { en: 'currency symbols', uk: 'символи валют' },
+      },
+    ],
     fallbackStars: 1306,
     isHighlighted: true,
     sortOrder: 1,
@@ -46,6 +121,11 @@ export const projects: Project[] = [
       uk: 'Легкий JSONL логер з форматерами для VictoriaLogs, Google Cloud Logging та інших.',
     },
     category: 'dev',
+    status: 'live',
+    startedAt: '2026-02-19',
+    publishedAt: '2026-03-26',
+    updatedAt: '2026-07-25',
+    installPackage: 'jsonl-logger',
     tags: [
       'typescript',
       'logging',
@@ -61,6 +141,8 @@ export const projects: Project[] = [
     icon: 'package',
     npm: 'jsonl-logger',
     github: 'annexare/jsonl-logger',
+    related: ['graphql-suite', 'countries-list'],
+    organization: { name: 'Annexare', url: 'https://annexare.com/' },
     fallbackStars: 2,
     isHighlighted: true,
     sortOrder: 2,
@@ -73,12 +155,36 @@ export const projects: Project[] = [
       uk: 'Авто-генерація GraphQL CRUD, типобезпечні клієнти та React Query хуки з Drizzle PostgreSQL схем. Повний вивід типів, без кодогенерації.',
     },
     category: 'dev',
+    status: 'live',
+    startedAt: '2026-02-22',
+    publishedAt: '2026-03-26',
+    updatedAt: '2026-07-25',
+    installPackage: 'graphql-suite',
     tags: ['typescript', 'graphql', 'drizzle', 'react-query', 'npm', 'open-source'],
     icon: 'package',
     npm: 'graphql-suite',
     npmForDownloads: '@graphql-suite/schema',
     github: 'annexare/graphql-suite',
     url: 'https://graphql-suite.annexare.com',
+    related: ['jsonl-logger', 'countries-list'],
+    organization: { name: 'Annexare', url: 'https://annexare.com/' },
+    uses: [
+      {
+        name: 'Drizzle ORM',
+        url: 'https://orm.drizzle.team/',
+        role: { en: 'schema, the whole premise', uk: 'схема, основа всього' },
+      },
+      {
+        name: 'GraphQL Yoga',
+        url: 'https://the-guild.dev/graphql/yoga-server',
+        role: { en: 'server', uk: 'сервер' },
+      },
+      {
+        name: 'TanStack Query',
+        url: 'https://tanstack.com/query',
+        role: { en: 'React hooks', uk: 'React-хуки' },
+      },
+    ],
     fallbackStars: 3,
     isHighlighted: true,
     sortOrder: 3,
@@ -92,9 +198,45 @@ export const projects: Project[] = [
       uk: 'Цей вебсайт — персональне портфоліо побудоване на Astro, DaisyUI, Tailwind CSS, Bun workspaces та Biome.',
     },
     category: 'dev',
+    status: 'live',
+    startedAt: '2022-08-20',
+    publishedAt: '2026-03-26',
+    updatedAt: '2026-07-25',
     tags: ['astro', 'tailwind', 'daisyui', 'bun', 'biome', 'portfolio'],
     icon: 'globe',
     github: 'dmythro/dmythro.com',
+    related: ['countries-list', 'terminal-setup'],
+    uses: [
+      { name: 'Astro', url: 'https://astro.build/', role: { en: 'framework', uk: 'фреймворк' } },
+      {
+        name: 'Bun',
+        url: 'https://bun.sh/',
+        role: {
+          en: 'runtime, workspaces, tests',
+          uk: 'середовище виконання, workspaces, тести',
+        },
+      },
+      {
+        name: 'Tailwind CSS',
+        url: 'https://tailwindcss.com/',
+        role: { en: 'styling', uk: 'стилі' },
+      },
+      {
+        name: 'DaisyUI',
+        url: 'https://daisyui.com/',
+        role: { en: 'components', uk: 'компоненти' },
+      },
+      {
+        name: 'Cloudflare Pages',
+        url: 'https://pages.cloudflare.com/',
+        role: { en: 'hosting', uk: 'хостинг' },
+      },
+      {
+        name: 'Biome',
+        url: 'https://biomejs.dev/',
+        role: { en: 'lint, format', uk: 'лінт, формат' },
+      },
+    ],
     fallbackStars: 6,
     url: 'https://dmythro.com',
     isHighlighted: true,
@@ -108,9 +250,25 @@ export const projects: Project[] = [
       uk: 'Одна команда для налаштування macOS Terminal.app — Zsh, Starship, fzf, tmux та інструменти для AI-асистованих робочих процесів.',
     },
     category: 'dev',
+    status: 'live',
+    startedAt: '2026-02-18',
+    publishedAt: '2026-03-26',
+    updatedAt: '2026-07-25',
+    install:
+      '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/dmythro/terminal-setup/main/setup-terminal.sh)"',
     tags: ['shell', 'macos', 'zsh', 'starship', 'fzf', 'tmux', 'setup'],
     icon: 'terminal',
     github: 'dmythro/terminal-setup',
+    related: ['envs', 'agent-skills'],
+    uses: [
+      { name: 'Starship', url: 'https://starship.rs/', role: { en: 'prompt', uk: 'запрошення' } },
+      {
+        name: 'fzf',
+        url: 'https://github.com/junegunn/fzf',
+        role: { en: 'fuzzy finder', uk: 'нечіткий пошук' },
+      },
+      { name: 'tmux', url: 'https://github.com/tmux/tmux', role: { en: 'sessions', uk: 'сесії' } },
+    ],
     fallbackStars: 4,
     isHighlighted: true,
     sortOrder: 5,
@@ -123,9 +281,22 @@ export const projects: Project[] = [
       uk: 'Колекція навичок для Claude Code, OpenCode та інших AI-асистентів — Bun, Git, CI/CD та інше.',
     },
     category: 'dev',
+    status: 'live',
+    startedAt: '2026-02-23',
+    publishedAt: '2026-03-26',
+    updatedAt: '2026-07-25',
+    installRunner: 'skills add dmythro/agent-skills',
     tags: ['ai', 'claude-code', 'opencode', 'bun', 'git', 'skills'],
     icon: 'terminal',
     github: 'dmythro/agent-skills',
+    related: ['terminal-setup', 'envs'],
+    uses: [
+      {
+        name: 'skills.sh',
+        url: 'https://skills.sh',
+        role: { en: 'distribution', uk: 'розповсюдження' },
+      },
+    ],
     fallbackStars: 3,
     isHighlighted: true,
     sortOrder: 6,
@@ -138,9 +309,24 @@ export const projects: Project[] = [
       uk: 'Перемикання між варіантами .env (local, staging, production) та синхронізація між машинами через age-шифрування.',
     },
     category: 'dev',
+    status: 'live',
+    startedAt: '2026-04-11',
+    publishedAt: '2026-04-12',
+    updatedAt: '2026-07-25',
+    install: `curl -fsSL https://raw.githubusercontent.com/dmythro/envs/main/envs -o ~/.local/bin/envs
+chmod +x ~/.local/bin/envs
+envs setup`,
     tags: ['bash', 'env', 'encryption', 'age', 'security', 'cli'],
     icon: 'terminal',
     github: 'dmythro/envs',
+    related: ['terminal-setup', 'agent-skills'],
+    uses: [
+      {
+        name: 'age',
+        url: 'https://github.com/FiloSottile/age',
+        role: { en: 'encryption', uk: 'шифрування' },
+      },
+    ],
     fallbackStars: 0,
     isHighlighted: true,
     sortOrder: 7,
@@ -158,4 +344,51 @@ export function getHighlightedProjects(): Project[] {
 
 export function getProjectBySlug(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug)
+}
+
+/** Date the project page last meaningfully changed — used for `lastmod` and RSS. */
+export function getProjectDate(project: Project): Date {
+  return new Date(project.updatedAt ?? project.publishedAt)
+}
+
+/**
+ * Curated `related` slugs first, then the projects sharing the most tags.
+ * Keeps cross-links meaningful instead of always showing the same top three.
+ */
+export function getRelatedProjects(project: Project, limit = 3): Project[] {
+  const curated = (project.related ?? [])
+    .map((slug) => getProjectBySlug(slug))
+    .filter((p): p is Project => Boolean(p) && p?.slug !== project.slug)
+
+  if (curated.length >= limit) return curated.slice(0, limit)
+
+  const chosen = new Set([project.slug, ...curated.map((p) => p.slug)])
+  const byOverlap = projects
+    .filter((p) => !chosen.has(p.slug) && p.status !== 'planned')
+    .map((p) => ({
+      project: p,
+      overlap: p.tags.filter((tag) => project.tags.includes(tag)).length,
+    }))
+    .filter(({ overlap }) => overlap > 0)
+    .sort((a, b) => b.overlap - a.overlap || a.project.sortOrder - b.project.sortOrder)
+    .map(({ project: p }) => p)
+
+  return [...curated, ...byOverlap].slice(0, limit)
+}
+
+/** Authors of a project, falling back to the site owner. */
+export function getProjectAuthors(project: Project): ProjectCredit[] {
+  return project.authors?.length ? project.authors : [defaultAuthor]
+}
+
+/** True when a project has anything worth rendering in a credits block. */
+export function hasCredits(project: Project): boolean {
+  return Boolean(project.contributors?.length || project.uses?.length)
+}
+
+/** Projects for the RSS feed, newest activity first. `planned` entries are excluded. */
+export function getFeedProjects(): Project[] {
+  return projects
+    .filter((p) => p.status !== 'planned')
+    .sort((a, b) => getProjectDate(b).getTime() - getProjectDate(a).getTime())
 }

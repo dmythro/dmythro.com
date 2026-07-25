@@ -5,7 +5,18 @@ import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'astro/config'
 
+import { getProjectDate, projects } from './src/data/projects'
 import rehypeLocalImageSize from './src/plugins/rehype-local-image-size'
+
+/** `/{locale}/projects/{slug}` → the date that project last changed. */
+const projectLastmod = new Map(
+  projects.flatMap((project) =>
+    ['en', 'uk'].map((locale) => [
+      `/${locale}/projects/${project.slug}`,
+      getProjectDate(project).toISOString(),
+    ]),
+  ),
+)
 
 export default defineConfig({
   site: 'https://dmythro.com',
@@ -28,6 +39,11 @@ export default defineConfig({
           en: 'en',
           uk: 'uk',
         },
+      },
+      serialize(item) {
+        const path = new URL(item.url).pathname.replace(/\/$/, '')
+        const lastmod = projectLastmod.get(path)
+        return lastmod ? { ...item, lastmod } : item
       },
     }),
   ],

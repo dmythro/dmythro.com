@@ -15,7 +15,8 @@ export const GET: APIRoute = () => {
       ]
         .filter(Boolean)
         .join(' | ')
-      return `- [${p.title.en}](${BASE_URL}/en/projects/${p.slug}): ${p.description.en}\n  ${links}`
+      const meta = [`Status: ${p.status}`, `Updated: ${p.updatedAt ?? p.publishedAt}`].join(' | ')
+      return `- [${p.title.en}](${BASE_URL}/en/projects/${p.slug}): ${p.description.en}\n  ${meta}\n  ${links}`
     })
     .join('\n')
 
@@ -31,6 +32,8 @@ ${projectList}
 
 - [Full LLM context](${BASE_URL}/llms-full.txt)
 - [Projects page](${BASE_URL}/en/projects)
+- [RSS feed (EN)](${BASE_URL}/en/rss.xml)
+- [RSS feed (UK)](${BASE_URL}/uk/rss.xml)
 - [GitHub profile](https://github.com/dmythro)
 - [GitHub organization](https://github.com/annexare)
 `
