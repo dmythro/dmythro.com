@@ -62,6 +62,8 @@ getCurrency('JPY')          // decimals: 0 — the yen has no minor unit
 getCurrencyByNumeric('840') // USD, for banking payloads that carry numeric codes
 ```
 
+The currencies dataset is regenerated from the official ISO 4217 list and CLDR by a script rather than edited by hand, so refreshing it after a currency change is a command instead of an afternoon.
+
 ### Minimal maps for the small cases
 
 Sometimes you want two kilobytes, not a dataset:
@@ -87,14 +89,12 @@ head -2 node_modules/countries-list/countries.csv
 
 **Currencies are opt-in for a reason.** The full ISO 4217 table with native names and symbols is a meaningful number of bytes, and most apps that need a country list never touch it. Putting it behind `countries-list/currencies` instead of the root export keeps the common case small — subpath exports are the cheapest bundle-size decision available, and the one most datasets skip.
 
-**ISO 4217 defines no symbols.** It standardises codes, numeric codes and minor units; the `₴` and `¥` come from Unicode CLDR, a separate source with its own update cadence. Where a currency has no distinct Latin glyph, `symbol` falls back to the ISO code and the local glyph goes in `symbolNative` — `CHF` stays `CHF`, while `JPY` gives you `¥` for a Latin UI and `￥` for a Japanese one. Collapsing those into one field would have been simpler and wrong.
+**ISO 4217 defines no symbols.** It standardises codes, numeric codes and minor units; the `₴` and `¥` come from Unicode CLDR, a separate source with its own update cadence. Where a currency has no distinct Latin glyph, `symbol` falls back to the ISO code and the local glyph goes in `symbolNative` — `CHF` stays `CHF`, while `JPY` gives you `¥` for a Latin UI and `￥` for a Japanese one. Collapsing `symbol` and `symbolNative` into one field would have been simpler — and wrong, because a UI needs both.
 
-**Native-name lookup was nearly free.** `getCountryCode` matches native names as well as English ones. It took one extra index and made the dataset usable for forms that aren't in English — my favourite kind of feature, the sort that costs almost nothing and quietly removes a whole category of workaround.
+**`getCountryCode` looks beyond the English name.** It resolves native names ('Україна' → `UA`) and common aliases like `USA` or `UK`. One extra index in the data, and the set becomes usable for forms in any language — quietly removing a whole category of workaround.
 
-**Version 3 was a full rewrite** into TypeScript, ESM and a Bun workspaces monorepo. Everything under `dist` is generated from typed source files, including the SQL, so a data fix is one edit in one place rather than four files kept in sync by hand.
+**I fully rewrote version 3** in TypeScript, ESM and a Bun workspaces monorepo. Everything under `dist` is generated from typed source files, including the SQL, so a data fix is one edit in one place rather than four files kept in sync by hand.
 
 ## Status
 
-Live and maintained since 2014. Corrections arrive as pull requests from people who live in the places being described — the only review process that reliably catches this class of error.
-
-The currencies dataset is regenerated from the official ISO 4217 list and CLDR by a script rather than edited by hand, so refreshing it after a currency change is a command instead of an afternoon.
+The project is live, evolving, and maintained since 2014 — by its users too, since the code is open.
