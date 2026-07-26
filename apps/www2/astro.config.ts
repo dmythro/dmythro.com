@@ -6,18 +6,29 @@ import { availableLocales } from '@dmythro/locales/constants'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'astro/config'
 
+import { feedPages } from './src/data/feedPages'
 import { getProjectDate, projects } from './src/data/projects'
 import rehypeLocalImageSize from './src/plugins/rehype-local-image-size'
 
-/** `/{locale}/projects/{slug}` → the date that project last changed. */
-const projectLastmod = new Map(
-  projects.flatMap((project) =>
-    availableLocales.map((locale) => [
+/**
+ * Route → the date its content last changed. Projects carry their own dates; the
+ * standing pages take theirs from the same table the feed reads, so a CV edit moves
+ * its sitemap entry rather than leaving it undated.
+ */
+const pageLastmod = new Map<string, string>([
+  ...projects.flatMap((project) =>
+    availableLocales.map((locale): [string, string] => [
       `/${locale}/projects/${project.slug}`,
       getProjectDate(project).toISOString(),
     ]),
   ),
-)
+  ...feedPages.flatMap((page) =>
+    availableLocales.map((locale): [string, string] => [
+      `/${locale}${page.path}`,
+      new Date(page.updatedAt ?? page.publishedAt).toISOString(),
+    ]),
+  ),
+])
 
 export default defineConfig({
   site: 'https://dmythro.com',
@@ -43,7 +54,7 @@ export default defineConfig({
       },
       serialize(item) {
         const path = new URL(item.url).pathname.replace(/\/$/, '')
-        const lastmod = projectLastmod.get(path)
+        const lastmod = pageLastmod.get(path)
         return lastmod ? { ...item, lastmod } : item
       },
     }),
