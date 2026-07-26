@@ -5,7 +5,7 @@ import { getFeedProjects } from '@/data/projects'
 
 import { getT } from './getT'
 import type { LocaleCode } from './i18n'
-import { projectOgImagePath } from './ogImage'
+import { type PageOgKey, pageOgImagePath, projectOgImagePath } from './ogImage'
 
 export interface FeedItem {
   /** Site-root-relative path. */
@@ -30,12 +30,26 @@ export function feedItemDate(item: FeedItem): Date {
 }
 
 /**
+ * Titles and descriptions come from the translations the pages themselves use, and
+ * are shared with the generated cards so a page, its feed entry and its social image
+ * can never disagree.
+ */
+export function getPageCopy(
+  locale: LocaleCode,
+): Record<PageOgKey, { title: string; description: string }> {
+  const t = getT(locale)
+  return {
+    cv: { title: `CV — ${t.fullName}`, description: t.meta.descriptionShort },
+    contact: { title: t.contact.title, description: t.contact.subtitle },
+    openSource: { title: t.builtWithTitle, description: t.builtWithDescription },
+  }
+}
+
+/**
  * One list feeding every format, so RSS and JSON Feed can never drift apart.
  * Newest first, mixing projects with the standing pages in `feedPages`.
  */
 export function getFeedItems(locale: LocaleCode): FeedItem[] {
-  const t = getT(locale)
-
   const projects: FeedItem[] = getFeedProjects().map((project) => ({
     path: `/${locale}/projects/${project.slug}`,
     title: project.title[locale],
@@ -46,16 +60,12 @@ export function getFeedItems(locale: LocaleCode): FeedItem[] {
     tags: project.tags,
   }))
 
-  /** Titles and descriptions come from the translations the pages themselves use. */
-  const pageCopy = {
-    cv: { title: `CV — ${t.fullName}`, description: t.meta.descriptionShort },
-    contact: { title: t.contact.title, description: t.contact.subtitle },
-    openSource: { title: t.builtWithTitle, description: t.builtWithDescription },
-  } as const
+  const pageCopy = getPageCopy(locale)
 
   const pages: FeedItem[] = feedPages.map((page) => ({
     ...pageCopy[page.key],
     path: `/${locale}${page.path}`,
+    image: `${BASE_URL}${pageOgImagePath(page.key, locale)}`,
     published: new Date(page.publishedAt),
     ...(page.updatedAt && { updated: new Date(page.updatedAt) }),
   }))

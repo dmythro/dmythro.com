@@ -22,6 +22,7 @@ import BackLink from '@/components/BackLink.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { getT } from '@/utils/getT'
 import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
+import { pageOgImagePath } from '@/utils/ogImage'
 
 export function getStaticPaths() {
   return getStaticLocalePaths()
@@ -43,7 +44,13 @@ const iconClass = 'size-4 inline-block align-[-2px] mr-1.5 opacity-60'
 const tb = t.builtWithTable
 ---
 
-<PageLayout locale={locale} title={`${t.builtWithTitle} — ${USERNAME}`} description={t.builtWithDescription} jsonLd={openSourceJsonLd}>
+<PageLayout
+  locale={locale}
+  title={`${t.builtWithTitle} — ${USERNAME}`}
+  description={t.builtWithDescription}
+  jsonLd={openSourceJsonLd}
+  ogImage={pageOgImagePath('openSource', locale)}
+>
   <div class="flex items-center gap-1 mb-6">
     <BackLink href={`/${locale}`} label={t.nav.home} />
     <h1 class="text-3xl font-bold" transition:name="page-title">{t.builtWithTitle}</h1>

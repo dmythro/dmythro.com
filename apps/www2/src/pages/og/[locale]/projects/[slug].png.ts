@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro'
 
 import { projects } from '@/data/projects'
 import { availableLocales, type LocaleCode } from '@/utils/i18n'
-import { renderProjectOgImage } from '@/utils/ogImage'
+import { projectOgCard, renderOgImage } from '@/utils/ogImage'
 
 export function getStaticPaths() {
   return projects.flatMap((project) =>
@@ -17,7 +17,7 @@ export const GET: APIRoute = async ({ params, props }) => {
   const { locale } = params as { locale: LocaleCode }
   const { project } = props as { project: (typeof projects)[number] }
 
-  const png = await renderProjectOgImage(project, locale)
+  const png = await renderOgImage(projectOgCard(project, locale))
 
   // Static build — this Response is written to disk, so response headers never
   // reach the client. Caching for /og/* comes from `public/_headers`, which must

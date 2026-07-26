@@ -7,6 +7,7 @@ import Linkedin from '@/icons/Linkedin.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { getT } from '@/utils/getT'
 import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
+import { pageOgImagePath } from '@/utils/ogImage'
 
 export function getStaticPaths() {
   return getStaticLocalePaths()
@@ -119,7 +120,13 @@ const contactJsonLd = {
 }
 ---
 
-<PageLayout locale={locale} title={`${t.contact.title} — ${USERNAME}`} description={t.contact.subtitle} jsonLd={contactJsonLd}>
+<PageLayout
+  locale={locale}
+  title={`${t.contact.title} — ${USERNAME}`}
+  description={t.contact.subtitle}
+  jsonLd={contactJsonLd}
+  ogImage={pageOgImagePath('contact', locale)}
+>
   <div>
     <PageHeader title={t.contact.title} subtitle={t.contact.subtitle} />
 

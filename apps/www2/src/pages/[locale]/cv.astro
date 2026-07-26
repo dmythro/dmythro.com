@@ -8,6 +8,7 @@ import PhotoCard from '@/components/PhotoCard.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { getT } from '@/utils/getT'
 import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
+import { pageOgImagePath } from '@/utils/ogImage'
 
 export function getStaticPaths() {
   return getStaticLocalePaths()
@@ -42,6 +43,7 @@ const cvJsonLd = {
   title={`CV: ${t.fullName} — ${USERNAME}`}
   description={cvDescription}
   jsonLd={cvJsonLd}
+  ogImage={pageOgImagePath('cv', locale)}
 >
   <div class="flex gap-8 lg:gap-12 print:block">
     {/* Main content */}

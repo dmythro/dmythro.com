@@ -25,6 +25,10 @@ const iconShapes: Record<string, string> = {
   music: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
   camera:
     '<path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/><circle cx="12" cy="13" r="3"/>',
+  user: '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  mail: '<path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/>',
+  heart:
+    '<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/>',
 }
 
 /** Inline SVG as a data URI — Takumi renders it as an image node. */
@@ -94,20 +98,26 @@ function sanitizeText(text: string): string {
   return text.replace(/[<>]/g, '')
 }
 
-export function buildProjectOgHtml(
-  project: Project,
-  locale: LocaleCode,
-  style: OgStyle = OG_STYLE,
-): string {
+/** Everything a card draws, so a project and a standing page share one renderer. */
+export interface OgCard {
+  title: string
+  description: string
+  /** Key of `iconShapes`; anything unknown falls back to the package glyph. */
+  icon: string
+  /** Small pill beside the icon, e.g. a project's WIP status. */
+  badge?: string
+  tags?: string[]
+}
+
+export function buildOgHtml(card: OgCard, style: OgStyle = OG_STYLE): string {
   const palette = palettes[style.theme]
   const background = style.background === 'plain' ? palette.plain : palette.gradient
 
-  const title = sanitizeText(project.title[locale])
-  const description = sanitizeText(clamp(project.description[locale], 130))
-  const statusLabel = statusLabels[project.status]?.[locale]
+  const title = sanitizeText(card.title)
+  const description = sanitizeText(clamp(card.description, 130))
+  const statusLabel = card.badge
 
-  const tags = project.tags
-    .filter((tag) => tag !== 'npm' && tag !== 'open-source')
+  const tags = (card.tags ?? [])
     .slice(0, 5)
     .map(
       (tag) =>
@@ -120,7 +130,7 @@ export function buildProjectOgHtml(
   return `<div style="width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-between;background:${background};padding:72px;font-family:Inter">
   <div style="display:flex;align-items:center;justify-content:space-between">
     <div style="display:flex;align-items:center;gap:16px">
-      <img src="${iconDataUri(project.icon, palette.accent)}" width="52" height="52" />
+      <img src="${iconDataUri(card.icon, palette.accent)}" width="52" height="52" />
       ${
         statusLabel
           ? `<div style="display:flex;flex-shrink:0;white-space:nowrap;padding:6px 16px;border-radius:999px;background:${palette.tagBg};color:${palette.accent};font-size:24px;font-weight:700;letter-spacing:1px">${sanitizeText(statusLabel)}</div>`
@@ -135,16 +145,15 @@ export function buildProjectOgHtml(
     <div style="font-size:32px;color:${palette.body};line-height:1.4">${description}</div>
   </div>
 
-  <div style="display:flex;align-items:center;gap:12px">${tags}</div>
+  ${tags ? `<div style="display:flex;align-items:center;gap:12px">${tags}</div>` : ''}
 </div>`
 }
 
-export async function renderProjectOgImage(
-  project: Project,
-  locale: LocaleCode,
+export async function renderOgImage(
+  card: OgCard,
   style: OgStyle = OG_STYLE,
 ): Promise<Uint8Array<ArrayBuffer>> {
-  const png = await render(buildProjectOgHtml(project, locale, style), {
+  const png = await render(buildOgHtml(card, style), {
     width: OG_WIDTH,
     height: OG_HEIGHT,
     fonts,
@@ -157,7 +166,42 @@ export async function renderProjectOgImage(
   return bytes
 }
 
+/** A project's card: its own icon, status pill and tags. */
+export function projectOgCard(project: Project, locale: LocaleCode): OgCard {
+  return {
+    title: project.title[locale],
+    description: project.description[locale],
+    icon: project.icon,
+    badge: statusLabels[project.status]?.[locale],
+    tags: project.tags.filter((tag) => tag !== 'npm' && tag !== 'open-source'),
+  }
+}
+
 /** Site-root-relative path of a project's generated OG image. */
 export function projectOgImagePath(slug: string, locale: LocaleCode): string {
   return `/og/${locale}/projects/${slug}.png`
+}
+
+/** Icon per standing page, so each card is recognisable at a glance. */
+export const pageOgIcons = {
+  cv: 'user',
+  contact: 'mail',
+  openSource: 'heart',
+} as const
+
+export type PageOgKey = keyof typeof pageOgIcons
+
+/**
+ * Standing pages are addressed by their route segment rather than their copy key,
+ * so the generated file sits next to the page it belongs to.
+ */
+export const pageOgSlugs: Record<PageOgKey, string> = {
+  cv: 'cv',
+  contact: 'contact',
+  openSource: 'open-source',
+}
+
+/** Site-root-relative path of a standing page's generated OG image. */
+export function pageOgImagePath(key: PageOgKey, locale: LocaleCode): string {
+  return `/og/${locale}/${pageOgSlugs[key]}.png`
 }
