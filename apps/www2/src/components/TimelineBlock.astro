@@ -16,13 +16,13 @@ const timeStr = when && till ? `${when} – ${till}` : when || till
 ---
 
 {!skip && (
-  <li class="print:break-inside-avoid">
+  <li>
     {index > 0 && <hr class:list={[isHighlighted ? 'bg-primary' : 'bg-primary/30']} />}
     <div class="timeline-middle">
       <CircleCheck class:list={['h-5 w-5', isHighlighted ? 'text-primary' : 'text-base-content/30']} />
     </div>
     {isEven ? (
-      <div class="timeline-start mb-10 print:mb-4 md:text-end print:break-after-avoid">
+      <div class="timeline-start mb-10 print:mb-4 md:text-end print:text-start print:break-after-avoid">
         <time class="font-mono italic text-sm print:text-xs text-base-content/60">{timeStr}</time>
         {title && (
           <div class:list={['text-lg print:text-base print:break-after-avoid', isHighlighted ? 'font-black text-primary' : 'font-bold']}>

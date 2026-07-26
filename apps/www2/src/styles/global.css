@@ -322,6 +322,14 @@ aside.overflow-y-auto::-webkit-scrollbar {
     padding-bottom: 1rem !important;
   }
 
+  /* A margin trailing the last block of a section can spill past the page bottom on
+     its own. That sliver prints as a blank sheet, and the forced break before the
+     next section then adds another — an empty page for no visible reason. */
+  article > section > *:last-child,
+  .timeline > li:last-child > :is(.timeline-start, .timeline-end) {
+    margin-bottom: 0;
+  }
+
   /* Skill cards drifted out of line across a row, because a one-line subtitle and a
      two-line one push their body text to different heights. Subgrid binds all three
      bands to shared row tracks, so they line up whatever the copy does. The padding

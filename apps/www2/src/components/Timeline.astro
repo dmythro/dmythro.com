@@ -12,12 +12,17 @@ const { id, title, items } = Astro.props
 ---
 
 <div class="mb-8">
+  {/* A timeline opens its own sheet — skills flow on, but these are long enough that
+      starting mid-page reads as a continuation of the block above. */}
   {title && (
-    <h3 id={id} class:list={['font-semibold my-6 text-2xl print:break-after-avoid', id && 'scroll-mt-24']}>
+    <h3 id={id} class:list={['font-semibold my-6 text-2xl print:break-before-page print:break-after-avoid', id && 'scroll-mt-24']}>
       {title}
     </h3>
   )}
-  <ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
+  {/* Paper is wider than the md breakpoint, so it would otherwise get the alternating
+      two-sided layout. Print the compact one-sided form mobile uses: every entry runs
+      the full column width, which reads better and takes far less room. */}
+  <ul class="timeline timeline-snap-icon max-md:timeline-compact print:timeline-compact timeline-vertical">
     {items.map((item, i) => (
       <TimelineBlock item={item} index={i} isLast={i === items.length - 1} />
     ))}
