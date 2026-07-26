@@ -1,4 +1,4 @@
-import { ESocialLinks } from '@dmythro/constants'
+import { ESocialLinks, USERNAME } from '@dmythro/constants'
 
 import type { Translation } from '..'
 import { skillLevel } from './constants'
@@ -115,7 +115,7 @@ export const uk: Translation = {
     install: 'Встановлення',
     copy: 'Копіювати',
     copied: 'Скопійовано',
-    feedTitle: 'Дмитро Клименко',
+    feedTitle: USERNAME,
     feedDescription:
       'Нові проєкти, важливі оновлення моїх open-source робіт, а також зміни в CV і контактах.',
     meta: {

@@ -1,4 +1,4 @@
-import { ESocialLinks } from '@dmythro/constants'
+import { ESocialLinks, USERNAME } from '@dmythro/constants'
 
 import { skillLevel } from './constants'
 import { interests } from './interests'
@@ -114,7 +114,7 @@ export const en = {
     install: 'Install',
     copy: 'Copy',
     copied: 'Copied',
-    feedTitle: 'Dmytro Klymenko',
+    feedTitle: USERNAME,
     feedDescription:
       'New projects, notable updates to my open-source work, and changes to my CV and contacts.',
     meta: {
