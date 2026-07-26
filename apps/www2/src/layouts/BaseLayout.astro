@@ -164,6 +164,28 @@ const ogImageType = ogImageUrl.endsWith('.png') ? 'image/png' : 'image/jpeg'
       })()
     </script>
 
+    {/* Print needs DOM state CSS cannot reach: a lazy image below the fold was never
+        fetched, and a closed <details> has no rendered content to reveal. Both come
+        out blank on paper otherwise. */}
+    <script is:inline>
+      window.addEventListener('beforeprint', () => {
+        for (const img of document.querySelectorAll('img[loading="lazy"]')) {
+          img.loading = 'eager'
+          img.fetchPriority = 'high'
+        }
+        for (const d of document.querySelectorAll('details:not([open])')) {
+          d.dataset.printOpened = ''
+          d.open = true
+        }
+      })
+      window.addEventListener('afterprint', () => {
+        for (const d of document.querySelectorAll('details[data-print-opened]')) {
+          d.open = false
+          delete d.dataset.printOpened
+        }
+      })
+    </script>
+
     {/* Disable smooth scroll during view transitions (JS fallback) */}
     <script is:inline>
       document.addEventListener('astro:before-swap', () => {
