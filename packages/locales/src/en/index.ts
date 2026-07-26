@@ -114,7 +114,7 @@ export const en = {
     install: 'Install',
     copy: 'Copy',
     copied: 'Copied',
-    feedTitle: 'dmythro.com',
+    feedTitle: 'Dmytro Klymenko',
     feedDescription:
       'New projects, notable updates to my open-source work, and changes to my CV and contacts.',
     meta: {

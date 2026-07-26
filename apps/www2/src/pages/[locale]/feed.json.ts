@@ -1,7 +1,7 @@
 import { BASE_URL } from '@dmythro/constants'
 import type { APIRoute } from 'astro'
 
-import { feedItemHtml, getFeedItems } from '@/utils/feed'
+import { feedItemDate, feedItemHtml, getFeedItems } from '@/utils/feed'
 import { localeTags } from '@/utils/formatDate'
 import { getT } from '@/utils/getT'
 import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
@@ -32,7 +32,10 @@ export const GET: APIRoute = (context) => {
         summary: item.description,
         content_html: feedItemHtml(item),
         ...(item.image && { image: item.image }),
-        date_published: item.published.toISOString(),
+        // The same date RSS puts in pubDate. Readers sort and label by
+        // date_published, so leaving the original publish date here made an item
+        // updated today read as months old — and made the two formats disagree.
+        date_published: feedItemDate(item).toISOString(),
         ...(item.updated && { date_modified: item.updated.toISOString() }),
         ...(item.tags?.length && { tags: item.tags }),
       }

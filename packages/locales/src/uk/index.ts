@@ -115,7 +115,7 @@ export const uk: Translation = {
     install: 'Встановлення',
     copy: 'Копіювати',
     copied: 'Скопійовано',
-    feedTitle: 'dmythro.com',
+    feedTitle: 'Дмитро Клименко',
     feedDescription:
       'Нові проєкти, важливі оновлення моїх open-source робіт, а також зміни в CV і контактах.',
     meta: {
