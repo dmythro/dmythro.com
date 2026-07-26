@@ -322,19 +322,35 @@ aside.overflow-y-auto::-webkit-scrollbar {
     padding-bottom: 1rem !important;
   }
 
+  /* Skill cards drifted out of line across a row, because a one-line subtitle and a
+     two-line one push their body text to different heights. Subgrid binds all three
+     bands to shared row tracks, so they line up whatever the copy does. The padding
+     moves onto the card since the body no longer generates a box. */
+  .skills-grid > .card {
+    display: grid;
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    padding: 0.75rem;
+  }
+
+  .skills-grid > .card > .card-body {
+    display: contents;
+  }
+
   .collapse-title::after {
     display: none !important;
   }
 
-  a[href]::after {
+  /* Paper cannot follow a link, so an external one prints its target. UI elements
+     must not: on a card or icon link the URL lands on top of the layout instead of
+     after it. Same exclusion list the prose link styling uses. Internal links are
+     skipped — the domain is on the page already. */
+  main a[href^='http']:not(.group, .btn, .card, .tooltip, .no-ext-link)::after {
     content: ' (' attr(href) ')';
     font-size: 0.8em;
     opacity: 0.6;
-  }
-
-  a[href^='/']::after,
-  a[href^='#']::after {
-    content: '';
+    /* A long URL must not run off the sheet. */
+    word-break: break-all;
   }
 }
 

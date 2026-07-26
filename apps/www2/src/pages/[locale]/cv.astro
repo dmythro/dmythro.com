@@ -53,19 +53,23 @@ const cvJsonLd = {
         <PhotoCard locale={locale} />
       </div>
 
-      <PageHeader title={`CV — ${t.fullName}`} subtitle={t.meta.descriptionShort}>
-        <a
-          slot="actions"
-          href={`/cv.${locale}.pdf`}
-          class="btn btn-ghost btn-sm btn-square print:hidden"
-          download
-          data-cv-download={locale}
-          aria-label={t.actions.downloadPdf}
-          title={t.actions.downloadPdf}
-        >
-          <FileDown class="h-5 w-5" />
-        </a>
-      </PageHeader>
+      {/* Screen only: on paper the photo block above already carries the name, so a
+          "CV — name" heading and its tagline are just noise at the top of page one. */}
+      <div class="no-print">
+        <PageHeader title={`CV — ${t.fullName}`} subtitle={t.meta.descriptionShort}>
+          <a
+            slot="actions"
+            href={`/cv.${locale}.pdf`}
+            class="btn btn-ghost btn-sm btn-square"
+            download
+            data-cv-download={locale}
+            aria-label={t.actions.downloadPdf}
+            title={t.actions.downloadPdf}
+          >
+            <FileDown class="h-5 w-5" />
+          </a>
+        </PageHeader>
+      </div>
 
       <CvArticle locale={locale} />
     </div>

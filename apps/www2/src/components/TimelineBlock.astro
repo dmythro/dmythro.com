@@ -16,27 +16,27 @@ const timeStr = when && till ? `${when} – ${till}` : when || till
 ---
 
 {!skip && (
-  <li>
+  <li class="print:break-inside-avoid">
     {index > 0 && <hr class:list={[isHighlighted ? 'bg-primary' : 'bg-primary/30']} />}
     <div class="timeline-middle">
       <CircleCheck class:list={['h-5 w-5', isHighlighted ? 'text-primary' : 'text-base-content/30']} />
     </div>
     {isEven ? (
-      <div class="timeline-start mb-10 md:text-end print:break-after-avoid">
-        <time class="font-mono italic text-sm text-base-content/60">{timeStr}</time>
+      <div class="timeline-start mb-10 print:mb-4 md:text-end print:break-after-avoid">
+        <time class="font-mono italic text-sm print:text-xs text-base-content/60">{timeStr}</time>
         {title && (
-          <div class:list={['text-lg print:break-after-avoid', isHighlighted ? 'font-black text-primary' : 'font-bold']}>
+          <div class:list={['text-lg print:text-base print:break-after-avoid', isHighlighted ? 'font-black text-primary' : 'font-bold']}>
             {title}
           </div>
         )}
         {subtitle && (
-          <div class="text-sm font-medium text-base-content/80 print:break-after-avoid">
+          <div class="text-sm print:text-xs font-medium text-base-content/80 print:break-after-avoid">
             {subtitle}
             {where && <span class="font-light"> – {where}</span>}
           </div>
         )}
         {description && (
-          <div class="text-sm text-base-content/60 mt-1">
+          <div class="text-sm print:text-xs text-base-content/60 mt-1">
             {Array.isArray(description)
               ? description.map((line) => <p class="my-1">{line}</p>)
               : description
@@ -45,21 +45,21 @@ const timeStr = when && till ? `${when} – ${till}` : when || till
         )}
       </div>
     ) : (
-      <div class="timeline-end md:mb-10 print:break-after-avoid">
-        <time class="font-mono italic text-sm text-base-content/60">{timeStr}</time>
+      <div class="timeline-end md:mb-10 print:mb-4 print:break-after-avoid">
+        <time class="font-mono italic text-sm print:text-xs text-base-content/60">{timeStr}</time>
         {title && (
-          <div class:list={['text-lg print:break-after-avoid', isHighlighted ? 'font-black text-primary' : 'font-bold']}>
+          <div class:list={['text-lg print:text-base print:break-after-avoid', isHighlighted ? 'font-black text-primary' : 'font-bold']}>
             {title}
           </div>
         )}
         {subtitle && (
-          <div class="text-sm font-medium text-base-content/80 print:break-after-avoid">
+          <div class="text-sm print:text-xs font-medium text-base-content/80 print:break-after-avoid">
             {subtitle}
             {where && <span class="font-light"> – {where}</span>}
           </div>
         )}
         {description && (
-          <div class="text-sm text-base-content/60 mt-1">
+          <div class="text-sm print:text-xs text-base-content/60 mt-1">
             {Array.isArray(description)
               ? description.map((line) => <p class="my-1">{line}</p>)
               : description

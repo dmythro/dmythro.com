@@ -13,7 +13,7 @@ const { id, title, items } = Astro.props
 
 <div class="mb-8">
   {title && (
-    <h3 id={id} class:list={['font-semibold my-6 text-2xl print:break-after-avoid print:break-before-page', id && 'scroll-mt-24']}>
+    <h3 id={id} class:list={['font-semibold my-6 text-2xl print:break-after-avoid', id && 'scroll-mt-24']}>
       {title}
     </h3>
   )}
