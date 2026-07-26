@@ -1,6 +1,6 @@
 ---
 import { ClientRouter } from 'astro:transitions'
-import { BASE_URL } from '@dmythro/constants'
+import { BASE_URL, USERNAME } from '@dmythro/constants'
 import { availableLocales, cleanPathname, type LocaleCode } from '@/utils/i18n'
 import '@/styles/global.css'
 
@@ -93,14 +93,14 @@ const ogImageType = ogImageUrl.endsWith('.png') ? 'image/png' : 'image/jpeg'
           rel="alternate"
           type="application/rss+xml"
           href={`${BASE_URL}/${l}/rss.xml`}
-          title={`dmythro.com — ${l.toUpperCase()}`}
+          title={`${USERNAME} — ${l.toUpperCase()}`}
           hreflang={l}
         />
         <link
           rel="alternate"
           type="application/feed+json"
           href={`${BASE_URL}/${l}/feed.json`}
-          title={`dmythro.com — ${l.toUpperCase()} (JSON Feed)`}
+          title={`${USERNAME} — ${l.toUpperCase()} (JSON Feed)`}
           hreflang={l}
         />
       </>
