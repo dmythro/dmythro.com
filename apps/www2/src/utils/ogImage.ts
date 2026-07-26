@@ -9,6 +9,27 @@ export const OG_WIDTH = 1200
 export const OG_HEIGHT = 630
 
 /**
+ * Feed readers and chat apps rarely show the full 1.91:1 card — Reeder, among
+ * others, thumbnails it as a square, which keeps only the middle `OG_HEIGHT` of
+ * width and drops the rest from each side. Everything that carries meaning lives
+ * inside that square, so a crop loses only background.
+ */
+const SQUARE_LEFT = (OG_WIDTH - OG_HEIGHT) / 2
+
+/** The rule sits just inside the square's edge, so a crop cannot shave it off. */
+const RULE_INSET = 14
+const RULE_WIDTH = 6
+/** The icon hangs between rule and text with the same air on either side. */
+const ICON_GAP = 26
+/** Right margin inside the square, so text never runs to the crop line. */
+const SAFE_MARGIN = 24
+
+/** Text width left inside the square once the rule and hanging icon take their room. */
+function contentWidth(iconSize: number): number {
+  return OG_HEIGHT - RULE_INSET - RULE_WIDTH - ICON_GAP * 2 - iconSize - SAFE_MARGIN
+}
+
+/**
  * Hoisted so the whole build shares one font fetch. `render` accepts a promise
  * of the entry list, and subsets each family to the glyphs actually drawn — which
  * is what makes Cyrillic work without committing any font files.
@@ -81,10 +102,18 @@ const statusLabels: Record<ProjectStatus, { en: string; uk: string } | null> = {
   archived: { en: 'ARCHIVED', uk: 'АРХІВ' },
 }
 
-/** Keeps a long description from overflowing the card. */
+/**
+ * Keeps a long description from overflowing the card. Ending on a whole sentence
+ * reads far better than a word cut, so a sentence break in the back half of the
+ * budget wins; otherwise fall back to trimming at a word with an ellipsis.
+ */
 function clamp(text: string, limit: number): string {
   if (text.length <= limit) return text
   const cut = text.slice(0, limit)
+
+  const sentence = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('! '), cut.lastIndexOf('? '))
+  if (sentence >= limit * 0.55) return cut.slice(0, sentence + 1)
+
   const lastSpace = cut.lastIndexOf(' ')
   return `${cut.slice(0, lastSpace > 0 ? lastSpace : limit).trimEnd()}…`
 }
@@ -114,38 +143,49 @@ export function buildOgHtml(card: OgCard, style: OgStyle = OG_STYLE): string {
   const background = style.background === 'plain' ? palette.plain : palette.gradient
 
   const title = sanitizeText(card.title)
-  const description = sanitizeText(clamp(card.description, 130))
+  // Tuned to the column the hanging icon leaves: much past this and a Ukrainian
+  // description runs long enough to push the card's foot off the bottom edge.
+  const description = sanitizeText(clamp(card.description, 104))
   const statusLabel = card.badge
 
+  // The badge leads the pill row rather than sitting above the title: the icon hangs
+  // beside whatever comes first, and that should be the title.
+  const badge = statusLabel
+    ? `<div style="display:flex;flex-shrink:0;white-space:nowrap;padding:7px 16px;border-radius:999px;background:${palette.tagBg};color:${palette.accent};font-size:20px;font-weight:700;letter-spacing:1px">${sanitizeText(statusLabel)}</div>`
+    : ''
+
   const tags = (card.tags ?? [])
-    .slice(0, 5)
+    .slice(0, 4)
     .map(
       (tag) =>
         // `white-space:nowrap` matters: a hyphen is a break opportunity, so tags like
         // `react-query` were measured as two lines and rendered a taller pill.
-        `<div style="display:flex;flex-shrink:0;white-space:nowrap;padding:8px 18px;border-radius:999px;background:${palette.tagBg};color:${palette.tagText};font-size:24px">${sanitizeText(tag)}</div>`,
+        `<div style="display:flex;flex-shrink:0;white-space:nowrap;padding:7px 16px;border-radius:999px;background:${palette.tagBg};color:${palette.tagText};font-size:20px">${sanitizeText(tag)}</div>`,
     )
     .join('')
 
-  return `<div style="width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-between;background:${background};padding:72px;font-family:Inter">
-  <div style="display:flex;align-items:center;justify-content:space-between">
-    <div style="display:flex;align-items:center;gap:16px">
-      <img src="${iconDataUri(card.icon, palette.accent)}" width="52" height="52" />
-      ${
-        statusLabel
-          ? `<div style="display:flex;flex-shrink:0;white-space:nowrap;padding:6px 16px;border-radius:999px;background:${palette.tagBg};color:${palette.accent};font-size:24px;font-weight:700;letter-spacing:1px">${sanitizeText(statusLabel)}</div>`
-          : ''
-      }
+  // The icon matches the title's height, so the two read as one line of masthead.
+  // Kept modest so a longer title still lands on one line inside the square.
+  const titleSize = title.length > 18 ? 42 : 48
+
+  // Rule, icon and text are siblings of one stretch row rather than nested boxes:
+  // the renderer measures a nested column short of its trailing children, which left
+  // the rule sized to the title and description alone and the text sitting lower.
+  return `<div style="width:100%;height:100%;display:flex;align-items:center;background:${background};padding-left:${SQUARE_LEFT + RULE_INSET}px;font-family:Inter">
+  <div style="display:flex;align-items:stretch">
+    <div style="display:flex;width:${RULE_WIDTH}px;background:${palette.accent};border-radius:999px"></div>
+
+    <img style="margin-top:${Math.round(titleSize * 0.16)}px;margin-left:${ICON_GAP}px;margin-right:${ICON_GAP}px" src="${iconDataUri(card.icon, palette.accent)}" width="${titleSize}" height="${titleSize}" />
+
+    <div style="display:flex;flex-direction:column;max-width:${contentWidth(titleSize)}px">
+      <div style="display:flex;flex-direction:column;font-size:${titleSize}px;font-weight:700;color:${palette.title};line-height:1.15">${title}</div>
+      <div style="display:flex;flex-direction:column;margin-top:14px;font-size:26px;color:${palette.body};line-height:1.4">${description}</div>
+
+      ${badge || tags ? `<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px">${badge}${tags}</div>` : ''}
+
+      <div style="display:flex;margin-top:14px;font-size:23px;color:${palette.muted}">dmythro.com</div>
     </div>
-    <div style="font-size:26px;color:${palette.muted}">dmythro.com</div>
   </div>
-
-  <div style="display:flex;flex-direction:column;gap:24px">
-    <div style="font-size:${title.length > 18 ? 66 : 78}px;font-weight:700;color:${palette.title};line-height:1.1">${title}</div>
-    <div style="font-size:32px;color:${palette.body};line-height:1.4">${description}</div>
-  </div>
-
-  ${tags ? `<div style="display:flex;align-items:center;gap:12px">${tags}</div>` : ''}
 </div>`
 }
 
