@@ -13,7 +13,7 @@ import ProjectMeta from '@/components/ProjectMeta.astro'
 import ProjectStatusBadge from '@/components/ProjectStatusBadge.astro'
 import StatBadge from '@/components/StatBadge.astro'
 import TagBadge from '@/components/TagBadge.astro'
-import { getProjectAuthors, getRelatedProjects, projects } from '@/data/projects'
+import { getProjectAuthors, getProjectUrl, getRelatedProjects, projects } from '@/data/projects'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { fetchGithubStats } from '@/utils/fetchGithubStats'
 import { fetchNpmStats } from '@/utils/fetchNpmStats'
@@ -36,6 +36,8 @@ const { project } = Astro.props
 const t = getT(locale)
 const title = project.title[locale]
 const description = project.description[locale]
+
+const projectUrl = getProjectUrl(project, locale)
 
 // Fetch stats at build time (parallel)
 const [npmStats, githubStats] = await Promise.all([
@@ -103,7 +105,7 @@ const projectJsonLd = {
       }),
       keywords: project.tags.join(', '),
       ...(project.github && { codeRepository: `https://github.com/${project.github}` }),
-      ...(project.url && { sameAs: project.url }),
+      ...(projectUrl && { sameAs: projectUrl }),
       ...(project.programmingLanguages?.length && {
         programmingLanguage:
           project.programmingLanguages.length === 1
@@ -160,8 +162,8 @@ const relatedWithStats = await Promise.all(
             <h1 class="text-3xl font-bold flex items-center gap-2">
               {IconComponent && <IconComponent class="h-7 w-7 shrink-0 opacity-60" />}
               <span class="mr-2" transition:name={`project-title-${project.slug}`}>{title}</span>
-              {project.url && (
-                <a href={project.url} class="tooltip tooltip-bottom tooltip-primary" data-tip={t.projects.visitSite} aria-label={t.projects.visitSite} target="_blank" rel="noopener noreferrer">
+              {projectUrl && (
+                <a href={projectUrl} class="tooltip tooltip-bottom tooltip-primary" data-tip={t.projects.visitSite} aria-label={t.projects.visitSite} target="_blank" rel="noopener noreferrer">
                   <ExternalLink class="h-5 w-5 opacity-50 hover:opacity-100 transition-opacity" />
                 </a>
               )}
