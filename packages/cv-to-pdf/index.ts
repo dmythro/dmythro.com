@@ -80,6 +80,16 @@ function countPages(pdf: Uint8Array): number {
 // biome-ignore lint/suspicious/noExplicitAny: Bun.WebView is not typed yet
 type WebView = any
 
+/** A browser step that never settles would otherwise hang the build indefinitely. */
+function withTimeout<T>(work: Promise<T>, ms: number, what: string): Promise<T> {
+  return Promise.race([
+    work,
+    new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error(`${what} timed out after ${ms}ms`)), ms),
+    ),
+  ])
+}
+
 /**
  * printToPDF never fires `beforeprint`, but the page listens for it to promote lazy
  * images that were never fetched — without this they print as blank space. Decoding
@@ -152,12 +162,16 @@ async function renderLocale(origin: string, locale: string) {
     backend: 'chrome',
   })
 
-  await view.navigate(`${origin}/${locale}/cv`)
+  await withTimeout(view.navigate(`${origin}/${locale}/cv`), 60_000, `${locale}: navigation`)
   await loadImages(view)
   await assertPrintable(view, locale)
   await downscaleImages(view)
 
-  const { data } = await view.cdp('Page.printToPDF', { printBackground: true, ...paper })
+  const { data } = await withTimeout(
+    view.cdp('Page.printToPDF', { printBackground: true, ...paper }),
+    120_000,
+    `${locale}: printToPDF`,
+  )
   const pdf = Buffer.from(data, 'base64')
 
   const pages = countPages(pdf)
