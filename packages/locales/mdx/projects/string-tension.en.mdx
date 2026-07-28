@@ -1,4 +1,4 @@
-I play a fanned-fret eight-string, and every time I ordered strings for it I was guessing. The scale length changes under every string, so a gauge that sits right under the low F# is a rubber band up at the high E — and every tension calculator I could find asked for one scale length and six strings.
+I play a multi-scale eight-string, and every time I ordered strings for it I was guessing. The scale length changes under every string, so a gauge that sits right under the low F# is a rubber band up at the high E — and every tension calculator I could find asked for one scale length and six strings.
 
 This one asks for two scale lengths and works out everything in between.
 
@@ -15,7 +15,7 @@ calculateTension('.046w', 27, 'E2')   // 20.3 — the same string on a baritone 
 calculateTension('.062w', 27, 'B1')   // 20.7 — B standard on that same neck, matched to the E above
 ```
 
-Multi-scale is one extra input. Give the first and last string a scale length and the rest are interpolated, which is what a straight fan does anyway:
+Multi-scale is one extra input. Give the first and last string a scale length and the rest are interpolated — the frets fan out along straight lines, so scale length really does change evenly from one string to the next:
 
 ```ts
 interpolateScale(0, 8, 26.5, 28) // 26.5   — high E
@@ -25,7 +25,7 @@ interpolateScale(7, 8, 26.5, 28) // 28     — low F#
 
 ## Why it exists
 
-A six-string in D standard, a seven, and an eight-string fan all want different gauges to feel like the same instrument under the hand. Working that out meant a manufacturer's PDF, a unit-weight column, a calculator app, and a row of arithmetic per string — then the whole thing again the moment I reconsidered the tuning. The web calculators that could have saved me the arithmetic stopped at six strings and one scale length, which is precisely the case I didn't have.
+A six-string in D standard, a seven, and a multi-scale eight-string all want different gauges to feel like the same instrument under the hand. Working that out meant a manufacturer's PDF, a unit-weight column, a calculator app, and a row of arithmetic per string — then the whole thing again the moment I reconsidered the tuning. The web calculators that could have saved me the arithmetic stopped at six strings and one scale length, which is precisely the case I didn't have.
 
 So the instrument presets are my own guitars. That is the entire origin story: I wanted the answer for the thing in the room, not for a Stratocaster.
 
@@ -37,7 +37,7 @@ So the instrument presets are my own guitars. That is the entire origin story: I
 | [D'Addario String Tension Pro](https://stringtensionpro.com/) | their whole catalogue, by product code, one scale length |
 | [Stringjoy's calculator](https://tension.stringjoy.com/) | building a custom set from their gauges, one scale length |
 
-**Use String Tension Pro if you're buying D'Addario and your neck isn't fanned.** It knows every product they make, down to the code on the packet. This one carries two brands' published tables and models everything else, so when your set is in their catalogue and your scale is a single number, their answer is the better answer.
+**Use String Tension Pro if you're buying D'Addario and your neck isn't multi-scale.** It knows every product they make, down to the code on the packet. This one carries two brands' published tables and models everything else, so when your set is in their catalogue and your scale is a single number, their answer is the better answer.
 
 ## What's inside
 
