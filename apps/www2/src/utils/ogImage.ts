@@ -145,10 +145,16 @@ export function buildOgHtml(card: OgCard, style: OgStyle = OG_STYLE): string {
   const background = style.background === 'plain' ? palette.plain : palette.gradient
 
   const title = sanitizeText(card.title)
-  // Tuned to the column the hanging icon leaves: much past this and a Ukrainian
-  // description runs long enough to push the card's foot off the bottom edge.
-  const description = sanitizeText(clamp(card.description, 104))
   const statusLabel = card.badge
+  const cardTags = (card.tags ?? []).slice(0, 4)
+
+  // A standing page draws no pill row, so the height tags would have taken is
+  // free for prose rather than left blank. Both budgets are tuned to the column
+  // the hanging icon leaves, measured against Ukrainian copy since Cyrillic sets
+  // the wider glyphs: roughly three lines when pills follow, five without. Much
+  // past the wider figure and a long description pushes the foot off the bottom.
+  const hasPills = Boolean(statusLabel) || cardTags.length > 0
+  const description = sanitizeText(clamp(card.description, hasPills ? 104 : 170))
 
   // The badge leads the pill row rather than sitting above the title: the icon hangs
   // beside whatever comes first, and that should be the title.
@@ -156,8 +162,7 @@ export function buildOgHtml(card: OgCard, style: OgStyle = OG_STYLE): string {
     ? `<div style="display:flex;flex-shrink:0;white-space:nowrap;padding:7px 16px;border-radius:999px;background:${palette.tagBg};color:${palette.accent};font-size:20px;font-weight:700;letter-spacing:1px">${sanitizeText(statusLabel)}</div>`
     : ''
 
-  const tags = (card.tags ?? [])
-    .slice(0, 4)
+  const tags = cardTags
     .map(
       (tag) =>
         // `white-space:nowrap` matters: a hyphen is a break opportunity, so tags like
