@@ -27,6 +27,7 @@ export const uk: Translation = {
     themeDark: 'Темна',
     themeLight: 'Світла',
     downloadPdf: 'Завантажити PDF',
+    downloadPdfTooltip: (size: string) => `Завантажити CV у форматі PDF, ${size}`,
     switchLang: 'Українська (click to switch to English)',
   },
   builtWithTitle: 'Відкритий код',

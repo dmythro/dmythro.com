@@ -1,4 +1,6 @@
 ---
+import { statSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { BASE_URL, ESocialLinks, USERNAME } from '@dmythro/constants'
 import { FileDown } from '@lucide/astro'
 import CvArticle from '@/components/CvArticle.astro'
@@ -6,6 +8,7 @@ import CvToc from '@/components/CvToc.astro'
 import PageHeader from '@/components/PageHeader.astro'
 import PhotoCard from '@/components/PhotoCard.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
+import { formatFileSize } from '@/utils/formatSize'
 import { getT } from '@/utils/getT'
 import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
 import { pageOgImagePath } from '@/utils/ogImage'
@@ -18,6 +21,14 @@ const { locale } = Astro.params as { locale: LocaleCode }
 const t = getT(locale)
 const years = new Date().getFullYear() - 2006
 const cvDescription = t.cv.description(years).join(' ')
+
+// Measured from the file that ships, so the figure cannot drift from the download.
+const pdfPath = `/cv.${locale}.pdf`
+const pdfSize = formatFileSize(
+  statSync(fileURLToPath(new URL(`../../../public${pdfPath}`, import.meta.url))).size,
+  locale,
+)
+const downloadLabel = t.actions.downloadPdfTooltip(pdfSize)
 
 const cvJsonLd = {
   '@context': 'https://schema.org',
@@ -59,17 +70,21 @@ const cvJsonLd = {
           "CV — name" heading and its tagline are just noise at the top of page one. */}
       <div class="no-print">
         <PageHeader title={`CV — ${t.fullName}`} subtitle={t.meta.descriptionShort}>
-          <a
+          <div
             slot="actions"
-            href={`/cv.${locale}.pdf`}
-            class="btn btn-ghost btn-sm btn-square"
-            download
-            data-cv-download={locale}
-            aria-label={t.actions.downloadPdf}
-            title={t.actions.downloadPdf}
+            class="tooltip tooltip-left tooltip-primary"
+            data-tip={downloadLabel}
           >
-            <FileDown class="h-5 w-5" />
-          </a>
+            <a
+              href={pdfPath}
+              class="btn btn-ghost btn-sm btn-square"
+              download
+              data-cv-download={locale}
+              aria-label={downloadLabel}
+            >
+              <FileDown class="h-5 w-5" />
+            </a>
+          </div>
         </PageHeader>
       </div>
 

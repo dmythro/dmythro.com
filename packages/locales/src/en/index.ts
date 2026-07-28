@@ -27,6 +27,7 @@ export const en = {
     themeDark: 'Dark',
     themeLight: 'Light',
     downloadPdf: 'Download PDF',
+    downloadPdfTooltip: (size: string) => `Download CV in PDF format, ${size}`,
     switchLang: 'English (натисніть щоб була Українська)',
   },
   builtWithTitle: 'Open Source',
