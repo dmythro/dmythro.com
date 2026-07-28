@@ -147,9 +147,13 @@ const relatedWithStats = await Promise.all(
   publishedTime={publishedTime}
   modifiedTime={modifiedTime}
 >
-  <div class:list={[showToc && 'flex justify-center gap-8 lg:gap-10']}>
-    <div class:list={['min-w-0 order-1', showToc ? 'w-full max-w-3xl' : 'w-full']}>
-      <article class="max-w-3xl">
+  {/* Content fills the column and the sidebar sits beside it, matching the CV. The
+      group used to be centred with a reading-width cap, which started the article
+      109px right of the gutter every other page uses — visible as a jump mid-morph,
+      since the title view-transitions in from the card. */}
+  <div class:list={[showToc && 'flex gap-8 lg:gap-12']}>
+    <div class="flex-1 min-w-0 order-1">
+      <article>
         <header id="top" class="mb-6 scroll-mt-20">
           <div class="flex items-center gap-1 mb-2">
             <BackLink href={`/${locale}/projects`} label={t.nav.projects} />
@@ -224,7 +228,7 @@ const relatedWithStats = await Promise.all(
         content first; `order-2` places it on the right visually. */}
     {showToc && (
       <aside
-        class="hidden lg:block w-[230px] shrink-0 sticky top-20 self-start order-2 max-h-[calc(100dvh-6rem)] overflow-y-auto overscroll-contain"
+        class="hidden md:block w-[250px] shrink-0 sticky top-20 self-start order-2 max-h-[calc(100dvh-6rem)] overflow-y-auto overscroll-contain print:hidden"
       >
         <ArticleToc
           headings={headings}
