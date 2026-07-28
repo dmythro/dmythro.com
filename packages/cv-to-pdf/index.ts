@@ -1,11 +1,33 @@
-import { existsSync, renameSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync } from 'node:fs'
 import { join, resolve, sep } from 'node:path'
-import { spawn, which } from 'bun'
-import puppeteer from 'puppeteer'
 
 const locales = ['en', 'uk']
-const pdfExt = '.pdf'
-const tempPathSuffix = '.browser'
+
+/** A4 with 12mm margins, in the inches `Page.printToPDF` expects. */
+const paper = {
+  paperWidth: 8.27,
+  paperHeight: 11.69,
+  marginTop: 0.472,
+  marginBottom: 0.472,
+  marginLeft: 0.472,
+  marginRight: 0.472,
+}
+
+/**
+ * PDF has no WebP, so the browser embeds the site's photographs as near-lossless
+ * bitmaps at their full resolution — that alone was 10MB of a 10.4MB file. Re-encoding
+ * them as JPEG at print resolution before printing does what Ghostscript used to do
+ * afterwards, without the dependency.
+ *
+ * A4 content is 186mm wide, so this long edge lands around 164dpi — above the 150dpi
+ * Ghostscript was downsampling to. Measured against the unmodified render, the page
+ * comes out at ~42dB PSNR, which is visually lossless.
+ */
+const imageMaxEdge = 1200
+const imageQuality = 0.82
+
+/** A CV that rendered at all runs to a dozen pages; a broken one collapses to a few. */
+const minPages = 8
 
 /**
  * www2 builds to a static directory, so the CV is printed from those files rather
@@ -34,9 +56,9 @@ function resolveFile(pathname: string): string[] {
   })
 }
 
-function serveDist(port: number) {
+function serveDist() {
   return Bun.serve({
-    port,
+    port: 0,
     // Loopback only — this exists for the local browser, not the network.
     hostname: '127.0.0.1',
     async fetch(request) {
@@ -50,113 +72,102 @@ function serveDist(port: number) {
   })
 }
 
+/** Pages are top-level objects in the output, so counting them needs no PDF parser. */
+function countPages(pdf: Uint8Array): number {
+  return (new TextDecoder('latin1').decode(pdf).match(/\/Type\s*\/Page[^s]/g) ?? []).length
+}
+
+// biome-ignore lint/suspicious/noExplicitAny: Bun.WebView is not typed yet
+type WebView = any
+
 /**
- * Ghostscript downsamples the photographs, which is most of the file size. It is
- * optional: without it the PDF is simply larger, so a machine or CI runner that
- * lacks `gs` still produces a correct document.
+ * printToPDF never fires `beforeprint`, but the page listens for it to promote lazy
+ * images that were never fetched — without this they print as blank space. Decoding
+ * can also lag the load event, and an undecoded image prints blank too.
  */
-async function optimizePdf(filePath: string) {
-  if (!which('gs')) {
-    console.info('     Ghostscript not found — keeping the unoptimised PDF')
-    return
-  }
+async function loadImages(view: WebView) {
+  await view.evaluate('window.dispatchEvent(new Event("beforeprint"))')
+  await view.evaluate(`new Promise((done) => {
+    const pending = [...document.images].filter((img) => !img.complete)
+    if (!pending.length) return done(true)
+    let left = pending.length
+    const tick = () => --left === 0 && done(true)
+    for (const img of pending) {
+      img.addEventListener('load', tick, { once: true })
+      img.addEventListener('error', tick, { once: true })
+    }
+    setTimeout(() => done(true), 10000)
+  })`)
+  await view.evaluate(
+    'Promise.all([...document.images].map((img) => img.decode().catch(() => undefined))).then(() => true)',
+  )
+}
 
-  const tempFilePath = filePath.replace(pdfExt, tempPathSuffix + pdfExt)
-  renameSync(filePath, tempFilePath)
+/** Swaps each photograph for a JPEG sized to what the page actually prints. */
+async function downscaleImages(view: WebView) {
+  await view.evaluate(`(async () => {
+    for (const img of [...document.images]) {
+      if (!img.naturalWidth) continue
+      const scale = Math.min(1, ${imageMaxEdge} / Math.max(img.naturalWidth, img.naturalHeight))
+      const width = Math.round(img.naturalWidth * scale)
+      const height = Math.round(img.naturalHeight * scale)
+      const canvas = document.createElement('canvas')
+      canvas.width = width
+      canvas.height = height
+      canvas.getContext('2d').drawImage(img, 0, 0, width, height)
+      // srcset would otherwise let the browser reselect the original source.
+      img.removeAttribute('srcset')
+      img.removeAttribute('sizes')
+      img.src = canvas.toDataURL('image/jpeg', ${imageQuality})
+      await img.decode().catch(() => {})
+    }
+    return true
+  })()`)
+}
 
-  // The printed PDF only exists under the temp name from here on, so every failure
-  // path has to put it back — otherwise a Ghostscript problem loses the document.
-  try {
-    await runGhostscript(tempFilePath, filePath)
-    rmSync(tempFilePath)
-  } catch (error) {
-    if (existsSync(tempFilePath)) renameSync(tempFilePath, filePath)
-    throw error
+/**
+ * A blank image is the failure this cannot see coming: the page looks fine, and the
+ * PDF simply has a hole where a photograph should be.
+ *
+ * Collapsed FAQ answers deliberately are not checked here. Measuring them needs print
+ * layout, and emulated print media does not reproduce it — Chrome reports the answers
+ * as collapsed under `Emulation.setEmulatedMedia` while printing them perfectly well,
+ * so an assertion on that reading fails a document that is actually correct.
+ */
+async function assertPrintable(view: WebView, locale: string) {
+  const blankImages = await view.evaluate(
+    '[...document.images].filter((img) => !(img.complete && img.naturalWidth > 0)).length',
+  )
+  if (blankImages > 0) {
+    throw new Error(`${locale}: ${blankImages} image(s) never loaded and would print blank`)
   }
 }
 
-async function runGhostscript(input: string, output: string) {
-  const gs = spawn({
-    cmd: [
-      'gs',
-      '-sDEVICE=pdfwrite',
-      '-dCompatibilityLevel=1.4',
-      '-dPDFSETTINGS=/ebook',
-      '-dNOPAUSE',
-      '-dQUIET',
-      '-dBATCH',
-      '-dSAFER',
-      `-sOutputFile=${output}`,
-      '-dColorImageDownsampleType=/Bicubic',
-      '-dColorImageResolution=150',
-      '-dGrayImageDownsampleType=/Bicubic',
-      '-dGrayImageResolution=150',
-      '-dMonoImageDownsampleType=/Bicubic',
-      '-dMonoImageResolution=150',
-      '-dEmbedAllFonts=true',
-      '-dSubsetFonts=true',
-      '-dCompressFonts=true',
-      input,
-    ],
-    stdout: 'pipe',
-    stderr: 'pipe',
+async function renderLocale(origin: string, locale: string) {
+  // The Chrome backend is required: printToPDF is a DevTools Protocol call, and the
+  // WebKit backend that WebView defaults to on macOS exposes no protocol at all.
+  await using view = new (Bun as unknown as { WebView: new (o: unknown) => WebView }).WebView({
+    width: 1280,
+    height: 900,
+    backend: 'chrome',
   })
 
-  const exitCode = await gs.exited
-  if (exitCode !== 0) {
-    throw new Error(
-      `Ghostscript failed with exit code ${exitCode}: ${await new Response(gs.stderr).text()}`,
-    )
+  await view.navigate(`${origin}/${locale}/cv`)
+  await loadImages(view)
+  await assertPrintable(view, locale)
+  await downscaleImages(view)
+
+  const { data } = await view.cdp('Page.printToPDF', { printBackground: true, ...paper })
+  const pdf = Buffer.from(data, 'base64')
+
+  const pages = countPages(pdf)
+  if (pages < minPages) {
+    throw new Error(`${locale}: printed only ${pages} pages, expected at least ${minPages}`)
   }
-}
 
-async function renderLocale(browser: puppeteer.Browser, origin: string, locale: string) {
-  const page = await browser.newPage()
-  await page.emulateMediaType('print')
-  await page.goto(`${origin}/${locale}/cv`, { waitUntil: 'networkidle0', timeout: 60_000 })
-
-  // page.pdf() never fires this, but the page listens for it to promote lazy images
-  // that were never fetched — without it they print as blank space.
-  await page.evaluate(() => window.dispatchEvent(new Event('beforeprint')))
-  await page.evaluate(
-    () =>
-      new Promise<void>((done) => {
-        const pending = [...document.images].filter((img) => !img.complete)
-        if (!pending.length) return done()
-        let left = pending.length
-        const tick = () => --left === 0 && done()
-        for (const img of pending) {
-          img.addEventListener('load', tick, { once: true })
-          img.addEventListener('error', tick, { once: true })
-        }
-        setTimeout(done, 10_000)
-      }),
-  )
-  // Decoding can lag the load event, and an undecoded image prints blank.
-  await page.evaluate(() =>
-    Promise.all([...document.images].map((img) => img.decode().catch(() => undefined))),
-  )
-
-  const blank = await page.evaluate(
-    () => [...document.images].filter((img) => !(img.complete && img.naturalWidth > 0)).length,
-  )
-  if (blank) console.warn(`     ${blank} image(s) failed to load and will print blank`)
-
-  const pdf = await page.pdf({
-    format: 'A4',
-    margin: { top: '12mm', bottom: '12mm', left: '12mm', right: '12mm' },
-    printBackground: true,
-    tagged: true,
-  })
-  await page.close()
-
-  const pdfPath = join(publicDir, `cv.${locale}${pdfExt}`)
-  writeFileSync(pdfPath, pdf)
-  console.info(` - Wrote ${pdfPath} (${(pdf.length / 1024).toFixed(0)}KB)`)
-
-  await optimizePdf(pdfPath)
-  const finalSize = Bun.file(pdfPath).size
-  console.info(`     final ${(finalSize / 1024).toFixed(0)}KB`)
+  const pdfPath = join(publicDir, `cv.${locale}.pdf`)
+  await Bun.write(pdfPath, pdf)
+  console.info(` - ${pdfPath} — ${pages} pages, ${(pdf.length / 1024 / 1024).toFixed(2)}MB`)
 }
 
 async function main() {
@@ -167,18 +178,15 @@ async function main() {
   }
 
   console.info('Generating CV PDFs from the www2 build:')
-  const server = serveDist(0)
+  const server = serveDist()
   const origin = `http://127.0.0.1:${server.port}`
-  const browser = await puppeteer.launch({ headless: true })
 
   try {
     for (const locale of locales) {
-      console.info(` - Printing /${locale}/cv`)
-      await renderLocale(browser, origin, locale)
+      await renderLocale(origin, locale)
     }
     console.info('Done.')
   } finally {
-    await browser.close()
     await server.stop(true)
   }
 }
