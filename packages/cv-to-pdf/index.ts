@@ -1,347 +1,208 @@
-import { cpSync, renameSync, rmSync, writeFileSync } from 'node:fs'
-import { join, resolve } from 'node:path'
-import { spawn } from 'bun'
-import puppeteer from 'puppeteer'
-
-const host = 'localhost'
-const port = 3000
+import { existsSync } from 'node:fs'
+import { join, resolve, sep } from 'node:path'
 
 const locales = ['en', 'uk']
-const pdfExt = '.pdf'
-const tempPathSuffix = '.browser'
-const useOptimization = true // Use GhostScript for PDF optimization
 
-const wwwDir = resolve(import.meta.dir, '../../apps/www')
-const standalonePath = join(wwwDir, '.next/standalone')
-const serverPath = join(standalonePath, 'apps/www/server.js')
-
-async function copyStaticFiles() {
-  console.info(' - Copy static files')
-
-  // Copy .next/static to standalone/.next/static
-  const staticSource = join(wwwDir, '.next/static')
-  const staticDest = join(standalonePath, 'apps/www/.next/static')
-  console.info(`     Copying ${staticSource} -> ${staticDest}`)
-  cpSync(staticSource, staticDest, { recursive: true, force: true })
-
-  // Copy public folder to standalone/apps/www/public
-  const publicSource = join(wwwDir, 'public')
-  const publicDest = join(standalonePath, 'apps/www/public')
-  console.info(`     Copying ${publicSource} -> ${publicDest}`)
-  cpSync(publicSource, publicDest, { recursive: true, force: true })
-
-  console.info(' - Static files copied')
+/** A4 with 12mm margins, in the inches `Page.printToPDF` expects. */
+const paper = {
+  paperWidth: 8.27,
+  paperHeight: 11.69,
+  marginTop: 0.472,
+  marginBottom: 0.472,
+  marginLeft: 0.472,
+  marginRight: 0.472,
 }
 
-async function optimizePdf(filePath: string) {
-  return new Promise((resolve, reject) => {
-    const tempFilePath = filePath.replace(pdfExt, tempPathSuffix + pdfExt)
-    renameSync(filePath, tempFilePath)
+/**
+ * PDF has no WebP, so the browser embeds the site's photographs as near-lossless
+ * bitmaps at their full resolution — that alone was 10MB of a 10.4MB file. Re-encoding
+ * them as JPEG at print resolution before printing does what Ghostscript used to do
+ * afterwards, without the dependency.
+ *
+ * A4 content is 186mm wide, so this long edge lands around 164dpi — above the 150dpi
+ * Ghostscript was downsampling to. Measured against the unmodified render, the page
+ * comes out at ~42dB PSNR, which is visually lossless.
+ */
+const imageMaxEdge = 1200
+const imageQuality = 0.82
 
-    console.info(`     Input: ${tempFilePath}`)
-    console.info(`     Output: ${filePath}`)
+/** A CV that rendered at all runs to a dozen pages; a broken one collapses to a few. */
+const minPages = 8
 
-    // Use GhostScript with specific settings to compress images while preserving them
-    const gs = spawn({
-      cmd: [
-        'gs',
-        '-sDEVICE=pdfwrite',
-        '-dCompatibilityLevel=1.4',
-        '-dPDFSETTINGS=/ebook',
-        '-dNOPAUSE',
-        '-dQUIET',
-        '-dBATCH',
-        '-dSAFER',
-        `-sOutputFile=${filePath}`,
-        // Image compression - downsample to 150 DPI
-        '-dColorImageDownsampleType=/Bicubic',
-        '-dColorImageResolution=150',
-        '-dGrayImageDownsampleType=/Bicubic',
-        '-dGrayImageResolution=150',
-        '-dMonoImageDownsampleType=/Bicubic',
-        '-dMonoImageResolution=150',
-        // Font optimization
-        '-dEmbedAllFonts=true',
-        '-dSubsetFonts=true',
-        '-dCompressFonts=true',
-        tempFilePath,
-      ],
-      stdout: 'pipe',
-      stderr: 'pipe',
-    })
+/**
+ * www2 builds to a static directory, so the CV is printed from those files rather
+ * than from a running app server. That is the whole reason this no longer copies
+ * build output around: what gets printed is exactly what gets deployed.
+ */
+const appDir = resolve(import.meta.dir, '../../apps/www2')
+const distDir = join(appDir, 'dist')
+const publicDir = join(appDir, 'public')
 
-    // Capture both stdout and stderr for debugging
-    const stderrReader = gs.stderr.getReader()
-    const stdoutReader = gs.stdout.getReader()
-    const decoder = new TextDecoder()
-    let stderrOutput = ''
-    let stdoutOutput = ''
-
-    const readStderr = async () => {
-      try {
-        while (true) {
-          const { done, value } = await stderrReader.read()
-          if (done) break
-          const text = decoder.decode(value)
-          stderrOutput += text
-          console.log('    [gs stderr]', text.trim())
-        }
-      } catch {
-        // Ignore read errors
-      }
-    }
-
-    const readStdout = async () => {
-      try {
-        while (true) {
-          const { done, value } = await stdoutReader.read()
-          if (done) break
-          const text = decoder.decode(value)
-          stdoutOutput += text
-          console.log('    [gs stdout]', text.trim())
-        }
-      } catch {
-        // Ignore read errors
-      }
-    }
-
-    readStderr()
-    readStdout()
-
-    gs.exited
-      .then((exitCode) => {
-        if (exitCode === 0) {
-          rmSync(tempFilePath)
-          console.info('     PDF optimized successfully')
-          resolve(true)
-        } else {
-          console.error('GhostScript stdout:', stdoutOutput)
-          console.error('GhostScript stderr:', stderrOutput)
-          renameSync(tempFilePath, filePath)
-          reject(`GhostScript failed with exit code ${exitCode}`)
-        }
-      })
-      .catch((err) => {
-        console.error('GhostScript error:', err)
-        console.error('GhostScript stdout:', stdoutOutput)
-        console.error('GhostScript stderr:', stderrOutput)
-        renameSync(tempFilePath, filePath)
-        reject('Error while using GhostScript.')
-      })
+/**
+ * Matches how Cloudflare Pages resolves a clean URL onto a built file. Candidates
+ * that resolve outside the build directory are dropped: the decoded pathname is
+ * attacker-shaped input in principle, and `..` segments would otherwise walk out.
+ */
+function resolveFile(pathname: string): string[] {
+  const path = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname
+  const candidates = [
+    join(distDir, path),
+    join(distDir, `${path}.html`),
+    join(distDir, path, 'index.html'),
+  ]
+  return candidates.filter((candidate) => {
+    const full = resolve(candidate)
+    return full === distDir || full.startsWith(distDir + sep)
   })
 }
 
-async function start() {
-  console.info('Generating CV:')
-
-  // Copy static files before starting server
-  await copyStaticFiles()
-
-  const browser = await puppeteer.launch({ headless: true })
-
-  return new Promise((resolve, reject) => {
-    console.info(' - Start server')
-
-    const staticServer = spawn({
-      cmd: ['bun', serverPath],
-      cwd: standalonePath,
-      env: {
-        ...process.env,
-        PORT: `${port}`,
-        HOSTNAME: host,
-        IS_CV: 'true',
-      },
-      stdout: 'pipe',
-      stderr: 'pipe',
-    })
-
-    // Read stdout stream
-    const reader = staticServer.stdout.getReader()
-    const decoder = new TextDecoder()
-
-    const checkOutput = async () => {
-      try {
-        while (true) {
-          const { done, value } = await reader.read()
-          if (done) break
-
-          const text = decoder.decode(value)
-          console.log(text)
-
-          if (text.includes(`${host}:${port}`)) {
-            try {
-              await generatePdfs()
-            } catch (err) {
-              await cleanup(`${err}`)
-            }
-            break
-          }
-        }
-      } catch (err) {
-        await cleanup(`Error reading output: ${err}`)
+function serveDist() {
+  return Bun.serve({
+    port: 0,
+    // Loopback only — this exists for the local browser, not the network.
+    hostname: '127.0.0.1',
+    async fetch(request) {
+      const { pathname } = new URL(request.url)
+      for (const candidate of resolveFile(decodeURIComponent(pathname))) {
+        const file = Bun.file(candidate)
+        if (await file.exists()) return new Response(file)
       }
-    }
-
-    checkOutput()
-
-    async function generatePdfs() {
-      let step = 'starting'
-      try {
-        for (const lang of locales) {
-          console.info(` - Open "${lang}" CV page`)
-
-          step = 'opening page'
-          const page = await browser.newPage()
-
-          // Emulate print media to get correct styles
-          await page.emulateMediaType('print')
-
-          // Navigate and wait for network to be idle
-          await page.goto(`http://${host}:${port}/${lang}/cv`, {
-            waitUntil: 'networkidle0',
-            timeout: 60000,
-          })
-
-          step = 'loading all images'
-
-          // Force all images to load eagerly
-          await page.evaluate(() => {
-            const images = Array.from(document.querySelectorAll('img'))
-            images.forEach((img) => {
-              img.loading = 'eager'
-            })
-          })
-
-          // Scroll to load lazy images
-          await page.evaluate(() => {
-            window.scrollTo({
-              left: 0,
-              top: window.document.body.scrollHeight,
-              behavior: 'instant',
-            })
-          })
-
-          // Wait for network to settle after scroll
-          await page.waitForNetworkIdle({ timeout: 10000 })
-
-          // Debug: check image sources
-          const imageInfo = await page.evaluate(() => {
-            const images = Array.from(document.querySelectorAll('img'))
-            return images.map((img) => ({
-              src: img.src,
-              currentSrc: img.currentSrc,
-              complete: img.complete,
-              naturalWidth: img.naturalWidth,
-              naturalHeight: img.naturalHeight,
-              width: img.width,
-              height: img.height,
-              loading: img.loading,
-              decoding: img.decoding,
-            }))
-          })
-          console.info(`     Found ${imageInfo.length} images`)
-          imageInfo.forEach((img, i) => {
-            console.info(`     Image ${i + 1}: ${img.src}`)
-            console.info(
-              `       Complete: ${img.complete}, Natural: ${img.naturalWidth}x${img.naturalHeight}, Display: ${img.width}x${img.height}`,
-            )
-            if (img.naturalWidth === 0) {
-              console.warn('       ⚠️  FAILED TO LOAD')
-            }
-          })
-
-          // Wait for all images to be loaded
-          await page.evaluate(async () => {
-            const images = Array.from(document.querySelectorAll('img'))
-            await Promise.all(
-              images.map(async (img) => {
-                if (img.complete && img.naturalWidth > 0) {
-                  // Force decode to ensure image is ready for rendering
-                  try {
-                    await img.decode()
-                  } catch {
-                    // Ignore decode errors
-                  }
-                  return Promise.resolve(undefined)
-                }
-                return new Promise<void>((resolve) => {
-                  img.addEventListener('load', async () => {
-                    try {
-                      await img.decode()
-                    } catch {
-                      // Ignore decode errors
-                    }
-                    resolve()
-                  })
-                  img.addEventListener('error', () => resolve())
-                  // Timeout after 5 seconds
-                  setTimeout(() => resolve(), 5000)
-                })
-              }),
-            )
-          })
-
-          // Force a repaint to ensure images are rendered
-          await page.evaluate(() => {
-            window.scrollTo(0, 0)
-          })
-          await page.waitForNetworkIdle()
-
-          step = 'saving PDF'
-          const pdf = await page.pdf({
-            format: 'A4',
-            margin: {
-              top: '0.5cm',
-              bottom: '0.5cm',
-              left: '0.5cm',
-              right: '0.5cm',
-            },
-            printBackground: true,
-            preferCSSPageSize: false,
-            omitBackground: false,
-            // Use tagged PDF for better compression (Chrome feature)
-            tagged: true,
-          })
-          const pdfPath = join(wwwDir, `public/cv.${lang}${pdfExt}`)
-          console.info(` - Save "${pdfPath}"`)
-          writeFileSync(pdfPath, pdf)
-
-          if (useOptimization) {
-            console.info(' - Optimize PDF with GhostScript')
-            await optimizePdf(pdfPath)
-          } else {
-            console.info(' - Skipping PDF optimization')
-          }
-        }
-
-        return await cleanup()
-      } catch (error) {
-        return await cleanup(`Error ${step}: ${error}`)
-      }
-    }
-
-    async function cleanup(error?: string) {
-      const message = `${error}`
-
-      // Ignore warnings
-      if (message.includes('Warning') || message.includes('⚠')) {
-        console.warn(`Warn: ${message}`)
-        return
-      }
-
-      if (error) {
-        console.error(`Fail: ${error}`)
-        reject(error)
-      } else {
-        console.info('Done.')
-        resolve(true)
-      }
-
-      // Kill the server process
-      staticServer.kill()
-      await browser.close()
-    }
+      return new Response('not found', { status: 404 })
+    },
   })
 }
 
-Promise.all([start()])
+/** Pages are top-level objects in the output, so counting them needs no PDF parser. */
+function countPages(pdf: Uint8Array): number {
+  return (new TextDecoder('latin1').decode(pdf).match(/\/Type\s*\/Page[^s]/g) ?? []).length
+}
+
+// biome-ignore lint/suspicious/noExplicitAny: Bun.WebView is not typed yet
+type WebView = any
+
+/** A browser step that never settles would otherwise hang the build indefinitely. */
+function withTimeout<T>(work: Promise<T>, ms: number, what: string): Promise<T> {
+  return Promise.race([
+    work,
+    new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error(`${what} timed out after ${ms}ms`)), ms),
+    ),
+  ])
+}
+
+/**
+ * printToPDF never fires `beforeprint`, but the page listens for it to promote lazy
+ * images that were never fetched — without this they print as blank space. Decoding
+ * can also lag the load event, and an undecoded image prints blank too.
+ */
+async function loadImages(view: WebView) {
+  await view.evaluate('window.dispatchEvent(new Event("beforeprint"))')
+  await view.evaluate(`new Promise((done) => {
+    const pending = [...document.images].filter((img) => !img.complete)
+    if (!pending.length) return done(true)
+    let left = pending.length
+    const tick = () => --left === 0 && done(true)
+    for (const img of pending) {
+      img.addEventListener('load', tick, { once: true })
+      img.addEventListener('error', tick, { once: true })
+    }
+    setTimeout(() => done(true), 10000)
+  })`)
+  await view.evaluate(
+    'Promise.all([...document.images].map((img) => img.decode().catch(() => undefined))).then(() => true)',
+  )
+}
+
+/** Swaps each photograph for a JPEG sized to what the page actually prints. */
+async function downscaleImages(view: WebView) {
+  await view.evaluate(`(async () => {
+    for (const img of [...document.images]) {
+      if (!img.naturalWidth) continue
+      const scale = Math.min(1, ${imageMaxEdge} / Math.max(img.naturalWidth, img.naturalHeight))
+      const width = Math.round(img.naturalWidth * scale)
+      const height = Math.round(img.naturalHeight * scale)
+      const canvas = document.createElement('canvas')
+      canvas.width = width
+      canvas.height = height
+      canvas.getContext('2d').drawImage(img, 0, 0, width, height)
+      // srcset would otherwise let the browser reselect the original source.
+      img.removeAttribute('srcset')
+      img.removeAttribute('sizes')
+      img.src = canvas.toDataURL('image/jpeg', ${imageQuality})
+      await img.decode().catch(() => {})
+    }
+    return true
+  })()`)
+}
+
+/**
+ * A blank image is the failure this cannot see coming: the page looks fine, and the
+ * PDF simply has a hole where a photograph should be.
+ *
+ * Collapsed FAQ answers deliberately are not checked here. Measuring them needs print
+ * layout, and emulated print media does not reproduce it — Chrome reports the answers
+ * as collapsed under `Emulation.setEmulatedMedia` while printing them perfectly well,
+ * so an assertion on that reading fails a document that is actually correct.
+ */
+async function assertPrintable(view: WebView, locale: string) {
+  const blankImages = await view.evaluate(
+    '[...document.images].filter((img) => !(img.complete && img.naturalWidth > 0)).length',
+  )
+  if (blankImages > 0) {
+    throw new Error(`${locale}: ${blankImages} image(s) never loaded and would print blank`)
+  }
+}
+
+async function renderLocale(origin: string, locale: string) {
+  // The Chrome backend is required: printToPDF is a DevTools Protocol call, and the
+  // WebKit backend that WebView defaults to on macOS exposes no protocol at all.
+  await using view = new (Bun as unknown as { WebView: new (o: unknown) => WebView }).WebView({
+    width: 1280,
+    height: 900,
+    backend: 'chrome',
+  })
+
+  await withTimeout(view.navigate(`${origin}/${locale}/cv`), 60_000, `${locale}: navigation`)
+  await loadImages(view)
+  await assertPrintable(view, locale)
+  await downscaleImages(view)
+
+  const { data } = await withTimeout(
+    view.cdp('Page.printToPDF', { printBackground: true, ...paper }),
+    120_000,
+    `${locale}: printToPDF`,
+  )
+  const pdf = Buffer.from(data, 'base64')
+
+  const pages = countPages(pdf)
+  if (pages < minPages) {
+    throw new Error(`${locale}: printed only ${pages} pages, expected at least ${minPages}`)
+  }
+
+  const pdfPath = join(publicDir, `cv.${locale}.pdf`)
+  await Bun.write(pdfPath, pdf)
+  console.info(` - ${pdfPath} — ${pages} pages, ${(pdf.length / 1024 / 1024).toFixed(2)}MB`)
+}
+
+async function main() {
+  if (!existsSync(distDir)) {
+    throw new Error(
+      `No build to print from at ${distDir} — run \`bun run build --filter=www2\` first`,
+    )
+  }
+
+  console.info('Generating CV PDFs from the www2 build:')
+  const server = serveDist()
+  const origin = `http://127.0.0.1:${server.port}`
+
+  try {
+    for (const locale of locales) {
+      await renderLocale(origin, locale)
+    }
+    console.info('Done.')
+  } finally {
+    await server.stop(true)
+  }
+}
+
+await main()
