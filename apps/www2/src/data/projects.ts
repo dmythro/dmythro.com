@@ -372,8 +372,8 @@ envs setup`,
   {
     slug: 'string-tension',
     title: {
-      en: 'String Tension Calculator',
-      uk: 'Калькулятор натягу струн',
+      en: 'Guitar String Tension Calculator',
+      uk: 'Калькулятор натягу гітарних струн',
     },
     description: {
       en: 'String tension for guitar and bass, including multi-scale instruments — per string, from published unit weights.',
