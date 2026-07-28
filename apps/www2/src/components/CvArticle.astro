@@ -285,8 +285,9 @@ const lastKey = interestList[interestList.length - 1]
       {/* FAQ section */}
       {key === 'faq' && (
         <div class="flex flex-col gap-2 print:block print:space-y-2" id="faq-list">
-          {faqItems.map(({ question, answerHtml }) => (
-            <details class="collapse collapse-arrow border border-base-300 bg-base-100 print:break-inside-avoid" open>
+          {/* Only the first answer opens; print reveals the rest. */}
+          {faqItems.map(({ question, answerHtml }, i) => (
+            <details class="collapse collapse-arrow border border-base-300 bg-base-100 print:break-inside-avoid" open={i === 0}>
               <summary class="collapse-title font-medium">{question}</summary>
               <div class="collapse-content">
                 <div class="prose prose-sm max-w-none" set:html={answerHtml} />
@@ -294,11 +295,6 @@ const lastKey = interestList[interestList.length - 1]
             </details>
           ))}
         </div>
-        <script is:inline>
-          document.querySelectorAll('#faq-list details').forEach((d, i) => {
-            if (i > 0) d.removeAttribute('open')
-          })
-        </script>
       )}
 
       {/* Links section — contact-style cards with icons */}
@@ -330,4 +326,3 @@ const lastKey = interestList[interestList.length - 1]
     </section>
   ))}
 </article>
-

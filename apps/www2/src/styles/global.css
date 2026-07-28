@@ -316,7 +316,23 @@ aside.overflow-y-auto::-webkit-scrollbar {
     display: none !important;
   }
 
+  /* Every FAQ answer prints while the page still shows one open. Two things hide a
+     closed answer and both have to go: the browser keeps a closed <details>' content
+     out of the rendered tree, reachable only through this pseudo-element, and DaisyUI
+     collapses the content row to 0fr on top of that. */
+  details::details-content {
+    content-visibility: visible !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .collapse {
+    grid-template-rows: max-content max-content !important;
+  }
+
   .collapse-content {
+    visibility: visible !important;
+    content-visibility: visible !important;
     display: block !important;
     max-height: none !important;
     padding-bottom: 1rem !important;
