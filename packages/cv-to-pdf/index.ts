@@ -1,347 +1,163 @@
-import { cpSync, renameSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { spawn } from 'bun'
+import { spawn, which } from 'bun'
 import puppeteer from 'puppeteer'
-
-const host = 'localhost'
-const port = 3000
 
 const locales = ['en', 'uk']
 const pdfExt = '.pdf'
 const tempPathSuffix = '.browser'
-const useOptimization = true // Use GhostScript for PDF optimization
 
-const wwwDir = resolve(import.meta.dir, '../../apps/www')
-const standalonePath = join(wwwDir, '.next/standalone')
-const serverPath = join(standalonePath, 'apps/www/server.js')
+/**
+ * www2 builds to a static directory, so the CV is printed from those files rather
+ * than from a running app server. That is the whole reason this no longer copies
+ * build output around: what gets printed is exactly what gets deployed.
+ */
+const appDir = resolve(import.meta.dir, '../../apps/www2')
+const distDir = join(appDir, 'dist')
+const publicDir = join(appDir, 'public')
 
-async function copyStaticFiles() {
-  console.info(' - Copy static files')
-
-  // Copy .next/static to standalone/.next/static
-  const staticSource = join(wwwDir, '.next/static')
-  const staticDest = join(standalonePath, 'apps/www/.next/static')
-  console.info(`     Copying ${staticSource} -> ${staticDest}`)
-  cpSync(staticSource, staticDest, { recursive: true, force: true })
-
-  // Copy public folder to standalone/apps/www/public
-  const publicSource = join(wwwDir, 'public')
-  const publicDest = join(standalonePath, 'apps/www/public')
-  console.info(`     Copying ${publicSource} -> ${publicDest}`)
-  cpSync(publicSource, publicDest, { recursive: true, force: true })
-
-  console.info(' - Static files copied')
+/** Matches how Cloudflare Pages resolves a clean URL onto a built file. */
+function resolveFile(pathname: string): string[] {
+  const path = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname
+  return [join(distDir, path), join(distDir, `${path}.html`), join(distDir, path, 'index.html')]
 }
 
-async function optimizePdf(filePath: string) {
-  return new Promise((resolve, reject) => {
-    const tempFilePath = filePath.replace(pdfExt, tempPathSuffix + pdfExt)
-    renameSync(filePath, tempFilePath)
-
-    console.info(`     Input: ${tempFilePath}`)
-    console.info(`     Output: ${filePath}`)
-
-    // Use GhostScript with specific settings to compress images while preserving them
-    const gs = spawn({
-      cmd: [
-        'gs',
-        '-sDEVICE=pdfwrite',
-        '-dCompatibilityLevel=1.4',
-        '-dPDFSETTINGS=/ebook',
-        '-dNOPAUSE',
-        '-dQUIET',
-        '-dBATCH',
-        '-dSAFER',
-        `-sOutputFile=${filePath}`,
-        // Image compression - downsample to 150 DPI
-        '-dColorImageDownsampleType=/Bicubic',
-        '-dColorImageResolution=150',
-        '-dGrayImageDownsampleType=/Bicubic',
-        '-dGrayImageResolution=150',
-        '-dMonoImageDownsampleType=/Bicubic',
-        '-dMonoImageResolution=150',
-        // Font optimization
-        '-dEmbedAllFonts=true',
-        '-dSubsetFonts=true',
-        '-dCompressFonts=true',
-        tempFilePath,
-      ],
-      stdout: 'pipe',
-      stderr: 'pipe',
-    })
-
-    // Capture both stdout and stderr for debugging
-    const stderrReader = gs.stderr.getReader()
-    const stdoutReader = gs.stdout.getReader()
-    const decoder = new TextDecoder()
-    let stderrOutput = ''
-    let stdoutOutput = ''
-
-    const readStderr = async () => {
-      try {
-        while (true) {
-          const { done, value } = await stderrReader.read()
-          if (done) break
-          const text = decoder.decode(value)
-          stderrOutput += text
-          console.log('    [gs stderr]', text.trim())
-        }
-      } catch {
-        // Ignore read errors
+function serveDist(port: number) {
+  return Bun.serve({
+    port,
+    async fetch(request) {
+      const { pathname } = new URL(request.url)
+      for (const candidate of resolveFile(decodeURIComponent(pathname))) {
+        const file = Bun.file(candidate)
+        if (await file.exists()) return new Response(file)
       }
-    }
-
-    const readStdout = async () => {
-      try {
-        while (true) {
-          const { done, value } = await stdoutReader.read()
-          if (done) break
-          const text = decoder.decode(value)
-          stdoutOutput += text
-          console.log('    [gs stdout]', text.trim())
-        }
-      } catch {
-        // Ignore read errors
-      }
-    }
-
-    readStderr()
-    readStdout()
-
-    gs.exited
-      .then((exitCode) => {
-        if (exitCode === 0) {
-          rmSync(tempFilePath)
-          console.info('     PDF optimized successfully')
-          resolve(true)
-        } else {
-          console.error('GhostScript stdout:', stdoutOutput)
-          console.error('GhostScript stderr:', stderrOutput)
-          renameSync(tempFilePath, filePath)
-          reject(`GhostScript failed with exit code ${exitCode}`)
-        }
-      })
-      .catch((err) => {
-        console.error('GhostScript error:', err)
-        console.error('GhostScript stdout:', stdoutOutput)
-        console.error('GhostScript stderr:', stderrOutput)
-        renameSync(tempFilePath, filePath)
-        reject('Error while using GhostScript.')
-      })
+      return new Response('not found', { status: 404 })
+    },
   })
 }
 
-async function start() {
-  console.info('Generating CV:')
+/**
+ * Ghostscript downsamples the photographs, which is most of the file size. It is
+ * optional: without it the PDF is simply larger, so a machine or CI runner that
+ * lacks `gs` still produces a correct document.
+ */
+async function optimizePdf(filePath: string) {
+  if (!which('gs')) {
+    console.info('     Ghostscript not found — keeping the unoptimised PDF')
+    return
+  }
 
-  // Copy static files before starting server
-  await copyStaticFiles()
+  const tempFilePath = filePath.replace(pdfExt, tempPathSuffix + pdfExt)
+  renameSync(filePath, tempFilePath)
 
+  const gs = spawn({
+    cmd: [
+      'gs',
+      '-sDEVICE=pdfwrite',
+      '-dCompatibilityLevel=1.4',
+      '-dPDFSETTINGS=/ebook',
+      '-dNOPAUSE',
+      '-dQUIET',
+      '-dBATCH',
+      '-dSAFER',
+      `-sOutputFile=${filePath}`,
+      '-dColorImageDownsampleType=/Bicubic',
+      '-dColorImageResolution=150',
+      '-dGrayImageDownsampleType=/Bicubic',
+      '-dGrayImageResolution=150',
+      '-dMonoImageDownsampleType=/Bicubic',
+      '-dMonoImageResolution=150',
+      '-dEmbedAllFonts=true',
+      '-dSubsetFonts=true',
+      '-dCompressFonts=true',
+      tempFilePath,
+    ],
+    stdout: 'pipe',
+    stderr: 'pipe',
+  })
+
+  const exitCode = await gs.exited
+  if (exitCode !== 0) {
+    renameSync(tempFilePath, filePath)
+    throw new Error(
+      `Ghostscript failed with exit code ${exitCode}: ${await new Response(gs.stderr).text()}`,
+    )
+  }
+
+  rmSync(tempFilePath)
+}
+
+async function renderLocale(browser: puppeteer.Browser, origin: string, locale: string) {
+  const page = await browser.newPage()
+  await page.emulateMediaType('print')
+  await page.goto(`${origin}/${locale}/cv`, { waitUntil: 'networkidle0', timeout: 60_000 })
+
+  // page.pdf() never fires this, but the page listens for it to promote lazy images
+  // that were never fetched — without it they print as blank space.
+  await page.evaluate(() => window.dispatchEvent(new Event('beforeprint')))
+  await page.evaluate(
+    () =>
+      new Promise<void>((done) => {
+        const pending = [...document.images].filter((img) => !img.complete)
+        if (!pending.length) return done()
+        let left = pending.length
+        const tick = () => --left === 0 && done()
+        for (const img of pending) {
+          img.addEventListener('load', tick, { once: true })
+          img.addEventListener('error', tick, { once: true })
+        }
+        setTimeout(done, 10_000)
+      }),
+  )
+  // Decoding can lag the load event, and an undecoded image prints blank.
+  await page.evaluate(() =>
+    Promise.all([...document.images].map((img) => img.decode().catch(() => undefined))),
+  )
+
+  const blank = await page.evaluate(
+    () => [...document.images].filter((img) => !(img.complete && img.naturalWidth > 0)).length,
+  )
+  if (blank) console.warn(`     ${blank} image(s) failed to load and will print blank`)
+
+  const pdf = await page.pdf({
+    format: 'A4',
+    margin: { top: '12mm', bottom: '12mm', left: '12mm', right: '12mm' },
+    printBackground: true,
+    tagged: true,
+  })
+  await page.close()
+
+  const pdfPath = join(publicDir, `cv.${locale}${pdfExt}`)
+  writeFileSync(pdfPath, pdf)
+  console.info(` - Wrote ${pdfPath} (${(pdf.length / 1024).toFixed(0)}KB)`)
+
+  await optimizePdf(pdfPath)
+  const finalSize = Bun.file(pdfPath).size
+  console.info(`     final ${(finalSize / 1024).toFixed(0)}KB`)
+}
+
+async function main() {
+  if (!existsSync(distDir)) {
+    throw new Error(
+      `No build to print from at ${distDir} — run \`bun run build --filter=www2\` first`,
+    )
+  }
+
+  console.info('Generating CV PDFs from the www2 build:')
+  const server = serveDist(0)
+  const origin = `http://localhost:${server.port}`
   const browser = await puppeteer.launch({ headless: true })
 
-  return new Promise((resolve, reject) => {
-    console.info(' - Start server')
-
-    const staticServer = spawn({
-      cmd: ['bun', serverPath],
-      cwd: standalonePath,
-      env: {
-        ...process.env,
-        PORT: `${port}`,
-        HOSTNAME: host,
-        IS_CV: 'true',
-      },
-      stdout: 'pipe',
-      stderr: 'pipe',
-    })
-
-    // Read stdout stream
-    const reader = staticServer.stdout.getReader()
-    const decoder = new TextDecoder()
-
-    const checkOutput = async () => {
-      try {
-        while (true) {
-          const { done, value } = await reader.read()
-          if (done) break
-
-          const text = decoder.decode(value)
-          console.log(text)
-
-          if (text.includes(`${host}:${port}`)) {
-            try {
-              await generatePdfs()
-            } catch (err) {
-              await cleanup(`${err}`)
-            }
-            break
-          }
-        }
-      } catch (err) {
-        await cleanup(`Error reading output: ${err}`)
-      }
+  try {
+    for (const locale of locales) {
+      console.info(` - Printing /${locale}/cv`)
+      await renderLocale(browser, origin, locale)
     }
-
-    checkOutput()
-
-    async function generatePdfs() {
-      let step = 'starting'
-      try {
-        for (const lang of locales) {
-          console.info(` - Open "${lang}" CV page`)
-
-          step = 'opening page'
-          const page = await browser.newPage()
-
-          // Emulate print media to get correct styles
-          await page.emulateMediaType('print')
-
-          // Navigate and wait for network to be idle
-          await page.goto(`http://${host}:${port}/${lang}/cv`, {
-            waitUntil: 'networkidle0',
-            timeout: 60000,
-          })
-
-          step = 'loading all images'
-
-          // Force all images to load eagerly
-          await page.evaluate(() => {
-            const images = Array.from(document.querySelectorAll('img'))
-            images.forEach((img) => {
-              img.loading = 'eager'
-            })
-          })
-
-          // Scroll to load lazy images
-          await page.evaluate(() => {
-            window.scrollTo({
-              left: 0,
-              top: window.document.body.scrollHeight,
-              behavior: 'instant',
-            })
-          })
-
-          // Wait for network to settle after scroll
-          await page.waitForNetworkIdle({ timeout: 10000 })
-
-          // Debug: check image sources
-          const imageInfo = await page.evaluate(() => {
-            const images = Array.from(document.querySelectorAll('img'))
-            return images.map((img) => ({
-              src: img.src,
-              currentSrc: img.currentSrc,
-              complete: img.complete,
-              naturalWidth: img.naturalWidth,
-              naturalHeight: img.naturalHeight,
-              width: img.width,
-              height: img.height,
-              loading: img.loading,
-              decoding: img.decoding,
-            }))
-          })
-          console.info(`     Found ${imageInfo.length} images`)
-          imageInfo.forEach((img, i) => {
-            console.info(`     Image ${i + 1}: ${img.src}`)
-            console.info(
-              `       Complete: ${img.complete}, Natural: ${img.naturalWidth}x${img.naturalHeight}, Display: ${img.width}x${img.height}`,
-            )
-            if (img.naturalWidth === 0) {
-              console.warn('       ⚠️  FAILED TO LOAD')
-            }
-          })
-
-          // Wait for all images to be loaded
-          await page.evaluate(async () => {
-            const images = Array.from(document.querySelectorAll('img'))
-            await Promise.all(
-              images.map(async (img) => {
-                if (img.complete && img.naturalWidth > 0) {
-                  // Force decode to ensure image is ready for rendering
-                  try {
-                    await img.decode()
-                  } catch {
-                    // Ignore decode errors
-                  }
-                  return Promise.resolve(undefined)
-                }
-                return new Promise<void>((resolve) => {
-                  img.addEventListener('load', async () => {
-                    try {
-                      await img.decode()
-                    } catch {
-                      // Ignore decode errors
-                    }
-                    resolve()
-                  })
-                  img.addEventListener('error', () => resolve())
-                  // Timeout after 5 seconds
-                  setTimeout(() => resolve(), 5000)
-                })
-              }),
-            )
-          })
-
-          // Force a repaint to ensure images are rendered
-          await page.evaluate(() => {
-            window.scrollTo(0, 0)
-          })
-          await page.waitForNetworkIdle()
-
-          step = 'saving PDF'
-          const pdf = await page.pdf({
-            format: 'A4',
-            margin: {
-              top: '0.5cm',
-              bottom: '0.5cm',
-              left: '0.5cm',
-              right: '0.5cm',
-            },
-            printBackground: true,
-            preferCSSPageSize: false,
-            omitBackground: false,
-            // Use tagged PDF for better compression (Chrome feature)
-            tagged: true,
-          })
-          const pdfPath = join(wwwDir, `public/cv.${lang}${pdfExt}`)
-          console.info(` - Save "${pdfPath}"`)
-          writeFileSync(pdfPath, pdf)
-
-          if (useOptimization) {
-            console.info(' - Optimize PDF with GhostScript')
-            await optimizePdf(pdfPath)
-          } else {
-            console.info(' - Skipping PDF optimization')
-          }
-        }
-
-        return await cleanup()
-      } catch (error) {
-        return await cleanup(`Error ${step}: ${error}`)
-      }
-    }
-
-    async function cleanup(error?: string) {
-      const message = `${error}`
-
-      // Ignore warnings
-      if (message.includes('Warning') || message.includes('⚠')) {
-        console.warn(`Warn: ${message}`)
-        return
-      }
-
-      if (error) {
-        console.error(`Fail: ${error}`)
-        reject(error)
-      } else {
-        console.info('Done.')
-        resolve(true)
-      }
-
-      // Kill the server process
-      staticServer.kill()
-      await browser.close()
-    }
-  })
+    console.info('Done.')
+  } finally {
+    await browser.close()
+    await server.stop(true)
+  }
 }
 
-Promise.all([start()])
+await main()
