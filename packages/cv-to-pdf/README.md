@@ -12,11 +12,10 @@ browser, so the PDF goes through the same print stylesheet as ⌘P on the live s
 
 ## Ghostscript (optional)
 
-Without it the PDF is correct but roughly ten times larger, since the photographs
-are embedded at full resolution:
+Purely a size optimisation — it downsamples the embedded photographs. The PDF is
+correct without it, just roughly ten times larger, so install it before committing
+a regenerated file rather than to make the generator work. On macOS:
 
 ```sh
 brew install ghostscript
 ```
-
-Install it before committing a regenerated PDF.

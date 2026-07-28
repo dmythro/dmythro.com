@@ -1,5 +1,5 @@
 import { existsSync, renameSync, rmSync, writeFileSync } from 'node:fs'
-import { join, resolve } from 'node:path'
+import { join, resolve, sep } from 'node:path'
 import { spawn, which } from 'bun'
 import puppeteer from 'puppeteer'
 
@@ -16,15 +16,29 @@ const appDir = resolve(import.meta.dir, '../../apps/www2')
 const distDir = join(appDir, 'dist')
 const publicDir = join(appDir, 'public')
 
-/** Matches how Cloudflare Pages resolves a clean URL onto a built file. */
+/**
+ * Matches how Cloudflare Pages resolves a clean URL onto a built file. Candidates
+ * that resolve outside the build directory are dropped: the decoded pathname is
+ * attacker-shaped input in principle, and `..` segments would otherwise walk out.
+ */
 function resolveFile(pathname: string): string[] {
   const path = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname
-  return [join(distDir, path), join(distDir, `${path}.html`), join(distDir, path, 'index.html')]
+  const candidates = [
+    join(distDir, path),
+    join(distDir, `${path}.html`),
+    join(distDir, path, 'index.html'),
+  ]
+  return candidates.filter((candidate) => {
+    const full = resolve(candidate)
+    return full === distDir || full.startsWith(distDir + sep)
+  })
 }
 
 function serveDist(port: number) {
   return Bun.serve({
     port,
+    // Loopback only — this exists for the local browser, not the network.
+    hostname: '127.0.0.1',
     async fetch(request) {
       const { pathname } = new URL(request.url)
       for (const candidate of resolveFile(decodeURIComponent(pathname))) {
@@ -50,6 +64,18 @@ async function optimizePdf(filePath: string) {
   const tempFilePath = filePath.replace(pdfExt, tempPathSuffix + pdfExt)
   renameSync(filePath, tempFilePath)
 
+  // The printed PDF only exists under the temp name from here on, so every failure
+  // path has to put it back — otherwise a Ghostscript problem loses the document.
+  try {
+    await runGhostscript(tempFilePath, filePath)
+    rmSync(tempFilePath)
+  } catch (error) {
+    if (existsSync(tempFilePath)) renameSync(tempFilePath, filePath)
+    throw error
+  }
+}
+
+async function runGhostscript(input: string, output: string) {
   const gs = spawn({
     cmd: [
       'gs',
@@ -60,7 +86,7 @@ async function optimizePdf(filePath: string) {
       '-dQUIET',
       '-dBATCH',
       '-dSAFER',
-      `-sOutputFile=${filePath}`,
+      `-sOutputFile=${output}`,
       '-dColorImageDownsampleType=/Bicubic',
       '-dColorImageResolution=150',
       '-dGrayImageDownsampleType=/Bicubic',
@@ -70,7 +96,7 @@ async function optimizePdf(filePath: string) {
       '-dEmbedAllFonts=true',
       '-dSubsetFonts=true',
       '-dCompressFonts=true',
-      tempFilePath,
+      input,
     ],
     stdout: 'pipe',
     stderr: 'pipe',
@@ -78,13 +104,10 @@ async function optimizePdf(filePath: string) {
 
   const exitCode = await gs.exited
   if (exitCode !== 0) {
-    renameSync(tempFilePath, filePath)
     throw new Error(
       `Ghostscript failed with exit code ${exitCode}: ${await new Response(gs.stderr).text()}`,
     )
   }
-
-  rmSync(tempFilePath)
 }
 
 async function renderLocale(browser: puppeteer.Browser, origin: string, locale: string) {
@@ -145,7 +168,7 @@ async function main() {
 
   console.info('Generating CV PDFs from the www2 build:')
   const server = serveDist(0)
-  const origin = `http://localhost:${server.port}`
+  const origin = `http://127.0.0.1:${server.port}`
   const browser = await puppeteer.launch({ headless: true })
 
   try {
