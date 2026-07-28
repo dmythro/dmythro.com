@@ -20,7 +20,7 @@ import {
 import {
   calculateTension,
   getBrandPreset,
-  getGaugesFromBrand,
+  getGaugesForTuning,
   getNotesForTuning,
   interpolateScale,
 } from './string-utils'
@@ -57,6 +57,14 @@ interface StoredState {
   form: FormState
   stringsData: StringData[]
 }
+
+/**
+ * Brand unit-weight tables are published for guitar gauges only, so bass runs on
+ * the fallback model for every string rather than switching models mid-neck when
+ * one gauge happens to appear in a guitar table.
+ */
+const brandForType = (type: InstrumentType, brand: string): string | undefined =>
+  type === 'guitar' ? brand : undefined
 
 const getDefaultForm = (): FormState => {
   const preset = PRESETS.guitar.find((p) => p.key === DEFAULT_PRESETS.guitar)
@@ -101,13 +109,27 @@ export const StringTensionCalculator: FunctionComponent<StringTensionCalculatorP
   const [isHydrated, setIsHydrated] = useState(false)
   const skipNextFormEffect = useRef(false)
 
-  // Load state from localStorage on mount (after hydration)
+  // Load state from localStorage on mount (after hydration). Scale, note and
+  // gauge are the user's, but tension is recomputed rather than restored — a
+  // setup saved before a fix to the unit-weight model would otherwise keep
+  // showing the numbers that fix corrected.
   useEffect(() => {
     const stored = loadFromStorage()
     if (stored) {
       skipNextFormEffect.current = true
       setForm(stored.form)
-      setStringsData(stored.stringsData)
+      setStringsData(
+        stored.stringsData.map((row) => ({
+          ...row,
+          tension: calculateTension(
+            row.gauge,
+            Number.parseFloat(row.scale),
+            row.note,
+            stored.form.stringMaterial,
+            brandForType(stored.form.type, stored.form.stringBrand),
+          ),
+        })),
+      )
     }
     setIsHydrated(true)
   }, [])
@@ -132,14 +154,15 @@ export const StringTensionCalculator: FunctionComponent<StringTensionCalculatorP
     const notes = getNotesForTuning(type, tuning, strings)
     const gauges =
       type === 'guitar'
-        ? getGaugesFromBrand(stringBrand, strings, tuning)
+        ? getGaugesForTuning(strings, tuning)
         : DEFAULT_BASS_GAUGES.slice(0, strings)
+    const brand = brandForType(type, stringBrand)
 
     const newStringsData: StringData[] = Array.from({ length: strings }, (_, i) => {
       const scale = interpolateScale(i, strings, scaleFromNum, scaleToNum)
       const note = notes[i] || notes[notes.length - 1]
       const gauge = gauges[i] || gauges[gauges.length - 1]
-      const tension = calculateTension(gauge, scale, note, stringMaterial, stringBrand)
+      const tension = calculateTension(gauge, scale, note, stringMaterial, brand)
 
       return {
         number: i + 1,
@@ -172,13 +195,13 @@ export const StringTensionCalculator: FunctionComponent<StringTensionCalculatorP
           Number.parseFloat(string.scale),
           string.note,
           form.stringMaterial,
-          form.stringBrand,
+          brandForType(form.type, form.stringBrand),
         )
         updated[index] = string
         return updated
       })
     },
-    [form.stringMaterial, form.stringBrand],
+    [form.type, form.stringMaterial, form.stringBrand],
   )
 
   const handleTypeChange = useCallback((type: InstrumentType) => {
@@ -322,17 +345,21 @@ export const StringTensionCalculator: FunctionComponent<StringTensionCalculatorP
               class="sm:w-56"
             />
 
-            <RichSelect
-              label={t.stringPreset}
-              items={STRING_BRAND_PRESETS.map((b) => ({
-                key: b.key,
-                label: b.label,
-                description: b.description,
-              }))}
-              value={stringBrand}
-              onChange={handleBrandChange}
-              class="sm:w-56"
-            />
+            {/* Guitar only — none of these brands ship bass sets here, so on bass
+                the control would change nothing but still look like it did. */}
+            {type === 'guitar' && (
+              <RichSelect
+                label={t.stringPreset}
+                items={STRING_BRAND_PRESETS.map((b) => ({
+                  key: b.key,
+                  label: b.label,
+                  description: b.description,
+                }))}
+                value={stringBrand}
+                onChange={handleBrandChange}
+                class="sm:w-56"
+              />
+            )}
           </div>
         </div>
 
@@ -453,7 +480,7 @@ export const StringTensionCalculator: FunctionComponent<StringTensionCalculatorP
                   <input
                     type="number"
                     class="grow text-right"
-                    aria-label={`Scale length for string ${row.number}`}
+                    aria-label={`${t.scaleFor} ${row.number}`}
                     min={scaleRange.min}
                     max={scaleRange.max}
                     step={0.25}
@@ -466,7 +493,7 @@ export const StringTensionCalculator: FunctionComponent<StringTensionCalculatorP
                   class="select select-bordered select-xs min-w-0"
                   value={row.note}
                   onChange={(e) => updateString(index, 'note', e.currentTarget.value)}
-                  aria-label={`Note for string ${row.number}`}
+                  aria-label={`${t.noteFor} ${row.number}`}
                 >
                   {noteOptions.map((note) => (
                     <option key={note} value={note}>
@@ -478,7 +505,7 @@ export const StringTensionCalculator: FunctionComponent<StringTensionCalculatorP
                   class="select select-bordered select-xs min-w-[85px]"
                   value={row.gauge}
                   onChange={(e) => updateString(index, 'gauge', e.currentTarget.value)}
-                  aria-label={`Gauge for string ${row.number}`}
+                  aria-label={`${t.gaugeFor} ${row.number}`}
                 >
                   {GAUGE_OPTIONS.map((gauge) => (
                     <option key={gauge} value={gauge}>

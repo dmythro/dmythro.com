@@ -188,6 +188,10 @@ export const en = {
       gauge: 'Gauge',
       tension: 'Tension',
       totalTension: 'Total tension',
+      // Per-row screen reader labels, each followed by the string number
+      scaleFor: 'Scale length for string',
+      noteFor: 'Note for string',
+      gaugeFor: 'Gauge for string',
       tunings: {
         e: 'E Standard',
         'e-drop-d': 'E Drop D',

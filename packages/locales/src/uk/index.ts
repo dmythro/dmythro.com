@@ -188,6 +188,10 @@ export const uk: Translation = {
       gauge: 'Калібр',
       tension: 'Натяг',
       totalTension: 'Загальний натяг',
+      // Підписи рядків для читачів з екрана, після кожного йде номер струни
+      scaleFor: 'Мензура струни',
+      noteFor: 'Нота струни',
+      gaugeFor: 'Калібр струни',
       tunings: {
         e: 'E Стандарт',
         'e-drop-d': 'E Drop D',

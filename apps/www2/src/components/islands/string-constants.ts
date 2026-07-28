@@ -68,16 +68,33 @@ export const NOTE_FREQUENCIES: Record<string, number> = {
   G4: 392.0,
 }
 
-// String material coefficients for unit weight calculation
-// UW = gauge² × coefficient (where gauge is in inches)
-// Coefficients derived from material density and typical string construction
-// Plain steel uses actual steel density; wound strings account for hex core + wrap
-export const PLAIN_STEEL_COEFFICIENT = 0.2696 // High-carbon steel wire
+// Fallback unit-weight model, used for any gauge missing from the brand tables
+// below: UW = gauge² × coefficient, gauge in inches, UW in lbs/inch.
+//
+// The coefficient is the mean of what DADDARIO_UNIT_WEIGHTS implies — its plain
+// entries all sit within 0.3% of 0.2215 — so a gauge that falls through to the
+// formula lands where the same brand's published data would put it. The physics
+// agrees: π/4 × 0.282 lbs/in³ for high-carbon music wire. Anything above 0.2231
+// (π/4 × solid steel) is impossible for round wire, which is the cheap sanity
+// check this constant failed for a while.
+export const PLAIN_STEEL_COEFFICIENT = 0.2215
 
+// A wound string is a steel hex core inside a helical wrap, so its coefficient
+// depends on the wrap alloy. Nickel-wound is measured: the mean of the wound
+// entries in DADDARIO_UNIT_WEIGHTS from .024w up, which hold 0.1875 to within
+// 0.8%. Below that the core is a large enough share of the diameter that the
+// square law stops fitting — .017w sits 6% off — but those gauges are all in the
+// table anyway, so the fallback is tuned to the range that actually reaches it,
+// bass gauges above all.
+//
+// The other two scale nickel-wound by wrap density over a 27/73 core-to-wrap
+// volume split, what a .046 with a .022 core works out to. Pure nickel is the
+// heaviest of the three, not the lightest: nickel is denser than the steel it
+// replaces, so the old ordering had the sign backwards.
 export const WOUND_COEFFICIENTS: Record<StringMaterial, number> = {
-  'nickel-wound': 0.2155, // Nickel-plated steel wrap over hex core (avg from D'Addario data)
-  'stainless-wound': 0.2069, // Stainless steel wrap (slightly less dense)
-  'pure-nickel': 0.21, // Pure nickel wrap
+  'nickel-wound': 0.1875, // Nickel-plated steel wrap, 7.85 g/cm³
+  'stainless-wound': 0.1884, // Stainless 304 wrap, 7.9 g/cm³
+  'pure-nickel': 0.2057, // Pure nickel wrap, 8.9 g/cm³
 }
 
 // Brand-specific unit weights (lbs/inch) derived from published tension data
@@ -204,20 +221,50 @@ export const BRAND_UNIT_WEIGHTS: Record<string, BrandUnitWeights> = {
   'ernie-ball-slinky': ERNIE_BALL_UNIT_WEIGHTS,
 }
 
-// String brand presets with their gauge sets and characteristics
+// Which gauge set a tuning asks for. B standard needs its own: it sits five
+// semitones below E, far enough that the down-tuned set goes slack on a 27" neck.
+export type GaugeSet = 'standard' | 'down' | 'baritone'
+
+export const TUNING_GAUGE_SETS: Record<string, GaugeSet> = {
+  e: 'standard',
+  'e-drop-d': 'down',
+  eb: 'down',
+  d: 'down',
+  b: 'baritone',
+}
+
+// Gauges are shared across every brand below — these sets differ by winding,
+// coating and core treatment, not by diameter, and all seven ship the same
+// nominal 10-46 / 10-52 / 13-62 sizes. Keyed by string count; anything above 8
+// repeats the lowest gauge.
+export const GAUGE_SETS: Record<GaugeSet, Record<6 | 7 | 8, string[]>> = {
+  // 10-46, the regular-light standard
+  standard: {
+    6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
+    7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
+    8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
+  },
+  // 10-52, heavier on the wound strings to hold a step down
+  down: {
+    6: ['.010', '.013', '.017', '.030w', '.042w', '.052w'],
+    7: ['.010', '.013', '.017', '.030w', '.042w', '.052w', '.064w'],
+    8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
+  },
+  // 13-62, the D'Addario EXL158 baritone sizes, extended down for 7 and 8
+  baritone: {
+    6: ['.013', '.017', '.026w', '.036w', '.046w', '.062w'],
+    7: ['.013', '.017', '.026w', '.036w', '.046w', '.062w', '.080w'],
+    8: ['.013', '.017', '.026w', '.036w', '.046w', '.062w', '.080w', '.105w'],
+  },
+}
+
+// String brand presets — construction and feel, which is what the choice
+// actually changes. Unit weights come from BRAND_UNIT_WEIGHTS where published.
 export interface StringBrandPreset {
   key: string
   label: string
   description: string
   material: StringMaterial
-  // Standard tuning gauges (10-46 style)
-  gauges6: string[]
-  gauges7: string[]
-  gauges8: string[]
-  // D standard / drop tuning gauges (10-52 style)
-  gauges6d: string[]
-  gauges7d: string[]
-  gauges8d: string[]
 }
 
 export const STRING_BRAND_PRESETS: StringBrandPreset[] = [
@@ -226,84 +273,42 @@ export const STRING_BRAND_PRESETS: StringBrandPreset[] = [
     label: "D'Addario NYXL",
     description: 'Nickel-wound, high carbon steel core, bright tone, enhanced tuning stability',
     material: 'nickel-wound',
-    gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
-    gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
-    gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
-    gauges6d: ['.010', '.013', '.017', '.030w', '.042w', '.052w'],
-    gauges7d: ['.010', '.013', '.017', '.030w', '.042w', '.052w', '.064w'],
-    gauges8d: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
   },
   {
     key: 'daddario-xl',
     label: "D'Addario XL",
     description: 'Nickel-wound, hex core, balanced tone, industry standard',
     material: 'nickel-wound',
-    gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
-    gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
-    gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
-    gauges6d: ['.010', '.013', '.017', '.030w', '.042w', '.052w'],
-    gauges7d: ['.010', '.013', '.017', '.030w', '.042w', '.052w', '.064w'],
-    gauges8d: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
   },
   {
     key: 'elixir-optiweb',
     label: 'Elixir Optiweb',
     description: 'Nickel-wound, ultra-thin coating, natural feel, long-lasting tone',
     material: 'nickel-wound',
-    gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
-    gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
-    gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
-    gauges6d: ['.010', '.013', '.017', '.030w', '.042w', '.052w'],
-    gauges7d: ['.010', '.013', '.017', '.030w', '.042w', '.052w', '.064w'],
-    gauges8d: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
   },
   {
     key: 'elixir-nanoweb',
     label: 'Elixir Nanoweb',
     description: 'Nickel-wound, thin coating, balanced feel, extended lifespan',
     material: 'nickel-wound',
-    gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
-    gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
-    gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
-    gauges6d: ['.010', '.013', '.017', '.030w', '.042w', '.052w'],
-    gauges7d: ['.010', '.013', '.017', '.030w', '.042w', '.052w', '.064w'],
-    gauges8d: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
   },
   {
     key: 'elixir-polyweb',
     label: 'Elixir Polyweb',
     description: 'Nickel-wound, original coating, warm tone, smooth feel',
     material: 'nickel-wound',
-    gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
-    gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
-    gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
-    gauges6d: ['.010', '.013', '.017', '.030w', '.042w', '.052w'],
-    gauges7d: ['.010', '.013', '.017', '.030w', '.042w', '.052w', '.064w'],
-    gauges8d: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
   },
   {
     key: 'ernie-ball-paradigm',
     label: 'Ernie Ball Paradigm',
     description: 'Nickel-wound, reinforced plain strings, break-resistant, bright tone',
     material: 'nickel-wound',
-    gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
-    gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
-    gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
-    gauges6d: ['.010', '.013', '.017', '.030w', '.042w', '.052w'],
-    gauges7d: ['.010', '.013', '.017', '.030w', '.042w', '.052w', '.064w'],
-    gauges8d: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
   },
   {
     key: 'ernie-ball-slinky',
     label: 'Ernie Ball Slinky',
     description: 'Nickel-wound, tin-plated hex core, flexible feel, classic rock tone',
     material: 'nickel-wound',
-    gauges6: ['.010', '.013', '.017', '.026w', '.036w', '.046w'],
-    gauges7: ['.010', '.013', '.017', '.026w', '.036w', '.046w', '.059w'],
-    gauges8: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
-    gauges6d: ['.010', '.013', '.017', '.030w', '.042w', '.052w'],
-    gauges7d: ['.010', '.013', '.017', '.030w', '.042w', '.052w', '.064w'],
-    gauges8d: ['.010', '.013', '.017', '.030w', '.042w', '.054w', '.064w', '.074w'],
   },
 ]
 
@@ -324,25 +329,19 @@ export const BASS_TUNINGS: Record<string, string[]> = {
   d: ['F2', 'C2', 'G1', 'D1', 'A0', 'E0'],
 }
 
-// Default gauges for guitar strings (D'Addario NYXL1074)
-// "w" suffix indicates wound string
-export const DEFAULT_GUITAR_GAUGES = [
-  '.010',
-  '.013',
-  '.017',
-  '.030w',
-  '.042w',
-  '.054w',
-  '.064w',
-  '.074w',
-  '.080w',
-  '.080w',
-  '.080w',
-  '.080w',
-]
-
 // Default gauges for bass strings (all wound)
 export const DEFAULT_BASS_GAUGES = ['.045w', '.065w', '.085w', '.105w', '.125w', '.130w']
+
+// What the tension indicator calls neutral, per string position, in lbs.
+//
+// Guitar reads off D'Addario's published tensions for NYXL 10-46 at E standard
+// and 25.5", plus .059w and .074w for strings 7 and 8. Bass has no equivalent
+// published set here, so it is DEFAULT_BASS_GAUGES at E standard and 34" run
+// through the fallback model — a reference set reads as 0%, and deviation shows
+// once gauge, tuning or scale moves off it. Both are asserted in
+// `tests/string-tension.test.ts`, so neither can drift from its source.
+export const GUITAR_BASELINE_TENSIONS = [16.2, 15.4, 16.6, 18.4, 19.7, 18.1, 16.7, 14.8]
+export const BASS_BASELINE_TENSIONS = [43.6, 51.1, 49, 42, 33.4, 20.3]
 
 // String count ranges per instrument type
 export const STRING_RANGES: Record<InstrumentType, { min: number; max: number; default: number }> =

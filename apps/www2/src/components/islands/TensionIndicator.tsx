@@ -2,16 +2,13 @@ import type { Translation } from '@dmythro/locales'
 import type { FunctionComponent } from 'preact'
 import { useCallback, useState } from 'preact/hooks'
 
-import type { InstrumentType } from './string-constants'
+import {
+  BASS_BASELINE_TENSIONS,
+  GUITAR_BASELINE_TENSIONS,
+  type InstrumentType,
+} from './string-constants'
 
 type IndicatorTranslations = Translation['guitars']['stringTension']['indicator']
-
-// Guitar baseline tensions: D'Addario NYXL 10-46/59/74 at E standard, 25.5" scale
-// String 1-6: standard 10-46 set, String 7: .059w, String 8: .074w
-const GUITAR_BASELINE_TENSIONS = [16.2, 15.4, 16.6, 18.4, 19.7, 18.1, 16.7, 14.8]
-
-// Bass baseline tensions: Standard 5-string set (.045-.130) at E standard, 34" scale
-const BASS_BASELINE_TENSIONS = [50.2, 58.7, 56.4, 48.3, 41.5]
 
 // Get baseline tension for a string position (1-indexed)
 function getBaselineTension(instrumentType: InstrumentType, stringNumber: number): number {
@@ -124,6 +121,7 @@ export const TensionIndicator: FunctionComponent<TensionIndicatorProps> = ({
       <button
         type="button"
         class="inline-flex items-center justify-end gap-1 font-mono text-xs sm:text-sm tabular-nums cursor-help w-full"
+        aria-label={`${tension.toFixed(1)} lbs — ${tooltipContent}`}
         onClick={handleClick}
         onMouseEnter={() => setIsOpen(true)}
         onMouseLeave={() => setIsOpen(false)}
