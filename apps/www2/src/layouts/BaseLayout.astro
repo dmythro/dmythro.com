@@ -112,7 +112,20 @@ const ogImageType = ogImageUrl.endsWith('.png') ? 'image/png' : 'image/jpeg'
     <script is:inline>
       if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
         document.addEventListener('astro:before-swap', (e) => {
-          e.viewTransition?.skipTransition()
+          const vt = e.viewTransition
+          if (!vt) return
+          // Per spec skipTransition() rejects `ready` with an AbortError, and Astro's
+          // router only ever attaches handlers to updateCallbackDone and finished.
+          // Without a handler here that rejection reaches the console as an unhandled
+          // promise on every single navigation. Claiming it changes nothing else: this
+          // derived promise is discarded, and the swap runs off the two promises Astro
+          // does await. Anything that is not the AbortError we just asked for is a real
+          // failure, so it still gets reported rather than swallowed — logged rather
+          // than rethrown, since rethrowing would recreate the unhandled rejection.
+          void vt.ready?.catch((err) => {
+            if (err?.name !== 'AbortError') console.error('[view-transition]', err)
+          })
+          vt.skipTransition()
         })
       }
     </script>
