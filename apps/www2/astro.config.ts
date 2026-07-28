@@ -7,13 +7,25 @@ import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'astro/config'
 
 import { feedPages } from './src/data/feedPages'
+import { pageDates } from './src/data/pageDates'
 import { getProjectDate, projects } from './src/data/projects'
 import rehypeLocalImageSize from './src/plugins/rehype-local-image-size'
 
+const newest = (dates: Date[]) => new Date(Math.max(...dates.map((date) => date.getTime())))
+
+const projectDates = projects.map(getProjectDate)
+const feedPageDates = feedPages.map((page) => new Date(page.updatedAt ?? page.publishedAt))
+
+/** A listing page is as fresh as the newest thing on it. */
+const newestProject = newest(projectDates)
+/** The landing page surfaces highlighted projects and links every standing page. */
+const newestAnything = newest([...projectDates, ...feedPageDates])
+
 /**
- * Route → the date its content last changed. Projects carry their own dates; the
- * standing pages take theirs from the same table the feed reads, so a CV edit moves
- * its sitemap entry rather than leaving it undated.
+ * Route → the date its content last changed. Nothing is dated by hand that can be
+ * worked out: projects carry their own dates, the standing pages take theirs from the
+ * table the feed reads, and listing pages follow what they list. Only routes with no
+ * such signal fall back to `pageDates`.
  */
 const pageLastmod = new Map<string, string>([
   ...projects.flatMap((project) =>
@@ -28,6 +40,18 @@ const pageLastmod = new Map<string, string>([
       new Date(page.updatedAt ?? page.publishedAt).toISOString(),
     ]),
   ),
+  ...Object.entries(pageDates).flatMap(([path, date]) =>
+    availableLocales.map((locale): [string, string] => [
+      `/${locale}${path}`,
+      new Date(date).toISOString(),
+    ]),
+  ),
+  ...availableLocales.flatMap((locale): [string, string][] => [
+    [`/${locale}`, newestAnything.toISOString()],
+    [`/${locale}/projects`, newestProject.toISOString()],
+  ]),
+  // The bare root, which redirects into a locale.
+  ['', newestAnything.toISOString()],
 ])
 
 export default defineConfig({
