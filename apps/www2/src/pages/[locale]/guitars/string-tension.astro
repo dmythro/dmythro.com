@@ -6,6 +6,7 @@ import PageHeader from '@/components/PageHeader.astro'
 import PageLayout from '@/layouts/PageLayout.astro'
 import { getT } from '@/utils/getT'
 import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
+import { pageOgImagePath } from '@/utils/ogImage'
 
 export function getStaticPaths() {
   return getStaticLocalePaths()
@@ -26,7 +27,7 @@ const calcJsonLd = {
 }
 ---
 
-<PageLayout locale={locale} title={`${st.title} — ${USERNAME}`} description={st.description} jsonLd={calcJsonLd}>
+<PageLayout locale={locale} title={`${st.title} — ${USERNAME}`} description={st.description} jsonLd={calcJsonLd} ogImage={pageOgImagePath('stringTension', locale)}>
   <PageHeader title={st.title} subtitle={st.description} />
 
   <StringTensionCalculator client:load translations={st} />

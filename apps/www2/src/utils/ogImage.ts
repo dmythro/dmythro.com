@@ -50,6 +50,8 @@ const iconShapes: Record<string, string> = {
   mail: '<path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/>',
   heart:
     '<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/>',
+  folder:
+    '<path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/>',
 }
 
 /** Inline SVG as a data URI — Takumi renders it as an image node. */
@@ -222,23 +224,37 @@ export function projectOgImagePath(slug: string, locale: LocaleCode): string {
   return `/og/${locale}/projects/${slug}.png`
 }
 
-/** Icon per standing page, so each card is recognisable at a glance. */
+/**
+ * Icon per standing page, so each card is recognisable at a glance. This object
+ * is also the register of which pages get a generated card at all — deliberately
+ * not `feedPages`, which answers a different question. A page can be worth a
+ * social image without being worth an entry in someone's reader, and the
+ * calculator is exactly that: it belongs in chat previews, but the article about
+ * it is already the feed item, so syndicating both would say the same thing twice.
+ */
 export const pageOgIcons = {
   cv: 'user',
   contact: 'mail',
   openSource: 'heart',
+  projects: 'folder',
+  stringTension: 'music',
 } as const
 
 export type PageOgKey = keyof typeof pageOgIcons
 
+export const pageOgKeys = Object.keys(pageOgIcons) as PageOgKey[]
+
 /**
  * Standing pages are addressed by their route segment rather than their copy key,
- * so the generated file sits next to the page it belongs to.
+ * so the generated file sits next to the page it belongs to. Nested routes keep
+ * their nesting, which is why the card route takes a rest parameter.
  */
 export const pageOgSlugs: Record<PageOgKey, string> = {
   cv: 'cv',
   contact: 'contact',
   openSource: 'open-source',
+  projects: 'projects',
+  stringTension: 'guitars/string-tension',
 }
 
 /** Site-root-relative path of a standing page's generated OG image. */
