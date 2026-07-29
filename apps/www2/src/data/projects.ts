@@ -96,6 +96,66 @@ export const defaultAuthor: ProjectCredit = {
 }
 
 export const projects: Project[] = [
+  {
+    slug: 'viche',
+    title: { en: 'viche.social', uk: 'viche.social' },
+    description: {
+      en: 'Bluesky, Mastodon and Nostr in one timeline — a client-first web app where your keys and accounts stay on your device.',
+      uk: 'Bluesky, Mastodon і Nostr в одній стрічці — клієнтський застосунок, де ваші ключі та акаунти лишаються на вашому пристрої.',
+    },
+    category: 'dev',
+    status: 'live',
+    startedAt: '2026-04-21',
+    publishedAt: '2026-07-29',
+    programmingLanguages: ['TypeScript'],
+    tags: ['bluesky', 'mastodon', 'nostr', 'pwa', 'atproto', 'activitypub', 'astro', 'react'],
+    icon: 'intersect-three',
+    url: 'https://viche.social',
+    related: ['countries-list', 'dmythro-com'],
+    organization: { name: 'Annexare', url: 'https://annexare.com/' },
+    uses: [
+      {
+        name: 'Astro',
+        url: 'https://astro.build/',
+        role: {
+          en: 'static shell, one React island',
+          uk: 'статична оболонка, один React-острівець',
+        },
+      },
+      {
+        name: 'HeroUI',
+        url: 'https://www.heroui.com/',
+        role: { en: 'component library', uk: 'бібліотека компонентів' },
+      },
+      {
+        name: 'nostr-tools',
+        url: 'https://github.com/nbd-wtf/nostr-tools',
+        role: { en: 'Nostr relays and signing', uk: 'релеї та підписи Nostr' },
+      },
+      {
+        name: 'AT Protocol',
+        url: 'https://atproto.com/',
+        role: { en: 'Bluesky OAuth and lexicons', uk: 'OAuth та лексикони Bluesky' },
+      },
+      {
+        name: 'TanStack Query',
+        url: 'https://tanstack.com/query',
+        role: { en: 'remote cache', uk: 'кеш віддалених даних' },
+      },
+      {
+        name: 'Lexical',
+        url: 'https://lexical.dev/',
+        role: { en: 'the composer', uk: 'редактор допису' },
+      },
+      {
+        name: 'countries-list',
+        url: 'https://github.com/annexare/Countries',
+        role: { en: 'locale data', uk: 'дані локалей' },
+      },
+    ],
+    isHighlighted: true,
+    sortOrder: 1,
+  },
   // annexare pinned repos (bigger, more important)
   {
     slug: 'countries-list',
@@ -134,7 +194,7 @@ export const projects: Project[] = [
     ],
     fallbackStars: 1306,
     isHighlighted: true,
-    sortOrder: 1,
+    sortOrder: 2,
   },
   {
     slug: 'jsonl-logger',
@@ -169,7 +229,7 @@ export const projects: Project[] = [
     organization: { name: 'Annexare', url: 'https://annexare.com/' },
     fallbackStars: 2,
     isHighlighted: true,
-    sortOrder: 2,
+    sortOrder: 3,
   },
   {
     slug: 'graphql-suite',
@@ -221,7 +281,7 @@ export const projects: Project[] = [
     ],
     fallbackStars: 3,
     isHighlighted: true,
-    sortOrder: 3,
+    sortOrder: 4,
   },
   // dmythro pinned repos
   {
@@ -275,7 +335,7 @@ export const projects: Project[] = [
     fallbackStars: 6,
     url: 'https://dmythro.com',
     isHighlighted: true,
-    sortOrder: 4,
+    sortOrder: 5,
   },
   {
     slug: 'terminal-setup',
@@ -307,7 +367,7 @@ export const projects: Project[] = [
     ],
     fallbackStars: 4,
     isHighlighted: true,
-    sortOrder: 5,
+    sortOrder: 6,
   },
   {
     slug: 'agent-skills',
@@ -335,7 +395,7 @@ export const projects: Project[] = [
     ],
     fallbackStars: 3,
     isHighlighted: true,
-    sortOrder: 6,
+    sortOrder: 7,
   },
   {
     slug: 'envs',
@@ -366,7 +426,7 @@ envs setup`,
     ],
     fallbackStars: 0,
     isHighlighted: true,
-    sortOrder: 7,
+    sortOrder: 8,
   },
   // Tools that live on this site rather than in a repo of their own
   {
@@ -411,7 +471,7 @@ envs setup`,
     ],
     fallbackStars: 6,
     isHighlighted: true,
-    sortOrder: 8,
+    sortOrder: 9,
   },
 ]
 

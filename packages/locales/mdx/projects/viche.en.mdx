@@ -1,0 +1,64 @@
+![Viche — Bluesky, Mastodon and Nostr in one timeline](/viche-en.webp)
+
+I have accounts on Bluesky, Mastodon and Nostr, and the people I actually want to read are split across all three. So I keep three apps open, check them in rotation, and still miss things — because the timeline I want doesn't exist in any of them.
+
+Viche is that timeline. It runs in the browser, holds accounts on all three networks at once, and lets you read them together or apart. The name is the Ukrainian _Віче_ — an ancient popular assembly, where people gathered to decide things together.
+
+Nothing to install: [viche.app](https://viche.app) is the product, [viche.social](https://viche.social) is the marketing and docs.
+
+## Why it exists
+
+The three networks solve overlapping problems in incompatible ways, and each of them wants to be the one you pick. Picking one means losing touch with the people who picked differently, so most of us end up running all three and doing the merging in our heads.
+
+That merge is the product. And the place to do it is the client, not another protocol or another server: a browser already speaks WebSockets to Nostr relays, HTTP to Mastodon instances, and OAuth to a Bluesky PDS. Nothing has to sit in the middle — so nothing does.
+
+## How it's different
+
+| Approach | What it optimises for |
+| --- | --- |
+| Viche | many accounts in one timeline or read apart, credentials on your device |
+| A single-network client | depth on one network — every feature that network has, first |
+| Cross-posting schedulers | publishing the same thing everywhere, not reading |
+| Running three apps | nothing, but it works today |
+
+**Use a native client for your main network if you mostly live on one.** A dedicated Bluesky or Mastodon app will always be ahead on that network's newest features, because it only has one to track. Viche is for the case where your attention is genuinely split, and the cost of that split is the thing worth fixing.
+
+## What's inside
+
+### One vocabulary, three adapters
+
+`@viche/core` is types and static data — `Network`, `Post`, `Session`, `NetworkAdapter`, and a descriptor per network. Each adapter implements that interface for its protocol, and nothing else in the app imports a protocol library directly. Adapters load through `import()` when an account needs one, so the relay pool and the AT Protocol client stay out of the bundle until you sign in.
+
+### Capabilities, not conditionals
+
+A descriptor carries a set of capability slugs — `read-timeline`, `write-post`, `read-poll`. The UI gates on set membership, so adding a network means adding a descriptor and an adapter rather than auditing every component for a new branch.
+
+Those same sets generate the [public feature matrix](https://viche.app/about), which is why it can't drift: the page asks the descriptor rather than reading a list someone maintains by hand. Each cell has three states — shipped, coming, or not possible on that protocol — and the third is the one worth having. "We haven't built this" and "this network cannot do this" are different things, and collapsing them into one blank cell is how a comparison table drifts from reality.
+
+### One feed, or several
+
+Merging is a setting, not the shape of the app. **Merge feeds**, in Settings, has three modes: _All_ pulls every account you have added into one timeline, _Selected_ pulls only the ones you tick, and _None_ turns merging off — you read one account at a time and switch between them.
+
+Sources are accounts, not networks, and nothing caps how many you add. Two Mastodon logins and three Nostr ones are five sources, and nothing special-cases which protocol any of them came from: the same protocol twice is no different from two protocols once. So the choice is not really "merge my networks" but "which of my accounts am I reading right now", which is the question I actually have.
+
+When they are merged, each source produces its own chronological pages and the timeline interleaves them by timestamp, holding a watermark per source so paging stays consistent as you scroll. Engagement uses whichever account surfaced the post, so liking something never asks which identity you meant by it.
+
+### Credentials that stay put
+
+Nostr signs through a NIP-07 extension or a remote signer; Bluesky uses OAuth with DPoP; Mastodon uses per-instance OAuth. None of it reaches a server of mine, because there isn't one — the app is static files on a CDN.
+
+## Design notes
+
+**The integration seam belongs in the client.** Every server-side attempt at this becomes a new account you have to trust with the keys to the other three. Doing it in the browser means the credentials never leave the device, and the honest privacy claim — that I cannot read your timeline — is architectural rather than a policy I'm asking you to believe.
+
+**Static-only constrains me, not the app.** No backend of mine is in the request path, but the browser still calls relays, AppViews and instance APIs directly. That distinction is easy to lose: it rules out running an indexer, not talking to third parties. Trending hashtags, for instance, are counted from the feed you already loaded rather than from an index I'd have to host.
+
+**`wss://` only, and no key ever stored.** Plaintext relay URLs are rejected at the normalisation boundary rather than warned about, with a migration that prunes any that were saved earlier. Remote signing persists a throwaway keypair for the session instead of your identity key — the thing you'd most regret leaking is the one thing the app never holds.
+
+**Storage is handed in, not hardcoded.** Nothing in the state layer reaches for the browser's storage on its own — it is told where to write, and whoever starts the app decides what that is. On the web that is `localStorage`, in tests it is a map in memory, and a native build would pass its own. localStorage runs today because it is the simplest thing already there, not because anything is built around it; replacing it means passing something else rather than rewriting anything.
+
+## Status
+
+Live at [viche.app](https://viche.app). Three networks, read merged or one account at a time; sign-in including a remote signer for Nostr; posting with replies, quotes, mentions, hashtags and image upload; direct messages; notifications; follows, mutes and blocks; profile editing across all three; and an Explore surface for people, tags and popular posts.
+
+Open source is the plan, not the current state. There are questions I want to answer properly rather than quickly.
