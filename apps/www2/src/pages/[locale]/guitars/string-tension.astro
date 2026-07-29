@@ -31,4 +31,12 @@ const calcJsonLd = {
   <PageHeader title={st.title} subtitle={st.description} />
 
   <StringTensionCalculator client:load translations={st} />
+
+  {/* The tool answers "what tension"; the project page answers "why that number",
+      which is a different visit. Kept to a footnote so it does not compete with
+      the calculator for the reader arriving to use it. */}
+  <p class="mt-4 text-sm text-base-content/60">
+    {st.aboutNote}{' '}
+    <a href={`/${locale}/projects/string-tension`} class="link link-primary">{st.aboutLink}</a>
+  </p>
 </PageLayout>

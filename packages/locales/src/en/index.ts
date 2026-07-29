@@ -188,6 +188,9 @@ export const en = {
       gauge: 'Gauge',
       tension: 'Tension',
       totalTension: 'Total tension',
+      // Footnote under the calculator, pointing at the project write-up
+      aboutNote: 'How this works, and the numbers behind it —',
+      aboutLink: 'read the full project description',
       // Per-row screen reader labels, each followed by the string number
       scaleFor: 'Scale length for string',
       noteFor: 'Note for string',

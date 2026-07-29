@@ -105,6 +105,20 @@ const statusLabels: Record<ProjectStatus, { en: string; uk: string } | null> = {
 }
 
 /**
+ * About four lines in the column the hanging icon leaves, measured against
+ * Ukrainian copy since Cyrillic sets the wider glyphs. One budget for every card:
+ * a pill row and the foot still clear the square underneath it, so a card with
+ * tags has no less room for prose than one without.
+ *
+ * Card copy is curated, so overrunning this is an authoring mistake rather than
+ * a runtime condition — `tests/og-cards.test.ts` fails on it, which is the point
+ * where it can still be fixed by editing the sentence. The clamp below is the
+ * backstop for anything that slips past, so a card degrades to an ellipsis
+ * instead of pushing its own foot off the bottom edge.
+ */
+export const OG_DESCRIPTION_LIMIT = 140
+
+/**
  * Keeps a long description from overflowing the card. Ending on a whole sentence
  * reads far better than a word cut, so a sentence break in the back half of the
  * budget wins; otherwise fall back to trimming at a word with an ellipsis.
@@ -148,13 +162,7 @@ export function buildOgHtml(card: OgCard, style: OgStyle = OG_STYLE): string {
   const statusLabel = card.badge
   const cardTags = (card.tags ?? []).slice(0, 4)
 
-  // About four lines in the column the hanging icon leaves, measured against
-  // Ukrainian copy since Cyrillic sets the wider glyphs. One budget for every
-  // card: a pill row and the foot still clear the square underneath it, so a
-  // card with tags has no less room for prose than one without. No description
-  // in the site currently reaches this, which is the point — the cut is a
-  // backstop, not part of the design.
-  const description = sanitizeText(clamp(card.description, 140))
+  const description = sanitizeText(clamp(card.description, OG_DESCRIPTION_LIMIT))
 
   // The badge leads the pill row rather than sitting above the title: the icon hangs
   // beside whatever comes first, and that should be the title.

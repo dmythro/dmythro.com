@@ -32,8 +32,8 @@ jobs:
       - run: bun install --frozen-lockfile
       - run: bun run ci
       - run: bun run check-types
-      - run: bun test
-        working-directory: packages/locales
+      # Turbo, so every workspace with tests runs — apps/www2 has them too
+      - run: bun run test
 
   build-www2:
     name: Build www2
