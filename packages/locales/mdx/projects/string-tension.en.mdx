@@ -1,0 +1,68 @@
+I play a multi-scale eight-string guitar, and every time I ordered strings for it I was guessing. The scale length changes under every string, so a set that sits right under the low E often turns to piano wire up at the D — and every tension calculator I could find was either missing an adjustment I needed, or forgot my inputs the moment I left, or was built around a single brand.
+
+No signup, no installation: [open the calculator](/en/guitars/string-tension) and start from a preset.
+
+App lets you name two scale lengths and works the rest out semi-automatically. Usually you don't even do that much, as long as there is a preset for something close to your instrument. Everything is easy to bend to your own setup from there: scale, note and gauge are all per string. And every row is marked against a typical "normal".
+
+## Examples
+
+Underneath, each row is one call into the same formula the published tension tables are built on:
+
+```ts
+// tension in lbs, from gauge, scale length in inches, and pitch
+calculateTension(".046w", 25.5, "E2"); // 18.1 — a low E at Strat scale
+calculateTension(".046w", 27, "E2"); // 20.3 — the same string on a baritone neck
+calculateTension(".062w", 27, "B1"); // 20.7 — B standard on that same neck, matched to the E above
+```
+
+Multi-scale is one extra input. Give the first and last string a scale length and the rest are interpolated — the frets fan out along straight lines, so scale length really does change evenly from one string to the next:
+
+```ts
+interpolateScale(0, 8, 26.5, 28); // 26.5   — high D
+interpolateScale(4, 8, 26.5, 28); // 27.357
+interpolateScale(7, 8, 26.5, 28); // 28     — low E
+```
+
+## Why it exists
+
+A six-string in D standard, a seven, and a multi-scale eight-string all want different gauges to feel like the same instrument in the hand, or at least close to it. Working that out meant a manufacturer's PDF, a unit-weight column, a calculator app, and a row of arithmetic per string — then the whole thing again the moment I reconsidered the tuning. The web calculators that could have saved me the arithmetic stopped at six strings and one scale length, which is precisely the case I didn't have.
+
+So the instrument presets are my own guitars. That is the entire origin story: I wanted the answer for the thing in the room, not just for a typical Stratocaster in E.
+
+## How it's different
+
+| Calculator                                                        | What it optimises for                                     |
+| ------------------------------------------------------------- | --------------------------------------------------------- |
+| [this one](/en/guitars/string-tension)                        | multi-scale, up to twelve strings, every row editable     |
+| [D'Addario String Tension Pro](https://stringtensionpro.com/) | their whole catalogue, by product code, one scale length  |
+| [Stringjoy's calculator](https://tension.stringjoy.com/)      | building a custom set from their gauges, one scale length |
+
+**Use String Tension Pro if you're buying D'Addario and your neck isn't multi-scale.** It knows every product they make, down to the code on the packet. This one carries two brands' published tables and models everything else, so when your set is in their catalogue and your scale is a single number, theirs may well be the more accurate answer.
+
+## What's inside
+
+### Published unit weights where they exist
+
+Tension is mostly unit weight — pounds of string per inch — and for a wound string you cannot get that from the diameter. A .046 is a steel core with a wrap around it, and the ratio between the two is a manufacturing decision, not a matter of standard geometry. So D'Addario and Ernie Ball gauges read straight off their published tables.
+
+### A fitted model where they don't
+
+Everything else — Elixir sets, bass gauges, anything custom — falls back to `UW = diameter² × coefficient`. The coefficients aren't chosen, they're fitted to those same tables: push a gauge that _is_ published through the formula instead of the lookup and the two land within 1% of each other, which a test asserts. Past the end of the tables that 1% turns from a measurement into an extrapolation, and that is the honest caveat on every bass number here. The coefficients this replaced sat 15–22% high and nothing was watching.
+
+### A baseline, not a verdict
+
+Every row shows how far it sits from a reference set — D'Addario 10-46 at E standard and 25.5" for guitar. Green means "feels like a normal guitar", not "correct". Plenty of deliberate setups live 20% away from it, and the arrow is there to tell you which direction you've gone, not to grade you.
+
+## Design notes
+
+**Pounds and inches.** The formula carries a 386.4 in the denominator, which is gravity in inches per second squared. Every published tension table for guitar strings is in pounds, so working in newtons would mean converting the source data, printing a number no string manufacturer prints, and adding a rounding step to gain nothing. The units are archaic. They are also the units the data arrives in.
+
+**A square law is a lie that mostly works.** Unit weight really does track diameter squared for plain steel — the fitted coefficient comes out to π/4 × 0.282 lbs/in³, which is just the density of music wire, and every plain gauge in the table agrees within 0.3%. Wound strings only pretend to: below .024w the core is a big enough share of the diameter that the fit falls apart, and a .017w misses by 6%. Rather than add a second model for six gauges that are all in the lookup tables anyway, the fallback is fitted to the range that actually reaches it — which is bass, mostly.
+
+**The state lives in localStorage, but the numbers don't.** Your instrument doesn't change between visits, so gauges, notes and scale lengths come back as you left them. Tensions are recomputed rather than restored, which is how a correction to the model reaches a setup saved before it existed — and given the coefficients above, that mattered.
+
+## Status
+
+Live, and it does the job I built it for. Presets grow when I get an instrument the existing ones don't describe.
+
+The honest gap is bass. Every bass gauge falls through to the fitted model, because the brand tables in here cover guitar only — the numbers are published, they just aren't typed in yet. It's the part of the tool I trust least, and the next thing I'd fix.

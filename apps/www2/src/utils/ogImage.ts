@@ -50,6 +50,8 @@ const iconShapes: Record<string, string> = {
   mail: '<path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/>',
   heart:
     '<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/>',
+  folder:
+    '<path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/>',
 }
 
 /** Inline SVG as a data URI — Takumi renders it as an image node. */
@@ -103,6 +105,20 @@ const statusLabels: Record<ProjectStatus, { en: string; uk: string } | null> = {
 }
 
 /**
+ * About four lines in the column the hanging icon leaves, measured against
+ * Ukrainian copy since Cyrillic sets the wider glyphs. One budget for every card:
+ * a pill row and the foot still clear the square underneath it, so a card with
+ * tags has no less room for prose than one without.
+ *
+ * Card copy is curated, so overrunning this is an authoring mistake rather than
+ * a runtime condition — `tests/og-cards.test.ts` fails on it, which is the point
+ * where it can still be fixed by editing the sentence. The clamp below is the
+ * backstop for anything that slips past, so a card degrades to an ellipsis
+ * instead of pushing its own foot off the bottom edge.
+ */
+export const OG_DESCRIPTION_LIMIT = 140
+
+/**
  * Keeps a long description from overflowing the card. Ending on a whole sentence
  * reads far better than a word cut, so a sentence break in the back half of the
  * budget wins; otherwise fall back to trimming at a word with an ellipsis.
@@ -143,10 +159,10 @@ export function buildOgHtml(card: OgCard, style: OgStyle = OG_STYLE): string {
   const background = style.background === 'plain' ? palette.plain : palette.gradient
 
   const title = sanitizeText(card.title)
-  // Tuned to the column the hanging icon leaves: much past this and a Ukrainian
-  // description runs long enough to push the card's foot off the bottom edge.
-  const description = sanitizeText(clamp(card.description, 104))
   const statusLabel = card.badge
+  const cardTags = (card.tags ?? []).slice(0, 4)
+
+  const description = sanitizeText(clamp(card.description, OG_DESCRIPTION_LIMIT))
 
   // The badge leads the pill row rather than sitting above the title: the icon hangs
   // beside whatever comes first, and that should be the title.
@@ -154,8 +170,7 @@ export function buildOgHtml(card: OgCard, style: OgStyle = OG_STYLE): string {
     ? `<div style="display:flex;flex-shrink:0;white-space:nowrap;padding:7px 16px;border-radius:999px;background:${palette.tagBg};color:${palette.accent};font-size:20px;font-weight:700;letter-spacing:1px">${sanitizeText(statusLabel)}</div>`
     : ''
 
-  const tags = (card.tags ?? [])
-    .slice(0, 4)
+  const tags = cardTags
     .map(
       (tag) =>
         // `white-space:nowrap` matters: a hyphen is a break opportunity, so tags like
@@ -222,23 +237,37 @@ export function projectOgImagePath(slug: string, locale: LocaleCode): string {
   return `/og/${locale}/projects/${slug}.png`
 }
 
-/** Icon per standing page, so each card is recognisable at a glance. */
+/**
+ * Icon per standing page, so each card is recognisable at a glance. This object
+ * is also the register of which pages get a generated card at all — deliberately
+ * not `feedPages`, which answers a different question. A page can be worth a
+ * social image without being worth an entry in someone's reader, and the
+ * calculator is exactly that: it belongs in chat previews, but the article about
+ * it is already the feed item, so syndicating both would say the same thing twice.
+ */
 export const pageOgIcons = {
   cv: 'user',
   contact: 'mail',
   openSource: 'heart',
+  projects: 'folder',
+  stringTension: 'music',
 } as const
 
 export type PageOgKey = keyof typeof pageOgIcons
 
+export const pageOgKeys = Object.keys(pageOgIcons) as PageOgKey[]
+
 /**
  * Standing pages are addressed by their route segment rather than their copy key,
- * so the generated file sits next to the page it belongs to.
+ * so the generated file sits next to the page it belongs to. Nested routes keep
+ * their nesting, which is why the card route takes a rest parameter.
  */
 export const pageOgSlugs: Record<PageOgKey, string> = {
   cv: 'cv',
   contact: 'contact',
   openSource: 'open-source',
+  projects: 'projects',
+  stringTension: 'guitars/string-tension',
 }
 
 /** Site-root-relative path of a standing page's generated OG image. */

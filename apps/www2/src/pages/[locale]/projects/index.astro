@@ -9,6 +9,7 @@ import { fetchGithubStats } from '@/utils/fetchGithubStats'
 import { fetchNpmStats } from '@/utils/fetchNpmStats'
 import { getT } from '@/utils/getT'
 import { getStaticLocalePaths, type LocaleCode } from '@/utils/i18n'
+import { pageOgImagePath } from '@/utils/ogImage'
 
 export function getStaticPaths() {
   return getStaticLocalePaths()
@@ -44,6 +45,7 @@ const projectsJsonLd = {
 ---
 
 <PageLayout
+  ogImage={pageOgImagePath('projects', locale)}
   locale={locale}
   title={`${t.projects.title} — ${USERNAME}`}
   description={t.projects.description}

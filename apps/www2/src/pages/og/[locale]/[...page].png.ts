@@ -1,15 +1,26 @@
 import type { APIRoute } from 'astro'
 
-import { feedPages } from '@/data/feedPages'
 import { getPageCopy } from '@/utils/feed'
 import { availableLocales, type LocaleCode } from '@/utils/i18n'
-import { type PageOgKey, pageOgIcons, pageOgSlugs, renderOgImage } from '@/utils/ogImage'
+import {
+  type PageOgKey,
+  pageOgIcons,
+  pageOgKeys,
+  pageOgSlugs,
+  renderOgImage,
+} from '@/utils/ogImage'
 
+/**
+ * Driven by the card register in `ogImage.ts` rather than by `feedPages`, so a
+ * page can have a social image without also becoming a feed entry. A rest
+ * parameter carries slugs that nest, e.g. `guitars/string-tension`; the project
+ * card route is a more specific match, so it still wins for `projects/*`.
+ */
 export function getStaticPaths() {
-  return feedPages.flatMap((page) =>
+  return pageOgKeys.flatMap((key) =>
     availableLocales.map((locale) => ({
-      params: { locale, page: pageOgSlugs[page.key] },
-      props: { key: page.key },
+      params: { locale, page: pageOgSlugs[key] },
+      props: { key },
     })),
   )
 }

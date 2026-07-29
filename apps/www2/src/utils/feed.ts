@@ -42,6 +42,11 @@ export function getPageCopy(
     cv: { title: `CV — ${t.fullName}`, description: t.meta.descriptionShort },
     contact: { title: t.contact.title, description: t.contact.subtitle },
     openSource: { title: t.builtWithTitle, description: t.builtWithDescription },
+    projects: { title: t.projects.title, description: t.projects.description },
+    stringTension: {
+      title: t.guitars.stringTension.title,
+      description: t.guitars.stringTension.description,
+    },
   }
 }
 

@@ -1,17 +1,15 @@
 import { BASE_URL } from '@dmythro/constants'
 import type { APIRoute } from 'astro'
 
-import { projects } from '@/data/projects'
+import { getProjectUrl, projects } from '@/data/projects'
 
 export const GET: APIRoute = () => {
-  const devProjects = projects.filter((p) => p.category === 'dev')
-
-  const projectList = devProjects
+  const projectList = projects
     .map((p) => {
       const links = [
         p.github ? `GitHub: https://github.com/${p.github}` : '',
         p.npm ? `NPM: https://www.npmjs.com/package/${p.npm}` : '',
-        p.url ? `Website: ${p.url}` : '',
+        getProjectUrl(p, 'en') ? `Website: ${getProjectUrl(p, 'en')}` : '',
       ]
         .filter(Boolean)
         .join(' | ')

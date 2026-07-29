@@ -8,6 +8,7 @@
     "preview": "astro preview",
     "preview:local": "astro build && bunx --bun serve dist -l 4321",
     "check": "astro check",
+    "test": "bun test",
     "check-types": "astro check",
     "clean": "rm -rf dist .astro",
     "deploy": "astro build && wrangler pages deploy dist --project-name=dmythro-com --branch=main"

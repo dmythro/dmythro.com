@@ -3,7 +3,7 @@
 import {
   BASS_TUNINGS,
   BRAND_UNIT_WEIGHTS,
-  DEFAULT_GUITAR_GAUGES,
+  GAUGE_SETS,
   GUITAR_TUNINGS,
   type InstrumentType,
   NOTE_FREQUENCIES,
@@ -11,6 +11,7 @@ import {
   STRING_BRAND_PRESETS,
   type StringBrandPreset,
   type StringMaterial,
+  TUNING_GAUGE_SETS,
   WOUND_COEFFICIENTS,
 } from './string-constants'
 
@@ -34,9 +35,10 @@ export function getUnitWeight(
   if (value <= 0) return 0
 
   // Try brand-specific lookup first (most accurate)
-  if (brand && BRAND_UNIT_WEIGHTS[brand]) {
-    const brandWeights = BRAND_UNIT_WEIGHTS[brand]
-    if (brandWeights[gauge]) {
+  const brandWeights =
+    brand && Object.hasOwn(BRAND_UNIT_WEIGHTS, brand) && BRAND_UNIT_WEIGHTS[brand]
+  if (brandWeights) {
+    if (Object.hasOwn(brandWeights, gauge)) {
       // Brand data is for nickel-wound, apply material ratio for wound strings
       if (isWound && material !== 'nickel-wound') {
         const materialRatio = WOUND_COEFFICIENTS[material] / WOUND_COEFFICIENTS['nickel-wound']
@@ -62,7 +64,10 @@ export function calculateTension(
   const unitWeight = getUnitWeight(gauge, material, brand)
   const frequency = NOTE_FREQUENCIES[note]
 
-  if (!unitWeight || !frequency || scaleLength <= 0) {
+  // Number.isFinite before the range check: an emptied scale field parses to NaN,
+  // and `NaN <= 0` is false, so a bare `<= 0` guard let NaN through into the row
+  // and on into the total.
+  if (!unitWeight || !frequency || !Number.isFinite(scaleLength) || scaleLength <= 0) {
     return 0
   }
 
@@ -93,36 +98,20 @@ export function getNotesForTuning(
   return notes.slice(0, stringCount)
 }
 
-// Get gauges from string brand preset based on tuning
-export function getGaugesFromBrand(
-  brandKey: string,
-  stringCount: number,
-  tuning?: string,
-): string[] {
-  const brand = STRING_BRAND_PRESETS.find((b) => b.key === brandKey)
-  if (!brand) return DEFAULT_GUITAR_GAUGES.slice(0, stringCount)
+// Get the gauge set a tuning calls for, sized to the string count.
+// Brand does not enter into it — every preset ships the same nominal diameters.
+export function getGaugesForTuning(stringCount: number, tuning?: string): string[] {
+  const set = (tuning && TUNING_GAUGE_SETS[tuning]) || 'standard'
+  const byCount = GAUGE_SETS[set]
+  const baseGauges = stringCount <= 6 ? byCount[6] : stringCount === 7 ? byCount[7] : byCount[8]
 
-  // Use heavier gauges for drop/down tunings
-  const useHeavyGauges =
-    tuning === 'd' || tuning === 'e-drop-d' || tuning === 'eb' || tuning === 'b'
-
-  let baseGauges: string[]
-  if (stringCount <= 6) {
-    baseGauges = useHeavyGauges ? brand.gauges6d : brand.gauges6
-  } else if (stringCount === 7) {
-    baseGauges = useHeavyGauges ? brand.gauges7d : brand.gauges7
-  } else {
-    baseGauges = useHeavyGauges ? brand.gauges8d : brand.gauges8
-  }
-
-  // If we need more strings than the preset has, extend with heavier gauges
+  // Past 8 strings there is no published set to copy, so hold the lowest gauge
   if (stringCount > baseGauges.length) {
-    const extended = [...baseGauges]
     const lastGauge = baseGauges[baseGauges.length - 1]
-    while (extended.length < stringCount) {
-      extended.push(lastGauge)
-    }
-    return extended
+    return [
+      ...baseGauges,
+      ...Array.from({ length: stringCount - baseGauges.length }, () => lastGauge),
+    ]
   }
 
   return baseGauges.slice(0, stringCount)

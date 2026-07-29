@@ -58,7 +58,11 @@ export interface Project {
   npmForDownloads?: string
   github?: string
   image?: string
-  url?: string
+  /**
+   * Where the project itself lives. A record when the destination is bilingual —
+   * a page on this site, say — and a plain string when one URL serves everyone.
+   */
+  url?: string | Record<LocaleCode, string>
   /** Curated cross-links. Falls back to shared-tag overlap when omitted. */
   related?: string[]
   /** Defaults to the site owner. Set explicitly only to add or replace authorship. */
@@ -364,6 +368,51 @@ envs setup`,
     isHighlighted: true,
     sortOrder: 7,
   },
+  // Tools that live on this site rather than in a repo of their own
+  {
+    slug: 'string-tension',
+    title: {
+      en: 'Guitar String Tension Calculator',
+      uk: 'Калькулятор натягу гітарних струн',
+    },
+    description: {
+      en: 'String tension for guitar and bass, including multi-scale instruments — per string, from published unit weights.',
+      uk: 'Натяг струн гітари та басу, включно з мультимензурними інструментами — для кожної струни, за опублікованими питомими вагами.',
+    },
+    category: 'music',
+    status: 'live',
+    startedAt: '2025-12-02',
+    publishedAt: '2025-12-03',
+    programmingLanguages: ['TypeScript'],
+    tags: ['guitar', 'bass', 'music', 'calculator', 'preact', 'astro', 'physics'],
+    icon: 'music',
+    github: 'dmythro/dmythro.com',
+    url: {
+      en: `${BASE_URL}/en/guitars/string-tension`,
+      uk: `${BASE_URL}/uk/guitars/string-tension`,
+    },
+    related: ['dmythro-com'],
+    uses: [
+      {
+        name: 'Preact',
+        url: 'https://preactjs.com/',
+        role: { en: 'the one interactive island', uk: 'єдиний інтерактивний острівець' },
+      },
+      {
+        name: 'Astro',
+        url: 'https://astro.build/',
+        role: { en: 'page, routing, i18n', uk: 'сторінка, маршрути, i18n' },
+      },
+      {
+        name: 'DaisyUI',
+        url: 'https://daisyui.com/',
+        role: { en: 'controls and layout', uk: 'елементи керування та розмітка' },
+      },
+    ],
+    fallbackStars: 6,
+    isHighlighted: true,
+    sortOrder: 8,
+  },
 ]
 
 export function getProjectsByCategory(category?: ProjectCategory): Project[] {
@@ -407,6 +456,11 @@ export function getRelatedProjects(project: Project, limit = 3): Project[] {
     .map(({ project: p }) => p)
 
   return [...curated, ...byOverlap].slice(0, limit)
+}
+
+/** The project's own site in a given locale, when it has one. */
+export function getProjectUrl(project: Project, locale: LocaleCode): string | undefined {
+  return typeof project.url === 'string' ? project.url : project.url?.[locale]
 }
 
 /** Authors of a project, falling back to the site owner. */
