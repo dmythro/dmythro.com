@@ -13,6 +13,9 @@ const paper = {
   marginRight: 0.472,
 }
 
+/** Restates the margins above, which the site's own `@page` would otherwise override. */
+const pageBoxCss = `@page { size: A4; margin: ${paper.marginTop}in ${paper.marginRight}in ${paper.marginBottom}in ${paper.marginLeft}in }`
+
 /**
  * PDF has no WebP, so the browser embeds the site's photographs as near-lossless
  * bitmaps at their full resolution — that alone was 10MB of a 10.4MB file. Re-encoding
@@ -135,6 +138,16 @@ async function downscaleImages(view: WebView) {
   })()`)
 }
 
+/** Appended last, so this page box wins the cascade over the stylesheet's own. */
+async function pinPageBox(view: WebView) {
+  await view.evaluate(`(() => {
+    const style = document.createElement('style')
+    style.textContent = ${JSON.stringify(pageBoxCss)}
+    document.head.append(style)
+    return true
+  })()`)
+}
+
 /**
  * A blank image is the failure this cannot see coming: the page looks fine, and the
  * PDF simply has a hole where a photograph should be.
@@ -166,6 +179,7 @@ async function renderLocale(origin: string, locale: string) {
   await loadImages(view)
   await assertPrintable(view, locale)
   await downscaleImages(view)
+  await pinPageBox(view)
 
   const { data } = await withTimeout(
     view.cdp('Page.printToPDF', { printBackground: true, ...paper }),

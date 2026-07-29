@@ -73,7 +73,7 @@ export const uk: Translation = {
   interests,
   myStudio: 'Моя студія, місце де працюю та займаюсь музикою',
   fullTimeEmployment: 'Повна зайнятість',
-  openToWork: 'Шукаю проект',
+  openToWork: 'Шукаю проєкт',
   contact: {
     title: 'Контакти та соцмережі',
     subtitle: 'Знайдіть мене в соцмережах або напишіть напряму.',
@@ -85,7 +85,7 @@ export const uk: Translation = {
     generatedFromWebsiteData: 'PDF, згенеровано з опублікованих даних',
     personal: 'Особисті профілі',
     work: 'Моя робота',
-    [ESocialLinks.github]: 'Мої опен-сорс проекти та активність',
+    [ESocialLinks.github]: 'Мої опен-сорс проєкти та активність',
     [ESocialLinks.linkedin]: 'Єдиний актуальний профіль',
     [ESocialLinks.telegram]: 'Прямий контакт',
     [ESocialLinks.bluesky]: 'Мікроблог та оновлення',

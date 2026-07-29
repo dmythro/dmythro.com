@@ -2,6 +2,18 @@ import type { TimelineItem } from '../types'
 
 export const careerTimeline: TimelineItem[] = [
   {
+    when: 'Apr ’24',
+    till: 'Now',
+    where: 'UA',
+    title: 'Senior Software Engineer',
+    subtitle: 'VIDI Group',
+    description: [
+      'Websites across the group — technology, performance, release process. TypeScript, React and Next.js on the newer projects, Rspack on the older ones.',
+      'CI/CD, code reviews, AI-assisted workflows.',
+      'Significant PageSpeed and backend performance improvements.',
+    ],
+  },
+  {
     when: 'Sep ’23',
     till: 'Now',
     where: 'UA, SE',
