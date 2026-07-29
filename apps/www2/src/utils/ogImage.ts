@@ -148,13 +148,13 @@ export function buildOgHtml(card: OgCard, style: OgStyle = OG_STYLE): string {
   const statusLabel = card.badge
   const cardTags = (card.tags ?? []).slice(0, 4)
 
-  // A standing page draws no pill row, so the height tags would have taken is
-  // free for prose rather than left blank. Both budgets are tuned to the column
-  // the hanging icon leaves, measured against Ukrainian copy since Cyrillic sets
-  // the wider glyphs: roughly three lines when pills follow, five without. Much
-  // past the wider figure and a long description pushes the foot off the bottom.
-  const hasPills = Boolean(statusLabel) || cardTags.length > 0
-  const description = sanitizeText(clamp(card.description, hasPills ? 104 : 170))
+  // About four lines in the column the hanging icon leaves, measured against
+  // Ukrainian copy since Cyrillic sets the wider glyphs. One budget for every
+  // card: a pill row and the foot still clear the square underneath it, so a
+  // card with tags has no less room for prose than one without. No description
+  // in the site currently reaches this, which is the point — the cut is a
+  // backstop, not part of the design.
+  const description = sanitizeText(clamp(card.description, 140))
 
   // The badge leads the pill row rather than sitting above the title: the icon hangs
   // beside whatever comes first, and that should be the title.
