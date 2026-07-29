@@ -58,14 +58,26 @@ const [npmStats, ghStats] = await Promise.all([
   fetchGithubStats('annexare/Countries', 1300),
 ])
 
-const starsFormatted = `~${formatNumber(ghStats.stars)}`
-const downloadsFormatted = `${formatNumber(npmStats.downloads)}+/mo`
+/** Just the number: each locale words the unit itself ("/mo", "завантажень на місяць"). */
+const stats = new Map<string, string>([
+  ['githubStars', `~${formatNumber(ghStats.stars)}`],
+  ['npmDownloads', `${formatNumber(npmStats.downloads)}+`],
+])
 
+/**
+ * Tokens, not the old numbers matched as literals in the prose: rewording a sentence
+ * used to detach it from the live figure silently.
+ */
 function replaceStats(html: string): string {
-  return html
-    .replace(/~1\.3[kк]\s*/gi, `${starsFormatted} `)
-    .replace(/1\.5M\+\/mo/gi, downloadsFormatted)
-    .replace(/1\.5M\+\s*зкачувань на місяць/gi, `${downloadsFormatted} завантажень на місяць`)
+  // `[^%]+` rather than `\w+`, so a misspelling like `%%github-stars%%` throws instead
+  // of printing itself on the page.
+  return html.replace(/%%([^%]+)%%/g, (_, name: string) => {
+    const value = stats.get(name)
+    if (value === undefined) {
+      throw new Error(`CV: unknown stat token %%${name}%% in article copy`)
+    }
+    return value
+  })
 }
 
 /** Render a markdown snippet through the unified pipeline, then replace stats placeholders. */

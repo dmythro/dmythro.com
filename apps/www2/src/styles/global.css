@@ -295,6 +295,13 @@ aside.overflow-y-auto::-webkit-scrollbar {
   -webkit-backdrop-filter: blur(4px);
 }
 
+/* Without a declared margin Safari lays out a CSS pixel as a point. `cv-to-pdf`
+   appends its own `@page`, since this would override the margin it passes Chrome. */
+@page {
+  size: A4;
+  margin: 15mm;
+}
+
 /* Print styles */
 @media print {
   .no-print {
@@ -344,6 +351,27 @@ aside.overflow-y-auto::-webkit-scrollbar {
   article > section > *:last-child,
   .timeline > li:last-child > :is(.timeline-start, .timeline-end) {
     margin-bottom: 0;
+  }
+
+  /* WebKit drops fragmentation on a flex or grid item, and DaisyUI's timeline is a flex
+     column of grid rows. Block flow here is pixel-identical and lets entries break. */
+  .timeline {
+    display: block;
+  }
+
+  /* Safari honours the legacy names more reliably than the `break-*` Tailwind emits. */
+  .print\:break-before-page {
+    page-break-before: always;
+  }
+
+  .print\:break-after-avoid {
+    page-break-after: avoid;
+  }
+
+  .print\:break-inside-avoid,
+  .print\:break-inside-avoid-page {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 
   /* Skill cards drifted out of line across a row, because a one-line subtitle and a
