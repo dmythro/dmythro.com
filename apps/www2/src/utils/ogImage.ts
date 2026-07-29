@@ -206,7 +206,10 @@ export function buildOgHtml(card: OgCard, style: OgStyle = OG_STYLE): string {
   // children, so a card with no tags has only two of them and the copy drops to
   // the floor — which is what the standing pages were doing. Growing the middle
   // makes the same rule hold whether or not there are tags, and at either shape.
-  return `<div style="width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-between;background:${background};padding:72px;font-family:Inter">
+  // `overflow:hidden` is a backstop, not a layout tool: every card clears the
+  // edges by 70px today, but a long title over a long description over two rows
+  // of tags would out-measure the wide canvas, and clipping beats spilling.
+  return `<div style="width:100%;height:100%;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;background:${background};padding:72px;font-family:Inter">
   ${masthead}
   <div style="flex-grow:1;display:flex;flex-direction:column;justify-content:center">${copy}</div>
   ${tagRow}

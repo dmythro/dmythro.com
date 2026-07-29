@@ -29,6 +29,11 @@ export function feedItemDate(item: FeedItem): Date {
   return item.updated ?? item.published
 }
 
+/** Adds a full stop unless the copy already closes itself, in either script. */
+function endSentence(text: string): string {
+  return /[.!?…:;]$/.test(text.trimEnd()) ? text : `${text}.`
+}
+
 /**
  * Titles and descriptions come from the translations the pages themselves use, and
  * are shared with the generated cards so a page, its feed entry and its social image
@@ -42,7 +47,7 @@ export function getPageCopy(
     // The full stop is added here rather than in the string itself: every other
     // card ends on one, but `descriptionShort` is also the navbar tagline and the
     // CV page subtitle, where a sentence-ending period would read as a typo.
-    cv: { title: `CV — ${t.fullName}`, description: `${t.meta.descriptionShort}.` },
+    cv: { title: `CV — ${t.fullName}`, description: endSentence(t.meta.descriptionShort) },
     contact: { title: t.contact.title, description: t.contact.subtitle },
     openSource: { title: t.builtWithTitle, description: t.builtWithDescription },
     projects: { title: t.projects.title, description: t.projects.description },
