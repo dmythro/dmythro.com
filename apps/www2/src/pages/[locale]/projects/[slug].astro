@@ -7,6 +7,7 @@ import { Github } from 'simple-icons-astro'
 import ArticleToc from '@/components/ArticleToc.astro'
 import BackLink from '@/components/BackLink.astro'
 import InstallCommand from '@/components/InstallCommand.astro'
+import IntersectThree from '@/components/icons/IntersectThree.astro'
 import * as mdxComponents from '@/components/mdx'
 import ProjectCard from '@/components/ProjectCard.astro'
 import ProjectMeta from '@/components/ProjectMeta.astro'
@@ -60,6 +61,7 @@ const iconMap = {
   terminal: Terminal,
   music: Music,
   camera: Camera,
+  'intersect-three': IntersectThree,
 } as const
 const IconComponent = iconMap[project.icon as keyof typeof iconMap]
 

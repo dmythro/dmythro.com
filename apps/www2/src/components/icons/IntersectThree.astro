@@ -1,0 +1,25 @@
+---
+import { brandIcons } from '@/utils/brandIcons'
+
+/**
+ * Viche's mark. Path data comes from `brandIcons` so this and the generated OG
+ * card cannot drift apart; see that module for why it is not Lucide.
+ */
+interface Props {
+  class?: string
+}
+
+const { class: className } = Astro.props
+const { viewBox, fill, outline } = brandIcons['intersect-three']
+---
+
+<svg
+  viewBox={viewBox}
+  fill="currentColor"
+  class={className}
+  aria-hidden="true"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path d={fill} opacity="0.2"></path>
+  <path d={outline}></path>
+</svg>

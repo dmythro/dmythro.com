@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets'
 import { Camera, Globe, Music, Package, Terminal } from '@lucide/astro'
+import IntersectThree from '@/components/icons/IntersectThree.astro'
 import type { Project } from '@/data/projects'
 import type { GithubStats } from '@/utils/fetchGithubStats'
 import type { NpmStats } from '@/utils/fetchNpmStats'
@@ -21,6 +22,7 @@ const iconMap = {
   terminal: Terminal,
   music: Music,
   camera: Camera,
+  'intersect-three': IntersectThree,
 } as const
 const { project, locale, npm, github } = Astro.props
 const title = project.title[locale]

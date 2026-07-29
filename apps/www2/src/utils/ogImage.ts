@@ -3,6 +3,7 @@ import { googleFonts } from 'takumi-js/helpers'
 
 import type { Project, ProjectStatus } from '@/data/projects'
 
+import { brandIcons } from './brandIcons'
 import type { LocaleCode } from './i18n'
 
 export const OG_WIDTH = 1200
@@ -56,6 +57,14 @@ const iconShapes: Record<string, string> = {
 
 /** Inline SVG as a data URI — Takumi renders it as an image node. */
 function iconDataUri(icon: string, color: string): string {
+  // Not Lucide, so it brings its own viewBox and fills instead of strokes.
+  const brand = brandIcons[icon]
+  if (brand) {
+    const shapes = `<path opacity="0.2" d="${brand.fill}"/><path d="${brand.outline}"/>`
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${brand.viewBox}" fill="${color}">${shapes}</svg>`
+    return `data:image/svg+xml,${encodeURIComponent(svg)}`
+  }
+
   const shapes = iconShapes[icon] ?? iconShapes.package
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${shapes}</svg>`
   return `data:image/svg+xml,${encodeURIComponent(svg)}`
