@@ -107,7 +107,7 @@ export const en = {
   },
   projects: {
     title: 'Projects',
-    description: 'The projects I can share and showcase.',
+    description: 'The work I can show publicly — open source, tools, and projects of my own.',
     otherProjects: 'Other projects',
     onThisPage: 'On this page',
     visitSite: 'Visit site',

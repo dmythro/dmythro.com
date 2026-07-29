@@ -108,7 +108,8 @@ export const uk: Translation = {
   },
   projects: {
     title: 'Проєкти',
-    description: 'Проєкти, якими можу поділитися.',
+    description:
+      'Робота, яку можу показати публічно — відкритий код, інструменти й власні проєкти.',
     otherProjects: 'Інші проєкти',
     onThisPage: 'На цій сторінці',
     visitSite: 'Перейти на сайт',

@@ -52,7 +52,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
   <div class={pagePadding}>
   <div class:list={['flex items-center justify-between h-16', navbarWidth]}>
     {/* Identity — left */}
-    <a href={`/${locale}`} class="flex items-center gap-3 shrink-0 overflow-hidden">
+    <a href={`/${locale}`} class="flex items-center gap-3 min-w-0 overflow-hidden">
       {/* Avatar — collapses when hero avatar is visible */}
       <div
         id="navbar-avatar-wrap"
@@ -61,11 +61,11 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
       >
         <Image src={avatarImg} alt={USERNAME} width={44} height={44} loading="eager" decoding="sync" fetchpriority="high" class="size-full object-cover" />
       </div>
-      <div class="flex flex-col gap-0.5">
+      <div class="flex flex-col gap-0.5 min-w-0">
         <span class="text-lg font-semibold lowercase leading-tight">
           <span class="text-base-content/50 font-thin">@</span>{USERNAME.replace('@', '')}
         </span>
-        <span class="text-xs text-content-secondary hidden sm:inline leading-tight">{t.meta.descriptionShort}</span>
+        <span class="text-xs text-content-secondary leading-tight truncate">{t.meta.descriptionShort}</span>
       </div>
     </a>
 

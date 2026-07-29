@@ -1,0 +1,53 @@
+![Noizr: logo by Dmythro, artwork by Yura X-Ninja](/noizr.webp)
+
+Noizr is a music zine and a record label, kept going over the years by me and a handful of people who cared about certain records more than was strictly reasonable. It has been on pause for a while now — zine, label, all of it.
+
+Behind it is a PHP CMS I wrote in 2011, back when I was running Annexare. It still works, and its SEO is better than I'd expect. I just do not want to maintain it any more — which is reason enough when nobody else is going to, and it is a large part of why restarting was never a small job.
+
+So v2 is not a port. New stack, and a wider scope than the old one ever had: the zine and the label come back together, and this time there is a record store behind them.
+
+## What's coming
+
+A physical record store first — one you can walk into, stocked and run on software we own end to end. The label relaunches alongside it, new artwork in progress, and the zine returns with them. The logo above is mine — drawn in vector years ago, and still doing its job. The full online shop follows once the shop floor is on its feet: same catalogue, same stock, one system behind both.
+
+Bilingual throughout, because it always was.
+
+## Why build it instead of buying it
+
+An off-the-shelf shop would have been running months ago. It would also have meant describing a record label's catalogue in a vocabulary built for products with sizes and colours, and paying per transaction for the privilege.
+
+A release is not a product. It has editions and pressings, catalogue numbers, credits, artists who also appear on other labels' records, and an archive that has been writing about all of it since 2011. The store is one view onto that catalogue, not a separate database that happens to sell things — and that only works if the catalogue, the shop and the back office share one vocabulary. Owning the software is what buys that.
+
+## Architecture
+
+**Payload CMS** on **PostgreSQL** holds the catalogue and the editorial side, with the staff back office generated from the same schema the public site reads. Those pages read through a typed **Drizzle** layer rather than the CMS API: one round trip for a whole entity tree, fully typed, which is what a release page needs when it pulls artists, editions, credits and related writing at once.
+
+Background work runs on a **job queue** in its own worker, off the request path — nothing a visitor does waits on an external service.
+
+Everything a shop needs is ours: stock and stock-in, carts, checkout, orders, customer and staff roles, and the back office around them. Two integrations reach outside for the parts that cannot be ours — a **POS terminal** for card payments at the counter, and a **fiscal receipt service** for the receipts the state requires.
+
+One piece of this loops back out. The shop needed richer currency data than my own [countries-list](/en/projects/countries-list) carried — ISO 4217 codes with the symbols to present them, not just the codes — so the package gained it, and every other project using it got that for free. Building on something you also maintain is the cheapest way to find out what it is missing.
+
+## Integrations, and the rate limits that come with them
+
+A record shop's catalogue is mostly other people's data. **Discogs** knows pressings and editions, **MusicBrainz** holds canonical artist and release identity, **Apple Music** and friends supply the listening links. Enrichment pulls from all of them constantly — every item that comes into stock, every backfill across the archive.
+
+Each of those APIs has a cap, and those caps are the real constraint. Do the work synchronously and you either crawl or get throttled at the worst possible moment, which is while someone is standing at the counter waiting to put a record on the shelf.
+
+That is what the queue is for. Background enrichment draws on a rate budget per source, and the budget deliberately holds headroom back for interactive work. A bulk backfill can run all afternoon without the person at the counter ever waiting behind it: the slow path yields to the human one.
+
+## Where AI actually helps
+
+**Reshaping the archive.** The old CMS stored articles as HTML, embeds pasted inline, relationships implied in prose. The new one wants them relational — releases linked to artists, credits as first-class rows, embeds as structured blocks instead of markup. AI did the part that was too irregular to script and too large to do by hand: reading what was there, proposing the structure hiding inside it, and turning a flat archive into something graph-shaped.
+
+It also caught what a migration script cannot. Translations that had quietly drifted apart between languages. Embeds pointing at services that no longer exist, or that changed their URL format a decade ago. Credits spelled three ways across as many years. Each is a judgment call, and there were far too many to make one at a time.
+
+**Stock, day to day.** Working out what an item actually is from a photo and a scrap of text, matching it against the catalogue, and filling the fields that would otherwise be typed by hand.
+
+The rule throughout is that AI proposes and a person accepts. It is very good at the first draft of a structure and not to be trusted as the last word on a catalogue number.
+
+## Status
+
+In progress, and this is the closest thing to an announcement so far. The current noizr.com still runs that old CMS; v2 replaces it whole rather than in pieces, which is why there has been nothing to show for a while. The CMS itself does not retire — it carries on serving the other sites it was written for. This is Noizr leaving it, not the end of it.
+
+The store opens first, the online shop follows, and the artwork is being made now. I will fill this page in as those land — what is here is not the final shape of it, though it should be soon.
