@@ -5,7 +5,7 @@ import { getFeedProjects } from '@/data/projects'
 
 import { getT } from './getT'
 import type { LocaleCode } from './i18n'
-import { type PageOgKey, pageOgImagePath, projectOgImagePath } from './ogImage'
+import { OG_SQUARE, type PageOgKey, pageOgSquarePath, projectOgSquarePath } from './ogImage'
 
 export interface FeedItem {
   /** Site-root-relative path. */
@@ -29,6 +29,11 @@ export function feedItemDate(item: FeedItem): Date {
   return item.updated ?? item.published
 }
 
+/** Adds a full stop unless the copy already closes itself, in either script. */
+function endSentence(text: string): string {
+  return /[.!?…:;]$/.test(text.trimEnd()) ? text : `${text}.`
+}
+
 /**
  * Titles and descriptions come from the translations the pages themselves use, and
  * are shared with the generated cards so a page, its feed entry and its social image
@@ -39,7 +44,10 @@ export function getPageCopy(
 ): Record<PageOgKey, { title: string; description: string }> {
   const t = getT(locale)
   return {
-    cv: { title: `CV — ${t.fullName}`, description: t.meta.descriptionShort },
+    // The full stop is added here rather than in the string itself: every other
+    // card ends on one, but `descriptionShort` is also the navbar tagline and the
+    // CV page subtitle, where a sentence-ending period would read as a typo.
+    cv: { title: `CV — ${t.fullName}`, description: endSentence(t.meta.descriptionShort) },
     contact: { title: t.contact.title, description: t.contact.subtitle },
     openSource: { title: t.builtWithTitle, description: t.builtWithDescription },
     projects: { title: t.projects.title, description: t.projects.description },
@@ -59,7 +67,7 @@ export function getFeedItems(locale: LocaleCode): FeedItem[] {
     path: `/${locale}/projects/${project.slug}`,
     title: project.title[locale],
     description: project.description[locale],
-    image: `${BASE_URL}${projectOgImagePath(project.slug, locale)}`,
+    image: `${BASE_URL}${projectOgSquarePath(project.slug, locale)}`,
     published: new Date(project.publishedAt),
     ...(project.updatedAt && { updated: new Date(project.updatedAt) }),
     tags: project.tags,
@@ -70,7 +78,7 @@ export function getFeedItems(locale: LocaleCode): FeedItem[] {
   const pages: FeedItem[] = feedPages.map((page) => ({
     ...pageCopy[page.key],
     path: `/${locale}${page.path}`,
-    image: `${BASE_URL}${pageOgImagePath(page.key, locale)}`,
+    image: `${BASE_URL}${pageOgSquarePath(page.key, locale)}`,
     published: new Date(page.publishedAt),
     ...(page.updatedAt && { updated: new Date(page.updatedAt) }),
   }))
@@ -92,7 +100,7 @@ function escapeHtml(text: string): string {
 /** Item body shared by both formats: the card image, then the summary. */
 export function feedItemHtml(item: FeedItem): string {
   const image = item.image
-    ? `<p><img src="${item.image}" alt="${escapeHtml(item.title)}" width="1200" height="630" /></p>`
+    ? `<p><img src="${item.image}" alt="${escapeHtml(item.title)}" width="${OG_SQUARE}" height="${OG_SQUARE}" /></p>`
     : ''
   return `${image}<p>${escapeHtml(item.description)}</p>`
 }
