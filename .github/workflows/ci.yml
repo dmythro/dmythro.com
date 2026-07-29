@@ -66,6 +66,10 @@ jobs:
     name: Deploy www2
     needs: build-www2
     runs-on: ubuntu-latest
+    # A healthy deploy takes ~20s. wrangler-action has hung after a *successful*
+    # upload, and without a cap that run sits in progress until GitHub kills it
+    # hours later, which reads as "still deploying" long after the site is live.
+    timeout-minutes: 5
     permissions:
       contents: read
       deployments: write
