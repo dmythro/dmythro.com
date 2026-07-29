@@ -156,6 +156,52 @@ export const projects: Project[] = [
     isHighlighted: true,
     sortOrder: 1,
   },
+  {
+    slug: 'noizr',
+    title: { en: 'noizr.com', uk: 'noizr.com' },
+    description: {
+      en: 'Ukrainian music zine, record label and record store — rebuilt on a new stack, with the shop, catalogue and back office all our own.',
+      uk: 'Український музичний журнал, лейбл і крамниця платівок — на новому стеку, де крамниця, каталог і бекофіс власні.',
+    },
+    category: 'music',
+    status: 'wip',
+    startedAt: '2009-10-22',
+    publishedAt: '2026-07-29',
+    programmingLanguages: ['TypeScript'],
+    tags: ['music', 'label', 'record-store', 'payload', 'drizzle', 'postgres', 'e-commerce', 'ai'],
+    icon: 'music',
+    url: 'https://noizr.com',
+    related: ['viche', 'countries-list'],
+    uses: [
+      {
+        name: 'Payload CMS',
+        url: 'https://payloadcms.com/',
+        role: { en: 'catalogue and back office', uk: 'каталог і бекофіс' },
+      },
+      {
+        name: 'Next.js',
+        url: 'https://nextjs.org/',
+        role: { en: 'the public site', uk: 'публічний сайт' },
+      },
+      {
+        name: 'Drizzle ORM',
+        url: 'https://orm.drizzle.team/',
+        role: { en: 'typed data layer', uk: 'типізований шар даних' },
+      },
+      {
+        name: 'PostgreSQL',
+        url: 'https://www.postgresql.org/',
+        role: { en: 'the database', uk: 'база даних' },
+      },
+      {
+        name: 'countries-list',
+        url: 'https://github.com/annexare/Countries',
+        role: { en: 'country and currency data', uk: 'дані країн і валют' },
+      },
+    ],
+    isHighlighted: true,
+    sortOrder: 2,
+  },
   // annexare pinned repos (bigger, more important)
   {
     slug: 'countries-list',
@@ -194,7 +240,7 @@ export const projects: Project[] = [
     ],
     fallbackStars: 1306,
     isHighlighted: true,
-    sortOrder: 2,
+    sortOrder: 3,
   },
   {
     slug: 'jsonl-logger',
@@ -229,7 +275,7 @@ export const projects: Project[] = [
     organization: { name: 'Annexare', url: 'https://annexare.com/' },
     fallbackStars: 2,
     isHighlighted: true,
-    sortOrder: 3,
+    sortOrder: 4,
   },
   {
     slug: 'graphql-suite',
@@ -281,7 +327,7 @@ export const projects: Project[] = [
     ],
     fallbackStars: 3,
     isHighlighted: true,
-    sortOrder: 4,
+    sortOrder: 5,
   },
   // dmythro pinned repos
   {
@@ -335,7 +381,7 @@ export const projects: Project[] = [
     fallbackStars: 6,
     url: 'https://dmythro.com',
     isHighlighted: true,
-    sortOrder: 5,
+    sortOrder: 6,
   },
   {
     slug: 'terminal-setup',
@@ -367,7 +413,7 @@ export const projects: Project[] = [
     ],
     fallbackStars: 4,
     isHighlighted: true,
-    sortOrder: 6,
+    sortOrder: 7,
   },
   {
     slug: 'agent-skills',
@@ -395,7 +441,7 @@ export const projects: Project[] = [
     ],
     fallbackStars: 3,
     isHighlighted: true,
-    sortOrder: 7,
+    sortOrder: 8,
   },
   {
     slug: 'envs',
@@ -426,7 +472,7 @@ envs setup`,
     ],
     fallbackStars: 0,
     isHighlighted: true,
-    sortOrder: 8,
+    sortOrder: 9,
   },
   // Tools that live on this site rather than in a repo of their own
   {
@@ -471,7 +517,7 @@ envs setup`,
     ],
     fallbackStars: 6,
     isHighlighted: true,
-    sortOrder: 9,
+    sortOrder: 10,
   },
 ]
 
