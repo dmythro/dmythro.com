@@ -9,25 +9,25 @@ export const OG_WIDTH = 1200
 export const OG_HEIGHT = 630
 
 /**
- * Feed readers and chat apps rarely show the full 1.91:1 card — Reeder, among
- * others, thumbnails it as a square, which keeps only the middle `OG_HEIGHT` of
- * width and drops the rest from each side. Everything that carries meaning lives
- * inside that square, so a crop loses only background.
+ * Feed readers thumbnail a square rather than showing the 1.91:1 frame — Reeder
+ * keeps the middle `OG_HEIGHT` of width and drops the rest, which once beheaded
+ * `countries-list` into "tries-list" and lost the icon and domain with it.
+ *
+ * The fix is not to lay the card out inside that centre square: doing so spends
+ * the outer thirds of a wide preview on background, which reads as an almost
+ * empty image with a caption floating in the middle. Instead the same edge-to-edge
+ * layout is rendered onto a second, genuinely square canvas, and feeds point at
+ * that one. Nothing is cropped, and neither consumer pays for the other.
  */
-const SQUARE_LEFT = (OG_WIDTH - OG_HEIGHT) / 2
+export const OG_SQUARE = 1200
 
-/** The rule sits just inside the square's edge, so a crop cannot shave it off. */
-const RULE_INSET = 14
-const RULE_WIDTH = 6
-/** The icon hangs between rule and text with the same air on either side. */
-const ICON_GAP = 26
-/** Right margin inside the square, so text never runs to the crop line. */
-const SAFE_MARGIN = 24
-
-/** Text width left inside the square once the rule and hanging icon take their room. */
-function contentWidth(iconSize: number): number {
-  return OG_HEIGHT - RULE_INSET - RULE_WIDTH - ICON_GAP * 2 - iconSize - SAFE_MARGIN
+export interface OgSize {
+  width: number
+  height: number
 }
+
+export const OG_SIZE_WIDE: OgSize = { width: OG_WIDTH, height: OG_HEIGHT }
+export const OG_SIZE_SQUARE: OgSize = { width: OG_SQUARE, height: OG_SQUARE }
 
 /**
  * Hoisted so the whole build shares one font fetch. `render` accepts a promise
@@ -154,63 +154,75 @@ export interface OgCard {
   tags?: string[]
 }
 
-export function buildOgHtml(card: OgCard, style: OgStyle = OG_STYLE): string {
+export function buildOgHtml(
+  card: OgCard,
+  style: OgStyle = OG_STYLE,
+  size: OgSize = OG_SIZE_WIDE,
+): string {
   const palette = palettes[style.theme]
   const background = style.background === 'plain' ? palette.plain : palette.gradient
 
   const title = sanitizeText(card.title)
-  const statusLabel = card.badge
-  const cardTags = (card.tags ?? []).slice(0, 4)
-
   const description = sanitizeText(clamp(card.description, OG_DESCRIPTION_LIMIT))
+  const statusLabel = card.badge
 
-  // The badge leads the pill row rather than sitting above the title: the icon hangs
-  // beside whatever comes first, and that should be the title.
-  const badge = statusLabel
-    ? `<div style="display:flex;flex-shrink:0;white-space:nowrap;padding:7px 16px;border-radius:999px;background:${palette.tagBg};color:${palette.accent};font-size:20px;font-weight:700;letter-spacing:1px">${sanitizeText(statusLabel)}</div>`
-    : ''
-
-  const tags = cardTags
+  const tags = (card.tags ?? [])
+    .slice(0, 5)
     .map(
       (tag) =>
         // `white-space:nowrap` matters: a hyphen is a break opportunity, so tags like
         // `react-query` were measured as two lines and rendered a taller pill.
-        `<div style="display:flex;flex-shrink:0;white-space:nowrap;padding:7px 16px;border-radius:999px;background:${palette.tagBg};color:${palette.tagText};font-size:20px">${sanitizeText(tag)}</div>`,
+        `<div style="display:flex;flex-shrink:0;white-space:nowrap;padding:8px 18px;border-radius:999px;background:${palette.tagBg};color:${palette.tagText};font-size:24px">${sanitizeText(tag)}</div>`,
     )
     .join('')
 
-  // The icon matches the title's height, so the two read as one line of masthead.
-  // Kept modest so a longer title still lands on one line inside the square.
-  const titleSize = title.length > 18 ? 42 : 48
-
-  // Rule, icon and text are siblings of one stretch row rather than nested boxes:
-  // the renderer measures a nested column short of its trailing children, which left
-  // the rule sized to the title and description alone and the text sitting lower.
-  return `<div style="width:100%;height:100%;display:flex;align-items:center;background:${background};padding-left:${SQUARE_LEFT + RULE_INSET}px;font-family:Inter">
-  <div style="display:flex;align-items:stretch">
-    <div style="display:flex;width:${RULE_WIDTH}px;background:${palette.accent};border-radius:999px"></div>
-
-    <img style="margin-top:${Math.round(titleSize * 0.16)}px;margin-left:${ICON_GAP}px;margin-right:${ICON_GAP}px" src="${iconDataUri(card.icon, palette.accent)}" width="${titleSize}" height="${titleSize}" />
-
-    <div style="display:flex;flex-direction:column;max-width:${contentWidth(titleSize)}px">
-      <div style="display:flex;flex-direction:column;font-size:${titleSize}px;font-weight:700;color:${palette.title};line-height:1.15">${title}</div>
-      <div style="display:flex;flex-direction:column;margin-top:14px;font-size:26px;color:${palette.body};line-height:1.4">${description}</div>
-
-      ${badge || tags ? `<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px">${badge}${tags}</div>` : ''}
-
-      <div style="display:flex;margin-top:14px;font-size:23px;color:${palette.muted}">dmythro.com</div>
+  const masthead = `<div style="display:flex;align-items:center;justify-content:space-between">
+    <div style="display:flex;align-items:center;gap:16px">
+      <img src="${iconDataUri(card.icon, palette.accent)}" width="52" height="52" />
+      ${
+        statusLabel
+          ? `<div style="display:flex;flex-shrink:0;white-space:nowrap;padding:6px 16px;border-radius:999px;background:${palette.tagBg};color:${palette.accent};font-size:24px;font-weight:700;letter-spacing:1px">${sanitizeText(statusLabel)}</div>`
+          : ''
+      }
     </div>
-  </div>
+    <div style="font-size:26px;color:${palette.muted}">dmythro.com</div>
+  </div>`
+
+  const copy = `<div style="display:flex;flex-direction:column;gap:24px">
+    <div style="display:flex;flex-direction:column;font-size:${title.length > 18 ? 66 : 78}px;font-weight:700;color:${palette.title};line-height:1.1">${title}</div>
+    <div style="display:flex;flex-direction:column;font-size:32px;color:${palette.body};line-height:1.4">${description}</div>
+  </div>`
+
+  const tagRow = tags
+    ? `<div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px">${tags}</div>`
+    : ''
+
+  // Masthead at the top, copy and tags together at the foot. On the wide canvas
+  // the three bands sit close enough that spacing them apart reads as one
+  // composition; on the square there is 570px more height, and spreading the same
+  // three bands over it strands the copy alone in the middle. Grouping the copy
+  // with its tags keeps the card looking deliberate at either shape.
+  // `>=`, not `>`: a square is exactly as tall as it is wide, and the whole point
+  // of this branch is the square.
+  const body =
+    size.height >= size.width
+      ? `<div style="display:flex;flex-direction:column;gap:56px">${copy}${tagRow}</div>`
+      : `${copy}${tagRow}`
+
+  return `<div style="width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-between;background:${background};padding:72px;font-family:Inter">
+  ${masthead}
+  ${body}
 </div>`
 }
 
 export async function renderOgImage(
   card: OgCard,
   style: OgStyle = OG_STYLE,
+  size: OgSize = OG_SIZE_WIDE,
 ): Promise<Uint8Array<ArrayBuffer>> {
-  const png = await render(buildOgHtml(card, style), {
-    width: OG_WIDTH,
-    height: OG_HEIGHT,
+  const png = await render(buildOgHtml(card, style, size), {
+    width: size.width,
+    height: size.height,
     fonts,
   })
 
@@ -235,6 +247,11 @@ export function projectOgCard(project: Project, locale: LocaleCode): OgCard {
 /** Site-root-relative path of a project's generated OG image. */
 export function projectOgImagePath(slug: string, locale: LocaleCode): string {
   return `/og/${locale}/projects/${slug}.png`
+}
+
+/** The same card on a square canvas, for feed readers that thumbnail one. */
+export function projectOgSquarePath(slug: string, locale: LocaleCode): string {
+  return `/og/square/${locale}/projects/${slug}.png`
 }
 
 /**
@@ -273,4 +290,9 @@ export const pageOgSlugs: Record<PageOgKey, string> = {
 /** Site-root-relative path of a standing page's generated OG image. */
 export function pageOgImagePath(key: PageOgKey, locale: LocaleCode): string {
   return `/og/${locale}/${pageOgSlugs[key]}.png`
+}
+
+/** The same card on a square canvas, for feed readers that thumbnail one. */
+export function pageOgSquarePath(key: PageOgKey, locale: LocaleCode): string {
+  return `/og/square/${locale}/${pageOgSlugs[key]}.png`
 }
