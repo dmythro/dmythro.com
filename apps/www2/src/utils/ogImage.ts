@@ -154,11 +154,7 @@ export interface OgCard {
   tags?: string[]
 }
 
-export function buildOgHtml(
-  card: OgCard,
-  style: OgStyle = OG_STYLE,
-  size: OgSize = OG_SIZE_WIDE,
-): string {
+export function buildOgHtml(card: OgCard, style: OgStyle = OG_STYLE): string {
   const palette = palettes[style.theme]
   const background = style.background === 'plain' ? palette.plain : palette.gradient
 
@@ -204,14 +200,16 @@ export function buildOgHtml(
   // with its tags keeps the card looking deliberate at either shape.
   // `>=`, not `>`: a square is exactly as tall as it is wide, and the whole point
   // of this branch is the square.
-  const body =
-    size.height >= size.width
-      ? `<div style="display:flex;flex-direction:column;gap:56px">${copy}${tagRow}</div>`
-      : `${copy}${tagRow}`
-
+  //
+  // Masthead and tags anchor the top and bottom corners; the copy claims whatever
+  // is left and centres in it. `space-between` alone is not enough: it distributes
+  // children, so a card with no tags has only two of them and the copy drops to
+  // the floor — which is what the standing pages were doing. Growing the middle
+  // makes the same rule hold whether or not there are tags, and at either shape.
   return `<div style="width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-between;background:${background};padding:72px;font-family:Inter">
   ${masthead}
-  ${body}
+  <div style="flex-grow:1;display:flex;flex-direction:column;justify-content:center">${copy}</div>
+  ${tagRow}
 </div>`
 }
 
@@ -220,7 +218,7 @@ export async function renderOgImage(
   style: OgStyle = OG_STYLE,
   size: OgSize = OG_SIZE_WIDE,
 ): Promise<Uint8Array<ArrayBuffer>> {
-  const png = await render(buildOgHtml(card, style, size), {
+  const png = await render(buildOgHtml(card, style), {
     width: size.width,
     height: size.height,
     fonts,
