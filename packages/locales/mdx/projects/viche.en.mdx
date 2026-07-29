@@ -53,7 +53,7 @@ Nostr signs through a NIP-07 extension or a remote signer; Bluesky uses OAuth wi
 
 **Static-only constrains me, not the app.** No backend of mine is in the request path, but the browser still calls relays, AppViews and instance APIs directly. That distinction is easy to lose: it rules out running an indexer, not talking to third parties. Trending hashtags, for instance, are counted from the feed you already loaded rather than from an index I'd have to host.
 
-**`wss://` only, and no key ever stored.** Plaintext relay URLs are rejected at the normalisation boundary rather than warned about, with a migration that prunes any that were saved earlier. Remote signing persists a throwaway keypair for the session instead of your identity key — the thing you'd most regret leaking is the one thing the app never holds.
+**`wss://` only, and your identity key never stored.** Plaintext relay URLs are rejected at the normalisation boundary rather than warned about, with a migration that prunes any that were saved earlier. Remote signing persists a throwaway keypair for the session instead of your identity key — the thing you'd most regret leaking is the one thing the app never holds.
 
 **Storage is handed in, not hardcoded.** Nothing in the state layer reaches for the browser's storage on its own — it is told where to write, and whoever starts the app decides what that is. On the web that is `localStorage`, in tests it is a map in memory, and a native build would pass its own. localStorage runs today because it is the simplest thing already there, not because anything is built around it; replacing it means passing something else rather than rewriting anything.
 
