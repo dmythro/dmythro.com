@@ -5,7 +5,7 @@ export const careerTimeline: TimelineItem[] = [
     when: 'Кві ’24',
     till: 'Зараз',
     where: 'UA',
-    title: 'Senior Software Engineer',
+    title: 'Lead Engineer',
     subtitle: 'VIDI Group',
     description: [
       'Покращення сайтів групи — технології, продуктивність, процеси випуску. Впровадження TypeScript, React і Next.js на новіших проєктах, Rspack — на старіших.',

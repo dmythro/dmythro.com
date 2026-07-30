@@ -5,7 +5,7 @@ export const careerTimeline: TimelineItem[] = [
     when: 'Apr ’24',
     till: 'Now',
     where: 'UA',
-    title: 'Senior Software Engineer',
+    title: 'Lead Engineer',
     subtitle: 'VIDI Group',
     description: [
       'Websites across the group — technology, performance, release process. TypeScript, React and Next.js on the newer projects, Rspack on the older ones.',
