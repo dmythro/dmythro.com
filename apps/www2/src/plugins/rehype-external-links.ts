@@ -26,7 +26,7 @@ export default function rehypeExternalLinks() {
       if (typeof href !== 'string' || !href.startsWith('http')) return
 
       node.properties.target = '_blank'
-      node.properties.rel = 'noopener noreferrer'
+      node.properties.rel = ['noopener', 'noreferrer']
 
       const iconSpan: Element = {
         type: 'element',
