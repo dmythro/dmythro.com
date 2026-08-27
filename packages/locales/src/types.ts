@@ -28,4 +28,6 @@ export type TimelineItem = {
   isHighlighted?: boolean
   /** Still ongoing. Renders green, and wins over `isHighlighted`. */
   isCurrent?: boolean
+  /** Picks the icon. Defaults to `work`. */
+  kind?: 'work' | 'education'
 }

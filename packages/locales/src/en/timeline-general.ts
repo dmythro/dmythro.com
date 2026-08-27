@@ -13,6 +13,7 @@ export const generalTimeline: TimelineItem[] = [
     isHighlighted: true,
     when: '2025',
     where: 'UA',
+    kind: 'education',
     title: "Education: Master's Degree in Professional Education",
     subtitle: 'KNUCA, FAIT',
     description: [
@@ -36,6 +37,7 @@ export const generalTimeline: TimelineItem[] = [
     isHighlighted: true,
     when: '2009',
     where: 'UA',
+    kind: 'education',
     title: "Education: Master's Degree Graduate",
     subtitle: 'NTUU "KPI", FAM, SCS',
     description: [
@@ -48,6 +50,7 @@ export const generalTimeline: TimelineItem[] = [
     isHighlighted: true,
     when: '2003',
     where: 'UA',
+    kind: 'education',
     title: 'Education: Graduate of Secondary School',
     description: [
       'Graduated secondary school with honors. Also graduated from Music school with honors (accordion and folk instruments) and attended Sports swimming school all the time (candidate for master of sports).',

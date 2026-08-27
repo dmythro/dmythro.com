@@ -13,6 +13,7 @@ export const generalTimeline: TimelineItem[] = [
     isHighlighted: true,
     when: '2025',
     where: 'UA',
+    kind: 'education',
     title: 'Вища освіта: магістр професійної освіти',
     subtitle: 'КНУБА, ФАІТ',
     description: [
@@ -35,6 +36,7 @@ export const generalTimeline: TimelineItem[] = [
     isHighlighted: true,
     when: '2009',
     where: 'UA',
+    kind: 'education',
     title: 'Вища освіта: спеціаліст/магістр',
     subtitle: 'НТУУ "КПІ", ФПМ, СКС',
     description: [
@@ -47,6 +49,7 @@ export const generalTimeline: TimelineItem[] = [
     isHighlighted: true,
     when: '2003',
     where: 'UA',
+    kind: 'education',
     title: 'Середня освіта',
     description: [
       'Закінчив середню школу з відзнакою. Також закінчив музичну школу з відзнакою (баян та народні інструменти) та весь час відвідував спортивну школу з плавання (кандидат в майстри спорту).',

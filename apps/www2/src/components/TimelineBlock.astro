@@ -1,6 +1,6 @@
 ---
 import type { TimelineItem } from '@dmythro/locales'
-import { CircleCheck } from '@lucide/astro'
+import { BookOpen, Circle, CircleCheck, GraduationCap } from '@lucide/astro'
 
 interface Props {
   item: TimelineItem
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { item, index, isLast = false } = Astro.props
-const { title, subtitle, description, when, till, where, isHighlighted, isCurrent } = item
+const { title, subtitle, description, when, till, where, isHighlighted, isCurrent, kind } = item
 const isEven = index % 2 === 0
 const skip = (!when && !till) || (!title && !subtitle && !description)
 const timeStr = when && till ? `${when} – ${till}` : when || till
@@ -21,13 +21,20 @@ const emphasis = isCurrent
   : isHighlighted
     ? { line: 'bg-primary', icon: 'text-primary', title: 'font-black text-primary' }
     : { line: 'bg-primary/30', icon: 'text-base-content/30', title: 'font-bold' }
+
+// The tick means finished, so anything ongoing gets the unticked form.
+const icons = {
+  work: { done: CircleCheck, current: Circle },
+  education: { done: GraduationCap, current: BookOpen },
+}
+const Icon = icons[kind ?? 'work'][isCurrent ? 'current' : 'done']
 ---
 
 {!skip && (
   <li>
     {index > 0 && <hr class:list={[emphasis.line]} />}
     <div class="timeline-middle">
-      <CircleCheck class:list={['h-5 w-5', emphasis.icon]} />
+      <Icon class:list={['h-5 w-5', emphasis.icon]} />
     </div>
     {isEven ? (
       <div class="timeline-start mb-10 print:mb-4 md:text-end print:text-start print:break-after-avoid">
