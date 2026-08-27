@@ -16,7 +16,7 @@ export interface FeedPage {
 }
 
 export const feedPages: FeedPage[] = [
-  { path: '/cv', key: 'cv', publishedAt: '2026-03-09', updatedAt: '2026-07-30' },
+  { path: '/cv', key: 'cv', publishedAt: '2026-03-09', updatedAt: '2026-08-27' },
   { path: '/contact', key: 'contact', publishedAt: '2026-03-10' },
   { path: '/open-source', key: 'openSource', publishedAt: '2026-03-10', updatedAt: '2026-07-31' },
 ]

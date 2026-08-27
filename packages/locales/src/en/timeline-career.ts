@@ -3,7 +3,7 @@ import type { TimelineItem } from '../types'
 export const careerTimeline: TimelineItem[] = [
   {
     when: 'Apr ’24',
-    till: 'Now',
+    till: 'Aug ’26',
     where: 'UA',
     title: 'Lead Engineer',
     subtitle: 'VIDI Group',
@@ -14,6 +14,7 @@ export const careerTimeline: TimelineItem[] = [
     ],
   },
   {
+    isHighlighted: true,
     when: 'Sep ’23',
     till: 'Now',
     where: 'UA, SE',
