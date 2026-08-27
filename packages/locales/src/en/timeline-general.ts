@@ -2,7 +2,7 @@ import type { TimelineItem } from '../types'
 
 export const generalTimeline: TimelineItem[] = [
   {
-    isHighlighted: true,
+    isCurrent: true,
     when: '2016',
     till: 'Now',
     title: 'Principal Engineer / Tech Lead',

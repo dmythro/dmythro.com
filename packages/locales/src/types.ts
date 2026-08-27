@@ -26,4 +26,6 @@ export type TimelineItem = {
   when?: string
   till?: string
   isHighlighted?: boolean
+  /** Still ongoing. Renders green, and wins over `isHighlighted`. */
+  isCurrent?: boolean
 }

@@ -14,7 +14,7 @@ export const careerTimeline: TimelineItem[] = [
     ],
   },
   {
-    isHighlighted: true,
+    isCurrent: true,
     when: 'Sep ’23',
     till: 'Now',
     where: 'UA, SE',

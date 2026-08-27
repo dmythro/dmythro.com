@@ -9,23 +9,31 @@ interface Props {
 }
 
 const { item, index, isLast = false } = Astro.props
-const { title, subtitle, description, when, till, where, isHighlighted } = item
+const { title, subtitle, description, when, till, where, isHighlighted, isCurrent } = item
 const isEven = index % 2 === 0
 const skip = (!when && !till) || (!title && !subtitle && !description)
 const timeStr = when && till ? `${when} – ${till}` : when || till
+
+// Ongoing reads green, notable-but-finished indigo. Spelled out rather than
+// interpolated because Tailwind only scans for literal class names.
+const emphasis = isCurrent
+  ? { line: 'bg-success', icon: 'text-success', title: 'font-black text-success' }
+  : isHighlighted
+    ? { line: 'bg-primary', icon: 'text-primary', title: 'font-black text-primary' }
+    : { line: 'bg-primary/30', icon: 'text-base-content/30', title: 'font-bold' }
 ---
 
 {!skip && (
   <li>
-    {index > 0 && <hr class:list={[isHighlighted ? 'bg-primary' : 'bg-primary/30']} />}
+    {index > 0 && <hr class:list={[emphasis.line]} />}
     <div class="timeline-middle">
-      <CircleCheck class:list={['h-5 w-5', isHighlighted ? 'text-primary' : 'text-base-content/30']} />
+      <CircleCheck class:list={['h-5 w-5', emphasis.icon]} />
     </div>
     {isEven ? (
       <div class="timeline-start mb-10 print:mb-4 md:text-end print:text-start print:break-after-avoid">
         <time class="font-mono italic text-sm print:text-xs text-base-content/60">{timeStr}</time>
         {title && (
-          <div class:list={['text-lg print:text-base print:break-after-avoid', isHighlighted ? 'font-black text-primary' : 'font-bold']}>
+          <div class:list={['text-lg print:text-base print:break-after-avoid', emphasis.title]}>
             {title}
           </div>
         )}
@@ -48,7 +56,7 @@ const timeStr = when && till ? `${when} – ${till}` : when || till
       <div class="timeline-end md:mb-10 print:mb-4 print:break-after-avoid">
         <time class="font-mono italic text-sm print:text-xs text-base-content/60">{timeStr}</time>
         {title && (
-          <div class:list={['text-lg print:text-base print:break-after-avoid', isHighlighted ? 'font-black text-primary' : 'font-bold']}>
+          <div class:list={['text-lg print:text-base print:break-after-avoid', emphasis.title]}>
             {title}
           </div>
         )}
@@ -68,6 +76,6 @@ const timeStr = when && till ? `${when} – ${till}` : when || till
         )}
       </div>
     )}
-    {!isLast && <hr class:list={[isHighlighted ? 'bg-primary' : 'bg-primary/30']} />}
+    {!isLast && <hr class:list={[emphasis.line]} />}
   </li>
 )}
