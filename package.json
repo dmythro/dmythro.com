@@ -36,7 +36,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.5.10",
     "lefthook": "2.1.10",
-    "turbo": "2.10.11"
+    "turbo": "2.10.12"
   },
   "dependencies": {
     "@types/bun": "1.4.0",
@@ -50,6 +50,7 @@
     "@babel/runtime": ">=7.26.10",
     "glob": ">=10.5.0",
     "brace-expansion": ">=2.0.2",
-    "js-yaml": ">=4.1.1"
+    "js-yaml": ">=4.1.1",
+    "yaml": ">=2.8.3"
   }
 }
