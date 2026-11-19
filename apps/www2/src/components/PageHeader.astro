@@ -10,7 +10,7 @@ const { title, subtitle, class: className } = Astro.props
 {/* The actions slot sits opposite the title. With nothing in it the row lays out
     exactly like the bare heading did. */}
 <div class="flex items-start gap-4">
-  <h1 class:list={['flex-1 text-3xl font-bold mb-2', className]} transition:name="page-title">
+  <h1 class:list={['flex-1 text-3xl font-bold mb-2', className]}>
     {title ?? <slot />}
   </h1>
   <slot name="actions" />

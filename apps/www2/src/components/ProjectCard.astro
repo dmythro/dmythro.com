@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets'
-import { Camera, Globe, Music, Package, Terminal } from '@lucide/astro'
+import { Camera, EighthNotes, Globe, Package, Terminal } from '@lucide/astro'
 import IntersectThree from '@/components/icons/IntersectThree.astro'
 import type { Project } from '@/data/projects'
 import type { GithubStats } from '@/utils/fetchGithubStats'
@@ -20,7 +20,7 @@ const iconMap = {
   package: Package,
   globe: Globe,
   terminal: Terminal,
-  music: Music,
+  music: EighthNotes,
   camera: Camera,
   'intersect-three': IntersectThree,
 } as const
@@ -45,9 +45,7 @@ const mainTags = displayTags.slice(0, 5 - statCount)
   <div class="card-body p-4 gap-2">
     <h3 class="card-title text-base">
       {IconComponent && <IconComponent class="h-4 w-4 shrink-0 opacity-60" />}
-      {/* Pairs with the <h1> title on the project page, so the card title is what
-          morphs into the heading. Per-slug so the names stay unique on this page. */}
-      <span transition:name={`project-title-${project.slug}`}>{title}</span>
+      <span>{title}</span>
     </h3>
     <p class="text-sm text-base-content/60 line-clamp-4">{description}</p>
 

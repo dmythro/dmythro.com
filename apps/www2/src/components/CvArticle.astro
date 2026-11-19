@@ -247,16 +247,16 @@ const lastKey = interestList[interestList.length - 1]
 
       {/* MDX prose content (skip hobbies — rendered as cards below) */}
       {MdxContent && key !== 'hobbies' && key !== 'webDev' && (
-        <div class="prose prose-sm max-w-none"><MdxContent components={mdxComponents} /></div>
+        <div class="prose print:prose-sm max-w-none"><MdxContent components={mdxComponents} /></div>
       )}
       {mdxHtml && key === 'webDev' && (
-        <div class="prose prose-sm max-w-none" set:html={mdxHtml} />
+        <div class="prose print:prose-sm max-w-none" set:html={mdxHtml} />
       )}
 
       {/* Hobbies — intro + cards */}
       {key === 'hobbies' && (
         <>
-          <div class="prose prose-sm max-w-none mb-4" set:html={hobbiesIntroHtml} />
+          <div class="prose print:prose-sm max-w-none mb-4" set:html={hobbiesIntroHtml} />
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {hobbyCards.map(({ title: cardTitle, bodyHtml, Icon: CardIcon }) => (
               <div class="card bg-base-100 border border-base-300 p-4">
@@ -264,7 +264,7 @@ const lastKey = interestList[interestList.length - 1]
                   {CardIcon && <CardIcon class="h-5 w-5 text-primary shrink-0 mt-0.5" />}
                   <div>
                     <h3 class="font-semibold mb-1">{cardTitle}</h3>
-                    <div class="text-sm text-base-content/70 prose prose-sm max-w-none" set:html={bodyHtml} />
+                    <div class="text-base-content/70 prose print:prose-sm print:text-sm max-w-none" set:html={bodyHtml} />
                   </div>
                 </div>
               </div>
@@ -302,7 +302,7 @@ const lastKey = interestList[interestList.length - 1]
             <details class="collapse collapse-arrow border border-base-300 bg-base-100 print:break-inside-avoid" open={i === 0}>
               <summary class="collapse-title font-medium">{question}</summary>
               <div class="collapse-content">
-                <div class="prose prose-sm max-w-none" set:html={answerHtml} />
+                <div class="prose print:prose-sm max-w-none" set:html={answerHtml} />
               </div>
             </details>
           ))}

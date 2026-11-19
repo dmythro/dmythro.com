@@ -54,6 +54,12 @@ const statItems = [
     shadow: 'shadow-[0_0_20px_rgba(99,102,241,0.1)]',
   },
 ]
+
+// The arrow stays with the label's last word, so it never wraps onto a line alone.
+const splitLabel = (label: string) => {
+  const cut = Math.max(label.lastIndexOf(' '), label.lastIndexOf('/')) + 1
+  return [label.slice(0, cut), label.slice(cut)]
+}
 ---
 
 <section class:list={["py-16", pagePadding]}>
@@ -67,13 +73,15 @@ const statItems = [
             {p}
           </p>
         ))}
-        <a href={`/${locale}/cv`} class="inline-flex items-center gap-1.5 mt-2 text-primary font-semibold text-sm hover:text-primary/80 transition-colors">
+        <a href={`/${locale}/cv`} class="inline-flex items-center gap-1.5 mt-2 text-primary font-semibold text-base hover:text-primary/80 transition-colors">
           <FileText class="h-4 w-4" />{t.landing.cvLink}</a>
       </div>
 
       {/* Stats grid */}
-      <div class="w-full md:w-95 md:shrink-0 grid grid-cols-2 gap-3">
-        {statItems.map(({ value, label, icon, href, gradient, border, shadow }) => (
+      <div class="w-full md:w-95 lg:w-105 md:shrink-0 grid grid-cols-2 gap-3">
+        {statItems.map(({ value, label, icon, href, gradient, border, shadow }) => {
+          const [labelStart, labelEnd] = splitLabel(label)
+          return (
           <a
             href={href}
             class:list={[
@@ -90,13 +98,14 @@ const statItems = [
                 <InfinityIcon class="h-12 w-12 -my-1 stroke-[2.5] stroke-primary" />
               ) : value}
             </span>
-            <span class="mt-2 text-xs text-base-content/70">
+            <span class="mt-2 text-sm text-base-content/70">
               {icon === 'npm' && <Package class="h-3.5 w-3.5 inline align-[-0.1875rem]" aria-label="NPM" role="img" /> }
               {icon === 'github' && <Github class="h-3.5 w-3.5 inline align-[-0.1875rem]" aria-label="GitHub" role="img" /> }
-              {icon && ' '}{label}&nbsp;<ArrowRight class="h-3 w-3 inline align-[-0.125rem]" />
+              {icon && ' '}{labelStart}<span class="whitespace-nowrap">{labelEnd}&nbsp;<ArrowRight class="h-3 w-3 inline align-[-0.125rem]" /></span>
             </span>
           </a>
-        ))}
+          )
+        })}
       </div>
     </div>
   </div>

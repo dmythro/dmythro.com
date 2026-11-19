@@ -38,8 +38,6 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
 <header
   class="bg-base-200 backdrop-blur-xl border-b border-base-300 z-50 no-print sticky top-0"
   id="main-navbar"
-  transition:animate="none"
-  transition:name="navbar"
 >
   {/* Scroll hint — pulsing arrow, visible only when hero avatar is on screen */}
   <div
@@ -92,7 +90,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
           <a
             href={href}
             class:list={[
-              'flex items-center justify-center px-4 text-sm transition-colors border-b-2',
+              'flex items-center justify-center px-4 text-base transition-colors border-b-2',
               active
                 ? 'bg-linear-to-b from-[#6366F120] to-[#6366F108] border-primary text-primary font-semibold'
                 : 'border-transparent text-content-secondary font-medium hover:text-base-content hover:bg-base-300/30',
@@ -109,9 +107,9 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
       {/* Utilities */}
       <div class="flex items-center gap-4 pl-4 pr-1">
         <ThemeToggle labels={{
-          system: t.actions.themeSystem,
-          dark: t.actions.themeDark,
-          light: t.actions.themeLight,
+          system: t.actions.themeSystemTip,
+          dark: t.actions.themeDarkTip,
+          light: t.actions.themeLightTip,
         }} />
         <div class="tooltip tooltip-left tooltip-primary" data-tip={t.actions.switchLang}>
           <a
@@ -137,14 +135,13 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
 </header>
 
 {/* Backdrop — captures clicks so they don't pass through to page elements */}
-<div id="burger-backdrop" class="fixed inset-0 z-999 hidden" transition:animate="none"></div>
+<div id="burger-backdrop" class="fixed inset-0 z-999 hidden"></div>
 
 {/* Mobile menu — popover renders in top layer, no stacking context issues */}
 <div
   id="burger-menu"
   popover="manual"
   class="dropdown w-70 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.15)] backdrop-blur-2xl border border-base-300 bg-base-200/90 p-0 m-0"
-  transition:animate="none"
 >
   {/* Nav links */}
   <nav class="p-2">
@@ -161,7 +158,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
           ]}
         >
           <Icon class:list={['h-4.5 w-4.5', active ? 'text-primary' : 'text-content-secondary']} />
-          <span class="flex-1 text-sm font-medium">{label}</span>
+          <span class="flex-1 text-base font-medium">{label}</span>
           <ChevronRight class="h-4 w-4 text-content-muted" />
         </a>
       )
@@ -193,7 +190,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
           ]}>
             {isCurrentLocale && <span class="w-2 h-2 rounded-full bg-primary"></span>}
           </span>
-          <span class="text-sm">{localeNames[loc]}</span>
+          <span class="text-base">{localeNames[loc]}</span>
         </a>
       )
     })}
@@ -221,7 +218,7 @@ const otherLocale = availableLocales.find((l) => l !== locale) || locale
         >
           <span class="burger-theme-dot w-4 h-4 rounded-full border-2 border-content-muted flex items-center justify-center shrink-0">
           </span>
-          <span class="text-sm">{labels[mode]}</span>
+          <span class="text-base">{labels[mode]}</span>
         </button>
       )
     })}

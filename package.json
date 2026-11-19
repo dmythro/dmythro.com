@@ -1,7 +1,7 @@
 {
   "name": "dmythro-com",
   "version": "2.0.0",
-  "packageManager": "bun@1.4.0",
+  "packageManager": "bun@1.4.4",
   "private": false,
   "license": "MIT",
   "workspaces": [
@@ -29,20 +29,20 @@
   "catalog": {
     "countries-list": "3.4.1",
     "dayjs": "1.11.23",
-    "schema-dts": "2.0.0",
-    "tailwindcss": "4.3.3",
+    "schema-dts": "2.1.0",
+    "tailwindcss": "4.3.5",
     "typescript": "6.0.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.10",
-    "lefthook": "2.1.10",
-    "turbo": "2.10.12"
+    "@biomejs/biome": "2.6.8",
+    "lefthook": "2.2.2",
+    "turbo": "2.11.11"
   },
   "dependencies": {
-    "@types/bun": "1.4.0",
-    "baseline-browser-mapping": "2.11.19",
-    "caniuse-lite": "1.0.30001810",
-    "tailwindcss": "4.3.3"
+    "@types/bun": "1.4.4",
+    "baseline-browser-mapping": "2.11.37",
+    "caniuse-lite": "1.0.30001826",
+    "tailwindcss": "4.3.5"
   },
   "overrides": {
     "mdast-util-to-hast": ">=13.2.1",
