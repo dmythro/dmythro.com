@@ -127,11 +127,12 @@ async function loadImages(view: WebView) {
 /**
  * Print layout can reach a face the screen never drew, and a face still loading when
  * the page prints falls back to a system font. Loading every declared face first
- * leaves nothing in flight.
+ * leaves nothing in flight. Astro's metric-matched fallbacks (`local("Arial")` and
+ * the like) are skipped: a host without that system font would reject the load.
  */
 async function loadFonts(view: WebView) {
   await view.evaluate(
-    'Promise.all([...document.fonts].map((face) => face.load())).then(() => document.fonts.ready).then(() => true)',
+    "Promise.all([...document.fonts].filter((face) => !face.family.includes(' fallback: ')).map((face) => face.load())).then(() => document.fonts.ready).then(() => true)",
   )
 }
 
@@ -139,31 +140,41 @@ async function loadFonts(view: WebView) {
  * A weight or style the site never loaded cannot be seen in the PDF: the browser sets
  * the text in the nearest Geist face it has, under that face's name. So the page is
  * asked instead — every run of text must have a declared face of exactly its family,
- * weight and style.
+ * weight and style, in screen and in print styles alike.
  */
 async function assertFacesDeclared(view: WebView, locale: string) {
-  const missing: [face: string, sample: string][] = await view.evaluate(`(() => {
-    // Astro suffixes each family with a hash; only its own name is worth reporting.
-    const unquote = (family) => family.trim().replace(/^["']|["']$/g, '')
-    const declared = new Set([...document.fonts].map((f) => [unquote(f.family), f.weight, f.style].join(' ')))
-    const missing = new Map()
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
-    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
-      const text = node.textContent.trim()
-      if (!text || node.parentElement.closest('script, style')) continue
-      const style = getComputedStyle(node.parentElement)
-      const face = [unquote(style.fontFamily.split(',')[0]), style.fontWeight, style.fontStyle].join(' ')
-      if (!declared.has(face)) missing.set(face, text.slice(0, 30))
-    }
-    return [...missing]
-  })()`)
-  if (missing.length > 0) {
-    const faces = missing
+  const missing = new Map<string, string>()
+  for (const media of ['screen', 'print']) {
+    await view.cdp('Emulation.setEmulatedMedia', { media })
+    const found: [face: string, sample: string][] = await view.evaluate(facesProbe)
+    for (const [face, sample] of found) missing.set(face, sample)
+  }
+  await view.cdp('Emulation.setEmulatedMedia', { media: '' })
+
+  if (missing.size > 0) {
+    const faces = [...missing]
       .map(([face, sample]) => `${face.replace(/-[0-9a-f]{16} /, ' ')} ("${sample}")`)
       .join(', ')
-    throw new Error(`${locale}: text set in faces astro.config.ts does not load: ${faces}`)
+    throw new Error(`${locale}: text set in faces packages/fonts does not declare: ${faces}`)
   }
 }
+
+/** Each run of text whose family, weight and style match no declared face. */
+const facesProbe = `(() => {
+  // Astro suffixes each family with a hash; only its own name is worth reporting.
+  const unquote = (family) => family.trim().replace(/^["']|["']$/g, '')
+  const declared = new Set([...document.fonts].map((f) => [unquote(f.family), f.weight, f.style].join(' ')))
+  const missing = new Map()
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+    const text = node.textContent.trim()
+    if (!text || node.parentElement.closest('script, style')) continue
+    const style = getComputedStyle(node.parentElement)
+    const face = [unquote(style.fontFamily.split(',')[0]), style.fontWeight, style.fontStyle].join(' ')
+    if (!declared.has(face)) missing.set(face, text.slice(0, 30))
+  }
+  return [...missing]
+})()`
 
 /** Swaps each photograph for a JPEG sized to what the page actually prints. */
 async function downscaleImages(view: WebView) {
