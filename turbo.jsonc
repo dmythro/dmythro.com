@@ -13,6 +13,7 @@
     // Both apps read their copy from packages/locales, which these tasks do not
     // depend on via ^build. Without naming it as an input, editing an article
     // leaves the hash unchanged and Turbo replays a stale site from cache.
+    // www2 serves its fonts from packages/fonts, for the same reason.
     "www#build": {
       "dependsOn": ["check"],
       "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/packages/locales/**"],
@@ -20,7 +21,11 @@
     },
     "www2#build": {
       "dependsOn": ["check"],
-      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/packages/locales/**"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/packages/locales/**",
+        "$TURBO_ROOT$/packages/fonts/**"
+      ],
       "outputs": ["dist/**", ".astro/**"]
     },
     "www2#dev": {

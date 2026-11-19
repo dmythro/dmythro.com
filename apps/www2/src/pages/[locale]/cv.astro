@@ -55,6 +55,10 @@ const cvJsonLd = {
   description={cvDescription}
   jsonLd={cvJsonLd}
   ogImage={pageOgImagePath('cv', locale)}
+  preloadFonts={[
+    { family: 'geist', weight: 400, style: 'italic', latinOnly: true },
+    { family: 'geist-mono', weight: 600, latinOnly: true },
+  ]}
 >
   <div class="flex gap-8 lg:gap-12 print:block">
     {/* Main content */}

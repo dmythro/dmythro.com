@@ -2,9 +2,10 @@ import { unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import preact from '@astrojs/preact'
 import sitemap from '@astrojs/sitemap'
+import { fontVariants } from '@dmythro/fonts'
 import { availableLocales } from '@dmythro/locales/constants'
 import tailwindcss from '@tailwindcss/vite'
-import { defineConfig } from 'astro/config'
+import { defineConfig, fontProviders } from 'astro/config'
 
 import { feedPages } from './src/data/feedPages'
 import { pageDates } from './src/data/pageDates'
@@ -64,6 +65,40 @@ export default defineConfig({
   compressHTML: true,
   build: { format: 'file', inlineStylesheets: 'always' },
   devToolbar: { enabled: false },
+
+  // Geist from packages/fonts. On screen one variable file per script carries every
+  // weight; it is preloaded and `optional`, so on a normal connection it is in place at
+  // first paint, and it never swaps in under text already drawn. On a slow connection
+  // the first page keeps the system font. Print switches to the static faces
+  // (global.css): Chrome stores a variable font in a PDF as Type 3 drawings.
+  fonts: [
+    {
+      provider: fontProviders.local(),
+      name: 'Geist',
+      display: 'optional',
+      optimizedFallbacks: false,
+      cssVariable: '--font-geist',
+      fallbacks: ['ui-sans-serif', 'system-ui', 'sans-serif'],
+      options: { variants: fontVariants('geist', 'screen') },
+    },
+    {
+      provider: fontProviders.local(),
+      name: 'Geist Mono',
+      display: 'optional',
+      optimizedFallbacks: false,
+      cssVariable: '--font-geist-mono',
+      fallbacks: ['ui-monospace', 'Menlo', 'Consolas', 'monospace'],
+      options: { variants: fontVariants('geist-mono', 'screen') },
+    },
+    {
+      provider: fontProviders.local(),
+      name: 'Geist Print',
+      optimizedFallbacks: false,
+      cssVariable: '--font-geist-print',
+      fallbacks: ['ui-sans-serif', 'system-ui', 'sans-serif'],
+      options: { variants: fontVariants('geist', 'print') },
+    },
+  ],
 
   integrations: [
     mdx(),

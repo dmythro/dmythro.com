@@ -1,0 +1,21 @@
+{
+  "name": "@dmythro/fonts",
+  "version": "0.1.0",
+  "private": true,
+  "license": "OFL-1.1",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "fetch": "bun scripts/fetch.ts",
+    "subset": "bun scripts/subset.ts",
+    "test": "bun test"
+  },
+  "devDependencies": {
+    "subset-font": "2.9.0",
+    "tsconfig": "workspace:*",
+    "typescript": "catalog:"
+  }
+}

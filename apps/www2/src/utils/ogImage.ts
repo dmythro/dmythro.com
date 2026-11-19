@@ -1,5 +1,6 @@
+import { readFile } from 'node:fs/promises'
+import { webFiles } from '@dmythro/fonts'
 import { render } from 'takumi-js'
-import { googleFonts } from 'takumi-js/helpers'
 
 import type { Project, ProjectStatus } from '@/data/projects'
 
@@ -31,11 +32,21 @@ export const OG_SIZE_WIDE: OgSize = { width: OG_WIDTH, height: OG_HEIGHT }
 export const OG_SIZE_SQUARE: OgSize = { width: OG_SQUARE, height: OG_SQUARE }
 
 /**
- * Hoisted so the whole build shares one font fetch. `render` accepts a promise
- * of the entry list, and subsets each family to the glyphs actually drawn — which
- * is what makes Cyrillic work without committing any font files.
+ * The site's own Geist, read once for the whole build: the same subset files the pages
+ * serve, so Cyrillic and "→" draw as they do on the site, and the build fetches nothing.
+ * `subsetOf` lets Takumi route each script to its file. The full files in
+ * `packages/fonts/source` would not do: Takumi draws their Cyrillic as empty boxes.
  */
-const fonts = googleFonts([{ name: 'Inter', weight: [400, 600, 700] }])
+const fonts = Promise.all(
+  [400, 700].flatMap((weight) =>
+    webFiles('geist', weight).map(async ({ subset, path }) => ({
+      name: `Geist ${subset}`,
+      subsetOf: 'Geist',
+      weight,
+      data: await readFile(path),
+    })),
+  ),
+)
 
 /** Lucide shapes, copied from `@lucide/astro` so the card matches the site's icons. */
 const iconShapes: Record<string, string> = {
@@ -218,7 +229,7 @@ export function buildOgHtml(card: OgCard, style: OgStyle = OG_STYLE): string {
   // `overflow:hidden` is a backstop, not a layout tool: every card clears the
   // edges by 70px today, but a long title over a long description over two rows
   // of tags would out-measure the wide canvas, and clipping beats spilling.
-  return `<div style="width:100%;height:100%;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;background:${background};padding:72px;font-family:Inter">
+  return `<div style="width:100%;height:100%;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;background:${background};padding:72px;font-family:Geist">
   ${masthead}
   <div style="flex-grow:1;display:flex;flex-direction:column;justify-content:center">${copy}</div>
   ${tagRow}

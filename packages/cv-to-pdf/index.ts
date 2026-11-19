@@ -1,6 +1,8 @@
 import { existsSync } from 'node:fs'
 import { join, resolve, sep } from 'node:path'
 
+import { listFonts, type PdfFont } from './pdfFonts'
+
 const locales = ['en', 'uk']
 
 /** A4 with 12mm margins, in the inches `Page.printToPDF` expects. */
@@ -31,6 +33,12 @@ const imageQuality = 0.82
 
 /** A CV that rendered at all runs to a dozen pages; a broken one collapses to a few. */
 const minPages = 8
+
+/** The site's own fonts. Any other name is a fallback: a character Geist lacks, most likely. */
+const siteFonts = /^(Geist|GeistMono)-/
+
+/** Colour emoji are bitmaps, which a PDF can only hold as Type 3. They still extract as text. */
+const emojiFonts = /^(AppleColorEmoji|NotoColorEmoji|SegoeUIEmoji)$/
 
 /**
  * www2 builds to a static directory, so the CV is printed from those files rather
@@ -116,6 +124,68 @@ async function loadImages(view: WebView) {
   )
 }
 
+/**
+ * Print layout can reach a face the screen never drew, and a face still loading when
+ * the page prints falls back to a system font. Loading every declared face first
+ * leaves nothing in flight. Astro's metric-matched fallbacks (`local("Arial")` and
+ * the like) are skipped: a host without that system font would reject the load.
+ */
+async function loadFonts(view: WebView) {
+  await view.evaluate(
+    "Promise.all([...document.fonts].filter((face) => !face.family.includes(' fallback: ')).map((face) => face.load())).then(() => document.fonts.ready).then(() => true)",
+  )
+}
+
+/**
+ * A weight or style the site never loaded cannot be seen in the PDF: the browser sets
+ * the text in the nearest Geist face it has, under that face's name. So the page is
+ * asked instead — every run of text must have a declared face of exactly its family,
+ * weight and style, in screen and in print styles alike.
+ */
+async function assertFacesDeclared(view: WebView, locale: string) {
+  const missing = new Map<string, string>()
+  for (const media of ['screen', 'print']) {
+    await view.cdp('Emulation.setEmulatedMedia', { media })
+    const found: [face: string, sample: string][] = await view.evaluate(facesProbe)
+    for (const [face, sample] of found) missing.set(face, sample)
+  }
+  await view.cdp('Emulation.setEmulatedMedia', { media: '' })
+
+  if (missing.size > 0) {
+    const faces = [...missing]
+      .map(([face, sample]) => `${face.replace(/-[0-9a-f]{16} /, ' ')} ("${sample}")`)
+      .join(', ')
+    throw new Error(`${locale}: text set in faces packages/fonts does not declare: ${faces}`)
+  }
+}
+
+/**
+ * Each run of text whose family, weight and style match no declared face. A variable
+ * face declares a range of weights ("100 900") and covers any weight inside it.
+ */
+const facesProbe = `(() => {
+  // Astro suffixes each family with a hash; only its own name is worth reporting.
+  const unquote = (family) => family.trim().replace(/^["']|["']$/g, '')
+  const declared = [...document.fonts].map((f) => {
+    const [min, max = min] = f.weight.split(' ').map(Number)
+    return { family: unquote(f.family), style: f.style, min, max }
+  })
+  const missing = new Map()
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+    const text = node.textContent.trim()
+    if (!text || node.parentElement.closest('script, style')) continue
+    const style = getComputedStyle(node.parentElement)
+    const family = unquote(style.fontFamily.split(',')[0])
+    const weight = Number(style.fontWeight)
+    const covered = declared.some((d) =>
+      d.family === family && d.style === style.fontStyle && weight >= d.min && weight <= d.max,
+    )
+    if (!covered) missing.set([family, weight, style.fontStyle].join(' '), text.slice(0, 30))
+  }
+  return [...missing]
+})()`
+
 /** Swaps each photograph for a JPEG sized to what the page actually prints. */
 async function downscaleImages(view: WebView) {
   await view.evaluate(`(async () => {
@@ -166,6 +236,36 @@ async function assertPrintable(view: WebView, locale: string) {
   }
 }
 
+function describeFonts(fonts: PdfFont[]): string {
+  return fonts
+    .map((font) => `${font.name} (${font.subtype}: "${font.chars.slice(0, 24)}")`)
+    .join(', ')
+}
+
+/**
+ * Chrome stores a variable font as Type 3, each glyph a drawing, and software reading
+ * the PDF then gets "q uality" for "quality" — the CV fails keyword matching before a
+ * person ever sees it. Static Geist embeds as a real font and extracts cleanly.
+ */
+function assertFonts(pdf: Uint8Array, locale: string) {
+  const fonts = listFonts(pdf)
+  if (!fonts.some((font) => siteFonts.test(font.name))) {
+    throw new Error(`${locale}: found no Geist font, so the font check cannot read this PDF`)
+  }
+
+  const drawn = fonts.filter((font) => font.subtype === 'Type3' && !emojiFonts.test(font.name))
+  if (drawn.length > 0) {
+    throw new Error(`${locale}: text stored as Type 3 drawings: ${describeFonts(drawn)}`)
+  }
+
+  const foreign = fonts.filter((font) => !siteFonts.test(font.name) && !emojiFonts.test(font.name))
+  if (foreign.length > 0) {
+    throw new Error(
+      `${locale}: printed with fonts other than Geist — a character Geist lacks, most likely: ${describeFonts(foreign)}`,
+    )
+  }
+}
+
 async function renderLocale(origin: string, locale: string) {
   // The Chrome backend is required: printToPDF is a DevTools Protocol call, and the
   // WebKit backend that WebView defaults to on macOS exposes no protocol at all.
@@ -177,6 +277,8 @@ async function renderLocale(origin: string, locale: string) {
 
   await withTimeout(view.navigate(`${origin}/${locale}/cv`), 60_000, `${locale}: navigation`)
   await loadImages(view)
+  await withTimeout(loadFonts(view), 30_000, `${locale}: font loading`)
+  await assertFacesDeclared(view, locale)
   await assertPrintable(view, locale)
   await downscaleImages(view)
   await pinPageBox(view)
@@ -192,6 +294,7 @@ async function renderLocale(origin: string, locale: string) {
   if (pages < minPages) {
     throw new Error(`${locale}: printed only ${pages} pages, expected at least ${minPages}`)
   }
+  assertFonts(pdf, locale)
 
   const pdfPath = join(publicDir, `cv.${locale}.pdf`)
   await Bun.write(pdfPath, pdf)

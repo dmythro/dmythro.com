@@ -150,6 +150,10 @@ const relatedWithStats = await Promise.all(
   ogType="article"
   publishedTime={publishedTime}
   modifiedTime={modifiedTime}
+  preloadFonts={[
+    { family: 'geist-mono', weight: 400, latinOnly: true },
+    { family: 'geist-mono', weight: 600, latinOnly: true },
+  ]}
 >
   {/* Content fills the column and the sidebar sits beside it, matching the CV. The
       group used to be centred with a reading-width cap, which started the article

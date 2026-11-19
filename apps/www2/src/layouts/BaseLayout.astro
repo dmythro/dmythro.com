@@ -1,6 +1,8 @@
 ---
+import { Font } from 'astro:assets'
 import { ClientRouter } from 'astro:transitions'
 import { BASE_URL, USERNAME } from '@dmythro/constants'
+import { fontPreloadUrls, type PreloadFace } from '@/utils/fontPreloads'
 import { availableLocales, cleanPathname, type LocaleCode } from '@/utils/i18n'
 import '@/styles/global.css'
 
@@ -16,6 +18,8 @@ interface Props {
   /** ISO dates surfaced as `article:*` meta when `ogType` is `article`. */
   publishedTime?: string
   modifiedTime?: string
+  /** Faces this page draws in its first screen besides the variable Geist. */
+  preloadFonts?: PreloadFace[]
 }
 
 const {
@@ -27,6 +31,7 @@ const {
   ogType = 'website',
   publishedTime,
   modifiedTime,
+  preloadFonts,
 } = Astro.props
 const pathname = cleanPathname(Astro.url.pathname)
 const canonicalUrl = new URL(pathname, BASE_URL)
@@ -41,6 +46,13 @@ const ogImageType = ogImageUrl.endsWith('.png') ? 'image/png' : 'image/jpeg'
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
+
+    <Font cssVariable="--font-geist" />
+    <Font cssVariable="--font-geist-mono" />
+    <Font cssVariable="--font-geist-print" />
+    {fontPreloadUrls(locale, preloadFonts).map((href) => (
+      <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />
+    ))}
 
     <title>{title}</title>
     <meta name="description" content={description} />

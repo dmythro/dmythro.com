@@ -1,0 +1,11 @@
+{
+  "extends": "tsconfig/library.json",
+  "compilerOptions": {
+    "lib": ["ESNext"],
+    "target": "ESNext",
+    "rootDir": ".",
+    "types": ["bun"]
+  },
+  "include": ["."],
+  "exclude": ["node_modules"]
+}
