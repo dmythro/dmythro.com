@@ -164,7 +164,7 @@ const relatedWithStats = await Promise.all(
         <header id="top" class="mb-6 scroll-mt-20 overflow-x-clip">
           <div class="flex items-center gap-1 mb-2">
             <BackLink href={`/${locale}/projects`} label={t.nav.projects} />
-            <h1 class="text-2xl sm:text-3xl font-bold flex items-center gap-1.5 sm:gap-2 min-w-0">
+            <h1 class="text-2xl max-[344px]:text-xl sm:text-3xl font-bold flex items-center gap-1.5 sm:gap-2 min-w-0">
               {IconComponent && <IconComponent class="size-6 sm:size-7 shrink-0 opacity-60" />}
               <span class="mr-1 sm:mr-2">{title}</span>
               {projectUrl && (
