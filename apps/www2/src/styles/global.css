@@ -27,7 +27,9 @@ html:has(::view-transition) {
   --color-content-secondary: var(--color-content-secondary);
   --color-content-muted: var(--color-content-muted);
 
-  --font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  /* Geist and its fallbacks come from the `fonts` config in astro.config.ts. */
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
 }
 
 /* Dark theme overrides */

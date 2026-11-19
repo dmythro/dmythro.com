@@ -2,9 +2,10 @@ import { unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import preact from '@astrojs/preact'
 import sitemap from '@astrojs/sitemap'
+import { fontVariants } from '@dmythro/fonts'
 import { availableLocales } from '@dmythro/locales/constants'
 import tailwindcss from '@tailwindcss/vite'
-import { defineConfig } from 'astro/config'
+import { defineConfig, fontProviders } from 'astro/config'
 
 import { feedPages } from './src/data/feedPages'
 import { pageDates } from './src/data/pageDates'
@@ -64,6 +65,24 @@ export default defineConfig({
   compressHTML: true,
   build: { format: 'file', inlineStylesheets: 'always' },
   devToolbar: { enabled: false },
+
+  // Static Geist from packages/fonts, one face per weight and style the pages use.
+  fonts: [
+    {
+      provider: fontProviders.local(),
+      name: 'Geist',
+      cssVariable: '--font-geist',
+      fallbacks: ['ui-sans-serif', 'system-ui', 'sans-serif'],
+      options: { variants: fontVariants('geist') },
+    },
+    {
+      provider: fontProviders.local(),
+      name: 'Geist Mono',
+      cssVariable: '--font-geist-mono',
+      fallbacks: ['ui-monospace', 'Menlo', 'Consolas', 'monospace'],
+      options: { variants: fontVariants('geist-mono') },
+    },
+  ],
 
   integrations: [
     mdx(),
