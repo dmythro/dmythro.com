@@ -31,6 +31,20 @@ Generation fails rather than writing a bad CV if an image never loaded — the f
 that leaves a silent hole where a photograph should be — or if the document came out
 improbably short.
 
+It also checks the fonts, because software reads the PDF before a person does:
+
+- **Every face the CV uses is loaded.** Before printing, each run of text must have a
+  declared face of exactly its family, weight and style. A missing weight cannot be seen
+  in the PDF afterwards: the browser sets the text in the nearest Geist face it has,
+  under that face's name.
+- **No Type 3 text.** Chrome stores a variable font as Type 3, each glyph a drawing,
+  and software reading the PDF then gets "q uality" for "quality" — the CV fails
+  keyword matching unseen. The site loads static Geist files for this reason. Colour
+  emoji are bitmaps, always Type 3, and allowed.
+- **Only Geist, Geist Mono and emoji.** Any other font in the file (`pdfFonts.ts` reads
+  them back) is a fallback, usually for a character Geist lacks. The error names the
+  font and the characters it drew.
+
 Collapsed FAQ answers are not checked: that needs print layout, and emulated print
 media does not reproduce it. Chrome reports them collapsed while printing them
 correctly, so asserting on that reading fails a good document.
