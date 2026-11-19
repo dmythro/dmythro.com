@@ -15,7 +15,7 @@
 - **www2** (apps/www2): Astro 7 + DaisyUI 5 + Tailwind 4 (current production site)
   - Zero JS by default, React islands only for interactivity
   - DaisyUI CSS-only components, no React for layout/nav/footer
-  - Fonts: static Geist and Geist Mono from `packages/fonts` (faces in `src/index.ts`, see its README). Never a variable font: the CV PDF needs static ones
+  - Fonts: static Geist and Geist Mono from `packages/fonts` (faces in `src/index.ts`, see its README). Never a variable font: the CV PDF needs static ones.
   - i18n: `[locale]` dynamic param with `getStaticPaths`
   - Deployment target: Cloudflare Pages
 - **www** (apps/www): Next.js 16 + HeroUI 2.x (legacy, previous production site)
@@ -31,7 +31,7 @@
 
 ## Feeds & social images
 - **Feeds**: RSS 2.0 at `/{locale}/rss.xml` and JSON Feed 1.1 at `/{locale}/feed.json`, both built from `src/utils/feed.ts` so the formats cannot drift. Site-wide: projects plus the standing pages listed in `src/data/feedPages.ts` (CV, contact, open-source), newest first. `/rss.xml` and `/feed` alias to EN via `public/_redirects`.
-- **OG images**: generated at build by `takumi-js` — `src/utils/ogImage.ts` + `src/pages/og/[locale]/projects/[slug].png.ts` → `/og/{locale}/projects/{slug}.png`. Fonts come from Google Fonts and are subset to the glyphs drawn, so Cyrillic works with no font files committed.
+- **OG images**: generated at build by `takumi-js` — `src/utils/ogImage.ts` + `src/pages/og/[locale]/projects/[slug].png.ts` → `/og/{locale}/projects/{slug}.png`. Fonts are the Geist subset files the site serves, read from `packages/fonts`, so the build fetches no fonts and Cyrillic and "→" draw as on the site.
 - **Changing anything that ships in a feed**: bump its date in the same commit. A project takes `updatedAt` in `projects.ts`; a standing page takes `updatedAt` in `feedPages.ts`. That date drives RSS `pubDate`, JSON Feed `date_modified` and sitemap `lastmod` — an edit nobody dates is an edit subscribers never see.
 - **Changing the CV also means rebuilding its PDFs**: run `bun run cv` and commit `apps/www2/public/cv.*.pdf` with the copy. The PDFs are printed from the built site, so they go stale silently, and the download button reads the file size at build time — a stale PDF shows a stale size next to it.
 - **Per-page meta**: pass `ogImage`/`ogType`/`publishedTime`/`modifiedTime` through `PageLayout` to `BaseLayout`.

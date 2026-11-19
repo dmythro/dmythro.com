@@ -1,4 +1,5 @@
-import { fileURLToPath } from 'node:url'
+import { createRequire } from 'node:module'
+import { dirname, join } from 'node:path'
 
 export type FontFamily = 'geist' | 'geist-mono'
 export type FontStyle = 'normal' | 'italic'
@@ -35,8 +36,8 @@ type CodePoints = [first: number, last?: number][]
 
 /**
  * Google Fonts' Latin and Cyrillic ranges, so a page downloads only the script it
- * draws. Latin also carries the few symbols the site's copy uses that Google's build
- * of Geist leaves out: → in the CV's role titles and links, ₴, π, ▲ and ●.
+ * draws. Latin also carries the few symbols the site's copy uses that neither of
+ * Google's slices does: → in the CV's role titles and links, ₴, π, ▲ and ●.
  */
 export const fontSubsets: Record<'latin' | 'cyrillic', CodePoints> = {
   latin: [
@@ -88,12 +89,26 @@ export function unicodeRange(subset: FontSubset): [string, ...string[]] {
   return ranges as [string, ...string[]]
 }
 
+/** A face's served files, one per subset, for renderers that take font bytes, not CSS. */
+export function webFiles(family: FontFamily, weight: number, style: FontStyle = 'normal') {
+  const face = fontFaces.find(
+    (f) => f.family === family && f.weight === weight && f.style === style,
+  )
+  if (!face) throw new Error(`${family} ${weight} ${style} is not in fontFaces`)
+  return subsetNames.map((subset) => ({ subset, path: `${webDir}${webFileName(face, subset)}` }))
+}
+
 export function webFileName(face: FontFace, subset: FontSubset): string {
   return `${face.family}-${subset}-${face.weight}-${face.style}.woff2`
 }
 
-export const sourceDir = fileURLToPath(new URL('../source/', import.meta.url))
-export const webDir = fileURLToPath(new URL('../web/', import.meta.url))
+/**
+ * Found through module resolution, not `import.meta.url`: a bundler can move this file
+ * (Astro's prerender chunks do), but `@dmythro/fonts` still resolves to the package.
+ */
+const packageDir = dirname(createRequire(import.meta.url).resolve('@dmythro/fonts/package.json'))
+export const sourceDir = join(packageDir, 'source/')
+export const webDir = join(packageDir, 'web/')
 
 /**
  * One `@font-face` per face and subset, in the shape Astro's local font provider

@@ -1,5 +1,6 @@
+import { readFile } from 'node:fs/promises'
+import { webFiles } from '@dmythro/fonts'
 import { render } from 'takumi-js'
-import { googleFonts } from 'takumi-js/helpers'
 
 import type { Project, ProjectStatus } from '@/data/projects'
 
@@ -31,11 +32,21 @@ export const OG_SIZE_WIDE: OgSize = { width: OG_WIDTH, height: OG_HEIGHT }
 export const OG_SIZE_SQUARE: OgSize = { width: OG_SQUARE, height: OG_SQUARE }
 
 /**
- * Hoisted so the whole build shares one font fetch. `render` accepts a promise
- * of the entry list, and subsets each family to the glyphs actually drawn — which
- * is what makes Cyrillic work without committing any font files.
+ * The site's own Geist, read once for the whole build: the same subset files the pages
+ * serve, so Cyrillic and "→" draw as they do on the site, and the build fetches nothing.
+ * `subsetOf` lets Takumi route each script to its file. The full files in
+ * `packages/fonts/source` would not do: Takumi draws their Cyrillic as empty boxes.
  */
-const fonts = googleFonts([{ name: 'Geist', weight: [400, 600, 700] }])
+const fonts = Promise.all(
+  [400, 700].flatMap((weight) =>
+    webFiles('geist', weight).map(async ({ subset, path }) => ({
+      name: `Geist ${subset}`,
+      subsetOf: 'Geist',
+      weight,
+      data: await readFile(path),
+    })),
+  ),
+)
 
 /** Lucide shapes, copied from `@lucide/astro` so the card matches the site's icons. */
 const iconShapes: Record<string, string> = {

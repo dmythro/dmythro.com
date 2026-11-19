@@ -11,8 +11,9 @@ site's fonts come from: `apps/www2` builds its `@font-face` rules from `fontVari
 
 ## Why not `@fontsource/geist`
 
-Fontsource repackages Google's build of Geist, which leaves out glyphs the site draws:
-the "→" in the CV's role titles and links, ₴, π, ▲, ●. Vercel's files have them.
+Fontsource repackages Google Fonts' Geist, which is served in slices by script (Latin,
+Latin Extended, Cyrillic, …). None of the Latin and Cyrillic slices the site loads
+carries "→" (in the CV's role titles and links), ₴, π, ▲ or ●. Vercel's files have them.
 
 Static files only, never `Geist-Variable`: Chrome's PDF writer stores a variable font
 as Type 3, glyphs as drawings, and the CV PDF's text then extracts as "q uality".
@@ -24,7 +25,7 @@ only the subset its text needs. Hinting is dropped, as Google's build does, and 
 the OpenType features a browser applies by default are kept, plus `tnum` for the site's
 `tabular-nums`.
 
-The 24 files come to 186 KB, against 218 KB for the same faces and subsets from
+The 24 files come to 186 KB, against 218 KB for the same faces and slices from
 `@fontsource` 5.3.0, which lack the symbols above.
 
 ## Changing the faces
