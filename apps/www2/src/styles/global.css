@@ -32,6 +32,14 @@ html:has(::view-transition) {
   --font-mono: var(--font-geist-mono);
 }
 
+/* Print sets text in the static Geist faces. Chrome stores the screen's variable font
+   in a PDF as Type 3 drawings, which software reads back as broken words. */
+@media print {
+  :root:root {
+    --font-geist: var(--font-geist-print);
+  }
+}
+
 /* Dark theme overrides */
 [data-theme='dark'] {
   --color-primary: oklch(0.65 0.19 264); /* ~#818CF8 indigo-400, ≥4.5:1 on #0A0F1C */

@@ -66,11 +66,11 @@ export default defineConfig({
   build: { format: 'file', inlineStylesheets: 'always' },
   devToolbar: { enabled: false },
 
-  // Static Geist from packages/fonts, one face per weight and style the pages use.
-  // `optional`: Geist never swaps in under text already drawn, which shifted the
-  // layout. A reader's first page shows the system font, as the site always did, and
-  // the next page draws Geist from cache. With no swap, Astro's metric-matched Arial
-  // fallback has nothing to smooth, so the system font comes straight after Geist.
+  // Geist from packages/fonts. On screen one variable file per script carries every
+  // weight; it is preloaded and `optional`, so on a normal connection it is in place at
+  // first paint, and it never swaps in under text already drawn. On a slow connection
+  // the first page keeps the system font. Print switches to the static faces
+  // (global.css): Chrome stores a variable font in a PDF as Type 3 drawings.
   fonts: [
     {
       provider: fontProviders.local(),
@@ -79,7 +79,7 @@ export default defineConfig({
       optimizedFallbacks: false,
       cssVariable: '--font-geist',
       fallbacks: ['ui-sans-serif', 'system-ui', 'sans-serif'],
-      options: { variants: fontVariants('geist') },
+      options: { variants: fontVariants('geist', 'screen') },
     },
     {
       provider: fontProviders.local(),
@@ -88,7 +88,15 @@ export default defineConfig({
       optimizedFallbacks: false,
       cssVariable: '--font-geist-mono',
       fallbacks: ['ui-monospace', 'Menlo', 'Consolas', 'monospace'],
-      options: { variants: fontVariants('geist-mono') },
+      options: { variants: fontVariants('geist-mono', 'screen') },
+    },
+    {
+      provider: fontProviders.local(),
+      name: 'Geist Print',
+      optimizedFallbacks: false,
+      cssVariable: '--font-geist-print',
+      fallbacks: ['ui-sans-serif', 'system-ui', 'sans-serif'],
+      options: { variants: fontVariants('geist', 'print') },
     },
   ],
 

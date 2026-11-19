@@ -27,8 +27,19 @@ describe('fonts', () => {
   })
 
   it('points every variant at a served file', async () => {
-    for (const variant of [...fontVariants('geist'), ...fontVariants('geist-mono')]) {
-      expect(await Bun.file(variant.src[0]).exists()).toBe(true)
+    for (const family of ['geist', 'geist-mono'] as const) {
+      for (const medium of ['screen', 'print'] as const) {
+        for (const variant of fontVariants(family, medium)) {
+          expect(await Bun.file(variant.src[0]).exists()).toBe(true)
+        }
+      }
     }
+  })
+
+  // Chrome stores a variable font in a PDF as Type 3 drawings: print must stay static.
+  it('prints only static faces', () => {
+    const variable = fontFaces.filter((face) => Array.isArray(face.weight))
+    expect(variable.length).toBeGreaterThan(0)
+    for (const face of variable) expect(face.media).not.toContain('print')
   })
 })

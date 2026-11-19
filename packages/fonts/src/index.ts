@@ -4,33 +4,61 @@ import { dirname, join } from 'node:path'
 export type FontFamily = 'geist' | 'geist-mono'
 export type FontStyle = 'normal' | 'italic'
 
+export type FontMedium = 'screen' | 'print'
+
 export interface FontFace {
   family: FontFamily
-  weight: number
+  /** One weight, or the range a variable file covers. */
+  weight: number | [min: number, max: number]
   style: FontStyle
-  /** The static file in `source/`, as Vercel's release names it. */
+  /** Where the face is drawn: the site on screen, the CV PDF in print, or both. */
+  media: FontMedium[]
+  /** The file in `source/`, as Vercel's release names it. */
   source: string
 }
 
+const screen: FontMedium[] = ['screen']
+const print: FontMedium[] = ['print']
+const both: FontMedium[] = ['screen', 'print']
+
+type FaceArgs = [FontFace['weight'], FontStyle, FontMedium[], string]
+const sans = (...[weight, style, media, source]: FaceArgs): FontFace => ({
+  family: 'geist',
+  weight,
+  style,
+  media,
+  source,
+})
+const mono = (...args: FaceArgs): FontFace => ({ ...sans(...args), family: 'geist-mono' })
+
 /**
- * Every face the site draws, and nothing else: each one costs a request on any page
- * that uses it. `bun run cv` fails when the CV sets text in a face missing here.
+ * Every face the site draws. On screen one variable file carries every normal weight
+ * of Geist, at a quarter of the static files' size — small enough to preload. Print
+ * keeps the static files: Chrome stores a variable font in a PDF as Type 3 drawings,
+ * which software reads as broken words. `bun run cv` fails on a face missing here.
  * Vercel names the 800 weight "UltraBlack" (its PostScript name is Geist-ExtraBold).
  */
 export const fontFaces: FontFace[] = [
-  { family: 'geist', weight: 100, style: 'normal', source: 'Geist-Thin.woff2' },
-  { family: 'geist', weight: 300, style: 'normal', source: 'Geist-Light.woff2' },
-  { family: 'geist', weight: 400, style: 'normal', source: 'Geist-Regular.woff2' },
-  { family: 'geist', weight: 400, style: 'italic', source: 'Geist-Italic.woff2' },
-  { family: 'geist', weight: 500, style: 'normal', source: 'Geist-Medium.woff2' },
-  { family: 'geist', weight: 600, style: 'normal', source: 'Geist-SemiBold.woff2' },
-  { family: 'geist', weight: 700, style: 'normal', source: 'Geist-Bold.woff2' },
-  { family: 'geist', weight: 800, style: 'normal', source: 'Geist-UltraBlack.woff2' },
-  { family: 'geist', weight: 900, style: 'normal', source: 'Geist-Black.woff2' },
-  { family: 'geist-mono', weight: 400, style: 'normal', source: 'GeistMono-Regular.woff2' },
-  { family: 'geist-mono', weight: 400, style: 'italic', source: 'GeistMono-Italic.woff2' },
-  { family: 'geist-mono', weight: 600, style: 'normal', source: 'GeistMono-SemiBold.woff2' },
+  sans([100, 900], 'normal', screen, 'Geist-Variable.woff2'),
+  sans(100, 'normal', print, 'Geist-Thin.woff2'),
+  sans(300, 'normal', print, 'Geist-Light.woff2'),
+  sans(400, 'normal', print, 'Geist-Regular.woff2'),
+  sans(400, 'italic', both, 'Geist-Italic.woff2'),
+  sans(500, 'normal', print, 'Geist-Medium.woff2'),
+  sans(600, 'normal', print, 'Geist-SemiBold.woff2'),
+  sans(700, 'normal', print, 'Geist-Bold.woff2'),
+  sans(800, 'normal', print, 'Geist-UltraBlack.woff2'),
+  sans(900, 'normal', print, 'Geist-Black.woff2'),
+  mono(400, 'normal', both, 'GeistMono-Regular.woff2'),
+  mono(400, 'italic', both, 'GeistMono-Italic.woff2'),
+  mono(600, 'normal', both, 'GeistMono-SemiBold.woff2'),
 ]
+
+/** Whether a face draws `weight`: its own weight, or one within its variable range. */
+export function coversWeight(face: FontFace, weight: number): boolean {
+  const [min, max] = Array.isArray(face.weight) ? face.weight : [face.weight, face.weight]
+  return weight >= min && weight <= max
+}
 
 type CodePoints = [first: number, last?: number][]
 
@@ -89,17 +117,18 @@ export function unicodeRange(subset: FontSubset): [string, ...string[]] {
   return ranges as [string, ...string[]]
 }
 
-/** A face's served files, one per subset, for renderers that take font bytes, not CSS. */
+/** A static face's served files, one per subset, for renderers that take font bytes. */
 export function webFiles(family: FontFamily, weight: number, style: FontStyle = 'normal') {
   const face = fontFaces.find(
     (f) => f.family === family && f.weight === weight && f.style === style,
   )
-  if (!face) throw new Error(`${family} ${weight} ${style} is not in fontFaces`)
+  if (!face) throw new Error(`${family} ${weight} ${style} is not a static face in fontFaces`)
   return subsetNames.map((subset) => ({ subset, path: `${webDir}${webFileName(face, subset)}` }))
 }
 
 export function webFileName(face: FontFace, subset: FontSubset): string {
-  return `${face.family}-${subset}-${face.weight}-${face.style}.woff2`
+  const weight = Array.isArray(face.weight) ? face.weight.join('-') : face.weight
+  return `${face.family}-${subset}-${weight}-${face.style}.woff2`
 }
 
 /**
@@ -114,16 +143,22 @@ export const webDir = join(packageDir, 'web/')
  * One `@font-face` per face and subset, in the shape Astro's local font provider
  * takes: the site's `fonts` config is built from this list, never by hand.
  */
-export function fontVariants(family: FontFamily) {
-  const variants = fontFaces
-    .filter((face) => face.family === family)
-    .flatMap((face) =>
-      subsetNames.map((subset) => ({
-        weight: face.weight,
-        style: face.style,
-        unicodeRange: unicodeRange(subset),
-        src: [`${webDir}${webFileName(face, subset)}`] as [string],
-      })),
-    )
+export function fontVariants(family: FontFamily, medium: FontMedium) {
+  const variants = fontVariantKeys(family, medium).map(({ face, subset }) => ({
+    weight: Array.isArray(face.weight) ? face.weight.join(' ') : face.weight,
+    style: face.style,
+    unicodeRange: unicodeRange(subset),
+    src: [`${webDir}${webFileName(face, subset)}`] as [string],
+  }))
   return variants as [(typeof variants)[number], ...typeof variants]
+}
+
+/**
+ * Face and subset of each entry `fontVariants()` returns, in the same order: the order
+ * Astro's `fontData` lists the served files in, which the site's preload links rely on.
+ */
+export function fontVariantKeys(family: FontFamily, medium: FontMedium) {
+  return fontFaces
+    .filter((face) => face.family === family && face.media.includes(medium))
+    .flatMap((face) => subsetNames.map((subset) => ({ face, subset })))
 }

@@ -1,6 +1,7 @@
 ---
 import Footer from '@/components/Footer.astro'
 import TopNavbar from '@/components/TopNavbar.astro'
+import type { PreloadFace } from '@/utils/fontPreloads'
 import type { LocaleCode } from '@/utils/i18n'
 import { contentWidth, pagePadding } from '@/utils/layout'
 import BaseLayout from './BaseLayout.astro'
@@ -15,6 +16,7 @@ interface Props {
   publishedTime?: string
   modifiedTime?: string
   isHeroPage?: boolean
+  preloadFonts?: PreloadFace[]
 }
 
 const {
@@ -27,6 +29,7 @@ const {
   publishedTime,
   modifiedTime,
   isHeroPage = false,
+  preloadFonts,
 } = Astro.props
 ---
 
@@ -39,6 +42,7 @@ const {
   ogType={ogType}
   publishedTime={publishedTime}
   modifiedTime={modifiedTime}
+  preloadFonts={preloadFonts}
 >
   <slot name="head" slot="head" />
 
