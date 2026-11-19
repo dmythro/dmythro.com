@@ -157,17 +157,16 @@ const relatedWithStats = await Promise.all(
 >
   {/* Content fills the column and the sidebar sits beside it, matching the CV. The
       group used to be centred with a reading-width cap, which started the article
-      109px right of the gutter every other page uses — visible as a jump mid-morph,
-      since the title view-transitions in from the card. */}
+      109px right of the gutter every other page uses. */}
   <div class:list={[showToc && 'flex gap-8 lg:gap-12']}>
     <div class="flex-1 min-w-0 order-1">
       <article>
-        <header id="top" class="mb-6 scroll-mt-20">
+        <header id="top" class="mb-6 scroll-mt-20 overflow-x-clip">
           <div class="flex items-center gap-1 mb-2">
             <BackLink href={`/${locale}/projects`} label={t.nav.projects} />
-            <h1 class="text-3xl font-bold flex items-center gap-2">
-              {IconComponent && <IconComponent class="h-7 w-7 shrink-0 opacity-60" />}
-              <span class="mr-2" transition:name={`project-title-${project.slug}`}>{title}</span>
+            <h1 class="text-2xl sm:text-3xl font-bold flex items-center gap-1.5 sm:gap-2 min-w-0">
+              {IconComponent && <IconComponent class="size-6 sm:size-7 shrink-0 opacity-60" />}
+              <span class="mr-1 sm:mr-2">{title}</span>
               {projectUrl && (
                 <a href={projectUrl} class="tooltip tooltip-bottom tooltip-primary" data-tip={t.projects.visitSite} aria-label={t.projects.visitSite} target="_blank" rel="noopener noreferrer">
                   <ExternalLink class="h-5 w-5 opacity-50 hover:opacity-100 transition-opacity" />

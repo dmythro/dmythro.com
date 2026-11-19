@@ -1,6 +1,6 @@
 ---
 import { BASE_URL, ESocialLinks, USERNAME } from '@dmythro/constants'
-import { CodeXml, Globe, Languages } from '@lucide/astro'
+import { CodeXml, Languages } from '@lucide/astro'
 import {
   Astro as AstroIcon,
   Biome,
@@ -53,7 +53,7 @@ const tb = t.builtWithTable
 >
   <div class="flex items-center gap-1 mb-6">
     <BackLink href={`/${locale}`} label={t.nav.home} />
-    <h1 class="text-3xl font-bold" transition:name="page-title">{t.builtWithTitle}</h1>
+    <h1 class="text-3xl font-bold">{t.builtWithTitle}</h1>
   </div>
 
   <div class="prose max-w-none mb-8 space-y-4">
@@ -100,11 +100,6 @@ const tb = t.builtWithTable
               <td>{tb.interactivity}</td>
               <td><a href="https://preactjs.com" target="_blank" rel="noopener noreferrer"><Preact class={iconClass} />Preact</a> islands + <CodeXml class={iconClass} />vanilla JS</td>
               <td><a href="https://react.dev" target="_blank" rel="noopener noreferrer"><React class={iconClass} />React</a> SPA</td>
-            </tr>
-            <tr>
-              <td>{tb.transitions}</td>
-              <td><a href="https://docs.astro.build/en/guides/view-transitions/" target="_blank" rel="noopener noreferrer"><Globe class={iconClass} />View Transitions API</a></td>
-              <td>{tb.notUsed}</td>
             </tr>
             <tr>
               <td>{tb.runtime}</td>

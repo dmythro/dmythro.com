@@ -48,13 +48,13 @@ const {
 
   {isHeroPage ? (
     <slot name="hero" />
-    <main transition:animate="none">
+    <main>
       <slot />
     </main>
   ) : (
     <>
       <TopNavbar locale={locale} />
-      <main class:list={[pagePadding, 'py-6']} transition:animate="none">
+      <main class:list={[pagePadding, 'py-6']}>
         <div class={contentWidth}>
           <slot />
         </div>
@@ -62,36 +62,5 @@ const {
     </>
   )}
 
-  <style is:global>
-    /* Snappy by default. Project titles use a per-slug name (`project-title-*`)
-       that CSS cannot enumerate, so the wildcard covers them; the named rules
-       below are more specific and still win. */
-    ::view-transition-group(*) {
-      animation-duration: 150ms;
-      animation-timing-function: ease-out;
-    }
-
-    ::view-transition-group(navbar) {
-      animation: none;
-      z-index: 50;
-    }
-
-    ::view-transition-group(page-title) {
-      animation-duration: 150ms;
-      animation-timing-function: ease-in-out;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      ::view-transition-group(*),
-      ::view-transition-old(*),
-      ::view-transition-new(*) {
-        animation: none !important;
-        animation-duration: 0s !important;
-      }
-    }
-  </style>
-
-  <div transition:animate="none">
-    <Footer locale={locale} />
-  </div>
+  <Footer locale={locale} />
 </BaseLayout>
