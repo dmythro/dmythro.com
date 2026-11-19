@@ -28,18 +28,20 @@ const iconMap: Record<string, typeof Github> = {
 }
 ---
 
-{/* Hero section — navbar height subtracted so hero + navbar = 100dvh */}
+{/* Hero and navbar (4rem and its 1px border) fill the first screen; `svh` is the screen
+    with Safari's bars expanded, as on load. A screen shorter than the content needs
+    (49rem, 46rem on a phone) takes the difference from the avatar and the gaps. */}
 <section
   id="hero-section"
-  class="min-h-[calc(100dvh-4rem)] flex flex-col items-center justify-center relative bg-linear-to-br from-base-300 via-base-100 to-base-200 px-4 py-8"
+  class="min-h-[calc(100svh-4rem-1px)] [--hero-short:max(0px,calc(46rem-100svh))] md:[--hero-short:max(0px,calc(49rem-100svh))] flex flex-col items-center justify-center relative bg-linear-to-br from-base-300 via-base-100 to-base-200 px-4 py-8"
 >
-  <div class="flex flex-col items-center text-center gap-6 md:gap-10 max-w-2xl w-full">
+  <div class="flex flex-col items-center text-center gap-[max(0.75rem,calc(1.5rem-var(--hero-short)*0.08))] md:gap-[max(1rem,calc(2.5rem-var(--hero-short)*0.08))] max-w-2xl w-full">
     {/* Avatar with glow effect */}
     <div class="relative" id="hero-avatar" transition:name="hero-avatar" transition:animate="none">
       {/* Glow */}
       <div class="absolute inset-0 scale-[1.4] rounded-full bg-[radial-gradient(circle,rgba(99,102,241,0.25)_0%,rgba(139,92,246,0.15)_40%,transparent_70%)] blur-2xl"></div>
       {/* Avatar ring — slow spinning conic gradient */}
-      <div class="avatar-ring relative size-52 md:size-64 rounded-full p-0.75">
+      <div class="avatar-ring relative size-[max(9rem,calc(13rem-var(--hero-short)*0.6))] md:size-[max(10rem,calc(16rem-var(--hero-short)*0.6))] rounded-full p-0.75">
         <div class="w-full h-full rounded-full overflow-hidden">
           <Image
             src={avatarImg}

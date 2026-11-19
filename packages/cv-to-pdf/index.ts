@@ -93,12 +93,12 @@ type WebView = any
 
 /** A browser step that never settles would otherwise hang the build indefinitely. */
 function withTimeout<T>(work: Promise<T>, ms: number, what: string): Promise<T> {
-  return Promise.race([
-    work,
-    new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error(`${what} timed out after ${ms}ms`)), ms),
-    ),
-  ])
+  let timer: ReturnType<typeof setTimeout> | undefined
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => reject(new Error(`${what} timed out after ${ms}ms`)), ms)
+  })
+  // A pending timer would keep the process alive after the work is done.
+  return Promise.race([work, timeout]).finally(() => clearTimeout(timer))
 }
 
 /**
