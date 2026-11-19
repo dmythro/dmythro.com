@@ -15,7 +15,7 @@
 - **www2** (apps/www2): Astro 7 + DaisyUI 5 + Tailwind 4 (current production site)
   - Zero JS by default, React islands only for interactivity
   - DaisyUI CSS-only components, no React for layout/nav/footer
-  - Fonts: static Geist and Geist Mono from `packages/fonts` (faces in `src/index.ts`, see its README). Never a variable font: the CV PDF needs static ones.
+  - Fonts: static Geist and Geist Mono from `packages/fonts` (faces in `src/index.ts`, see its README). Never a variable font: the CV PDF needs static ones. `font-display: optional` on purpose: `swap` shifted the layout (CLS up to 0.14); a first visit shows the system font, the next page Geist
   - i18n: `[locale]` dynamic param with `getStaticPaths`
   - Deployment target: Cloudflare Pages
 - **www** (apps/www): Next.js 16 + HeroUI 2.x (legacy, previous production site)

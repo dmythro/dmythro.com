@@ -67,10 +67,16 @@ export default defineConfig({
   devToolbar: { enabled: false },
 
   // Static Geist from packages/fonts, one face per weight and style the pages use.
+  // `optional`: Geist never swaps in under text already drawn, which shifted the
+  // layout. A reader's first page shows the system font, as the site always did, and
+  // the next page draws Geist from cache. With no swap, Astro's metric-matched Arial
+  // fallback has nothing to smooth, so the system font comes straight after Geist.
   fonts: [
     {
       provider: fontProviders.local(),
       name: 'Geist',
+      display: 'optional',
+      optimizedFallbacks: false,
       cssVariable: '--font-geist',
       fallbacks: ['ui-sans-serif', 'system-ui', 'sans-serif'],
       options: { variants: fontVariants('geist') },
@@ -78,6 +84,8 @@ export default defineConfig({
     {
       provider: fontProviders.local(),
       name: 'Geist Mono',
+      display: 'optional',
+      optimizedFallbacks: false,
       cssVariable: '--font-geist-mono',
       fallbacks: ['ui-monospace', 'Menlo', 'Consolas', 'monospace'],
       options: { variants: fontVariants('geist-mono') },
