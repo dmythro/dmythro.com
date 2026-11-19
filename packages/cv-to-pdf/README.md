@@ -33,8 +33,9 @@ improbably short.
 
 It also checks the fonts, because software reads the PDF before a person does:
 
-- **Every face the CV uses is loaded.** Before printing, each run of text must have a
-  declared face of exactly its family, weight and style. A missing weight cannot be seen
+- **Every face the CV uses is loaded.** Before printing, each run of text, in screen
+  and print styles, must have a declared face of its family and style that covers its
+  weight: that exact weight, or a variable face's range. A missing weight cannot be seen
   in the PDF afterwards: the browser sets the text in the nearest Geist face it has,
   under that face's name.
 - **No Type 3 text.** Chrome stores a variable font as Type 3, each glyph a drawing,

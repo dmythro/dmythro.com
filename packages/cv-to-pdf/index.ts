@@ -159,19 +159,29 @@ async function assertFacesDeclared(view: WebView, locale: string) {
   }
 }
 
-/** Each run of text whose family, weight and style match no declared face. */
+/**
+ * Each run of text whose family, weight and style match no declared face. A variable
+ * face declares a range of weights ("100 900") and covers any weight inside it.
+ */
 const facesProbe = `(() => {
   // Astro suffixes each family with a hash; only its own name is worth reporting.
   const unquote = (family) => family.trim().replace(/^["']|["']$/g, '')
-  const declared = new Set([...document.fonts].map((f) => [unquote(f.family), f.weight, f.style].join(' ')))
+  const declared = [...document.fonts].map((f) => {
+    const [min, max = min] = f.weight.split(' ').map(Number)
+    return { family: unquote(f.family), style: f.style, min, max }
+  })
   const missing = new Map()
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
   for (let node = walker.nextNode(); node; node = walker.nextNode()) {
     const text = node.textContent.trim()
     if (!text || node.parentElement.closest('script, style')) continue
     const style = getComputedStyle(node.parentElement)
-    const face = [unquote(style.fontFamily.split(',')[0]), style.fontWeight, style.fontStyle].join(' ')
-    if (!declared.has(face)) missing.set(face, text.slice(0, 30))
+    const family = unquote(style.fontFamily.split(',')[0])
+    const weight = Number(style.fontWeight)
+    const covered = declared.some((d) =>
+      d.family === family && d.style === style.fontStyle && weight >= d.min && weight <= d.max,
+    )
+    if (!covered) missing.set([family, weight, style.fontStyle].join(' '), text.slice(0, 30))
   }
   return [...missing]
 })()`
