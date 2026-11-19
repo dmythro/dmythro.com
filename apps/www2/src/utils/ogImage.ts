@@ -35,7 +35,7 @@ export const OG_SIZE_SQUARE: OgSize = { width: OG_SQUARE, height: OG_SQUARE }
  * of the entry list, and subsets each family to the glyphs actually drawn — which
  * is what makes Cyrillic work without committing any font files.
  */
-const fonts = googleFonts([{ name: 'Inter', weight: [400, 600, 700] }])
+const fonts = googleFonts([{ name: 'Geist', weight: [400, 600, 700] }])
 
 /** Lucide shapes, copied from `@lucide/astro` so the card matches the site's icons. */
 const iconShapes: Record<string, string> = {
@@ -218,7 +218,7 @@ export function buildOgHtml(card: OgCard, style: OgStyle = OG_STYLE): string {
   // `overflow:hidden` is a backstop, not a layout tool: every card clears the
   // edges by 70px today, but a long title over a long description over two rows
   // of tags would out-measure the wide canvas, and clipping beats spilling.
-  return `<div style="width:100%;height:100%;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;background:${background};padding:72px;font-family:Inter">
+  return `<div style="width:100%;height:100%;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;background:${background};padding:72px;font-family:Geist">
   ${masthead}
   <div style="flex-grow:1;display:flex;flex-direction:column;justify-content:center">${copy}</div>
   ${tagRow}
