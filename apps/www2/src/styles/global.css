@@ -289,6 +289,79 @@ main a[href^='http'] .link-icon {
   white-space: nowrap;
 }
 
+/* Sideways scroller that fades the edge where more content is hidden, so a clipped
+   diagram reads as scrollable. The fade follows the scroll position with no script,
+   and the timeline is inactive when nothing overflows, which leaves it unmasked. */
+@property --scroll-shadow-start {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --scroll-shadow-end {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+.scroll-shadow-x {
+  overflow-x: auto;
+}
+
+@supports (animation-timeline: scroll()) {
+  .scroll-shadow-x {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 var(--scroll-shadow-start),
+      #000 calc(100% - var(--scroll-shadow-end)),
+      transparent
+    );
+    animation: scroll-shadow-x 1ms linear both;
+    animation-timeline: scroll(x self);
+  }
+}
+
+/* Browsers without scroll timelines get the older trick: shadows fixed to the frame,
+   each hidden by a cover that scrolls away with the content. */
+@supports not (animation-timeline: scroll()) {
+  .scroll-shadow-x {
+    background:
+      linear-gradient(to right, var(--color-base-100) 30%, transparent) left center / 3rem 100%
+      no-repeat local,
+      linear-gradient(to left, var(--color-base-100) 30%, transparent) right center / 3rem 100%
+      no-repeat local,
+      radial-gradient(
+        farthest-side at 0 50%,
+        color-mix(in oklch, var(--color-base-content) 30%, transparent),
+        transparent
+      )
+      left center / 0.9rem 100% no-repeat scroll,
+      radial-gradient(
+        farthest-side at 100% 50%,
+        color-mix(in oklch, var(--color-base-content) 30%, transparent),
+        transparent
+      )
+      right center / 0.9rem 100% no-repeat scroll;
+  }
+}
+
+@keyframes scroll-shadow-x {
+  0% {
+    --scroll-shadow-start: 0px;
+    --scroll-shadow-end: 2.5rem;
+  }
+  10%,
+  90% {
+    --scroll-shadow-start: 2.5rem;
+    --scroll-shadow-end: 2.5rem;
+  }
+  100% {
+    --scroll-shadow-start: 2.5rem;
+    --scroll-shadow-end: 0px;
+  }
+}
+
 /* Sticky sidebars still scroll internally when taller than the viewport, but the
    scrollbar itself is hidden — it competed with the content for attention. */
 aside.overflow-y-auto {
@@ -310,11 +383,27 @@ aside.overflow-y-auto::-webkit-scrollbar {
   -webkit-backdrop-filter: blur(4px);
 }
 
+/* Skill cards drifted out of line across a row, because a one-line subtitle and a
+   two-line one push their body text to different heights. Subgrid binds all three
+   bands to shared row tracks, so they line up whatever the copy does. The padding
+   moves onto the card since the body no longer generates a box. */
+.skills-grid > .card {
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  row-gap: 0.5rem;
+  padding: 1rem;
+}
+
+.skills-grid > .card > .card-body {
+  display: contents;
+}
+
 /* Without a declared margin Safari lays out a CSS pixel as a point. `cv-to-pdf`
    appends its own `@page`, since this would override the margin it passes Chrome. */
 @page {
   size: A4;
-  margin: 15mm;
+  margin: 12mm;
 }
 
 /* Print styles */
@@ -357,7 +446,13 @@ aside.overflow-y-auto::-webkit-scrollbar {
     content-visibility: visible !important;
     display: block !important;
     max-height: none !important;
-    padding-bottom: 1rem !important;
+    padding: 0 0.75rem 0.5rem !important;
+  }
+
+  /* Tighter than on screen, so the FAQ ends on the sheet it starts on. */
+  .collapse-title {
+    min-height: 0 !important;
+    padding: 0.5rem 0.75rem 0.25rem !important;
   }
 
   /* A margin trailing the last block of a section can spill past the page bottom on
@@ -372,6 +467,23 @@ aside.overflow-y-auto::-webkit-scrollbar {
      column of grid rows. Block flow here is pixel-identical and lets entries break. */
   .timeline {
     display: block;
+  }
+
+  /* A paragraph that breaks across sheets takes at least two lines with it, so a
+     timeline never ends with one stray word on a sheet of its own. */
+  .cv-article p {
+    orphans: 2;
+    widows: 2;
+  }
+
+  /* Tighter than on screen: a section should end on the sheet it starts on. */
+  .cv-article .prose :where(p) {
+    margin-block: 0.6em;
+  }
+
+  .cv-article figure {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 
   /* Safari honours the legacy names more reliably than the `break-*` Tailwind emits. */
@@ -389,19 +501,14 @@ aside.overflow-y-auto::-webkit-scrollbar {
     page-break-inside: avoid;
   }
 
-  /* Skill cards drifted out of line across a row, because a one-line subtitle and a
-     two-line one push their body text to different heights. Subgrid binds all three
-     bands to shared row tracks, so they line up whatever the copy does. The padding
-     moves onto the card since the body no longer generates a box. */
   .skills-grid > .card {
-    display: grid;
-    grid-row: span 3;
-    grid-template-rows: subgrid;
     padding: 0.75rem;
   }
 
-  .skills-grid > .card > .card-body {
-    display: contents;
+  /* Smaller than on screen, so the FAQ ends on the sheet it starts on. */
+  #faq-list .prose {
+    font-size: 0.75rem;
+    line-height: 1.5;
   }
 
   .collapse-title::after {

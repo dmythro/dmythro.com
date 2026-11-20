@@ -2,6 +2,15 @@ import type { TimelineItem } from '../types'
 
 export const careerTimeline: TimelineItem[] = [
   {
+    isCurrent: true,
+    when: 'Aug ’26',
+    till: 'Now',
+    where: 'UA',
+    title: 'Lead Engineer',
+    subtitle: 'Kyiv History Museum',
+    description: 'Websites, data storage, security and infrastructure.',
+  },
+  {
     when: 'Apr ’24',
     till: 'Aug ’26',
     where: 'UA',
@@ -21,9 +30,9 @@ export const careerTimeline: TimelineItem[] = [
     title: 'Lead Full-stack Engineer',
     subtitle: 'KITRUM (contractor)',
     description: [
-      'I did a complete rework and further improvement of the full-stack DAM (digital asset management) app, added role-based auth, CI/CD, 3D models preview, AR for mobile phones (USDZ/GLB) and created a custom admin panel during the first 2-month contract.',
-      'Tech stack was based on Google Cloud, TypeScript, RDS SQL (Drizzle ORM, Postgres, dynamic schemas). Bun.js/Node.js, Next.js/React, HeroUI 2/Tailwind CSS, Zod, Better Auth, GraphQL/Yoga, TanStack Query.',
-      'Thoroughly evaluated Mongo DB 7 Atlas Search and Meilisearch performance for faceted search.',
+      "During the first two-month contract I completely reworked and improved the client's full-stack DAM (digital asset management) app: added role-based auth, CI/CD, 3D model preview and AR for mobile phones (USDZ/GLB), and built a custom admin panel.",
+      'Tech stack: Google Cloud, TypeScript, Cloud SQL (Drizzle ORM, Postgres, dynamic schemas), Bun/Node.js, Next.js/React, HeroUI 2/Tailwind CSS, Zod, Better Auth, GraphQL/Yoga, TanStack Query.',
+      'Thoroughly evaluated MongoDB 7 Atlas Search and Meilisearch performance for faceted search.',
     ],
   },
   {
@@ -33,7 +42,7 @@ export const careerTimeline: TimelineItem[] = [
     title: 'Senior Frontend Engineer',
     subtitle: 'Windscribe / Control D',
     description:
-      'While working on Control D website and dashboard (React, Redux, TypeScript), I did three significant codebase changes: major upgrades of Gatsby and Cypress (huge test coverage), fixed hundreds of warnings on type safety. Participated in new dashboard version/design implementation.',
+      'While working on the Control D website and dashboard (React, Redux, TypeScript), I made three significant changes to the codebase: a major Gatsby upgrade, a major Cypress upgrade (with its extensive test suite) and fixes for hundreds of type-safety warnings. Took part in implementing the new dashboard version and design.',
   },
   {
     isHighlighted: true,
@@ -43,9 +52,9 @@ export const careerTimeline: TimelineItem[] = [
     title: 'Principal Software Engineer',
     subtitle: 'Peppy Health',
     description: [
-      'Joined this startup on a fairly early stage. Did architecture, implemented all core infrastructure (cloud, database, CI/CD, E2E/unit test coverage), implemented initial major versions of multi-role API and Admin Panel.',
-      'Integrated all business required 3rd party services and webhooks (Sentry, SendBird, Segment, Customer.io, Mixpanel and others). Security officer. Participated in various infrastructure & security related audits. Did code reviews for all projects (API, admin panel, mobile app), mentorship and technical side of a team management.',
-      'Tech stack was based on Google Cloud, TypeScript, RDS SQL (TypeOrm/Prisma). Node.js (NestJS), React and React Native apps.',
+      'Joined the startup at a fairly early stage. Designed the architecture, built all the core infrastructure (cloud, database, CI/CD, E2E and unit tests) and the first major versions of the multi-role API and the admin panel.',
+      'Integrated all the third-party services and webhooks the business needed (Sentry, Sendbird, Segment, Customer.io, Mixpanel and others). Security officer. Took part in various infrastructure and security audits. Code reviews for all projects (API, admin panel, mobile app). Mentoring and the technical side of team management.',
+      'Tech stack: Google Cloud, TypeScript, Cloud SQL (TypeORM/Prisma), Node.js (NestJS), React and React Native apps.',
     ],
   },
   {
@@ -54,12 +63,12 @@ export const careerTimeline: TimelineItem[] = [
     till: 'May ’20',
     where: 'UA, US',
     title: 'Lead Front-end Developer',
-    subtitle: 'Star (formely Cogniance)',
+    subtitle: 'Star (formerly Cogniance)',
     description: [
-      '(1) Robotized warehouse management app.',
-      'A game-like UI to see and manage robots and their automated workflows — on a map and in a realtime. TypeScript, React, Redux, PixiJS v4-5 / WebGL, Paper.js (not much), SVG, Node, Jest/Cypress, REST API client.',
-      '(2) Customer area for US State’s transportation system: public transport tickets, parking, services for institutions.',
-      'A responsive and accessible web app from scratch, aims to help users purchase and review everything about their tickets and subscriptions, based on location, season and account type. TypeScript, React, Redux, Material-UI (MUI), SVG, Node, unit tests (Jest), REST API client. ADA accessibility & security specialist.',
+      '(1) A management app for a robotic warehouse.',
+      'A game-like UI for watching and controlling robots and their automated workflows, on a map and in real time. TypeScript, React, Redux, PixiJS v4-5 / WebGL, Paper.js (not much), SVG, Node.js, Jest/Cypress, REST API client.',
+      "(2) A customer area for a US state's transportation system: public transport tickets, parking, services for institutions.",
+      'A responsive and accessible web app built from scratch. It lets users buy tickets and subscriptions and see everything about them, depending on location, season and account type. TypeScript, React, Redux, Material-UI (MUI), SVG, Node.js, unit tests (Jest), REST API client. ADA accessibility and security specialist.',
     ],
   },
   {
@@ -69,8 +78,8 @@ export const careerTimeline: TimelineItem[] = [
     title: 'Tech Lead Front-end',
     subtitle: 'Match2One',
     description: [
-      'Programmatic advertising platform. Rich web application for customers area (React, Redux, ES2017, LESS).',
-      'Was involved in app architecture rework, custom build system, complex components & UI/UX implementation. Code reviews. Candidate interviews.',
+      'A programmatic advertising platform. A rich web application for the customer area (React, Redux, ES2017, Less).',
+      'Worked on the app architecture rework, a custom build system, complex components and the UI/UX implementation. Code reviews. Candidate interviews.',
     ],
   },
   {
@@ -80,18 +89,18 @@ export const careerTimeline: TimelineItem[] = [
     title: 'Senior Front-end Developer → Tech Lead',
     subtitle: 'Luxoft',
     description: [
-      'Hybrid desktop cross-platform application for a major HDD manufacturer, from scratch (macOS, Windows).',
-      'Electron, ES6 (React, Node.js), app prototyping, complex UI development, app localisation, OS notifications, performance & memory/CPU efficiency, IPC, CI builds & tasks, unit tests (Jest) etc. Code reviews. Candidate interviews.',
+      'A hybrid cross-platform desktop application for a major HDD manufacturer, built from scratch (macOS, Windows).',
+      'Electron, ES6 (React, Node.js), app prototyping, complex UI development, app localization, OS notifications, performance and memory/CPU efficiency, IPC, CI builds and tasks, unit tests (Jest) etc. Code reviews. Candidate interviews.',
     ],
   },
   {
     when: 'Jan ’11',
     till: 'Dec ’12',
     where: 'UA',
-    title: 'Working on own projects',
+    title: 'Working on my own projects',
     description: [
-      "Annexare. Web development & design studio. We've created a lot of art designs and websites for artists, musicians, record label & zine etc. I've build own CMS for this purpose (PHP, AJAX, jQuery, JSON, MySQL) to support everything we needed: multi-lingual content, SEO, speed, custom content types, social media integration. Some of those are still online, but the stack is pretty outdated.",
-      "Soccer City. A real-time game for social networks (Facebook and others) with Flash GUI, PHP/MySQL backend and integrated with different social network APIs and payments. The game combined isometric city-builder and online match-making based on the team stats and some amount of a random factor. With quests, achievements, in-game purchases and more. It was a pretty complex project. But since Flash became deprecated we didn't put effort to rework it for the modern web and it was closed.",
+      'Annexare. A web development and design studio. We made a lot of artwork and websites for artists, musicians, a record label and zine, and others. I built our own CMS for it (PHP, AJAX, jQuery, JSON, MySQL) to support everything we needed: multilingual content, SEO, speed, custom content types, social media integration. Some of those sites are still online, though the stack is pretty outdated.',
+      'Soccer City. A real-time game for social networks (Facebook and others) with a Flash GUI, a PHP/MySQL backend and integrations with social network and payment APIs. The game combined an isometric city builder with online matchmaking based on team stats and a bit of randomness. With quests, achievements, in-game purchases and more. It was a pretty complex project. But when browsers dropped Flash, we decided not to rebuild the client for the modern web and closed the game.',
     ],
   },
   {
@@ -101,7 +110,7 @@ export const careerTimeline: TimelineItem[] = [
     title: 'Facebook Applications Developer',
     subtitle: 'Stuzo',
     description:
-      'UI and backend implementation, using corporate Facebook Platform based on Zend framework and Doctrine. PHP, Facebook Graph API, FBML, Piwik, PDF generation and more.',
+      "UI and backend development on the company's Facebook platform, based on Zend Framework and Doctrine. PHP, Facebook Graph API, FBML, Piwik, PDF generation and more.",
   },
   {
     when: 'Jan ’09',
@@ -110,7 +119,7 @@ export const careerTimeline: TimelineItem[] = [
     title: 'Software Engineer',
     subtitle: 'Lemsys',
     description:
-      'Embedded devices software development: web applications, services and database schema. Architecture and security. C/C++, Perl, UML/XML/XSLT, UPnP, SQLite.',
+      'Software for embedded devices: web applications, services and database schemas. Architecture and security. C/C++, Perl, UML/XML/XSLT, UPnP, SQLite.',
   },
   {
     when: 'Jun ’07',
@@ -119,6 +128,6 @@ export const careerTimeline: TimelineItem[] = [
     title: 'Middle → Senior .NET Developer',
     subtitle: 'Tikle / lifecell',
     description:
-      'Architecture, internal services, web UI services, websites, applications and database schema for mobile operator using ASP.NET, C#, MSSQL, SOAP/XML. Partner services integration (bulk SMS services etc).',
+      'Architecture, internal services, web UI services, websites, applications and database schemas for a mobile operator, using ASP.NET, C#, MSSQL and SOAP/XML. Integration of partner services (bulk SMS and others).',
   },
 ]

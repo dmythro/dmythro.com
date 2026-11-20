@@ -1,6 +1,6 @@
-I keep the same project checked out on a laptop and a desktop, and every time I switched machines I lost ten minutes to `.env`. Which variant was this one on? Did the staging database URL ever make it across, or is it still sitting on the other machine? The one file every tool needs is the one file you can't commit — so it ends up existing in exactly one place, and never the one you're sitting at.
+I keep the same project checked out on a laptop and a desktop, and every time I switched machines I lost ten minutes to `.env`. Which variant was this one on? Did the staging database URL ever make it across, or was it still on the other machine? Every tool needs that file and I can't commit it, so it lived on one machine only, and usually not the one I was sitting at.
 
-`envs` is the bash script that ended that. It encrypts `.env` variants with your existing SSH key and drops them in a folder that already syncs.
+`envs` is the bash script I wrote for that. It encrypts `.env` variants with your existing SSH key and puts them in a folder you already sync.
 
 ## Examples
 
@@ -12,62 +12,64 @@ envs list            # every variant for this repo
 envs projects        # every repo that has variants
 ```
 
-That's the whole tool. No daemon, no shell hook, no wrapper around your dev command — `.env` stays a plain file that everything reads the normal way.
+There's no daemon, shell hook or wrapper around your dev command, and `.env` stays a plain file that your tools read as usual.
 
 ## Why it exists
 
-The alternatives all wanted something I wasn't willing to give. Committing encrypted secrets to the repo means the ciphertext is in the history forever, and rotating anything means a commit. A secrets service means a subscription, a login, and a network round trip before my dev server starts. Both are the right answer for a team; both are absurd for one person moving between two machines they own.
+Each alternative asked for something I didn't want to give. If you commit encrypted secrets to the repo, the ciphertext stays in the history for good, and every rotation is another commit. A secrets service means a subscription, a login and a network round trip before my dev server starts. Both make sense for a team, but they're too much for one person moving between two machines of their own.
 
-What I actually needed was a filing cabinet: named variants, per project, encrypted, in a folder my machines already sync. That's a hundred lines of bash, not a platform.
+What I needed was named variants per project, encrypted, in a folder my machines already sync, and a small bash script was enough for that.
 
 ## How it's different
 
-| Tool | Model |
+| Tool | How it works |
 | --- | --- |
-| `envs` | named variants in synced storage, encrypted to your SSH key, outside the repo |
-| dotenvx | encrypt `.env` in place and commit the ciphertext with the code |
-| SOPS | encrypt structured files with KMS/age/PGP, usually committed alongside the code |
-| direnv | auto-load and unload variables per directory — activation, not storage |
-| 1Password CLI | inject secrets from a hosted vault at runtime |
+| `envs` | named variants in synced storage outside the repo, encrypted to your SSH key |
+| dotenvx | encrypts `.env` in place, and the ciphertext is committed with the code |
+| SOPS | encrypts structured files with KMS/age/PGP, usually committed alongside the code |
+| direnv | loads and unloads variables as you enter and leave a directory |
+| 1Password CLI | injects secrets from a hosted vault at runtime |
 
-**Use something else if you're on a team.** This is the honest limitation: one SSH key means no revocation, no rotation workflow, and no audit trail. If someone leaves, there is nothing to turn off. For a team, SOPS with per-member age recipients or a real vault is the correct tool and I'd use it too. `envs` is scoped to secrets that are already only yours.
+If you're on a team, use something else. With a single SSH key there's no way to revoke access, no rotation workflow and no audit trail, so when someone leaves, there's nothing to turn off. On a team, SOPS with an age recipient per member or a proper vault is the right tool, and I'd use it too. `envs` is meant for secrets that are already only yours.
 
-`direnv` isn't a competitor at all — it answers "when is this loaded", not "where does it live". They compose fine.
+`direnv` doesn't compete with it. It decides when variables are loaded, not where they're stored, and the two work fine together.
 
 ## What's inside
 
-### Projects identify themselves by git remote
+### Projects are matched by git remote
 
-Variants are stored under a directory named after the normalised git remote URL, so the same repo cloned to a different path on a different machine resolves to the same folder without configuration. Change the remote and `envs mv <old-id>` re-points it.
+Variants are stored in a directory named after the normalized git remote URL. The same repo cloned to a different path on another machine ends up in the same folder without any configuration. If the remote changes, `envs mv <old-id>` moves its variants to the folder for the new remote.
 
 ### Overwrite protection
 
-`envs use` will clobber your local `.env`, so it first hashes the file and compares it against what was last pushed. Local edits you never pushed produce a warning instead of silent data loss:
+`envs use` overwrites your local `.env`, so it first hashes the file and compares it with what was last pushed. If you have local edits you never pushed, you get a warning instead of losing them:
 
 ```sh
 envs use staging
 # .env has unpushed changes — push them first, or re-run with --force
 ```
 
-### Two knobs
+### Two settings
 
 ```sh
 ENVS_STORE_DIR   # default: ~/Library/Mobile Documents/com~apple~CloudDocs/envs
 ENVS_SSH_KEY     # default: ~/.ssh/id_ed25519
 ```
 
-Point `ENVS_STORE_DIR` at Syncthing, Dropbox, a mounted share, or a git repo you keep private — the script does not care what provides the sync.
+`ENVS_STORE_DIR` can point at a Syncthing or Dropbox folder, a mounted share, or a git repo you keep private. The script doesn't care how the folder gets synced.
 
 ## Design notes
 
-**age instead of GPG.** GPG can do this, and I tried. Its pinentry and agent model is unreliable in non-interactive contexts — passphrase prompts appear where you didn't expect them, and agent caching makes failures inconsistent between runs. `age` has no daemon, reads the key file directly, and fails with an error you can read. For a script that runs inside other scripts, boring beats powerful.
+I chose `age` over GPG. GPG can do this, and I tried it, but its pinentry and agent setup is unreliable when nothing is interactive: passphrase prompts show up where you don't expect them, and agent caching makes failures differ from one run to the next. `age` has no daemon, reads the key file directly and fails with an error you can read. This script runs inside other scripts, so I wanted the simpler tool.
 
-**Your SSH key, not a new one.** `age` accepts SSH keys as recipients, so there is no keygen step, no new secret to back up, and no "where did I put the envs key" problem on the third machine. Setup is one command because there is genuinely nothing to set up.
+`envs` uses your existing SSH key. `age` accepts SSH keys as recipients, so there's no keygen step and no new secret to back up. Another machine needs that same SSH key and nothing else, so there's no separate envs key to go looking for. Setup is a single command.
 
-**Not the macOS Keychain.** The Keychain is the obvious place for this on a Mac, and it lost on practicalities rather than possibility: items live behind a security API instead of being files, syncing is tied to iCloud Keychain specifically, and none of it exists on Linux. A synced folder of `.age` blobs is a plain filesystem — you can `ls` it, point it at any sync provider, and it behaves the same on both systems.
+On a Mac the Keychain is the obvious place for secrets. I decided against it for practical reasons: items sit behind a security API instead of being files, syncing depends on iCloud Keychain specifically, and Linux has none of it. A synced folder of `.age` files is plain files on disk. You can `ls` it, sync it with any provider, and it works the same on macOS and Linux.
 
-**Encrypted even though the sync service encrypts.** iCloud with Advanced Data Protection is end-to-end encrypted already, so this layer is redundant on paper. I want it anyway: the provider never holds readable secrets, and anyone who reaches that folder — a support session, a shared Mac, a future me being careless with permissions — sees opaque `.age` blobs. This buys confidentiality, and a corrupted blob fails decryption instead of decrypting wrong — but `age` does not authenticate the writer: whoever controls the folder can still delete a file or replace it with a validly encrypted one, so the provider stays trusted for keeping the right files in place. Defence in depth is cheap when it costs one `age` invocation.
+The variants are encrypted even though the sync service encrypts too. iCloud with Advanced Data Protection is already end-to-end encrypted, so on paper this layer is redundant. I keep it anyway, since it costs one `age` call: the provider never holds readable secrets, and anyone who gets into that folder (a support session, a shared Mac, or me being careless with permissions later on) sees only opaque `.age` files.
+
+That protects confidentiality, and a corrupted file fails to decrypt instead of decrypting to something wrong. `age` doesn't authenticate the writer, though. Whoever controls the folder can still delete a file or replace it with another validly encrypted one, so I still rely on the provider to keep the right files in place.
 
 ## Status
 
-Live and doing its job. It is deliberately finished software — a single bash script, portable across macOS and Linux, idempotent, with no roadmap I feel strongly about. The most likely future change is more storage backends, and only if the current one starts annoying me.
+It does its job, and I consider it finished: a single bash script that runs on macOS and Linux, is idempotent, and has no roadmap I feel strongly about. If anything changes, it will most likely be more storage backends, and only if the current one starts to annoy me.

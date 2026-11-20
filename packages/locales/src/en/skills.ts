@@ -2,81 +2,90 @@ import type { SkillTime } from '../types'
 
 export const skills: SkillTime[] = [
   {
-    title: 'TypeScript',
+    title: 'AI-Assisted Development',
     level: 'proficient',
+    times: ['2024-now'],
+    subtitle: 'Agents under my architecture and review',
+    description: [
+      'Coding agents write much of the code on my projects, under an architecture and rules I set. Every change passes type checks, tests and an automated review. I check everything myself before the merge.',
+      'I publish and update the agent skills that come out of this work.',
+    ],
+  },
+  {
+    title: 'TypeScript',
+    level: 'expert',
     times: ['2017-now'],
     subtitle: 'Must-have for JS projects',
-    description:
-      'I work with TypeScript on a daily basis for many years for required level of type safety on a project, follow new features.',
+    description: [
+      'Daily since 2017, on every project. I prefer a single source of truth and type inference: types come from the schema or the code and are not written twice.',
+      'I keep up with new language features.',
+    ],
   },
   {
     title: 'React',
     level: 'expert',
-    times: ['2012-now'],
-    subtitle: 'Commercial projects since 2012',
+    times: ['2013-now'],
+    subtitle: 'Commercial projects since 2013',
     description:
-      'I work with React non-stop since version 0.5 (2012), from class to functional and server components, hooks.',
+      'Non-stop since version 0.5 (2013), from class components to function and server components and hooks. Countless projects and performance optimizations.',
   },
   {
-    title: 'Bun.js/Node.js',
+    title: 'Cloud & CI/CD',
+    level: 'proficient',
+    times: ['2017-now'],
+    subtitle: 'Google Cloud, AWS, DigitalOcean, Vercel, Cloudflare',
+    description: [
+      "An automated pipeline is a must, and I've set them up for many kinds of projects.",
+      'I self-host a lot too, including builds of signed apps for macOS.',
+      'Took part in infrastructure and security audits.',
+    ],
+  },
+  {
+    title: 'DB, SQL, ORM',
+    level: 'proficient',
+    times: ['2007-now'],
+    subtitle: 'PostgreSQL and Drizzle ORM today',
+    description: [
+      'Earlier: Prisma, TypeORM, MongoDB, MySQL, MSSQL, SQLite.',
+      'Valkey for caching and rate limits.',
+    ],
+  },
+  {
+    title: 'Bun/Node.js',
     level: 'proficient',
     times: ['2012-now'],
-    subtitle: 'Work non-stop since early versions',
+    subtitle: 'Non-stop since the early versions',
     description: [
-      "Can't say I'm an expert because always learn/revisit APIs required for my task.",
-      "But never had issues I couldn't solve.",
+      "Can't call myself an expert, because I still learn or re-read the APIs each task needs.",
+      "But I've never had an issue I couldn't solve.",
     ],
   },
   {
     title: 'JavaScript, ESM',
     level: 'expert',
     times: ['2006-now'],
-    subtitle: "My main stack's core",
+    subtitle: 'The core of my main stack',
     description: [
-      "Been working on corporate projects when IE5-IE6 support was still required, jQuery or AJAX were a thing and async/await wasn't.",
+      "I worked on corporate projects back when IE5-IE6 support was still required, jQuery and AJAX were a thing, and async/await wasn't.",
       'Will never miss those times :)',
     ],
-  },
-  {
-    title: 'DB, RDS, ORM',
-    level: 'proficient',
-    times: ['2007-now'],
-    subtitle: 'Postgres/Mongo, Prisma/Drizzle and others',
-    description: [
-      'Had production experience and still work with many different databases, ORMs and DBaaS.',
-      'From common SQL/NoSQL to RDS and specific cloud ones.',
-    ],
-  },
-  {
-    title: 'CI/CD',
-    level: 'proficient',
-    times: ['2017-now'],
-    subtitle: 'Automated pipeline is a must',
-    description: 'Did pipelines to build and deploy different kinds of projects over past years.',
   },
   {
     title: 'Frameworks',
     level: 'proficient',
     times: ['2016-now'],
-    subtitle: 'For full-stack, BE or UI',
+    subtitle: 'For full-stack, API and UI',
     description: [
-      'Had production experience with a variety of frameworks.',
-      'From UI (HeroUI, MUI, Tailwind CSS and others) to backend (Nest.js/Express) to full-stack (Next.js, Astro).',
+      'Now: Next.js and Astro; Elysia and Hono for APIs, with my own graphql-suite; HeroUI and Tailwind CSS for UI.',
+      'Earlier: NestJS, Express, MUI, Gatsby.',
     ],
   },
   {
-    title: 'Cloud Providers',
-    level: 'advanced',
-    times: ['2017-now'],
-    subtitle: 'Google Cloud, AWS, DigitalOcean, Vercel',
-    description:
-      'Have production experience with different cloud providers, participaded in audits and more.',
-  },
-  {
-    title: 'React Native, Electron, Flutter',
+    title: 'React Native, Electron, Tauri',
     level: 'advanced',
     times: ['2014-2016', '2019-2022'],
     subtitle: 'Significant experience in cross-platform development',
-    description: "Didn't work a lot, but know enough to quickly bootstrap a project/CI, Expo etc.",
+    description:
+      'Years of Electron at Luxoft, React Native apps at Peppy Health, and now Plugoist, a Tauri app (Rust, React and HeroUI v3). I can quickly bootstrap a project and set up its CI, Expo and so on.',
   },
 ]

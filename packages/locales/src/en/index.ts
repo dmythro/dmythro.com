@@ -13,7 +13,7 @@ export const en = {
   name: 'Dmytro',
   meta: {
     description:
-      'My name is Dmytro and I love tech, web development, music, traveling, space and many more.',
+      'My name is Dmytro. I love tech, web development, music, travel, space and much more.',
     descriptionShort: 'Web Dev, Tech, Music, Travel',
     keywords: 'Web Dev, Music, Travel, Dmytro Klymenko, profile, CV, resume, LinkedIn, GitHub',
   },
@@ -30,8 +30,8 @@ export const en = {
     themeDarkTip: 'Dark theme',
     themeLightTip: 'Light theme',
     downloadPdf: 'Download PDF',
-    downloadPdfTooltip: (size: string) => `Download CV in PDF format, ${size}`,
-    switchLang: 'English (натисніть щоб була Українська)',
+    downloadPdfTooltip: (size: string) => `Download the CV as a PDF, ${size}`,
+    switchLang: 'English (натисніть, щоб перейти на українську)',
   },
   builtWithTitle: 'Open Source',
   builtWithDescription: 'This site is open source — built entirely with open-source technologies.',
@@ -52,15 +52,15 @@ export const en = {
   builtWith: 'Open Source',
   builtWithIntro: 'This website is fully open source and available on',
   builtWithIntroAfter:
-    'It is built entirely with open-source technologies — from the framework to the deployment platform.',
+    'It is built entirely with open-source tools, from the framework to the linter. Only the hosting, Cloudflare, is a commercial service.',
   builtWithVersions:
-    'The repository contains two versions of this website, both scoring perfect PageSpeed/Lighthouse results. I keep both because each stack has its own strengths — for a simple site like this, either works great. For more complex projects, the choice should be driven by specific requirements and the strengths of each framework.',
+    'The repository holds two versions of this website. The current one runs on Astro. The previous one, on Next.js, stays as a reference that I no longer maintain. While both served the same content, either one scored 100% on PageSpeed. For a simple site like this either stack works well, and for a more complex project the choice should come from its requirements.',
   builtWithProjectsCta: 'See my other open-source projects →',
   cv: {
     title: 'Hi 👋',
     description: (years: number) => [
       `My name is Dmytro and I am a software engineer and full-stack developer with more than ${years} years of professional experience.`,
-      'I enjoy complex tasks and good teamwork; always aim to deliver quality solutions in a reasonable time.',
+      'I enjoy complex tasks and good teamwork, and always aim to deliver quality solutions in a reasonable time.',
     ],
   },
   skillLevel,
@@ -98,17 +98,17 @@ export const en = {
   saveLev: {
     message:
       'Unfortunately, my nephew Lev was diagnosed with SMA when he was 8.5 months old.' +
-      ' We started a treatment and fundraiser immediately to save his life.',
-    linkTitle: 'More details, support Lev here',
+      ' We immediately started his treatment and a fundraiser to save his life.',
+    linkTitle: 'More details and how to support Lev',
   },
   supportUkraine: {
     message: (day: number) =>
-      `I was born and live in Ukraine. Now, my country is under a full-scale invasion by russia. Today is Day ${day} of fight for democracy, our existense and freedom 🇺🇦`,
+      `I was born and live in Ukraine. Now, my country is under a full-scale invasion by russia. Today is Day ${day} of the fight for democracy, our existence and freedom 🇺🇦`,
     linkTitle: 'Find out how you can help',
   },
   projects: {
     title: 'Projects',
-    description: 'The work I can show publicly — open source, tools, and projects of my own.',
+    description: 'The work I can show publicly — open source, tools and projects of my own.',
     otherProjects: 'Other projects',
     onThisPage: 'On this page',
     visitSite: 'Visit site',
@@ -125,6 +125,7 @@ export const en = {
       with: 'With',
       publishedBy: 'Published via',
       on: 'on',
+      language: 'Language',
       builtWith: 'Built with',
       started: 'Started',
       updated: 'Updated',
@@ -148,16 +149,16 @@ export const en = {
     cv: 'CV',
     tools: 'Tools',
     faq: 'FAQ',
-    contact: 'Contacts',
+    contact: 'Contact',
   },
   landing: {
     heroDescription:
       'Passionate about tech, web development, music, AI, traveling, photography and more. Kyiv, Ukraine.',
 
     tldr: 'TL;DR',
-    cvLink: 'Read full CV →',
+    cvLink: 'Read the full CV →',
     beyondCode: 'Beyond Code',
-    beyondCodeSubtitle: 'Music, travel, and everything else that keeps me going.',
+    beyondCodeSubtitle: 'Music, travel and everything else that keeps me going.',
     featuredProjects: 'Projects',
     viewAll: 'all projects →',
     stats: {

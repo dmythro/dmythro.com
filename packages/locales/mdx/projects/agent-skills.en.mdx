@@ -1,37 +1,36 @@
-I kept telling coding agents the same things. Use Conventional Commits. Don't re-request a bot review over unresolved threads. `bun test`, not `npm test`. Every new repo meant pasting the same paragraphs into another instructions file, and every correction I made in one project stayed in that project.
+I kept telling coding agents the same things. Use Conventional Commits. Don't re-request a bot review while threads are still unresolved. `bun test`, not `npm test`. Each new repo meant pasting the same paragraphs into another instructions file, and when I corrected one of them, the correction stayed in that one project.
 
-`agent-skills` is a collection of those paragraphs, extracted into installable modules, so a fix lands once and every agent picks it up.
+`agent-skills` holds those paragraphs as installable modules. I correct a skill once, and wherever it's installed, the fix arrives with the next skills update.
 
 ## Examples
 
-The command above installs the whole collection; one skill at a time works too:
+The command above installs the whole collection. To install a single skill:
 
 ```sh
 bunx skills add dmythro/agent-skills --skill git-pr
 ```
 
-`npx` works identically. With a recent `gh`, the CLI can install them too and will auto-detect the agent host:
+`npx` works the same way. The GitHub CLI can install them too if your `gh` has the `skill` command. Name the agent with `--agent`, because outside an interactive terminal it installs for GitHub Copilot:
 
 ```sh
-gh skill install dmythro/agent-skills git-pr
+gh skill install dmythro/agent-skills git-pr --agent claude-code
 ```
 
 ## Why it exists
 
-Repo instruction files — `AGENTS.md`, `CLAUDE.md` — solve the per-project case and nothing beyond it. They are loaded in full on every task, so they get shorter than they should be, and they cannot be shared: knowing how `gh pr` behaves is not a fact about my repository.
+Repo instruction files such as `AGENTS.md` and `CLAUDE.md` cover one project and can't be shared between repositories. Most of what I kept pasting had nothing to do with a particular repository: `gh pr` behaves the same everywhere.
 
-Skills invert that. Each one is a self-contained module the agent loads when the context matches, which means it can afford to be detailed. The `bun-cli` skill activates when it sees `bun.lock`; nobody pays for it in a Python repo.
+A skill is a separate module that the agent loads only when the context matches. The `bun-cli` skill loads when the agent sees `bun.lock`, so in a Python repo its instructions never load.
 
 ## How it's different
 
-| Where knowledge lives | Scope |
+| Where the instructions live | When the agent loads them |
 | --- | --- |
-| `agent-skills` | portable modules, loaded on demand when the context matches |
-| AGENTS.md, CLAUDE.md | one repository, loaded in full on every task |
-| System prompt / global config | every task in every repository, whether relevant or not |
-| MCP servers | tools and live data, rather than knowledge and procedure |
+| `agent-skills` | only when the context matches, in any repository |
+| `AGENTS.md`, `CLAUDE.md` | in full on every task, in one repository |
+| System prompt or global config | on every task in every repository, relevant or not |
 
-MCP is the interesting comparison, and they solve different halves: MCP gives an agent new *capabilities*, a skill gives it *judgement* about capabilities it already has. `git-pr` does not add the `gh` command — it explains which invocations are safe, what a review round costs, and when not to trigger another one.
+MCP servers are the closer comparison, but they do a different job. An MCP server gives the agent tools and live data it didn't have before. A skill explains how to use what it already has. `git-pr`, for example, works with the `gh` you have installed and explains which calls are safe, what a review round costs and when not to start another one.
 
 ## What's inside
 
@@ -40,23 +39,23 @@ MCP is the interesting comparison, and they solve different halves: MCP gives an
 | `bun-cli` | package management, scripts, testing, bundling, compilation |
 | `bun-api` | file I/O, shell, SQLite, SQL, S3, Redis, hashing, compression |
 | `git-commit` | Conventional Commits for commits and PR/MR titles |
-| `git-pr` | PR/MR workflows on GitHub and GitLab, review handling, cost-aware bot loops |
-| `git-ci` | CI/CD status queries for GitHub Actions and GitLab CI |
-| `git-project` | GitHub Projects v2 — epics, sub-issues, board status, milestones |
-| `coderabbit` | local CodeRabbit CLI reviews and low-noise `.coderabbit.yaml` config |
+| `git-pr` | PR/MR workflows on GitHub and GitLab, handling reviews, cost-aware bot review rounds |
+| `git-ci` | CI/CD status for GitHub Actions and GitLab CI |
+| `git-project` | GitHub Projects v2: epics, sub-issues, board status, milestones |
+| `coderabbit` | local CodeRabbit CLI reviews and a low-noise `.coderabbit.yaml` |
 
-### Allowlists, so approval prompts stop
+### Allowlists for auto-approval
 
-Skills that drive a CLI ship a `references/allowlist.md` with *tiered* auto-approval patterns for Claude Code's `settings.json` or an OpenCode config. Only the inspection tier is meant to be approved broadly — anything that executes or writes stays a per-repo decision. `bun info`, `gh pr view`, `glab ci status`, `coderabbit doctor` and friends.
+Skills that drive a CLI include a `references/allowlist.md` with auto-approval patterns for Claude Code's `settings.json` or an OpenCode config, split into *tiers*. Only the inspection tier, with commands like `bun info`, `gh pr view`, `glab ci status` or `coderabbit doctor`, is meant to be approved broadly. Anything that executes code or writes stays a per-repo decision.
 
 ## Design notes
 
-**Skills describe cost, not just syntax.** The `git-pr` skill spends as much space on when *not* to run something as on how to run it — bot review rounds are billed, and an agent that helpfully re-requests a review over unresolved threads is spending money to make things worse. Documenting the price is what stops that, and it is the part a generic reference never contains.
+The `git-pr` skill spends as much space on when *not* to run something as on how to run it. Bot review rounds are billed, and an agent that helpfully re-requests a review while threads are still unresolved spends money and makes things worse. To stop that, the skill has to state the price, and a generic CLI reference doesn't cover prices.
 
-**Scoped activation is what makes depth affordable.** Because a skill only loads when its signals appear, it can be long enough to be genuinely useful. A single always-on instructions file has to stay short to avoid crowding out the actual task, so it ends up as a list of assertions with no reasoning behind them.
+Because a skill loads only when its signals appear, it can be long enough to be useful. An instructions file that is loaded on every task has to stay short so it doesn't crowd out the task itself, and it ends up as a list of rules with no reasoning behind them.
 
-**Distribution is somebody else's problem.** The `skills` CLI (or `gh`) handles installing and updating per agent, with [skills.sh](https://skills.sh) as the directory to discover them through — so this repo is just well-structured markdown. If the format outlives the installer, the content is still fine.
+I left installing and updating to the `skills` CLI (or `gh`), and people find skills through the [skills.sh](https://skills.sh) directory. So the repo itself is well-structured markdown, and it stays readable without any installer.
 
 ## Status
 
-Live and growing as I hit new things worth writing down. The collection is opinionated by construction — it encodes how *I* work, so treat the git and review skills as a starting point rather than house rules.
+I add skills when I run into something worth writing down. The collection describes how *I* work, so take the git and review skills as a starting point, not as rules for your team.

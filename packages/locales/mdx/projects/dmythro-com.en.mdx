@@ -1,6 +1,8 @@
-The repository describes itself as "an unnecessarily complex project to showcase some of the things I do", which is accurate and the whole point. A personal site is one of the few places where the requirements are yours, nobody is waiting on the deploy, and you can find out what a stack is actually like to live with before you inflict it on a team.
+This site is my CV and my projects, and the list of projects keeps growing. All of it lives in a public monorepo, apps next to the packages they share, which I keep as an example of how I organize a codebase.
 
-This one is a static bilingual site that ships almost no JavaScript, and a monorepo that is far larger than the site needs.
+The packages are where I'd start reading. They're plain TypeScript with no build step: Bun runs the source as it is, and the apps import it directly.
+
+I also try things here before I propose them to a team. Nobody is waiting on this deploy, so I can live with a tool for a while first.
 
 ## Examples
 
@@ -13,40 +15,71 @@ bun run dev
 
 ## Why it exists
 
-It started as a CV I did not want to keep as a Word document. It stayed because it turned into the place I try things.
+It started as a CV that I didn't want to keep in Word. Most of what has been added since is there because I wanted to try it before using it at work: social cards drawn during the build, a CV that prints itself to PDF, content that lives in a package of its own.
 
-Every piece of infrastructure here exists because I wanted to know how it behaves rather than because the site demanded it: view transitions, build-time social cards, a print stylesheet that produces the downloadable CV, content collections fed from a shared workspace package. None of that is necessary for a few pages about one person. All of it taught me something I have since used in real work.
-
-The rule I hold myself to is that it has to stay fast anyway. Over-engineering the build is fine; over-engineering the page the reader gets is not.
+The page itself has to stay light, whatever the build is doing. It's static HTML in two languages with almost no JavaScript.
 
 ## What's inside
 
-### Zero JavaScript by default
+### Apps and packages
 
-Pages are static HTML. Navigation, layout, the theme toggle and the project filters are CSS or a few lines of inline script. [Preact](https://preactjs.com/) islands appear only where interactivity is genuinely required — the guitar string-tension calculator is the one page that really needs a runtime.
+```text
+apps/
+  www2/        the site, built with Astro
+  www/         the previous site, built with Next.js
+packages/
+  locales/     the copy and these articles, in English and Ukrainian
+  constants/   the site URL and social links
+  fonts/       Geist, subset for Latin and Cyrillic
+  cv-to-pdf/   prints the CV page to PDF
+  tsconfig/    shared compiler settings
+```
 
-### Bilingual all the way down
+Bun workspaces link the packages together, and Turborepo runs the tasks across them. Formatting and linting come from one Biome config at the root.
 
-Every route is `[locale]`-prefixed and generated for both English and Ukrainian, including feeds, structured data and `hreflang`. Copy lives in a shared `@dmythro/locales` workspace package as typed objects and MDX, so a missing translation is a type error rather than an English string leaking into a Ukrainian page.
+### Packages with no build step
 
-### Social cards rendered at build
+This is all it takes for an app to import a package:
 
-Each project page gets its own Open Graph image, generated during the build by [takumi](https://takumi.kane.tw/) from an HTML template — no headless browser, no runtime service. Fonts are subset to the glyphs actually drawn, which is what lets the Ukrainian cards render Cyrillic without committing any font files.
+```json
+{
+  "name": "@dmythro/locales",
+  "exports": {
+    ".": "./src/index.ts",
+    "./constants": "./src/constants.ts",
+    "./mdx/*": "./mdx/*"
+  }
+}
+```
+
+`exports` points straight at the `.ts` files. There's no `dist` folder and no build script, and nothing has to watch the package while the dev server runs. When I fix a typo in `packages/locales`, the page reloads with it. Scripts and tests run from the same source under Bun, and the editor takes its types from there too.
+
+### No JavaScript by default
+
+Pages are static HTML. The menu, the theme toggle and the project filters are CSS or a few lines of inline script. The one page that loads a framework is the [string-tension calculator](/en/guitars/string-tension), which is a [Preact](https://preactjs.com/) island.
+
+### English and Ukrainian on every route
+
+Every route has a `[locale]` prefix and is built in both languages, feeds and structured data included. The copy is typed objects and MDX in `@dmythro/locales`. If I add a string in English and forget the Ukrainian one, the type check fails.
+
+### Social cards drawn during the build
+
+Each project page has its own Open Graph image. [takumi](https://takumi.kane.tw/) draws it from an HTML template while the site builds, with no headless browser and no image service. It uses the Geist files the site already serves, so the build downloads no fonts and the Cyrillic on a Ukrainian card matches the page.
 
 ### Feeds and machine-readable output
 
-Per-locale RSS built from the same project data that renders the pages, plus `llms.txt` and `llms-full.txt` for anything reading the site rather than viewing it.
+Each language has an RSS feed and a JSON Feed, built from the same data as the pages. For programs that read the site rather than display it, there are `llms.txt` and `llms-full.txt`.
 
 ## Design notes
 
-**The monorepo is the interesting part, not the site.** Content, constants and translations live in workspace packages that the app consumes. That is overkill for one site, and it is exactly why the CV, the PDF export, the feeds and the OG cards can all read the same data without a copy of it drifting.
+Skipping the build only works inside a repository. A package that other people install from npm still needs compiled JavaScript and type declarations.
 
-**The repo carries two versions of the site.** The current one is built with Astro; the previous one, with Next.js, stays alongside it. Right after the rewrite they served the same content, which made for an honest framework comparison — both are good in their own way, and both got the site to a 100% PageSpeed rating. Since then the content has kept evolving in the Astro build only; the Next.js app remains as a reference and is no longer maintained.
+The downloadable CV is the CV page, printed by Chrome with the site's print stylesheet. I don't maintain a separate document. Print is also the one place where the fonts differ. Chrome writes a variable font into a PDF as drawings, and text copied from the CV came out as "q uality". The print styles use the static Geist files now, and the script that makes the PDF fails if a variable font gets in.
 
-**Print is a real target.** The downloadable CV is not a separately maintained document — it is this site with a print stylesheet, so the PDF cannot fall out of date relative to the page.
+The previous site is still in the repository. Right after I rewrote it in Astro, both versions served the same content, which gave me a fair comparison of the two frameworks. Each has its strengths, and either one got the site to 100% on PageSpeed. I went on with Astro, and the Next.js app stays as a reference that I no longer maintain.
 
-**Static output, deliberately.** Everything is prerendered and deployed to Cloudflare Pages. Stats from GitHub and npm are fetched at build time rather than in the browser, so the page has no network work to do and no key to protect.
+Everything is prerendered and served from Cloudflare. The star and download counts on the project pages are fetched from GitHub and npm during the build. The browser makes no API calls, and there's no key in the page to protect.
 
 ## Status
 
-Live, and the thing you are reading it on. It changes whenever I want to try something — which is the only feature it really has.
+It's the site you're reading. I change it whenever there's something I want to try.

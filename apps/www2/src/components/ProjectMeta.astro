@@ -35,6 +35,10 @@ const creditRows: { label: string; credits: ProjectCredit[]; prefix?: ProjectCre
   { label: t.projects.meta.by, credits: getProjectAuthors(project) },
   { label: t.projects.meta.with, credits: project.contributors ?? [] },
   { label: t.projects.meta.publishedBy, credits: publishedVia, prefix: project.organization },
+  {
+    label: t.projects.meta.language,
+    credits: (project.programmingLanguages ?? []).map((name) => ({ name })),
+  },
   { label: t.projects.meta.builtWith, credits: project.uses ?? [] },
 ].filter(({ credits }) => credits.length > 0)
 

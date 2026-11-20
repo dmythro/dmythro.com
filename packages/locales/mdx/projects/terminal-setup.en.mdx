@@ -1,10 +1,10 @@
-Every new Mac used to cost me an evening. Install Homebrew, remember which zsh plugins I liked, hunt down the `.zshrc` from the old machine, discover it references three things that are no longer installed, give up on tmux, and settle for something slightly worse than what I had.
+Every new Mac used to cost me an evening. Install Homebrew, remember which zsh plugins I liked, hunt down the `.zshrc` from the old machine, find out it references three things that are no longer installed, give up on tmux, and settle for something slightly worse than what I had before.
 
-`terminal-setup` is that evening written down as one command — and, just as importantly, a second command that puts everything back.
+`terminal-setup` turns that evening into one command. A second command undoes most of it, and that part matters to me just as much.
 
 ## Examples
 
-The setup command above does the whole thing. Changed your mind:
+The setup command above does everything. To undo it:
 
 ```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/dmythro/terminal-setup/main/reset-terminal.sh)"
@@ -18,55 +18,55 @@ Both take `-- -y` to run unattended:
 
 ## Why it exists
 
-The thing I actually wanted was not "a nice terminal" — it was *the same* terminal, reproducibly, on every machine I touch. Dotfile repos get you there but expect you to maintain a dotfile repo. Frameworks get you there but bring a plugin manager and a startup-time cost.
+I wanted the same terminal on each machine I use, set up the same way every time. A dotfiles repo would mean maintaining a dotfiles repo, and a zsh framework brings a plugin manager and a slower shell startup.
 
-What was missing was something in between: a script that installs a known-good set of tools, writes configs I actually reviewed, and can be re-run on a machine that is already half set up without making a mess.
+Instead, I wrote a script that installs a set of tools I trust, writes configs I've reviewed myself, and can run again on a half-configured machine without making a mess.
 
-Despite the name, only the optional colour profile is Terminal.app-specific. The zsh config, prompt and plugins work in iTerm2, Ghostty, Alacritty, Kitty, WezTerm or the VS Code terminal.
+Despite the name, only the optional color profile is specific to Terminal.app. The zsh config, prompt and plugins work in iTerm2, Ghostty, Alacritty, Kitty, WezTerm or the VS Code terminal.
 
 ## How it's different
 
 | Approach | What you get |
 | --- | --- |
 | `terminal-setup` | one script, a fixed set of tools, reviewed configs, and a reset script |
-| oh-my-zsh, prezto | a plugin framework and ecosystem, plus its startup cost and its own update model |
-| A dotfiles repo | exactly your setup, provided you keep maintaining it |
-| Doing it by hand | a slightly different machine every time |
+| oh-my-zsh, prezto | a plugin framework and ecosystem, with its startup cost and its own update model |
+| A dotfiles repo | exactly your setup, as long as you keep maintaining it |
+| Doing it by hand | a slightly different setup each time |
 
-Use oh-my-zsh if you want the plugin ecosystem and the community themes — that is a real advantage and this is not competing with it. Use a dotfiles repo if your setup is unusual enough that a curated list would fight you. This is for wanting a good default fast, then getting on with work.
+Use oh-my-zsh if you want its plugins and community themes. That's a real advantage, and `terminal-setup` doesn't try to compete with it. Use a dotfiles repo if your setup is unusual enough that a fixed list would get in the way. This is for when you want good defaults quickly and then get on with work.
 
 ## What's inside
 
 ### Always installed
 
-fzf for fuzzy history and file search, zsh-autosuggestions for fish-style ghost text, zsh-syntax-highlighting, zsh-completions, and [Starship](https://starship.rs/) for the prompt. Homebrew first if it is missing.
+fzf for fuzzy history and file search, zsh-autosuggestions for fish-style ghost text, zsh-syntax-highlighting, zsh-completions, and [Starship](https://starship.rs/) for the prompt. Homebrew is installed first if it's missing.
 
-The generated `~/.zshrc` adds 50K of deduplicated, cross-session history, prefix history search on `↑`, macOS-native word jumping with Option+Arrow, multiline editing with Option+Enter, smart tab titles, and the aliases I actually type — `ll`, `gs`, `gl`, `gd`, `..`.
+The generated `~/.zshrc` adds 50K entries of deduplicated history shared across sessions, prefix history search on `↑`, macOS-style word jumping with Option+Arrow, multiline editing with Option+Enter, smart tab titles, and the aliases I actually type: `ll`, `gs`, `gl`, `gd`, `..`.
 
-### Optional, because they change how the shell behaves
+### Optional: tmux
 
-tmux with mouse support, split panes, 50K scrollback and clipboard integration. It auto-starts per session, which is exactly the kind of thing that should be a deliberate choice, so it is off unless you ask.
+tmux with mouse support, split panes, 50K lines of scrollback and clipboard integration. It starts automatically in each session, which should be a deliberate choice, so it's off unless you ask for it.
 
 ### Optional dev tools
 
-`gh`, `bun`, `ripgrep`, `fd`, `zoxide` and `delta`. Two of those are not just conveniences — `rg` and `fd` are what make the fzf file and directory search fast.
+`gh`, `bun`, `ripgrep`, `fd`, `zoxide` and `delta`. `rg` and `fd` are also what make fzf's file and directory search fast.
 
 ### Optional AI agent CLIs
 
-OpenCode, Claude Code, Codex, Gemini CLI and Aider, each offered individually rather than as a bundle, since nobody uses all five. Each still needs its own key or login.
+OpenCode, Claude Code, Codex, Gemini CLI and Aider. The script doesn't install them; it ends by listing a `brew install` line for each, since few people use all five. Each one needs its own key or login.
 
-### A fine-tuned theme for the native Terminal.app
+### A theme for Terminal.app
 
-The part the project is named after: a dark profile (`Dmythro.terminal`) imported straight into Terminal.app and set as the default — MonaspiceNe Nerd Font at 14 pt, a 120×36 window, `Use Option as Meta key` already in the plist, and true color on macOS 26 Tahoe. Pure visual taste, which is exactly why it stays optional and is skipped in unattended runs.
+This is the part the project is named after. A dark profile (`Dmythro.terminal`) is imported into Terminal.app and set as the default: MonaspiceNe Nerd Font at 14 pt, a 120×36 window, `Use Option as Meta key` preset in the plist, and true color on macOS 26 Tahoe. It's purely a matter of taste, so it stays optional and is skipped in unattended runs.
 
 ## Design notes
 
-**There is a reset script, and it is the reason the setup script can be bold.** A bootstrap you cannot undo is one you test cautiously on a machine you care about. Being able to run `reset-terminal.sh` and get your old profile back makes it reasonable to just try it.
+The reset script is what lets the setup script make big changes. Without it I'd hesitate to run the setup on a machine I care about. Since `reset-terminal.sh` removes its configs and switches Terminal.app back to the Basic profile, it's reasonable to just try it. It doesn't bring back your old `.zshrc`, though: setup overwrites it without a backup.
 
-**Non-interactive mode deliberately skips things.** `-y` installs packages and dev tools but not tmux, the Nerd Font or the Terminal.app profile. Those either change how your shell behaves on every launch or are pure taste — defaulting them on in an unattended run would be a surprise, and surprises in a shell config are expensive.
+Non-interactive mode skips some things on purpose. `-y` installs packages and dev tools, but not tmux, the Nerd Font or the Terminal.app profile. Those either change how your shell behaves on every launch or are a matter of taste, and turning them on in an unattended run would catch people by surprise.
 
-**Re-running is safe.** The script is idempotent, so it doubles as the update path: run it again on an existing machine and it converges rather than appending another block to your `.zshrc`.
+Running the script again is safe. It's idempotent, so it's also how you update: on a machine that's already set up, it brings the config to the expected state instead of appending another block to your `.zshrc`.
 
 ## Status
 
-Live and used on my own machines, which is also how it gets tested. Scoped to macOS — the shell config is portable, but the installer assumes Homebrew and the profile import is Terminal.app.
+I use it on my own machines, and that's also how it gets tested. It's for macOS only: the shell config is portable, but the installer relies on Homebrew and the profile import is for Terminal.app.

@@ -2,83 +2,90 @@ import type { SkillTime } from '../types'
 
 export const skills: SkillTime[] = [
   {
-    title: 'TypeScript',
+    title: 'Розробка з ШІ',
     level: 'proficient',
+    times: ['2024-now'],
+    subtitle: "Агенти працюють за моєю архітектурою й під моїм рев'ю",
+    description: [
+      "У моїх проєктах чималу частину коду пишуть ШІ-агенти, за архітектурою та правилами, які задаю я. Кожна зміна проходить перевірку типів, тести й автоматичне рев'ю. Усе перевіряю сам перед мержем.",
+      'Із цієї роботи публікую та оновлюю skills для агентів.',
+    ],
+  },
+  {
+    title: 'TypeScript',
+    level: 'expert',
     times: ['2017-now'],
-    subtitle: "Для JS проєктів вважаю обов'язковим",
-    description:
-      'Працюю з TypeScript протягом багатьох років для забезпечення необхідного рівня безпеки типів проєкту, слідкую за новими можливостями.',
+    subtitle: "Для JS-проєктів вважаю обов'язковим",
+    description: [
+      'Щодня з 2017 року, у кожному проєкті. Віддаю перевагу єдиному джерелу правди й виведенню типів: типи беруться зі схеми чи коду й не пишуться двічі.',
+      'Стежу за новими можливостями мови.',
+    ],
   },
   {
     title: 'React',
     level: 'expert',
-    times: ['2012-now'],
-    subtitle: 'Комерційні проєкти з 2012',
+    times: ['2013-now'],
+    subtitle: 'Комерційні проєкти з 2013 року',
     description:
-      'Працюю з React нон-стоп з версії 0.5 (2012), від React.Component класу до функціональних, серверних компонент та хуків.',
+      'Без перерв ще з версії 0.5 (2013): від класових компонентів до функціональних і серверних, хуки. Безліч проєктів і оптимізацій продуктивності.',
   },
   {
-    title: 'Bun.js/Node.js',
+    title: 'Хмари та CI/CD',
+    level: 'proficient',
+    times: ['2017-now'],
+    subtitle: 'Google Cloud, AWS, DigitalOcean, Vercel, Cloudflare',
+    description: [
+      "Автоматизований пайплайн вважаю обов'язковим і налаштовував такі для різних проєктів.",
+      'Багато чого тримаю на власній інфраструктурі, зокрема збірку підписаних застосунків для macOS.',
+      'Брав участь в аудитах інфраструктури та безпеки.',
+    ],
+  },
+  {
+    title: 'DB, SQL, ORM',
+    level: 'proficient',
+    times: ['2007-now'],
+    subtitle: 'Зараз PostgreSQL і Drizzle ORM',
+    description: [
+      'Раніше: Prisma, TypeORM, MongoDB, MySQL, MSSQL, SQLite.',
+      'Valkey для кешу й лімітів.',
+    ],
+  },
+  {
+    title: 'Bun/Node.js',
     level: 'proficient',
     times: ['2012-now'],
-    subtitle: 'Працюю постійно з ранніх версій',
+    subtitle: 'Постійно, ще з ранніх версій',
     description: [
-      'Не скажу що експерт бо завжди вчу/перечитую API документацію під свої задачі.',
-      'Але проблем без рішень ще не мав.',
+      'Експертом себе не назву, бо й досі для кожного завдання вчу чи перечитую потрібні API.',
+      "Але нерозв'язних проблем ще не мав.",
     ],
   },
   {
     title: 'JavaScript, ESM',
     level: 'expert',
     times: ['2006-now'],
-    subtitle: 'База мого основного стеку',
+    subtitle: 'Основа мого стеку',
     description: [
-      'Працював на корпоративних проєктах ще коли підтримка IE5-IE6 була необхідністю, а jQuery та AJAX були чимось таким, а async/await ще не існувало.',
+      'Працював над корпоративними проєктами ще тоді, коли без підтримки IE5-IE6 було ніяк, jQuery та AJAX були в моді, а async/await ще не існувало.',
       'Ніколи не сумуватиму за тими часами :)',
     ],
   },
   {
-    title: 'DB, RDS, ORM',
-    level: 'proficient',
-    times: ['2007-now'],
-    subtitle: 'Postgres/Mongo, Prisma/Drizzle та інші',
-    description: [
-      'Мав професійний досвід і продовжую працювати з різними базами даних, ORM та DBaaS.',
-      'Від основних SQL/NoSQL БД до RDS та специфічних хмарних.',
-    ],
-  },
-  {
-    title: 'CI/CD',
-    level: 'proficient',
-    times: ['2017-now'],
-    subtitle: "Автоматизований пайплайн вважаю обов'язковим",
-    description:
-      'За останні роки працював над пайплайнами для збірки та деплою різних видів проєктів.',
-  },
-  {
-    title: 'Frameworks',
+    title: 'Фреймворки',
     level: 'proficient',
     times: ['2016-now'],
-    subtitle: 'Фреймворки для повного стеку, бекенду чи UI',
+    subtitle: 'Для full-stack, API та UI',
     description: [
-      'Працював із різноманітними фреймворками.',
-      'Від UI (HeroUI, MUI, Tailwind CSS тощо) до бекенду (Nest.js/Express тощо) та повного стеку (Next.js, Astro тощо).',
+      'Зараз: Next.js і Astro; для API — Elysia та Hono з моїм graphql-suite; для UI — HeroUI і Tailwind CSS.',
+      'Раніше: NestJS, Express, MUI, Gatsby.',
     ],
   },
   {
-    title: 'Хмарні провайдери',
-    level: 'advanced',
-    times: ['2017-now'],
-    subtitle: 'Google Cloud, AWS, DigitalOcean, Vercel',
-    description:
-      'Мав професійний досвід з різними хмарними провайдерами, приймав участь в аудитах тощо.',
-  },
-  {
-    title: 'React Native, Electron, Flutter',
+    title: 'React Native, Electron, Tauri',
     level: 'advanced',
     times: ['2014-2016', '2019-2022'],
-    subtitle: 'Маю суттєвий досвід кросплатформної розробки',
+    subtitle: 'Суттєвий досвід кросплатформної розробки',
     description:
-      'Не працював дуже багато, але достатньо щоб швидко запустити у роботу проєкт/CI, Expo тощо.',
+      'Кілька років Electron у Luxoft, застосунки на React Native в Peppy Health, а зараз Plugoist — застосунок на Tauri (Rust, React і HeroUI v3). Швидко запускаю проєкт і налаштовую CI, Expo тощо.',
   },
 ]

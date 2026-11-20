@@ -232,10 +232,10 @@ const lastKey = interestList[interestList.length - 1]
 {/* Block layout in print, not flex: a forced break on a flex item is honoured by
     Chromium but ignored by WebKit, which is what collapsed the whole CV onto
     continuous pages. Block fragmentation works everywhere. */}
-<article class="flex flex-col gap-16 print:block">
+<article class="cv-article flex flex-col gap-16 print:block">
   {sections.map(({ key, interest, Icon, mdxHtml, MdxContent }) => (
     <section id={key} class="scroll-mt-24 print:break-before-page">
-      <div class="flex items-start gap-3 mb-4">
+      <div class="flex items-start gap-3 mb-4 print:break-inside-avoid print:break-after-avoid">
         <div class="flex-1">
           <h2 class="text-xl font-bold">{interest.title}</h2>
           {interest.description && (
@@ -257,9 +257,9 @@ const lastKey = interestList[interestList.length - 1]
       {key === 'hobbies' && (
         <>
           <div class="prose print:prose-sm max-w-none mb-4" set:html={hobbiesIntroHtml} />
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 print:grid-cols-2 gap-4">
             {hobbyCards.map(({ title: cardTitle, bodyHtml, Icon: CardIcon }) => (
-              <div class="card bg-base-100 border border-base-300 p-4">
+              <div class="card bg-base-100 border border-base-300 p-4 print:break-inside-avoid">
                 <div class="flex items-start gap-3">
                   {CardIcon && <CardIcon class="h-5 w-5 text-primary shrink-0 mt-0.5" />}
                   <div>

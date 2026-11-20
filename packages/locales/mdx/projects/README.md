@@ -34,7 +34,7 @@ Good: *"I wanted one command that tells me which `.env` a repo is currently on. 
 
 Code goes **above the fold**, before any explanation. The install command is rendered from
 `projects.ts`, so do not repeat it here — open with the smallest snippet that does something
-real. For projects with no install line at all (a website, say), show how to run it locally. Show results in comments rather than describing them in prose:
+real. For projects with no install line at all (a website, say), show how to run it locally. A project whose code is not public has nothing to run, so it has no Examples beat. Show results in comments rather than describing them in prose:
 
 ```ts
 getCountryCode('Україна') // 'UA'
@@ -88,12 +88,55 @@ anticipation, so be specific about what's landing rather than vague about ambiti
 - **Link out generously** — to specs, to the tools being compared, to related projects. The
   `<Link>` MDX component adds the right icon for GitHub, npm, and YouTube automatically.
 
+## Sounding like a person
+
+The rules above keep an article accurate and easy to skim. These are about how it reads. The
+failure they guard against is easy to miss: every sentence is correct, and the page still sounds
+assembled.
+
+- **Say it the way you would tell a colleague.** Read the paragraph aloud. Whatever you would not
+  say across a desk gets rewritten until you would.
+- **A fact does not need its benefit attached.** "X, so Y", "X, which means Y" and "X instead of Y"
+  are fine once. When most sentences in a paragraph end that way, cut the tails a reader can work
+  out alone. One per paragraph at most.
+- **Neighbouring sentences are not built alike.** Three statements in a row of the same length and
+  shape read as a spec sheet. A short sentence next to a long one is fine where the content is
+  like that, and never for effect.
+- **An instance instead of a summary.** "It taught me a lot" says nothing. "Text copied from the
+  PDF came out as 'q uality'" is what a reader remembers. If there is no instance, cut the
+  sentence.
+- **Where something happened, tell it as it happened.** "I tried GPG first, and the passphrase
+  prompt kept showing up in the wrong place" reads as a person. A row of present-tense properties
+  reads as a manual. Keep the manual voice for tables, lists and snippets.
+- **Sub-beats do not share a template.** If every `###` goes definition, mechanism, benefit, open
+  some of them with the snippet, the problem or the mistake.
+- **Room in proportion.** The decision that took a week gets a paragraph, the obvious one gets a
+  clause or nothing. Equal paragraphs for unequal things make a page read like a filled-in form.
+- **Paragraphs lead into each other.** If they can be shuffled and nobody notices, they are a list.
+  Make them one, or connect them.
+- **Nothing written for effect.** No punchline closing a paragraph, no "it isn't X, it's Y", no
+  groups of three for the rhythm, no heading that is a slogan. A line that sounds good and adds
+  nothing gets cut.
+- **The author's own lines stay.** A joke, an aside or an odd turn of phrase is the voice. Do not
+  smooth it out, in either language.
+
 ## Bilingual
 
 Both locales ship together, always. Translate the *argument*, not the words — a literal
 translation of an English idiom usually reads worse than a fresh Ukrainian sentence making the
 same point. Executable code, identifiers and CLI output stay identical across locales; prose and
 explanatory code comments get translated.
+
+The Ukrainian text is written, not converted. Start from what the paragraph has to say and write
+it the way it would be said in Ukrainian. Sentences do not have to begin and end where the English
+ones do. Verbs carry the sentence, not verbal nouns, «я» goes where it adds something and not
+before every verb, and the dash stays wherever Ukrainian grammar puts it («Сторінки — це статичний
+HTML»), whatever the English punctuation was.
+
+No Russian words in the Ukrainian text, and no phrases built the Russian way out of Ukrainian
+words: «завдання», not «задача»; «безпосередньо», not «напряму»; «застосунок», not «додаток»;
+«здебільшого», not «в основному». `apps/www2/tests/ukrainian.test.ts` holds the list and fails
+on any of them. When a new one is caught, it goes into that list in the same change.
 
 ## Checklist before committing
 
@@ -103,3 +146,4 @@ explanatory code comments get translated.
 - [ ] No hardcoded star/download counts
 - [ ] `updatedAt` bumped in `projects.ts` for a meaningful revision
 - [ ] Both `.en.mdx` and `.uk.mdx` updated
+- [ ] Each language read aloud once, start to finish

@@ -78,6 +78,15 @@ describe('Unit weight model', () => {
       expect(Math.abs(fallback / table - 1)).toBeLessThan(0.01)
     }
   })
+
+  // The coefficients come from the D'Addario table, so Ernie Ball's sits a little further off.
+  it('stays within 2% of the Ernie Ball table', () => {
+    for (const [gauge, table] of Object.entries(BRAND_UNIT_WEIGHTS['ernie-ball-slinky'])) {
+      const { value, isWound } = parseGauge(gauge)
+      if (isWound && value < WOUND_FIT_FLOOR) continue
+      expect(Math.abs(getUnitWeight(gauge, 'nickel-wound') / table - 1)).toBeLessThan(0.02)
+    }
+  })
 })
 
 describe('Tension', () => {
