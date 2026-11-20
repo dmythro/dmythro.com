@@ -394,8 +394,8 @@ export const projects: Project[] = [
         role: { en: 'components', uk: 'компоненти' },
       },
       {
-        name: 'Cloudflare Pages',
-        url: 'https://pages.cloudflare.com/',
+        name: 'Cloudflare',
+        url: 'https://www.cloudflare.com/',
         role: { en: 'hosting', uk: 'хостинг' },
       },
       {

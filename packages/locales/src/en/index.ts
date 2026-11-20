@@ -52,7 +52,7 @@ export const en = {
   builtWith: 'Open Source',
   builtWithIntro: 'This website is fully open source and available on',
   builtWithIntroAfter:
-    'It is built entirely with open-source tools, from the framework to the linter. Only the hosting, Cloudflare Pages, is a commercial service.',
+    'It is built entirely with open-source tools, from the framework to the linter. Only the hosting, Cloudflare, is a commercial service.',
   builtWithVersions:
     'The repository holds two versions of this website. The current one runs on Astro. The previous one, on Next.js, stays as a reference that I no longer maintain. While both served the same content, either one scored 100% on PageSpeed. For a simple site like this either stack works well, and for a more complex project the choice should come from its requirements.',
   builtWithProjectsCta: 'See my other open-source projects →',
