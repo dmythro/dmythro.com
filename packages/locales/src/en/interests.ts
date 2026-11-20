@@ -4,19 +4,19 @@ export const interests = {
   webDev: {
     title: 'Web Development, Career, Education',
     description:
-      'TypeScript, Bun.js/Node.js, React, Next.js/Astro, PostgreSQL, Drizzle/Prisma ORM, Google Cloud/Vercel/self-host.',
+      'TypeScript, Bun/Node.js, React, Next.js/Astro, PostgreSQL, Drizzle/Prisma ORM, Google Cloud/Vercel/self-host.',
   },
   music: {
     title: 'Music',
     subtitle: 'Live show with Nabaath',
     description:
-      'Graduated music school with honors. I love both listening and playing music, have a small record label and record collection.',
+      'Graduated from music school with honors. I love both listening to music and playing it, and I have a small record label and a record collection.',
   },
   travel: {
     title: 'Travel',
     subtitle: 'Road trip 2021',
     description:
-      'Car trips, sunsets, night skies, camping.' +
+      'Road trips, sunsets, night skies, camping.' +
       ' Also sightseeing, museums, a bit of history and culture.',
   },
   hobbies: {

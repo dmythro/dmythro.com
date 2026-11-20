@@ -1,10 +1,10 @@
-The CRUD half of a GraphQL API is the part nobody wants to write and everybody writes anyway. The schema already knows the tables, the columns, the relations and the types — yet you still hand-author resolvers for each one, then hand-author the client types to match, then keep all three in sync forever.
+The CRUD part of a GraphQL API is the part I least like writing by hand. The database schema already describes the tables, columns, relations and types, and yet I'd still write resolvers for each table, then client types to match, and then keep the schema, resolvers and types in sync.
 
-`graphql-suite` generates that layer from a Drizzle ORM schema and keeps the types flowing through to the React hooks.
+`graphql-suite` generates that layer from a Drizzle ORM schema, and the same types carry through to the client and the React hooks.
 
 ## Examples
 
-Define the schema once, serve it:
+Generate the schema from your Drizzle database and serve it:
 
 ```ts
 import { buildSchema } from '@graphql-suite/schema'
@@ -18,7 +18,7 @@ const { schema } = buildSchema(db, {
 const yoga = createYoga({ schema })
 ```
 
-Query it with types inferred straight from the same Drizzle tables — no codegen step, no generated files to commit:
+On the client, types are inferred from the same Drizzle tables, with no codegen step and no generated files to commit:
 
 ```ts
 import { createDrizzleClient } from '@graphql-suite/client'
@@ -33,28 +33,29 @@ const users = await client.entity('user').query({
 })
 ```
 
-`users` is typed from the selection, so removing `name` from `select` turns every downstream `user.name` into a compile error.
+`users` is typed from the selection, so if you remove `name` from `select`, every later use of `user.name` becomes a compile error.
 
 ## Why it exists
 
-I started out using [`drizzle-graphql`](https://github.com/drizzle-team/drizzle-graphql), which nicely shows the idea works. But I kept missing the things that turn a generated API into one you can actually ship: filtering across relations rather than only top-level columns, hooks to run authorisation before a resolver, count queries for pagination UIs, native JSON/JSONB columns, configurable naming suffixes, self-relations with their own depth limit, and control over which tables get exposed at all.
+I started with [`drizzle-graphql`](https://github.com/drizzle-team/drizzle-graphql), which shows the idea works. But it lacked things I needed before I could ship a generated API: filtering across relations, not only on top-level columns; hooks to run authorization before a resolver; count queries for pagination; native JSON/JSONB columns; configurable naming suffixes; self-relations with their own depth limit; and control over which tables are exposed at all.
 
-At some point the wrapper was larger than the thing it wrapped, so it became its own project.
+At some point my wrapper was larger than the package it wrapped, so I made it a separate project.
 
 ## How it's different
 
 | Approach | What it is |
 | --- | --- |
-| `graphql-suite` | generated CRUD from Drizzle, plus a typed client and React hooks in the same package |
-| drizzle-graphql | the original idea — schema generation from Drizzle, without relation filtering, hooks or permissions |
-| Hasura, PostGraphile | a service in front of the database, with its own metadata, deployment and permission model |
-| Hand-written resolvers | total control, and total maintenance |
+| `graphql-suite` | CRUD generated from Drizzle, plus a typed client and React hooks |
+| drizzle-graphql | schema generation from Drizzle, where the idea started, without relation filtering, hooks or permissions |
+| Hasura | a service in front of the database, with its own metadata, deployment and permission model |
+| PostGraphile | an API generated from the Postgres schema itself, run as its own server or as a library inside your Node app, with permissions kept in Postgres roles and row-level security |
+| Hand-written resolvers | full control, and full maintenance |
 
-Use Hasura or PostGraphile if you want a database-facing product with a console and a permissions UI — they do far more than this and are operated as infrastructure. Use hand-written resolvers when your API deliberately does not mirror your tables. This suite fits the case where the API *is* mostly your schema, and you want it type-safe end to end without running another service.
+Use Hasura if you want a product in front of the database with a console and a permissions UI. It does far more than this, and you run it as infrastructure. Use PostGraphile if your schema and permissions already live in Postgres. Write resolvers by hand when your API is deliberately different from your tables. `graphql-suite` fits when the API mostly mirrors your schema and you want it type-safe end to end without running another service.
 
 ## What's inside
 
-### Three packages, three sets of peer dependencies
+### Three packages with their own peer dependencies
 
 | Import | Needs |
 | --- | --- |
@@ -62,9 +63,9 @@ Use Hasura or PostGraphile if you want a database-facing product with a console 
 | `@graphql-suite/client` | `drizzle-orm` |
 | `@graphql-suite/query` | `react`, `@tanstack/react-query` |
 
-A backend never installs React to get the schema builder. The scoped packages are the ones that actually ship — `@graphql-suite/schema`, `@graphql-suite/client` and `@graphql-suite/query` — and the umbrella `graphql-suite` depends on them under the hood as the convenient, always-consistent way to take all three. A backend-only service can install `@graphql-suite/schema` on its own and treat it as an extended `drizzle-graphql`.
+A backend doesn't have to install React to get the schema builder. Each scoped package is published on its own, so a backend-only service can install just `@graphql-suite/schema` and use it as an extended `drizzle-graphql`. The `graphql-suite` package depends on all three.
 
-### Hooks, for the logic generation can't guess
+### Hooks for logic that can't be generated
 
 ```ts
 const { schema, withPermissions } = buildSchema(db, {
@@ -92,11 +93,11 @@ const schemas = {
 }
 ```
 
-Roles are resolved into a schema per role, so an unauthorised field is absent from the schema rather than rejected at execution time.
+`withPermissions` builds a separate schema for each role, so a field a role can't read is missing from its schema, not rejected at execution time.
 
 ### React Query hooks
 
-The hooks expect both providers above them — TanStack Query's and this package's, which carries the client built with `@graphql-suite/client`:
+The hooks need two providers above them: TanStack Query's, and this package's, which holds the client built with `@graphql-suite/client`:
 
 ```tsx
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -122,18 +123,18 @@ const UserList = () => {
 }
 ```
 
-Caching, pagination and invalidation come from TanStack Query — this layer only supplies the typed keys and fetchers.
+Caching, pagination and invalidation come from TanStack Query. This package only supplies typed keys and fetchers.
 
 ## Design notes
 
-**Type inference is the headline feature.** No extra build step, no generated files in review: the client infers queries, filters and result types straight from the Drizzle schema module, so everything just works and stays exactly as type-safe as the schema itself — a table change surfaces as a type error immediately, not as a stale artefact. Codegen exists too (`buildSchemaFromDrizzle()`), but only for the one case that genuinely needs it: a client in a separate repository that cannot import the schema.
+Type inference is the main feature. The client infers queries, filters and result types from the Drizzle schema module, so there's no extra build step and no generated files to review. When a table changes, you get a type error right away instead of a stale generated file. There is codegen too (`buildSchemaFromDrizzle()`), but only for a client in a separate repository that can't import the schema.
 
-**A generated schema pays for depth twice.** Deep and self-referencing relations grow the GraphQL schema and the TypeScript types the editor has to instantiate. Depth limits (`limitRelationDepth`, `limitSelfRelationDepth` separately for self-relations), per-relation pruning and per-table toggles cut both — a tuned schema comes out up to 90% smaller, and the inferred types stay small enough that the IDE keeps up.
+Deep and self-referencing relations make both the GraphQL schema and the TypeScript types larger, and the editor has to instantiate those types. Depth limits (`limitRelationDepth`, and `limitSelfRelationDepth` for self-relations), pruning of individual relations and per-table toggles reduce both. A tuned schema comes out up to 90% smaller, and the inferred types stay small enough for the IDE to keep up.
 
-**Permissions produce schemas, not guards.** Filtering a field at execution time still advertises it in introspection. Building a schema per role means a viewer's schema genuinely does not contain the fields they cannot read.
+Permissions produce a schema per role instead of a check while the query runs. A field that is only filtered at execution time still shows up in introspection. In the schema built for the `viewer` role, the fields that role can't read don't exist at all.
 
-**One umbrella over three real packages.** The scoped packages publish in their own right; the umbrella pins matching versions of all three, so layers generated against the same types cannot drift apart in a lockfile. `graphql-suite` is the convenient, consistent default — a scoped package is the à-la-carte option.
+The `graphql-suite` package pins matching versions of all three scoped packages, so layers generated from the same types can't end up on different versions in a lockfile. I'd install it by default, and pick a single scoped package only when a service needs just that part.
 
 ## Status
 
-Live, with a documentation site of its own. PostgreSQL is the supported dialect — the generation leans on Drizzle's Postgres types, and other dialects would need their own filter mapping rather than a flag.
+It has its own documentation site. Only PostgreSQL is supported: generation relies on Drizzle's Postgres types, and another dialect would need its own filter mapping rather than a flag.

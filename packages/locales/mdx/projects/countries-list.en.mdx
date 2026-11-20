@@ -1,6 +1,6 @@
-A country dropdown is the most boring thing you can build, and back in 2014 I could not find data to fill one properly. Every list I tried had English names but no native ones, or ISO codes but no calling codes, or all of it at once inside a multi-megabyte blob built for a different problem.
+A country dropdown is about the most boring thing you can build, and in 2014 I couldn't find data to fill one properly. Some lists had English names but no native ones, others had ISO codes but no calling codes, and the ones that had everything were multi-megabyte files built for a different problem.
 
-So I assembled my own, and the idea has not changed since: one typed record per country — code, name, native name, capital, currency, calling code, continent — and nothing you did not ask for.
+So I put together my own, and the idea hasn't changed since: one record per country with the code, name, native name, capital, currency, calling code and continent, and nothing you didn't ask for.
 
 ## Examples
 
@@ -18,28 +18,26 @@ continents.EU             // 'Europe'
 languages.uk              // { name: 'Ukrainian', native: 'Українська' }
 ```
 
-Every ISO 3166-1 code and then some, zero dependencies, types included. `countries.` autocompletes in your editor, and a mistyped code is a compile error rather than an `undefined` at runtime — codes arriving from a form or an API still deserve a validation step.
+It has every ISO 3166-1 code plus a few outside the standard, no dependencies, and its own types. Your editor autocompletes `countries.`, and a mistyped code fails at compile time instead of turning into `undefined` at runtime. Codes that come from a form or an API still need validating.
 
 ## Why it exists
 
-The gap was never country names — those are everywhere. It was that a country field needs four unrelated things at once: a code to store, a label to show, a flag to render, and a calling code for the phone field. Assembling those from three packages meant three sets of country keys that disagreed with each other, plus a mapping layer to reconcile them.
-
-Keeping the fields in one record makes that class of bug impossible. Not a clever idea, which is probably why it keeps being useful.
+Country names are easy to find. A country field, though, needs four unrelated things at once: a code to store, a label to show, a flag to render and a calling code for the phone field. When I took them from three packages, I got three sets of country keys that didn't match, plus a mapping layer to reconcile them. Keeping all the fields in one record means there is nothing to reconcile. It isn't a clever idea, which is probably why it keeps being useful.
 
 ## How it's different
 
-There are good datasets in this space, and they solve genuinely different problems:
+There are good datasets for this, and each is built for a different job:
 
-| Package | Optimised for |
+| Package | Optimized for |
 | --- | --- |
-| `countries-list` | one typed record per country — codes, native names, capital, currency, phone, continent |
+| `countries-list` | one typed record per country: codes, native names, capital, currency, phone, continent |
 | `i18n-iso-countries` | country names translated into many languages |
-| `world-countries` | a large raw dataset — borders, coordinates, alternative spellings |
-| `iso-3166-1` | code conversion, and deliberately nothing else |
+| `world-countries` | a large raw dataset with borders, coordinates and alternative spellings |
+| `iso-3166-1` | converting between code formats, and nothing else |
 
-Use `i18n-iso-countries` instead if you need "Germany" rendered in Japanese — translating names across locales is its whole job and it does it better. Use `world-countries` if you need geography. This package covers the fields a form or a settings screen asks for, and that's it.
+Use `i18n-iso-countries` if you need "Germany" in Japanese. Translating names is what it's for, and it does that better. Use `world-countries` if you need geography. `countries-list` covers the fields a form or a settings screen asks for.
 
-One thing the others don't do: the same data ships to PHP through Packagist, generated from the same source.
+Unlike the others, it also ships to PHP through Packagist, generated from the same source:
 
 ```sh
 composer require annexare/countries-list
@@ -47,9 +45,9 @@ composer require annexare/countries-list
 
 ## What's inside
 
-### Currencies, as an opt-in import
+### Currencies as a separate import
 
-Full ISO 4217 — names, native names, symbols, numeric codes, minor units — lives behind its own subpath:
+The full ISO 4217 list, with names, native names, symbols, numeric codes and minor units, is behind its own subpath:
 
 ```ts
 import { currencies, getCurrency, getCurrencyByNumeric } from 'countries-list/currencies'
@@ -62,11 +60,11 @@ getCurrency('JPY')          // decimals: 0 — the yen has no minor unit
 getCurrencyByNumeric('840') // USD, for banking payloads that carry numeric codes
 ```
 
-The currencies dataset is regenerated from the official ISO 4217 list and CLDR by a script rather than edited by hand, so refreshing it after a currency change is a command instead of an afternoon.
+A script regenerates the currency data from the official ISO 4217 list and CLDR, so I don't edit it by hand. When a currency changes, updating the data is one command instead of an afternoon of manual edits.
 
-### Minimal maps for the small cases
+### Minimal maps for small cases
 
-Sometimes you want two kilobytes, not a dataset:
+Sometimes you need a couple of kilobytes, not the whole dataset:
 
 ```ts
 import countries2to3 from 'countries-list/minimal/countries.2to3.min.json'
@@ -75,7 +73,7 @@ import languageNames from 'countries-list/minimal/languages.native.min.json'
 
 ### Formats beyond JavaScript
 
-The same data is generated as JSON, CSV and SQL, so seeding a database doesn't require writing an import script first. The files ship inside the npm package — there is nothing extra to download:
+The same data is also generated as JSON, CSV and SQL, so you can seed a database without writing an import script first. The files come with the npm package, so there's nothing else to download:
 
 ```sh
 mysql app_db < node_modules/countries-list/data.sql
@@ -87,14 +85,14 @@ head -2 node_modules/countries-list/countries.csv
 
 ## Design notes
 
-**Currencies are opt-in for a reason.** The full ISO 4217 table with native names and symbols is a meaningful number of bytes, and most apps that need a country list never touch it. Putting it behind `countries-list/currencies` instead of the root export keeps the common case small — subpath exports are the cheapest bundle-size decision available, and the one most datasets skip.
+I put currencies behind `countries-list/currencies` instead of the root export because the full ISO 4217 table with native names and symbols adds a fair number of bytes, and most apps that need a country list don't use it. A subpath export keeps the common case small and costs almost nothing to set up, yet most datasets don't have one.
 
-**ISO 4217 defines no symbols.** It standardises codes, numeric codes and minor units; the `₴` and `¥` come from Unicode CLDR, a separate source with its own update cadence. Where a currency has no distinct Latin glyph, `symbol` falls back to the ISO code and the local glyph goes in `symbolNative` — `CHF` stays `CHF`, while `JPY` gives you `¥` for a Latin UI and `￥` for a Japanese one. Collapsing `symbol` and `symbolNative` into one field would have been simpler — and wrong, because a UI needs both.
+ISO 4217 doesn't define symbols. It covers codes, numeric codes and minor units, while `₴` and `¥` come from Unicode CLDR, a separate source with its own update schedule. When a currency has no distinct Latin glyph, `symbol` falls back to the ISO code and the local glyph goes into `symbolNative`. So `CHF` stays `CHF`, and `JPY` gives you `¥` for a Latin UI and `￥` for a Japanese one. A single field would have been simpler, but a UI needs both values.
 
-**`getCountryCode` looks beyond the English name.** It resolves native names ('Україна' → `UA`) and common aliases like `USA` or `UK`. One extra index in the data, and the set becomes usable for forms in any language — quietly removing a whole category of workaround.
+`getCountryCode` resolves more than the English name. It also accepts native names ('Україна' → `UA`) and common aliases like `USA` or `UK`. That costs one extra index in the data, and in return the dataset works for forms in other languages without a lookup table of your own.
 
-**I fully rewrote version 3** in TypeScript, ESM and a Bun workspaces monorepo. Everything under `dist` is generated from typed source files, including the SQL, so a data fix is one edit in one place rather than four files kept in sync by hand.
+For version 3 I rewrote the whole project in TypeScript and ESM, in a Bun workspaces monorepo. Everything under `dist` is generated from typed source files, the SQL included, so a data fix is one edit to the typed source, where it used to mean keeping four files in sync by hand.
 
 ## Status
 
-The project is live, evolving, and maintained since 2014 — by its users too, since the code is open.
+I've maintained it since 2014, and it keeps changing. The code is open, so its users help maintain it too.

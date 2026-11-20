@@ -7,7 +7,7 @@ export const skills: SkillTime[] = [
     times: ['2017-now'],
     subtitle: 'Must-have for JS projects',
     description:
-      'I work with TypeScript on a daily basis for many years for required level of type safety on a project, follow new features.',
+      "I've worked with TypeScript daily for many years to keep projects type-safe, and I follow its new features.",
   },
   {
     title: 'React',
@@ -15,25 +15,25 @@ export const skills: SkillTime[] = [
     times: ['2012-now'],
     subtitle: 'Commercial projects since 2012',
     description:
-      'I work with React non-stop since version 0.5 (2012), from class to functional and server components, hooks.',
+      "I've worked with React non-stop since version 0.5 (2012): from class components to function and server components, and hooks.",
   },
   {
-    title: 'Bun.js/Node.js',
+    title: 'Bun/Node.js',
     level: 'proficient',
     times: ['2012-now'],
-    subtitle: 'Work non-stop since early versions',
+    subtitle: 'Non-stop since the early versions',
     description: [
-      "Can't say I'm an expert because always learn/revisit APIs required for my task.",
-      "But never had issues I couldn't solve.",
+      "Can't call myself an expert, because I still learn or re-read the APIs each task needs.",
+      "But I've never had an issue I couldn't solve.",
     ],
   },
   {
     title: 'JavaScript, ESM',
     level: 'expert',
     times: ['2006-now'],
-    subtitle: "My main stack's core",
+    subtitle: 'The core of my main stack',
     description: [
-      "Been working on corporate projects when IE5-IE6 support was still required, jQuery or AJAX were a thing and async/await wasn't.",
+      "I worked on corporate projects back when IE5-IE6 support was still required, jQuery and AJAX were a thing, and async/await wasn't.",
       'Will never miss those times :)',
     ],
   },
@@ -43,25 +43,26 @@ export const skills: SkillTime[] = [
     times: ['2007-now'],
     subtitle: 'Postgres/Mongo, Prisma/Drizzle and others',
     description: [
-      'Had production experience and still work with many different databases, ORMs and DBaaS.',
-      'From common SQL/NoSQL to RDS and specific cloud ones.',
+      "I've used many different databases, ORMs and DBaaS in production, and still do.",
+      'From the common SQL/NoSQL ones to RDS and cloud-specific services.',
     ],
   },
   {
     title: 'CI/CD',
     level: 'proficient',
     times: ['2017-now'],
-    subtitle: 'Automated pipeline is a must',
-    description: 'Did pipelines to build and deploy different kinds of projects over past years.',
+    subtitle: 'An automated pipeline is a must',
+    description:
+      "Over the years I've set up build and deploy pipelines for many kinds of projects.",
   },
   {
     title: 'Frameworks',
     level: 'proficient',
     times: ['2016-now'],
-    subtitle: 'For full-stack, BE or UI',
+    subtitle: 'For full-stack, backend or UI',
     description: [
-      'Had production experience with a variety of frameworks.',
-      'From UI (HeroUI, MUI, Tailwind CSS and others) to backend (Nest.js/Express) to full-stack (Next.js, Astro).',
+      "I've used a variety of frameworks in production.",
+      'From UI (HeroUI, MUI, Tailwind CSS and others) to backend (NestJS/Express) to full-stack (Next.js, Astro).',
     ],
   },
   {
@@ -69,14 +70,14 @@ export const skills: SkillTime[] = [
     level: 'advanced',
     times: ['2017-now'],
     subtitle: 'Google Cloud, AWS, DigitalOcean, Vercel',
-    description:
-      'Have production experience with different cloud providers, participaded in audits and more.',
+    description: "I've worked with several cloud providers in production and taken part in audits.",
   },
   {
     title: 'React Native, Electron, Flutter',
     level: 'advanced',
     times: ['2014-2016', '2019-2022'],
     subtitle: 'Significant experience in cross-platform development',
-    description: "Didn't work a lot, but know enough to quickly bootstrap a project/CI, Expo etc.",
+    description:
+      "I haven't done a lot of it, but enough to quickly bootstrap a project and set up its CI, Expo and so on.",
   },
 ]

@@ -1,6 +1,6 @@
-Structured logs are the right answer in production and the wrong one on my laptop. I want one JSON object per line when a log pipeline is reading, and a readable coloured line when I am. Keeping both usually means either two logging setups or a wrapper nobody enjoys maintaining.
+In production I want structured logs, one JSON object per line for the log pipeline. On my laptop I want a readable, colored line. Getting both usually means two logging setups, or a wrapper that nobody enjoys maintaining.
 
-`jsonl-logger` does it with one environment variable and no code changes.
+With `jsonl-logger`, one environment variable switches between the two, and the code stays the same.
 
 ## Examples
 
@@ -12,7 +12,7 @@ logger.log('Neutral message', { note: 'no level icon' })
 logger.error('Request failed', { path: '/api' }, new Error('timeout'))
 ```
 
-Locally, that reads as text — coloured on a TTY, plain the moment you pipe it to a file or CI:
+Locally the output is text, colored on a TTY and plain when you pipe it to a file or run it in CI:
 
 ```ansi
 [32m18:42:05 ●[0m Server started {"port":3000}
@@ -22,7 +22,7 @@ Error: timeout
     at handler (/app/server.ts:12:9)[0m
 ```
 
-Set `LOG_FORMAT` and the same calls emit JSONL shaped for your log platform:
+With `LOG_FORMAT` set, the same calls write JSONL in the shape your log platform expects:
 
 ```sh
 LOG_FORMAT=google-cloud-logging bun run server.ts
@@ -31,26 +31,26 @@ LOG_FORMAT=google-cloud-logging bun run server.ts
 
 ## Why it exists
 
-Every logger I reached for made me choose. Pretty-printers are a separate dependency you must remember not to ship. Production loggers emit JSON everywhere, so local development becomes a wall of braces. The gap is not features — it is that the *destination* changes between environments while the *call sites* never should.
+The loggers I tried made me choose. A pretty-printer is a separate dependency you have to remember not to ship. A production logger writes JSON everywhere, so local development turns into a wall of braces.
 
-So the shape of the output became a runtime concern rather than a code concern. `LOG_LEVEL` even picks a sensible default per mode: `debug` for text, `info` for JSON, because that is what you want in each case anyway.
+So I made the output format a runtime setting, and the logging calls in the code stay the same across environments. The default `LOG_LEVEL` depends on the mode too: `debug` for text and `info` for JSON, which is what I'd pick in each case.
 
-The other reason is annoyance-driven: frameworks that hardcode plain-text logs are painful in systems that require JSON-only ingestion. Routing those through a formatter fixes it without patching the framework.
+The second reason was an annoyance. Frameworks that hardcode plain-text logs are painful in systems that only accept JSON. Passing their output through a formatter fixes that without patching the framework.
 
 ## How it's different
 
-| Package | Optimised for |
+| Package | Optimized for |
 | --- | --- |
-| `jsonl-logger` | one call site, text locally and JSONL in production, zero dependencies, ESM-only |
-| pino | throughput and a large transport/processor ecosystem |
-| winston | maximum configurability — transports, custom levels, formats |
-| consola | developer-facing CLI output and pretty reporters |
+| `jsonl-logger` | the same calls give text locally and JSONL in production; no dependencies; ESM only |
+| pino | throughput and a large ecosystem of transports and processors |
+| winston | configurability: transports, custom levels, formats |
+| consola | CLI output for developers and pretty reporters |
 
-Use pino instead if you need its transport ecosystem or its single-minded focus on throughput — and this project even emits pino's line shape, so you can pipe into `pino-pretty` and friends. Use winston if you genuinely need arbitrary transports. This one is deliberately small — and still enough for many typical projects: good local output, clean production JSON, and no logging stack to assemble.
+Use pino if you need its transports or its focus on throughput. `jsonl-logger` can also write pino's line format, so you can pipe it into `pino-pretty` and similar tools. Use winston if you need arbitrary transports. I kept this one small on purpose. For many projects that's enough, and there's no logging stack to put together.
 
 ## What's inside
 
-### Predefined formatters for the usual destinations
+### Built-in formatters for common destinations
 
 | `LOG_FORMAT` | Emits |
 | --- | --- |
@@ -60,9 +60,9 @@ Use pino instead if you need its transport ecosystem or its single-minded focus 
 | `datadog` | `status`, `dd.trace_id`, `dd.span_id` |
 | `pino` | numeric `level`, epoch `time`, `msg`, `err` |
 
-Trace context maps to whatever each destination expects — `trace.id`/`span.id` for ECS, `trace_id`/`span_id`/`trace_flags` for pino.
+Trace context goes into the fields each destination expects: `trace.id`/`span.id` for ECS, `trace_id`/`span_id`/`trace_flags` for pino.
 
-### Labels and colour, when it is text
+### Labels and color in text mode
 
 ```ts
 import { Logger } from 'jsonl-logger'
@@ -70,11 +70,11 @@ import { Logger } from 'jsonl-logger'
 const logger = new Logger({}, { labels: 'text', colors: false })
 ```
 
-`LOG_LABELS` switches between icons (`◆ ● ▲ ✖ ‼`), text labels, or nothing at all. Colour follows `FORCE_COLOR` and `NO_COLOR` before falling back to TTY detection, so it behaves in CI without being told.
+`LOG_LABELS` switches between icons (`◆ ● ▲ ✖ ‼`), text labels or no labels. For color, the logger checks `FORCE_COLOR` and `NO_COLOR` first and only then falls back to TTY detection, so it behaves correctly in CI without extra settings.
 
-### Custom formatters, because the list above is a head start, not a limit
+### Custom formatters
 
-A formatter is a small object describing the key names and how to render an entry, so an in-house log schema is a few lines rather than a fork:
+If your log schema isn't in the list, you can write a formatter: a small object with the key names and a function that renders an entry. An in-house schema takes a few lines, and you don't need to fork the library:
 
 ```ts
 import type { Formatter } from 'jsonl-logger'
@@ -92,9 +92,9 @@ const myFormatter: Formatter = {
 
 ## Design notes
 
-**The switch is an environment variable, not an API.** Making it a constructor option would mean every service re-implements the same `process.env` check, and inevitably one of them gets it wrong in a Dockerfile. Moving it into the library means the decision lives where the environment already does.
+I made the switch an environment variable rather than a constructor option. With an option, every service would repeat the same `process.env` check, and sooner or later one of them would get it wrong in a Dockerfile. The library reads the variable itself.
 
-**No `node:os` import.** Pino's `pid` and `hostname` bindings are deliberately absent, because importing `node:os` would tie the package to Node-shaped runtimes. You can add them yourself as base context, and in exchange the logger stays portable across Bun, Node and Deno.
+I left out pino's `pid` and `hostname` bindings, because getting them means importing `node:os`, and that would tie the package to Node-like runtimes. Without the import the logger runs on Bun, Node and Deno, and you can still add both fields yourself as base context:
 
 ```ts
 import os from 'node:os'
@@ -103,8 +103,8 @@ import { Logger } from 'jsonl-logger'
 const logger = new Logger({ pid: process.pid, hostname: os.hostname() })
 ```
 
-**Datadog trace IDs are passed through untouched.** Datadog's APM correlation expects IDs in its own format, and `dd-trace-js` already produces them. Silently converting OpenTelemetry's 128-bit hex IDs would look helpful and produce wrong correlations, so the library writes exactly what your `traceContext` getter returns and documents the mismatch instead.
+Datadog trace IDs are written exactly as they come in. Datadog's APM correlation expects IDs in its own format, and `dd-trace-js` already produces them that way. If the logger quietly converted OpenTelemetry's 128-bit hex IDs, the output would look fine and correlate wrongly. So it writes whatever your `traceContext` getter returns, and the docs explain the mismatch.
 
 ## Status
 
-Live and in use. ESM-only and Bun-first by design — it runs on Node and Deno, but it is not trying to support bundler setups that predate ESM.
+The package is published and in use. It's ESM-only and made for Bun first. It runs on Node and Deno too, but I'm not trying to support bundler setups older than ESM.

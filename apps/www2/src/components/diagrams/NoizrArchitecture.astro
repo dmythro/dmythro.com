@@ -1,0 +1,263 @@
+---
+import type { LocaleCode } from '@/utils/i18n'
+
+interface Props {
+  locale: LocaleCode
+}
+
+const labels = {
+  en: {
+    aria: 'Noizr architecture: the back office and the till share one domain core and one PostgreSQL database, each app and service works under its own role, and the public site can only read. Work for outside services leaves through separate queue lanes, and catalogue lookups pass one rate gate per source.',
+    caption:
+      'The back office and the till share one domain core and one database. Each app and service works under its own role and can see or change only what it is meant to, so the public site can only read. Work for outside services is queued in the same transaction as the change that caused it.',
+    web: ['noizr.com', 'zine · catalogue · events'],
+    desk: ['Back office', 'catalogue · stock · money'],
+    till: ['Till', 'cart · card · cash'],
+    terminal: ['Payment terminal', 'own POS integration'],
+    core: ['Domain core', 'catalogue · inventory ledger · carts · payouts'],
+    pg: [
+      'PostgreSQL',
+      'one schema · a role per app',
+      'full-text + trigram search',
+      'append-only ledger',
+    ],
+    queue: 'Job queue',
+    lanes: [
+      ['Lookups', 'catalogue data', 'imports · media'],
+      ['Sales', 'and returns', 'one at a time'],
+      ['Bookkeeping', 'accounting mirror', 'one at a time'],
+    ],
+    gate: ['Rate gate per source', 'background work yields to people'],
+    catalogues: 'Catalogues',
+    ai: 'AI',
+    aiTasks: [['cover recognition'], ['data shaping']],
+    money: 'Money',
+    fiscal: 'fiscal receipts',
+    accounting: 'accounting',
+    partnerReports: 'partner reports',
+    taxReports: 'tax reports',
+    partnerData: { name: 'Partner data', w: 92 },
+    moreSources: '+ more',
+    arrows: {
+      web: 'read-only',
+      desk: 'stock · edit · QR labels',
+      till: 'sell · return',
+      pg: 'one transaction',
+      queue: 'enqueue, same transaction',
+      live: 'live lookups',
+      paced: 'paced',
+      pay: 'pay',
+      receipt: 'idempotent',
+      outbox: ['outbox · retries'],
+    },
+  },
+  uk: {
+    aria: 'Як улаштовано Noizr: бекофіс і каса працюють через спільне ядро й одну базу PostgreSQL, кожен застосунок і сервіс має власну роль, а публічний сайт може тільки читати. Завдання для зовнішніх сервісів ідуть через окремі потоки черги завдань, а запити до каталогів — через обмежувач запитів для кожного джерела.',
+    caption:
+      'Бекофіс і каса працюють через спільне ядро й одну базу даних. Кожен застосунок і сервіс працює під власною роллю й бачить та змінює лише те, що йому належить, тож публічний сайт може тільки читати. Завдання для зовнішніх сервісів стають у чергу в тій самій транзакції, що й зміна, яка їх спричинила.',
+    web: ['noizr.com', 'журнал · каталог · події'],
+    desk: ['Бекофіс', 'каталог · склад · гроші'],
+    till: ['Каса', 'кошик · картка · готівка'],
+    terminal: ['Платіжний термінал', 'власна POS-інтеграція'],
+    core: ['Ядро системи', 'каталог · партії · кошики · виплати'],
+    pg: [
+      'PostgreSQL',
+      'одна схема · роль на застосунок',
+      'повнотекстовий + триграмний пошук',
+      'реєстр рухів: лише дописування',
+    ],
+    queue: 'Черга завдань',
+    lanes: [
+      ['Пошук', 'дані з каталогів', 'імпорт · медіа'],
+      ['Продажі', 'і повернення', 'послідовно'],
+      ['Облік', 'рухи товару й грошей', 'послідовно'],
+    ],
+    gate: ['Обмежувач запитів на джерело', 'фонові завдання пропускають людей уперед'],
+    catalogues: 'Каталоги',
+    ai: 'AI',
+    aiTasks: [
+      ['розпізнавання', 'обкладинок'],
+      ['структурування', 'даних'],
+    ],
+    money: 'Гроші',
+    fiscal: 'фіскальні чеки',
+    accounting: 'бухгалтерія',
+    partnerReports: 'звіти партнерам',
+    taxReports: 'податкові звіти',
+    partnerData: { name: 'Дані партнерів', w: 112 },
+    moreSources: '+ інші',
+    arrows: {
+      web: 'лише читання',
+      desk: 'склад · правки · QR-наліпки',
+      till: 'продаж · повернення',
+      pg: 'одна транзакція',
+      queue: 'у чергу в тій самій транзакції',
+      live: 'живі запити',
+      paced: 'дозовано',
+      pay: 'оплата',
+      receipt: 'ідемпотентно',
+      outbox: ['outbox', 'повторні спроби'],
+    },
+  },
+} satisfies Record<LocaleCode, unknown>
+
+const { locale } = Astro.props
+const l = labels[locale]
+
+const lanes = [
+  { x: 304, label: l.lanes[0] },
+  { x: 456, label: l.lanes[1] },
+  { x: 608, label: l.lanes[2] },
+]
+const catalogueChips = [
+  { x: 30, y: 492, w: 62, name: 'Discogs' },
+  { x: 100, y: 492, w: 86, name: 'MusicBrainz' },
+  { x: 194, y: 492, w: 90, name: 'Google Books' },
+  { x: 30, y: 530, w: l.partnerData.w, name: l.partnerData.name },
+  { x: 38 + l.partnerData.w, y: 530, w: 62, name: l.moreSources, isMore: true },
+]
+const aiChips = l.aiTasks.map((lines, i) => ({ y: 486 + i * 44, lines }))
+const moneyChips = [
+  { x: 460, y: 484, name: l.fiscal },
+  { x: 612, y: 484, name: l.accounting },
+  { x: 460, y: 528, name: l.partnerReports },
+  { x: 612, y: 528, name: l.taxReports },
+]
+const staffFronts = [
+  { x: 215, w: 160, label: l.desk, arrow: l.arrows.desk },
+  { x: 390, w: 155, label: l.till, arrow: l.arrows.till },
+]
+---
+
+<figure class="not-prose my-8">
+  {/* A column narrower than the diagram scrolls it sideways; the shadow says so. */}
+  <div class="scroll-shadow-x rounded-lg focus-visible:outline-2 focus-visible:outline-primary" tabindex="0">
+    <svg
+      viewBox="0 0 780 592"
+      role="img"
+      aria-label={l.aria}
+      class="w-full min-w-[590px] h-auto text-base-content"
+      font-family="inherit"
+    >
+      <defs>
+        <marker id="noizr-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" class="fill-current opacity-60" />
+        </marker>
+        <marker id="noizr-arrow-primary" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" class="fill-primary" />
+        </marker>
+      </defs>
+
+      {/* Public site → PostgreSQL, past the core */}
+      <rect x="20" y="16" width="185" height="56" rx="10" class="fill-base-200 stroke-current" stroke-opacity="0.3" />
+      <text x="112.5" y="40" text-anchor="middle" font-size="13" font-weight="600" fill="currentColor">{l.web[0]}</text>
+      <text x="112.5" y="58" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.65">{l.web[1]}</text>
+      <line x1="112.5" y1="72" x2="112.5" y2="230" class="stroke-current" stroke-opacity="0.5" stroke-width="1.5" marker-end="url(#noizr-arrow)" />
+      <text x="119.5" y="100" font-size="11" fill="currentColor" fill-opacity="0.65">{l.arrows.web}</text>
+
+      {/* Back office and till → core */}
+      {staffFronts.map(({ x, w, label, arrow }) => (
+        <g>
+          <rect x={x} y="16" width={w} height="56" rx="10" class="fill-base-200 stroke-current" stroke-opacity="0.3" />
+          <text x={x + w / 2} y="40" text-anchor="middle" font-size="13" font-weight="600" fill="currentColor">{label[0]}</text>
+          <text x={x + w / 2} y="58" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.65">{label[1]}</text>
+          <line x1={x + w / 2} y1="72" x2={x + w / 2} y2="118" class="stroke-current" stroke-opacity="0.5" stroke-width="1.5" marker-end="url(#noizr-arrow)" />
+          <text x={x + w / 2 + 7} y="100" font-size="11" fill="currentColor" fill-opacity="0.65">{arrow}</text>
+        </g>
+      ))}
+
+      {/* Till → payment terminal */}
+      <rect x="595" y="16" width="165" height="56" rx="10" class="fill-base-200 stroke-current" stroke-opacity="0.3" />
+      <text x="677.5" y="40" text-anchor="middle" font-size="13" font-weight="600" fill="currentColor">{l.terminal[0]}</text>
+      <text x="677.5" y="58" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.65">{l.terminal[1]}</text>
+      <line x1="545" y1="44" x2="593" y2="44" class="stroke-current" stroke-opacity="0.5" stroke-width="1.5" marker-end="url(#noizr-arrow)" />
+      <text x="569" y="36" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.65">{l.arrows.pay}</text>
+
+      {/* Core */}
+      <rect x="215" y="120" width="545" height="56" rx="10" class="fill-base-300 stroke-current" stroke-opacity="0.45" stroke-width="1.5" />
+      <text x="487.5" y="144" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor">{l.core[0]}</text>
+      <text x="487.5" y="163" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.65">{l.core[1]}</text>
+
+      {/* Core → PostgreSQL */}
+      <line x1="240" y1="176" x2="240" y2="230" class="stroke-current" stroke-opacity="0.5" stroke-width="1.5" marker-end="url(#noizr-arrow)" />
+      <text x="233" y="208" text-anchor="end" font-size="11" fill="currentColor" fill-opacity="0.65">{l.arrows.pg}</text>
+      <rect x="20" y="232" width="240" height="104" rx="10" class="fill-base-200 stroke-current" stroke-opacity="0.3" />
+      <text x="140" y="258" text-anchor="middle" font-size="14" font-weight="700" fill="currentColor">{l.pg[0]}</text>
+      <text x="140" y="280" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.65">{l.pg[1]}</text>
+      <text x="140" y="298" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.65">{l.pg[2]}</text>
+      <text x="140" y="316" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.65">{l.pg[3]}</text>
+
+      {/* Core → rate gate, live */}
+      <line x1="275" y1="176" x2="275" y2="378" class="stroke-primary" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#noizr-arrow-primary)" />
+      <text x="282" y="362" font-size="11" class="fill-primary">{l.arrows.live}</text>
+
+      {/* Core → queue */}
+      <line x1="526" y1="176" x2="526" y2="230" class="stroke-primary" stroke-width="1.5" marker-end="url(#noizr-arrow-primary)" />
+      <text x="533" y="208" font-size="11" class="fill-primary">{l.arrows.queue}</text>
+
+      {/* Queue lanes */}
+      <rect x="290" y="232" width="470" height="104" rx="10" class="fill-base-200 stroke-primary" stroke-opacity="0.6" stroke-width="1.5" />
+      <text x="304" y="252" font-size="12" font-weight="700" class="fill-primary">{l.queue}</text>
+      {lanes.map(({ x, label }) => (
+        <g>
+          <rect x={x} y="262" width="140" height="62" rx="8" class="fill-base-100 stroke-primary" stroke-opacity="0.5" />
+          <text x={x + 70} y="281" text-anchor="middle" font-size="12" font-weight="600" fill="currentColor">{label[0]}</text>
+          <text x={x + 70} y="298" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.65">{label[1]}</text>
+          <text x={x + 70} y="313" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.65">{label[2]}</text>
+        </g>
+      ))}
+
+      {/* Lookups lane → rate gate, and → AI */}
+      <path d="M356 324 L356 399 L292 399" fill="none" class="stroke-primary" stroke-width="1.5" marker-end="url(#noizr-arrow-primary)" />
+      <line x1="408" y1="324" x2="408" y2="458" class="stroke-primary" stroke-width="1.5" marker-end="url(#noizr-arrow-primary)" />
+
+      {/* Rate gate */}
+      <rect x="20" y="380" width="270" height="38" rx="8" class="fill-primary/10 stroke-primary" stroke-width="1.5" />
+      <text x="155" y="396" text-anchor="middle" font-size="12" font-weight="700" class="fill-primary">{l.gate[0]}</text>
+      <text x="155" y="411" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.7">{l.gate[1]}</text>
+
+      {/* Rate gate → catalogues */}
+      <line x1="155" y1="418" x2="155" y2="458" class="stroke-primary" stroke-width="1.5" marker-end="url(#noizr-arrow-primary)" />
+      <text x="162" y="443" font-size="11" class="fill-primary">{l.arrows.paced}</text>
+
+      {/* Serial lanes → money */}
+      <line x1="526" y1="324" x2="526" y2="458" class="stroke-primary" stroke-width="1.5" marker-end="url(#noizr-arrow-primary)" />
+      <text x="519" y="404" text-anchor="end" font-size="11" class="fill-primary">{l.arrows.receipt}</text>
+      <line x1="678" y1="324" x2="678" y2="458" class="stroke-primary" stroke-width="1.5" marker-end="url(#noizr-arrow-primary)" />
+      {l.arrows.outbox.map((line, i) => (
+        <text x="671" y={404 - (l.arrows.outbox.length - 1) * 7 + i * 14} text-anchor="end" font-size="11" class="fill-primary">{line}</text>
+      ))}
+
+      {/* External groups */}
+      <rect x="20" y="460" width="270" height="116" rx="10" fill="none" class="stroke-current" stroke-opacity="0.35" stroke-dasharray="5 4" />
+      <text x="30" y="478" font-size="11" font-weight="600" fill="currentColor" fill-opacity="0.7">{l.catalogues}</text>
+      {catalogueChips.map(({ x, y, w, name, isMore }) => (
+        <g>
+          <rect x={x} y={y} width={w} height="30" rx="15" class="fill-base-200 stroke-current" stroke-opacity="0.3" stroke-dasharray={isMore ? '4 3' : undefined} />
+          <text x={x + w / 2} y={y + 19} text-anchor="middle" font-size="12" fill="currentColor">{name}</text>
+        </g>
+      ))}
+
+      <rect x="306" y="460" width="130" height="116" rx="10" fill="none" class="stroke-current" stroke-opacity="0.35" stroke-dasharray="5 4" />
+      <text x="316" y="478" font-size="11" font-weight="600" fill="currentColor" fill-opacity="0.7">{l.ai}</text>
+      {aiChips.map(({ y, lines }) => (
+        <g>
+          <rect x="314" y={y} width="114" height="38" rx="12" class="fill-base-200 stroke-current" stroke-opacity="0.3" />
+          {lines.map((line, i) => (
+            <text x="371" y={y + (lines.length === 1 ? 23 : 16 + i * 14)} text-anchor="middle" font-size="11" fill="currentColor">{line}</text>
+          ))}
+        </g>
+      ))}
+
+      <rect x="452" y="460" width="308" height="116" rx="10" fill="none" class="stroke-current" stroke-opacity="0.35" stroke-dasharray="5 4" />
+      <text x="462" y="478" font-size="11" font-weight="600" fill="currentColor" fill-opacity="0.7">{l.money}</text>
+      {moneyChips.map(({ x, y, name }) => (
+        <g>
+          <rect x={x} y={y} width="132" height="36" rx="12" class="fill-base-200 stroke-current" stroke-opacity="0.3" />
+          <text x={x + 66} y={y + 22} text-anchor="middle" font-size="12" fill="currentColor">{name}</text>
+        </g>
+      ))}
+    </svg>
+  </div>
+  <figcaption class="text-xs text-base-content/65 text-center pt-2">{l.caption}</figcaption>
+</figure>

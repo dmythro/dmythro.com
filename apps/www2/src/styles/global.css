@@ -289,6 +289,79 @@ main a[href^='http'] .link-icon {
   white-space: nowrap;
 }
 
+/* Sideways scroller that fades the edge where more content is hidden, so a clipped
+   diagram reads as scrollable. The fade follows the scroll position with no script,
+   and the timeline is inactive when nothing overflows, which leaves it unmasked. */
+@property --scroll-shadow-start {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --scroll-shadow-end {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+.scroll-shadow-x {
+  overflow-x: auto;
+}
+
+@supports (animation-timeline: scroll()) {
+  .scroll-shadow-x {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 var(--scroll-shadow-start),
+      #000 calc(100% - var(--scroll-shadow-end)),
+      transparent
+    );
+    animation: scroll-shadow-x 1ms linear both;
+    animation-timeline: scroll(x self);
+  }
+}
+
+/* Browsers without scroll timelines get the older trick: shadows fixed to the frame,
+   each hidden by a cover that scrolls away with the content. */
+@supports not (animation-timeline: scroll()) {
+  .scroll-shadow-x {
+    background:
+      linear-gradient(to right, var(--color-base-100) 30%, transparent) left center / 3rem 100%
+      no-repeat local,
+      linear-gradient(to left, var(--color-base-100) 30%, transparent) right center / 3rem 100%
+      no-repeat local,
+      radial-gradient(
+        farthest-side at 0 50%,
+        color-mix(in oklch, var(--color-base-content) 30%, transparent),
+        transparent
+      )
+      left center / 0.9rem 100% no-repeat scroll,
+      radial-gradient(
+        farthest-side at 100% 50%,
+        color-mix(in oklch, var(--color-base-content) 30%, transparent),
+        transparent
+      )
+      right center / 0.9rem 100% no-repeat scroll;
+  }
+}
+
+@keyframes scroll-shadow-x {
+  0% {
+    --scroll-shadow-start: 0px;
+    --scroll-shadow-end: 2.5rem;
+  }
+  10%,
+  90% {
+    --scroll-shadow-start: 2.5rem;
+    --scroll-shadow-end: 2.5rem;
+  }
+  100% {
+    --scroll-shadow-start: 2.5rem;
+    --scroll-shadow-end: 0px;
+  }
+}
+
 /* Sticky sidebars still scroll internally when taller than the viewport, but the
    scrollbar itself is hidden — it competed with the content for attention. */
 aside.overflow-y-auto {
