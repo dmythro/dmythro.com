@@ -16,7 +16,10 @@ export const skills: SkillTime[] = [
     level: 'expert',
     times: ['2017-now'],
     subtitle: 'Must-have for JS projects',
-    description: 'Daily since 2017, on every project. I keep up with new language features.',
+    description: [
+      'Daily since 2017, on every project. I prefer a single source of truth and type inference: types come from the schema or the code and are not written twice.',
+      'I keep up with new language features.',
+    ],
   },
   {
     title: 'React',
@@ -24,7 +27,7 @@ export const skills: SkillTime[] = [
     times: ['2013-now'],
     subtitle: 'Commercial projects since 2013',
     description:
-      'Non-stop since version 0.5 (2013): class components, then function and server components and hooks.',
+      'Non-stop since version 0.5 (2013), from class components to function and server components and hooks. Countless projects and performance optimizations.',
   },
   {
     title: 'Cloud & CI/CD',
