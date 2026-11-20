@@ -304,8 +304,12 @@ main a[href^='http'] .link-icon {
   initial-value: 0px;
 }
 
+/* The `animation` shorthand and its timeline sit in separate rules on purpose: in one rule
+   the build's minifier folds the timeline into the shorthand, browsers reject that, and
+   the fade is lost on the built site only. */
 .scroll-shadow-x {
   overflow-x: auto;
+  animation: scroll-shadow-x 1ms linear both;
 }
 
 @supports (animation-timeline: scroll()) {
@@ -317,7 +321,6 @@ main a[href^='http'] .link-icon {
       #000 calc(100% - var(--scroll-shadow-end)),
       transparent
     );
-    animation: scroll-shadow-x 1ms linear both;
     animation-timeline: scroll(x self);
   }
 }
