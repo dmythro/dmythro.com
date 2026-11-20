@@ -35,17 +35,10 @@ function isActive(href: string): boolean {
 const otherLocale = availableLocales.find((l) => l !== locale) || locale
 ---
 
-{/* No backdrop filter on the header: with one, iOS Safari won't extend the header's colour
-    into the strip under its collapsed address bar. The ::before strip covers that area
-    where Safari leaves it open; on the home page the hero sits above the navbar instead. */}
+{/* No backdrop filter here: with one, iOS Safari stops extending the header's colour into
+    the strip under its collapsed address bar, and scrolled content shows above the navbar. */}
 <header
-  class:list={[
-    'bg-base-200 border-b border-base-300 z-50 no-print sticky top-0',
-    !isHeroPage && [
-      'before:pointer-events-none before:absolute before:inset-x-0 before:bottom-full before:h-32',
-      'before:bg-base-200/80 before:backdrop-blur-xl',
-    ],
-  ]}
+  class="bg-base-200 border-b border-base-300 z-50 no-print sticky top-0"
   id="main-navbar"
 >
   {/* Scroll hint — pulsing arrow, visible only when hero avatar is on screen */}
