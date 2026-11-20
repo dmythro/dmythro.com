@@ -7,8 +7,8 @@ export const skills: SkillTime[] = [
     times: ['2024-now'],
     subtitle: 'Agents under my architecture and review',
     description: [
-      'Coding agents write much of the code on my projects, under an architecture and rules I set. Every change passes type checks, tests and an automated review, and I read it before it is merged.',
-      'I publish the agent skills that came out of this work.',
+      'Coding agents write much of the code on my projects, under an architecture and rules I set. Every change passes type checks, tests and an automated review. I check everything myself before the merge.',
+      'I publish and update the agent skills that come out of this work.',
     ],
   },
   {
