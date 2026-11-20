@@ -15,7 +15,7 @@ const { id, title, items } = Astro.props
   {/* A timeline opens its own sheet — skills flow on, but these are long enough that
       starting mid-page reads as a continuation of the block above. */}
   {title && (
-    <h3 id={id} class:list={['font-semibold my-6 text-2xl print:break-before-page print:break-after-avoid', id && 'scroll-mt-24']}>
+    <h3 id={id} class:list={['font-semibold my-6 print:mt-0 print:mb-3 text-2xl print:break-before-page print:break-after-avoid', id && 'scroll-mt-24']}>
       {title}
     </h3>
   )}

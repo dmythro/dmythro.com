@@ -12,13 +12,12 @@ interface Props {
 const { id, title, items, isExpanded = false } = Astro.props
 ---
 
-<div>
-  {/* No forced break: the skills grid flows on, and forcing one leaves this wrapper
-      alone at the foot of the page — which Safari prints as a blank sheet. */}
+{/* Kept on one sheet: the grid reads as a whole, and it is shorter than a page. */}
+<div class="print:break-inside-avoid">
   {title && (
     <h3
       id={id}
-      class:list={['font-semibold my-6 text-2xl print:break-after-avoid', id && 'scroll-mt-24']}
+      class:list={['font-semibold my-6 print:mt-0 print:mb-3 text-2xl print:break-after-avoid', id && 'scroll-mt-24']}
     >
       {title}
     </h3>

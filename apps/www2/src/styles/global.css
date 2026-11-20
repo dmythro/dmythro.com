@@ -383,11 +383,27 @@ aside.overflow-y-auto::-webkit-scrollbar {
   -webkit-backdrop-filter: blur(4px);
 }
 
+/* Skill cards drifted out of line across a row, because a one-line subtitle and a
+   two-line one push their body text to different heights. Subgrid binds all three
+   bands to shared row tracks, so they line up whatever the copy does. The padding
+   moves onto the card since the body no longer generates a box. */
+.skills-grid > .card {
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  row-gap: 0.5rem;
+  padding: 1rem;
+}
+
+.skills-grid > .card > .card-body {
+  display: contents;
+}
+
 /* Without a declared margin Safari lays out a CSS pixel as a point. `cv-to-pdf`
    appends its own `@page`, since this would override the margin it passes Chrome. */
 @page {
   size: A4;
-  margin: 15mm;
+  margin: 12mm;
 }
 
 /* Print styles */
@@ -430,7 +446,13 @@ aside.overflow-y-auto::-webkit-scrollbar {
     content-visibility: visible !important;
     display: block !important;
     max-height: none !important;
-    padding-bottom: 1rem !important;
+    padding: 0 0.75rem 0.5rem !important;
+  }
+
+  /* Tighter than on screen, so the FAQ ends on the sheet it starts on. */
+  .collapse-title {
+    min-height: 0 !important;
+    padding: 0.5rem 0.75rem 0.25rem !important;
   }
 
   /* A margin trailing the last block of a section can spill past the page bottom on
@@ -445,6 +467,23 @@ aside.overflow-y-auto::-webkit-scrollbar {
      column of grid rows. Block flow here is pixel-identical and lets entries break. */
   .timeline {
     display: block;
+  }
+
+  /* A paragraph that breaks across sheets takes at least two lines with it, so a
+     timeline never ends with one stray word on a sheet of its own. */
+  .cv-article p {
+    orphans: 2;
+    widows: 2;
+  }
+
+  /* Tighter than on screen: a section should end on the sheet it starts on. */
+  .cv-article .prose :where(p) {
+    margin-block: 0.6em;
+  }
+
+  .cv-article figure {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 
   /* Safari honours the legacy names more reliably than the `break-*` Tailwind emits. */
@@ -462,19 +501,14 @@ aside.overflow-y-auto::-webkit-scrollbar {
     page-break-inside: avoid;
   }
 
-  /* Skill cards drifted out of line across a row, because a one-line subtitle and a
-     two-line one push their body text to different heights. Subgrid binds all three
-     bands to shared row tracks, so they line up whatever the copy does. The padding
-     moves onto the card since the body no longer generates a box. */
   .skills-grid > .card {
-    display: grid;
-    grid-row: span 3;
-    grid-template-rows: subgrid;
     padding: 0.75rem;
   }
 
-  .skills-grid > .card > .card-body {
-    display: contents;
+  /* Smaller than on screen, so the FAQ ends on the sheet it starts on. */
+  #faq-list .prose {
+    font-size: 0.75rem;
+    line-height: 1.5;
   }
 
   .collapse-title::after {
