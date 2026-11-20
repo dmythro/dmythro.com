@@ -2,20 +2,50 @@ import type { SkillTime } from '../types'
 
 export const skills: SkillTime[] = [
   {
-    title: 'TypeScript',
+    title: 'Розробка з ШІ',
     level: 'proficient',
+    times: ['2024-now'],
+    subtitle: "Агенти працюють за моєю архітектурою й під моїм рев'ю",
+    description: [
+      "У моїх проєктах чималу частину коду пишуть ШІ-агенти, за архітектурою та правилами, які задаю я. Кожна зміна проходить перевірку типів, тести й автоматичне рев'ю, а перед злиттям я читаю її сам.",
+      'Із цієї роботи виросли навички для агентів, які я публікую.',
+    ],
+  },
+  {
+    title: 'TypeScript',
+    level: 'expert',
     times: ['2017-now'],
     subtitle: "Для JS-проєктів вважаю обов'язковим",
-    description:
-      'Уже багато років щодня пишу на TypeScript, бо з ним типи в проєкті під контролем. Стежу за новими можливостями мови.',
+    description: 'Щодня з 2017 року, у кожному проєкті. Стежу за новими можливостями мови.',
   },
   {
     title: 'React',
     level: 'expert',
-    times: ['2012-now'],
-    subtitle: 'Комерційні проєкти з 2012 року',
+    times: ['2013-now'],
+    subtitle: 'Комерційні проєкти з 2013 року',
     description:
-      'Працюю з React без перерв ще з версії 0.5 (2012): класові компоненти, функціональні, серверні, хуки.',
+      'Без перерв ще з версії 0.5 (2013): класові компоненти, потім функціональні й серверні, хуки.',
+  },
+  {
+    title: 'Хмари та CI/CD',
+    level: 'proficient',
+    times: ['2017-now'],
+    subtitle: 'Google Cloud, AWS, DigitalOcean, Vercel, Cloudflare',
+    description: [
+      "Автоматизований пайплайн вважаю обов'язковим і налаштовував такі для різних проєктів.",
+      'Багато чого тримаю на власній інфраструктурі, зокрема збірку підписаних застосунків для macOS.',
+      'Брав участь в аудитах інфраструктури та безпеки.',
+    ],
+  },
+  {
+    title: 'DB, SQL, ORM',
+    level: 'proficient',
+    times: ['2007-now'],
+    subtitle: 'Зараз PostgreSQL і Drizzle ORM',
+    description: [
+      'Раніше: Prisma, TypeORM, MongoDB, MySQL, MSSQL, SQLite.',
+      'Valkey для кешу й лімітів.',
+    ],
   },
   {
     title: 'Bun/Node.js',
@@ -38,46 +68,21 @@ export const skills: SkillTime[] = [
     ],
   },
   {
-    title: 'DB, RDS, ORM',
-    level: 'proficient',
-    times: ['2007-now'],
-    subtitle: 'Postgres/Mongo, Prisma/Drizzle та інші',
-    description: [
-      'У комерційних проєктах працював і працюю з багатьма базами даних, ORM та DBaaS.',
-      'Від поширених SQL/NoSQL до RDS і суто хмарних сервісів.',
-    ],
-  },
-  {
-    title: 'CI/CD',
-    level: 'proficient',
-    times: ['2017-now'],
-    subtitle: "Автоматизований пайплайн вважаю обов'язковим",
-    description:
-      'Останніми роками налаштовував пайплайни збірки й розгортання для різних проєктів.',
-  },
-  {
     title: 'Фреймворки',
     level: 'proficient',
     times: ['2016-now'],
-    subtitle: 'Для full-stack, бекенду чи UI',
+    subtitle: 'Для full-stack, API та UI',
     description: [
-      'Працював із багатьма фреймворками в реальних проєктах.',
-      'Від UI (HeroUI, MUI, Tailwind CSS та інші) до бекенду (NestJS/Express) і full-stack (Next.js, Astro).',
+      'Зараз: Next.js і Astro; для API — Elysia та Hono з моїм graphql-suite; для UI — HeroUI і Tailwind CSS.',
+      'Раніше: NestJS, Express, MUI, Gatsby.',
     ],
   },
   {
-    title: 'Хмарні провайдери',
-    level: 'advanced',
-    times: ['2017-now'],
-    subtitle: 'Google Cloud, AWS, DigitalOcean, Vercel',
-    description: 'Працював із різними хмарними провайдерами, брав участь в аудитах.',
-  },
-  {
-    title: 'React Native, Electron, Flutter',
+    title: 'React Native, Electron, Tauri',
     level: 'advanced',
     times: ['2014-2016', '2019-2022'],
     subtitle: 'Суттєвий досвід кросплатформної розробки',
     description:
-      'Працював із цим не так багато, але достатньо, щоб швидко запустити проєкт, CI, Expo тощо.',
+      'Кілька років Electron у Luxoft, застосунки на React Native в Peppy Health, а зараз Plugoist — застосунок на Tauri (Rust, React і HeroUI v3). Швидко запускаю проєкт і налаштовую CI, Expo тощо.',
   },
 ]

@@ -7,14 +7,13 @@ interface Props {
 
 const labels = {
   en: {
-    aria: 'Noizr architecture: the back office and the till share one domain core and one PostgreSQL database, each app and service works under its own role, and the public site can only read. Work for outside services leaves through separate queue lanes, and catalogue lookups pass one rate gate per source.',
-    caption:
-      'The back office and the till share one domain core and one database. Each app and service works under its own role and can see or change only what it is meant to, so the public site can only read. Work for outside services is queued in the same transaction as the change that caused it.',
-    web: ['noizr.com', 'zine · catalogue · events'],
-    desk: ['Back office', 'catalogue · stock · money'],
+    aria: 'Noizr architecture: the back office and the till share one core and one PostgreSQL database, each app and service works under its own role, and the public site can only read. Work for outside services leaves through separate queue lanes, and catalog lookups pass one rate gate per source.',
+    caption: 'The parts of the system and how data moves between them.',
+    web: ['noizr.com', 'zine · catalog · events'],
+    desk: ['Back office', 'catalog · stock · money'],
     till: ['Till', 'cart · card · cash'],
     terminal: ['Payment terminal', 'own POS integration'],
-    core: ['Domain core', 'catalogue · inventory ledger · carts · payouts'],
+    core: ['Shared core', 'catalog · inventory ledger · carts · payouts'],
     pg: [
       'PostgreSQL',
       'one schema · a role per app',
@@ -23,12 +22,12 @@ const labels = {
     ],
     queue: 'Job queue',
     lanes: [
-      ['Lookups', 'catalogue data', 'imports · media'],
+      ['Lookups', 'catalog data', 'imports · media'],
       ['Sales', 'and returns', 'one at a time'],
       ['Bookkeeping', 'accounting mirror', 'one at a time'],
     ],
     gate: ['Rate gate per source', 'background work yields to people'],
-    catalogues: 'Catalogues',
+    catalogues: 'Catalogs',
     ai: 'AI',
     aiTasks: [['cover recognition'], ['data shaping']],
     money: 'Money',
@@ -53,8 +52,7 @@ const labels = {
   },
   uk: {
     aria: 'Як улаштовано Noizr: бекофіс і каса працюють через спільне ядро й одну базу PostgreSQL, кожен застосунок і сервіс має власну роль, а публічний сайт може тільки читати. Завдання для зовнішніх сервісів ідуть через окремі потоки черги завдань, а запити до каталогів — через обмежувач запитів для кожного джерела.',
-    caption:
-      'Бекофіс і каса працюють через спільне ядро й одну базу даних. Кожен застосунок і сервіс працює під власною роллю й бачить та змінює лише те, що йому належить, тож публічний сайт може тільки читати. Завдання для зовнішніх сервісів стають у чергу в тій самій транзакції, що й зміна, яка їх спричинила.',
+    caption: 'Частини системи і те, як між ними рухаються дані.',
     web: ['noizr.com', 'журнал · каталог · події'],
     desk: ['Бекофіс', 'каталог · склад · гроші'],
     till: ['Каса', 'кошик · картка · готівка'],
@@ -74,7 +72,7 @@ const labels = {
     ],
     gate: ['Обмежувач запитів на джерело', 'фонові завдання пропускають людей уперед'],
     catalogues: 'Каталоги',
-    ai: 'AI',
+    ai: 'ШІ',
     aiTasks: [
       ['розпізнавання', 'обкладинок'],
       ['структурування', 'даних'],

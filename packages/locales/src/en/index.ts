@@ -125,6 +125,7 @@ export const en = {
       with: 'With',
       publishedBy: 'Published via',
       on: 'on',
+      language: 'Language',
       builtWith: 'Built with',
       started: 'Started',
       updated: 'Updated',

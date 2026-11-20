@@ -2,20 +2,50 @@ import type { SkillTime } from '../types'
 
 export const skills: SkillTime[] = [
   {
-    title: 'TypeScript',
+    title: 'AI-Assisted Development',
     level: 'proficient',
+    times: ['2024-now'],
+    subtitle: 'Agents under my architecture and review',
+    description: [
+      'Coding agents write much of the code on my projects, under an architecture and rules I set. Every change passes type checks, tests and an automated review, and I read it before it is merged.',
+      'I publish the agent skills that came out of this work.',
+    ],
+  },
+  {
+    title: 'TypeScript',
+    level: 'expert',
     times: ['2017-now'],
     subtitle: 'Must-have for JS projects',
-    description:
-      "I've worked with TypeScript daily for many years to keep projects type-safe, and I follow its new features.",
+    description: 'Daily since 2017, on every project. I keep up with new language features.',
   },
   {
     title: 'React',
     level: 'expert',
-    times: ['2012-now'],
-    subtitle: 'Commercial projects since 2012',
+    times: ['2013-now'],
+    subtitle: 'Commercial projects since 2013',
     description:
-      "I've worked with React non-stop since version 0.5 (2012): from class components to function and server components, and hooks.",
+      'Non-stop since version 0.5 (2013): class components, then function and server components and hooks.',
+  },
+  {
+    title: 'Cloud & CI/CD',
+    level: 'proficient',
+    times: ['2017-now'],
+    subtitle: 'Google Cloud, AWS, DigitalOcean, Vercel, Cloudflare',
+    description: [
+      "An automated pipeline is a must, and I've set them up for many kinds of projects.",
+      'I self-host a lot too, including builds of signed apps for macOS.',
+      'Took part in infrastructure and security audits.',
+    ],
+  },
+  {
+    title: 'DB, SQL, ORM',
+    level: 'proficient',
+    times: ['2007-now'],
+    subtitle: 'PostgreSQL and Drizzle ORM today',
+    description: [
+      'Earlier: Prisma, TypeORM, MongoDB, MySQL, MSSQL, SQLite.',
+      'Valkey for caching and rate limits.',
+    ],
   },
   {
     title: 'Bun/Node.js',
@@ -38,46 +68,21 @@ export const skills: SkillTime[] = [
     ],
   },
   {
-    title: 'DB, RDS, ORM',
-    level: 'proficient',
-    times: ['2007-now'],
-    subtitle: 'Postgres/Mongo, Prisma/Drizzle and others',
-    description: [
-      "I've used many different databases, ORMs and DBaaS in production, and still do.",
-      'From the common SQL/NoSQL ones to RDS and cloud-specific services.',
-    ],
-  },
-  {
-    title: 'CI/CD',
-    level: 'proficient',
-    times: ['2017-now'],
-    subtitle: 'An automated pipeline is a must',
-    description:
-      "Over the years I've set up build and deploy pipelines for many kinds of projects.",
-  },
-  {
     title: 'Frameworks',
     level: 'proficient',
     times: ['2016-now'],
-    subtitle: 'For full-stack, backend or UI',
+    subtitle: 'For full-stack, API and UI',
     description: [
-      "I've used a variety of frameworks in production.",
-      'From UI (HeroUI, MUI, Tailwind CSS and others) to backend (NestJS/Express) to full-stack (Next.js, Astro).',
+      'Now: Next.js and Astro; Elysia and Hono for APIs, with my own graphql-suite; HeroUI and Tailwind CSS for UI.',
+      'Earlier: NestJS, Express, MUI, Gatsby.',
     ],
   },
   {
-    title: 'Cloud Providers',
-    level: 'advanced',
-    times: ['2017-now'],
-    subtitle: 'Google Cloud, AWS, DigitalOcean, Vercel',
-    description: "I've worked with several cloud providers in production and taken part in audits.",
-  },
-  {
-    title: 'React Native, Electron, Flutter',
+    title: 'React Native, Electron, Tauri',
     level: 'advanced',
     times: ['2014-2016', '2019-2022'],
     subtitle: 'Significant experience in cross-platform development',
     description:
-      "I haven't done a lot of it, but enough to quickly bootstrap a project and set up its CI, Expo and so on.",
+      'Years of Electron at Luxoft, React Native apps at Peppy Health, and now Plugoist, a Tauri app (Rust, React and HeroUI v3). I can quickly bootstrap a project and set up its CI, Expo and so on.',
   },
 ]

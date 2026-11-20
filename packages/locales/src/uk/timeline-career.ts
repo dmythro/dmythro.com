@@ -18,7 +18,7 @@ export const careerTimeline: TimelineItem[] = [
     subtitle: 'VIDI Group',
     description: [
       'Сайти групи: технології, продуктивність, процес релізів. Впровадив TypeScript, React і Next.js у новіших проєктах, Rspack — у старіших.',
-      "CI/CD, код-рев'ю, робота з AI.",
+      "CI/CD, код-рев'ю, робота з ШІ.",
       'Суттєво покращив PageSpeed і продуктивність бекенду.',
     ],
   },

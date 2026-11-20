@@ -2,47 +2,29 @@
 
 **Noizr** is a Ukrainian record label and music zine that I run with friends and like-minded people. In 2026 we also opened **Noizr Hub** — a physical record & book store in Podil, Kyiv.
 
-I write the software behind all three. I didn't go with a ready-made platform, because I wanted the store to sell straight from the label's own catalog. So one system runs the website, the store's back office and till, the stickers on the shelves, and the documents a store in Ukraine owes its partners, its accountant and the tax office.
+I write the software behind all of it. One system runs the website, the store's back office and till, the stickers on the shelves, and the documents a store in Ukraine owes its partners, its accountant and the tax office.
+
+## Why build it instead of buying it
+
+I didn't go with a ready-made platform, because I wanted the store, the catalog, the zine and the events to be one complex relational graph of data, where everything is consistent and up to date and the same data is never copied around the system. And I wanted all of it to be fast and to meet my own standard of quality.
+
+Such a platform would have been running sooner. But its product model is made for simpler things that don't hold so much structured, relational data as music releases and their editions do. I also wanted to control everything, including consignment, partner reports and Ukrainian fiscal receipts, from a single source of truth, instead of living with a pile of data syncs and migrations.
+
+Noizr is something we do because we have a vision and want to make it great. Running a project of this scale and ambition is not an easy task. I'd like the software to take care of the routine and the paperwork, so that we can spend more time on the music.
+
+The store also needed currency symbols that my [countries-list](/en/projects/countries-list) package didn't have, so I added them there.
 
 ## How it fits together
 
 <NoizrArchitecture locale="en" />
 
-The back office and the till are one application on top of a shared domain core. The public site and the QR pages are separate apps. Each of them connects to the database under its own restricted role and can read only what it shows.
+The back office and the till work on top of a shared core and utilities. The public pages connect to the database under their own restricted role and can read only what they show.
 
 Work that depends on an outside service, such as a fiscal receipt, a bookkeeping entry or an update for a partner, runs as a background job. The job is saved in the same database transaction as the change that needs it, so a sale that was saved has its receipt job saved with it.
 
-The previous noizr.com was built on a PHP CMS I wrote in 2011. For the new version I started again in TypeScript, with Next.js and PostgreSQL. It is a monorepo of several apps and many packages that share the same code, database schema and validation. Most of that code is the store, which the old site never had.
-
-## Why build it instead of buying it
-
-An off-the-shelf e-commerce platform would have been running sooner. Its product model is made for things like clothing, though, and a release has more structure than that. Selling from one would also have meant a second product database beside the label's catalog. And I needed consignment, partner reports and Ukrainian fiscal receipts in the same place.
-
-Noizr is something a few of us do because we want to. I'd like the software to take care of the paperwork, so that our time goes to the music.
-
-The store also needed currency symbols that my [countries-list](/en/projects/countries-list) package didn't have, so I added them there.
+The noizr.com you can open today still runs on a PHP CMS I wrote in 2011. For the new version I started again in TypeScript, with Next.js and PostgreSQL. I use Bun a lot across it, including for the tests, and the services run on Node.js or Bun. It is a monorepo of several apps built on many shared packages, so the code, the database schema and the validation are written once and used by every app. Most of that code is the store, which the old site never had.
 
 ## What's inside
-
-### The till
-
-The till handles sales and returns, by card or in cash. I wrote the integration with the bank's payment terminal myself. A payment can't be charged twice, and a payment whose outcome is unknown is never assumed to have failed.
-
-### A sticker and a page for every copy
-
-Every copy in the store has its own code, price and condition. The system lays out the price stickers and prints them on the store's label printer. The QR code on a sticker opens a page for that copy on [go.noizr.com](https://go.noizr.com/), with its price and condition, the other copies and editions on the shelf, and the store's opening hours.
-
-### Partners' stock
-
-Part of the stock belongs to partners and is sold on consignment. Stock is kept in lots, in a ledger that is only ever added to, and each sale records the partner's payout and our commission.
-
-For each contract and period a partner gets an official report, which is numbered, archived as a PDF and mirrored to the accounting system. With one partner the exchange is automatic in both directions. Their whole catalog arrives every night and can be searched from the back office, and our stock levels for their goods are sent back to them whenever they change.
-
-### Money
-
-Every amount is an integer number of kopecks, and every share is in basis points. Splits use largest-remainder allocation, so the parts add up to the total.
-
-The system issues the fiscal receipts the state requires and mirrors every movement of stock and money to the accounting system. The tax return for the third quarter of 2026 was filed from the system's own figures, which matched the books to the kopeck.
 
 ### The catalog
 
@@ -50,13 +32,33 @@ A release has editions and pressings, catalog numbers, credits and colors. Those
 
 Search works across Cyrillic and Latin and tolerates typos, and an exact barcode or catalog-number match comes first. It runs on PostgreSQL full-text and trigram search.
 
+### Partners' stock
+
+Part of the stock belongs to partners and is sold on consignment. Stock is kept in lots, and each sale records the partner's payout and our commission.
+
+For each contract and period a partner gets an official report, which is numbered and archived as a PDF. With some partners the exchange is automatic in both directions. Their full catalogs are kept in sync with a local mirror, which can be searched from the back office, and our stock levels for their goods are sent back to them whenever they change.
+
+### A sticker and a page for every copy
+
+Every copy in the store has its own code, price and condition. The system lays out the price stickers and prints them on the store's label printer. The QR code on a sticker opens a page for that copy on [go.noizr.com](https://go.noizr.com/), with its price and condition, the other copies and editions on the shelf, and the store's opening hours.
+
+### The till
+
+The till handles sales and returns, by card or in cash. I wrote the integration with the bank's payment terminal myself. A payment can't be charged twice, and a payment whose outcome is unknown is never assumed to have failed.
+
+### Money
+
+The system issues the fiscal receipts the state requires and mirrors every movement of stock and money to the accounting system. The tax return for the third quarter of 2026 was filed from the system's own figures, which matched the books to the kopeck.
+
+Every amount is an integer number of kopecks, and every share is in basis points. Splits use largest-remainder allocation, so the parts add up to the total.
+
 ### The site
 
-The new noizr.com has the zine, the label's releases with our own audio player, and events, in Ukrainian and English. About 2,700 articles and 10,000 images moved from the old CMS into structured data. Before the switch, more than 27,000 old addresses were checked so that every old page opens at its new address.
+The new noizr.com has the zine, the label's releases with our own audio player, and events, in Ukrainian and English. About 2,700 articles and 10,000 images moved from the old CMS into structured data. Ahead of the switch, more than 27,000 old addresses have been checked so that every old page will open at its new address.
 
 ## Where AI helps
 
-Partners send price lists and invoices as spreadsheets, each in its own layout. AI shapes those rows into our format, and a manager reviews the result before anything is stocked. When stock comes in, it also recognizes an item from a photo of its cover.
+Stock arrives in two ways. A bulk delivery comes with the partner's price list or invoice as a spreadsheet, each in its own layout. AI shapes those rows into our format, and a manager reviews the result before anything is accepted and sent to our system. A single item is stocked by hand, and there AI recognizes it from a photo of its cover.
 
 During the migration AI sorted and structured the old articles. The cases that needed a judgment call are saved in the repository, so running the migration again gives the same result.
 
@@ -66,10 +68,10 @@ AI agents write much of the code as well, under an architecture and rules I set.
 
 Before a deploy restarts anything, it pauses new sales and waits for the payments, receipts and print jobs in progress to finish, so it doesn't cut off a customer at the counter.
 
-The ledger is only added to. A return is recorded as the exact reverse of the sale. A price change moves the unsold copies to a new lot, and the sold ones keep the terms they were sold on. A sale can be corrected only until a partner report includes it.
+Stock movements go into a ledger that is only ever added to. A return is recorded as the exact reverse of the sale. A price change moves the unsold copies to a new lot, and the sold ones keep the terms they were sold on. A sale can be corrected only until a partner report includes it.
 
 ## Status
 
-As of November 2026, Noizr Hub has been open in a soft launch since September and runs on this system. The new noizr.com is live and has replaced the old site. The official opening of the Hub is next, and the online store, selling from the same stock as the counter, will come after that.
+As of November 2026, everything described here is in production except the new website. Noizr Hub has been open in a soft launch since September and runs on this system, and the store's public pages are live at [go.noizr.com](https://go.noizr.com/). The new noizr.com is deployed as well and will take over the main domain once the remaining work on it is done. The official opening of the Hub will follow, and the online store, selling from the same stock as the counter, will come after that.
 
-The old CMS stays in service for the other sites that run on it.
+The old CMS will stay in service for the other sites that run on it.

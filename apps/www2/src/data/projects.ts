@@ -168,7 +168,7 @@ export const projects: Project[] = [
     status: 'wip',
     startedAt: '2009-10-22',
     publishedAt: '2026-07-29',
-    updatedAt: '2026-11-21',
+    updatedAt: '2026-11-20',
     programmingLanguages: ['TypeScript'],
     tags: [
       'music',
@@ -195,6 +195,21 @@ export const projects: Project[] = [
         name: 'Next.js',
         url: 'https://nextjs.org/',
         role: { en: 'public site and store', uk: 'публічний сайт і крамниця' },
+      },
+      {
+        name: 'Bun',
+        url: 'https://bun.sh/',
+        role: { en: 'tooling, tests and runtime', uk: 'інструменти, тести й середовище виконання' },
+      },
+      {
+        name: 'Node.js',
+        url: 'https://nodejs.org/',
+        role: { en: 'runtime', uk: 'середовище виконання' },
+      },
+      {
+        name: 'Biome',
+        url: 'https://biomejs.dev/',
+        role: { en: 'lint and format', uk: 'лінт і формат' },
       },
       {
         name: 'Drizzle ORM',
@@ -414,7 +429,7 @@ export const projects: Project[] = [
     title: { en: 'terminal-setup', uk: 'terminal-setup' },
     description: {
       en: 'One command that sets up the macOS terminal with Zsh, Starship, fzf, tmux and dev tools for AI-assisted work.',
-      uk: 'Одна команда, яка налаштовує термінал у macOS: Zsh, Starship, fzf, tmux та інструменти розробника для роботи з AI.',
+      uk: 'Одна команда, яка налаштовує термінал у macOS: Zsh, Starship, fzf, tmux та інструменти розробника для роботи з ШІ.',
     },
     category: 'dev',
     status: 'live',
@@ -446,7 +461,7 @@ export const projects: Project[] = [
     title: { en: 'agent-skills', uk: 'agent-skills' },
     description: {
       en: 'Agent skills for Claude Code, OpenCode and other AI coding assistants, covering Bun, Git, CI/CD and more.',
-      uk: 'Навички для Claude Code, OpenCode та інших AI-асистентів для програмування: Bun, Git, CI/CD тощо.',
+      uk: 'Навички для Claude Code, OpenCode та інших ШІ-асистентів для програмування: Bun, Git, CI/CD тощо.',
     },
     category: 'dev',
     status: 'live',
