@@ -26,7 +26,11 @@ createServer(yoga).listen(4000)
 import { createDrizzleClient } from '@graphql-suite/client'
 import * as schema from './db/schema'
 
-const client = createDrizzleClient({ schema, url: 'http://localhost:4000/api/graphql' })
+const client = createDrizzleClient({
+  schema,
+  config: { tables: { exclude: ['session', 'verification'] } },
+  url: 'http://localhost:4000/api/graphql',
+})
 
 const users = await client.entity('user').query({
   select: { id: true, name: true, posts: { id: true, title: true } },
