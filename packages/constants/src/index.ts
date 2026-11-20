@@ -3,6 +3,9 @@ import { languages } from 'countries-list'
 export const BASE_URL = 'https://dmythro.com'
 export const USERNAME = '@dmythro'
 
+/** The printed CV's file name: the site serves it from the root, and a visitor saves it as this. */
+export const cvPdfName = (locale: string) => `dmytro-klymenko-cv.${locale}.pdf`
+
 export const localeNames = {
   en: languages.en.native,
   uk: languages.uk.native,

@@ -1,5 +1,6 @@
 import { existsSync } from 'node:fs'
 import { join, resolve, sep } from 'node:path'
+import { cvPdfName } from '@dmythro/constants'
 
 import { listFonts, type PdfFont } from './pdfFonts'
 
@@ -296,7 +297,7 @@ async function renderLocale(origin: string, locale: string) {
   }
   assertFonts(pdf, locale)
 
-  const pdfPath = join(publicDir, `cv.${locale}.pdf`)
+  const pdfPath = join(publicDir, cvPdfName(locale))
   await Bun.write(pdfPath, pdf)
   console.info(` - ${pdfPath} — ${pages} pages, ${(pdf.length / 1024 / 1024).toFixed(2)}MB`)
 }

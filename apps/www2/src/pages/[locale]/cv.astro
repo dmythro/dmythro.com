@@ -1,7 +1,7 @@
 ---
 import { statSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { BASE_URL, ESocialLinks, USERNAME } from '@dmythro/constants'
+import { BASE_URL, cvPdfName, ESocialLinks, USERNAME } from '@dmythro/constants'
 import { FileDown } from '@lucide/astro'
 import CvArticle from '@/components/CvArticle.astro'
 import CvToc from '@/components/CvToc.astro'
@@ -23,7 +23,7 @@ const years = new Date().getFullYear() - 2006
 const cvDescription = t.cv.description(years).join(' ')
 
 // Measured from the file that ships, so the figure cannot drift from the download.
-const pdfPath = `/cv.${locale}.pdf`
+const pdfPath = `/${cvPdfName(locale)}`
 const pdfSize = formatFileSize(
   statSync(fileURLToPath(new URL(`../../../public${pdfPath}`, import.meta.url))).size,
   locale,
