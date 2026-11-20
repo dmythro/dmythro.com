@@ -7,6 +7,7 @@ CRUD у GraphQL-API — це та частина, яку мені найменш
 Генеруємо схему з бази, підключеної через Drizzle, і віддаємо її через сервер:
 
 ```ts
+import { createServer } from 'node:http'
 import { buildSchema } from '@graphql-suite/schema'
 import { createYoga } from 'graphql-yoga'
 import { db } from './db'
@@ -15,7 +16,8 @@ const { schema } = buildSchema(db, {
   tables: { exclude: ['session', 'verification'] },
 })
 
-const yoga = createYoga({ schema })
+const yoga = createYoga({ schema, graphqlEndpoint: '/api/graphql' })
+createServer(yoga).listen(4000)
 ```
 
 На клієнті типи виводяться з тих самих таблиць Drizzle, без кроку кодогенерації й без згенерованих файлів у репозиторії:
