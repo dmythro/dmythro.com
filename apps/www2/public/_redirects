@@ -6,6 +6,10 @@
 /feed /en/rss.xml 200
 /feed.json /en/feed.json 200
 
+# The CV PDFs before they carried a name
+/cv.en.pdf /dmytro-klymenko-cv.en.pdf 301
+/cv.uk.pdf /dmytro-klymenko-cv.uk.pdf 301
+
 # Renamed pages
 /en/built-with /en/open-source 301
 /uk/built-with /uk/open-source 301

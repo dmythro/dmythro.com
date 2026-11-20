@@ -34,7 +34,7 @@
     },
     "build": {
       "dependsOn": ["check", "^build"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**", "!public/cv.*.pdf"]
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**", "!public/*cv.*.pdf"]
     },
     "dev": {
       "cache": false,
@@ -44,7 +44,7 @@
     "cv": {
       "cache": false,
       "dependsOn": ["www2#build"],
-      "outputs": ["../../apps/www2/public/cv.*.pdf"]
+      "outputs": ["../../apps/www2/public/*-cv.*.pdf"]
     },
     "check": {},
     "check-types": {},

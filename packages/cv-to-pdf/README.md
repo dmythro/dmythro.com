@@ -1,6 +1,6 @@
 # Generate CV into PDF files
 
-Prints `/{locale}/cv` from the **www2** build to `apps/www2/public/cv.{locale}.pdf`,
+Prints `/{locale}/cv` from the **www2** build to `apps/www2/public/dmytro-klymenko-cv.{locale}.pdf`,
 so the downloadable CV matches the deployed site rather than drifting from it.
 
 ```sh
