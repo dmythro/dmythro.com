@@ -60,6 +60,7 @@ export const en = {
     title: 'Hi 👋',
     description: (years: number) => [
       `My name is Dmytro and I am a software engineer and full-stack developer with more than ${years} years of professional experience.`,
+      'Since 2024, coding agents write much of the code on my projects. I set the architecture and the rules, and I review every change myself before the merge.',
       'I enjoy complex tasks and good teamwork, and always aim to deliver quality solutions in a reasonable time.',
     ],
   },
@@ -156,6 +157,7 @@ export const en = {
       'Passionate about tech, web development, music, AI, traveling, photography and more. Kyiv, Ukraine.',
 
     tldr: 'TL;DR',
+    tldrHint: "Too long; didn't read: the short version",
     cvLink: 'Read the full CV →',
     beyondCode: 'Beyond Code',
     beyondCodeSubtitle: 'Music, travel and everything else that keeps me going.',

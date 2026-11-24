@@ -402,6 +402,14 @@ aside.overflow-y-auto::-webkit-scrollbar {
   display: contents;
 }
 
+/* DaisyUI opens a tip on hover or keyboard focus. Touch has neither, so a tap on an
+   abbreviation opens its tip too. Buttons stay as they are: theirs would stick after a click. */
+abbr.tooltip[data-tip]:focus::before,
+abbr.tooltip[data-tip]:focus::after {
+  opacity: 1;
+  --tt-pos: 0rem;
+}
+
 /* Without a declared margin Safari lays out a CSS pixel as a point. `cv-to-pdf`
    appends its own `@page`, since this would override the margin it passes Chrome. */
 @page {
