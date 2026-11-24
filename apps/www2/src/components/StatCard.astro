@@ -9,7 +9,7 @@ interface Props {
 const { item, isExpanded } = Astro.props
 ---
 
-<div class="card bg-base-100 border border-base-300 hover:border-primary/40 shadow-sm print:break-inside-avoid-page print:shadow-none cursor-pointer">
+<div class="card bg-base-100 border border-base-300 print:break-inside-avoid-page">
   <div class="card-body p-4">
     <p class="card-title grow-0 text-base print:text-sm">{item.title}</p>
     <p class="grow-0 text-sm print:text-xs text-base-content/60">{item.subtitle}</p>

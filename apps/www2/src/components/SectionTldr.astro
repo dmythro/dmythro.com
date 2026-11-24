@@ -6,6 +6,7 @@ import type { AggregateStats } from '@/utils/fetchAggregateStats'
 import { getT } from '@/utils/getT'
 import type { LocaleCode } from '@/utils/i18n'
 import { contentWidth, pagePadding } from '@/utils/layout'
+import Tldr from './Tldr.astro'
 
 interface Props {
   locale: LocaleCode
@@ -64,14 +65,12 @@ const splitLabel = (label: string) => {
 
 <section class:list={["py-16", pagePadding]}>
   <div class={contentWidth}>
-    <h2 class="text-3xl font-bold mb-8">{t.landing.tldr}</h2>
+    <h2 class="text-3xl font-bold mb-8"><Tldr locale={locale} class="text-base-content/60" /></h2>
     <div class="flex flex-col-reverse md:flex-row gap-8">
       {/* Text content */}
       <div class="flex-1 space-y-4">
-        {paragraphs.map((p, i) => (
-          <p class:list={['text-lg leading-relaxed', i === 0 ? 'text-base-content/80' : 'text-base-content/60']}>
-            {p}
-          </p>
+        {paragraphs.map((p) => (
+          <p class="text-lg leading-relaxed text-base-content/80">{p}</p>
         ))}
         <a href={`/${locale}/cv`} class="inline-flex items-center gap-1.5 mt-2 text-primary font-semibold text-base hover:text-primary/80 transition-colors">
           <FileText class="h-4 w-4" />{t.landing.cvLink}</a>

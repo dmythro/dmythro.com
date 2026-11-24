@@ -1,0 +1,24 @@
+---
+import { getT } from '@/utils/getT'
+import type { LocaleCode } from '@/utils/i18n'
+
+interface Props {
+  locale: LocaleCode
+  class?: string
+}
+
+const { locale, class: className } = Astro.props
+const t = getT(locale)
+const hintId = 'tldr-hint'
+---
+
+{/* Focusable, so a tap opens the tip on touch screens, which have no hover. The hint is
+    DOM text rather than `data-tip`, so screen readers get it too. */}
+<span class:list={['tooltip tooltip-start', className]}>
+  <abbr
+    class="cursor-help underline decoration-dotted decoration-1 underline-offset-4"
+    tabindex="0"
+    aria-describedby={hintId}
+  >{t.landing.tldr}</abbr>
+  <span id={hintId} role="tooltip" class="tooltip-content">{t.landing.tldrHint}</span>
+</span>
