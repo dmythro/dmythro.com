@@ -22,7 +22,7 @@ The back office and the till work on top of a shared core and utilities. The pub
 
 Work that depends on an outside service, such as a fiscal receipt, a bookkeeping entry or an update for a partner, runs as a background job. The job is saved in the same database transaction as the change that needs it, so a sale that was saved has its receipt job saved with it.
 
-The noizr.com you can open today still runs on a PHP CMS I wrote in 2011. For the new version I started again in TypeScript, with Next.js and PostgreSQL. I use Bun a lot across it, including for the tests, and the services run on Node.js or Bun. It is a monorepo of several apps built on many shared packages, so the code, the database schema and the validation are written once and used by every app. Most of that code is the store, which the old site never had.
+Until 28 November 2026 noizr.com ran on a PHP CMS I wrote in 2011. For the new version I started again in TypeScript, with Next.js and PostgreSQL. I use Bun a lot across it, including for the tests, and the services run on Node.js or Bun. It is a monorepo of several apps built on many shared packages, so the code, the database schema and the validation are written once and used by every app. Most of that code is the store, which the old site never had.
 
 ## What's inside
 
@@ -54,7 +54,9 @@ Every amount is an integer number of kopecks, and every share is in basis points
 
 ### The site
 
-The new noizr.com has the zine, the label's releases with our own audio player, and events, in Ukrainian and English. About 2,700 articles and 10,000 images moved from the old CMS into structured data. Ahead of the switch, more than 27,000 old addresses have been checked so that every old page will open at its new address.
+The new [noizr.com](https://noizr.com/) has the zine, the label's releases with our own audio player, and events, in Ukrainian and English. About 2,700 articles and 10,000 images moved from the old CMS into structured data. Before the switch, more than 27,000 old addresses were checked against the new site, so that links to the old pages keep working.
+
+The site's search also looks at the Hub's shelf. A record or a book that is in stock comes up with its editions, prices and condition. The online store doesn't take orders yet, so to buy one you message the shop with the item's code.
 
 ## Where AI helps
 
@@ -72,6 +74,6 @@ Stock movements go into a ledger that is only ever added to. A return is recorde
 
 ## Status
 
-As of November 2026, everything described here is in production except the new website. Noizr Hub has been open in a soft launch since September and runs on this system, and the store's public pages are live at [go.noizr.com](https://go.noizr.com/). The new noizr.com is deployed as well and will take over the main domain once the remaining work on it is done. The official opening of the Hub will follow, and the online store, selling from the same stock as the counter, will come after that.
+The new noizr.com replaced the old site on 28 November 2026, and with it everything described here is in production. [Noizr Hub](https://noizr.com/hub) has been open in a soft launch since September 2026 and runs on this system. The official opening of the Hub comes next. The online store, with orders and payments on the site and the same stock as the counter, comes after that.
 
-The old CMS will stay in service for the other sites that run on it.
+The old CMS stays in service for the other sites that run on it.
