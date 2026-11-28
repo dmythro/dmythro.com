@@ -165,10 +165,10 @@ export const projects: Project[] = [
       uk: 'Український лейбл, музичний журнал і крамниця платівок, а також система, яку я для них пишу: каталог, каса, склад, звіти й бухгалтерія.',
     },
     category: 'music',
-    status: 'wip',
+    status: 'live',
     startedAt: '2009-10-22',
     publishedAt: '2026-07-29',
-    updatedAt: '2026-11-20',
+    updatedAt: '2026-11-28',
     programmingLanguages: ['TypeScript'],
     tags: [
       'music',
