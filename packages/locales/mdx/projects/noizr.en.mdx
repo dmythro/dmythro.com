@@ -22,7 +22,7 @@ The back office and the till work on top of a shared core and utilities. The pub
 
 Work that depends on an outside service, such as a fiscal receipt, a bookkeeping entry or an update for a partner, runs as a background job. The job is saved in the same database transaction as the change that needs it, so a sale that was saved has its receipt job saved with it.
 
-Until the end of November 2026 noizr.com ran on a PHP CMS I wrote in 2011. For the new version I started again in TypeScript, with Next.js and PostgreSQL. I use Bun a lot across it, including for the tests, and the services run on Node.js or Bun. It is a monorepo of several apps built on many shared packages, so the code, the database schema and the validation are written once and used by every app. Most of that code is the store, which the old site never had.
+Until 28 November 2026 noizr.com ran on a PHP CMS I wrote in 2011. For the new version I started again in TypeScript, with Next.js and PostgreSQL. I use Bun a lot across it, including for the tests, and the services run on Node.js or Bun. It is a monorepo of several apps built on many shared packages, so the code, the database schema and the validation are written once and used by every app. Most of that code is the store, which the old site never had.
 
 ## What's inside
 
